@@ -1,4 +1,4 @@
-module github.com/avrame/tree-sitter-lyra
+module github.com/Lyra-Language/tree-sitter-lyra
 
 go 1.22
 
