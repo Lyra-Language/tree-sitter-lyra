@@ -5625,8 +5625,12 @@
           ]
         },
         {
-          "type": "SYMBOL",
-          "name": "function_signature"
+          "type": "FIELD",
+          "name": "signature",
+          "content": {
+            "type": "SYMBOL",
+            "name": "function_signature"
+          }
         },
         {
           "type": "STRING",
@@ -5636,12 +5640,20 @@
           "type": "CHOICE",
           "members": [
             {
-              "type": "SYMBOL",
-              "name": "function_pattern"
+              "type": "FIELD",
+              "name": "pattern",
+              "content": {
+                "type": "SYMBOL",
+                "name": "function_pattern"
+              }
             },
             {
-              "type": "SYMBOL",
-              "name": "function_pattern_list"
+              "type": "FIELD",
+              "name": "pattern_list",
+              "content": {
+                "type": "SYMBOL",
+                "name": "function_pattern_list"
+              }
             }
           ]
         }
@@ -5793,8 +5805,12 @@
           "value": "{"
         },
         {
-          "type": "SYMBOL",
-          "name": "function_pattern"
+          "type": "FIELD",
+          "name": "pattern",
+          "content": {
+            "type": "SYMBOL",
+            "name": "function_pattern"
+          }
         },
         {
           "type": "REPEAT",
@@ -5806,8 +5822,12 @@
                 "name": "_comma"
               },
               {
-                "type": "SYMBOL",
-                "name": "function_pattern"
+                "type": "FIELD",
+                "name": "pattern",
+                "content": {
+                  "type": "SYMBOL",
+                  "name": "function_pattern"
+                }
               }
             ]
           }

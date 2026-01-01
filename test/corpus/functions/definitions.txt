@@ -59,15 +59,15 @@ def sum: (Int, Int) -> Int = (a, b) => a + b
           (parameter_type
             (signed_integer_type)))
         (signed_integer_type)))
-        (function_pattern
-          (parameter_list
-            (parameter
-              (identifier))
-            (parameter
-              (identifier)))
-          (addition
-            (identifier)
-            (identifier)))))
+    (function_pattern
+      (parameter_list
+        (parameter
+          (identifier))
+        (parameter
+          (identifier)))
+      (addition
+        (identifier)
+        (identifier)))))
 
 ==================================================
 Basic Function declaration with generic parameters

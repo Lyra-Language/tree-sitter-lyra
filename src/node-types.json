@@ -2267,23 +2267,42 @@
   {
     "type": "function_definition",
     "named": true,
-    "fields": {},
+    "fields": {
+      "pattern": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "function_pattern",
+            "named": true
+          }
+        ]
+      },
+      "pattern_list": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "function_pattern_list",
+            "named": true
+          }
+        ]
+      },
+      "signature": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "function_signature",
+            "named": true
+          }
+        ]
+      }
+    },
     "children": {
-      "multiple": true,
-      "required": true,
+      "multiple": false,
+      "required": false,
       "types": [
-        {
-          "type": "function_pattern",
-          "named": true
-        },
-        {
-          "type": "function_pattern_list",
-          "named": true
-        },
-        {
-          "type": "function_signature",
-          "named": true
-        },
         {
           "type": "visibility",
           "named": true
@@ -2334,16 +2353,17 @@
   {
     "type": "function_pattern_list",
     "named": true,
-    "fields": {},
-    "children": {
-      "multiple": true,
-      "required": true,
-      "types": [
-        {
-          "type": "function_pattern",
-          "named": true
-        }
-      ]
+    "fields": {
+      "pattern": {
+        "multiple": true,
+        "required": true,
+        "types": [
+          {
+            "type": "function_pattern",
+            "named": true
+          }
+        ]
+      }
     }
   },
   {
