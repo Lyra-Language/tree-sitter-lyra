@@ -42,7 +42,6 @@ module.exports = {
     $.array_type,
     $.generic_type,
     $.function_type,
-    $.map_type,
   ),
 
   // Allocated type - wraps any type with an allocation modifier

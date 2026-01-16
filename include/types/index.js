@@ -6,7 +6,6 @@ const generic_type = require('./generic_type');
 const number_types = require('./number_types');
 const struct_type = require('./struct_type');
 const tuple_type = require('./tuple_type');
-const map_type = require('./map_type');
 const trait_declaration = require('./trait_declaration');
 const trait_implementation = require('./trait_implementation');
 
@@ -25,7 +24,6 @@ module.exports = {
         $.array_type,
         $.generic_type,
         $.function_type,
-        $.map_type,
         $.allocated_type,
         $.weak_type,
     )),
@@ -60,7 +58,6 @@ module.exports = {
     ...number_types,
     ...struct_type,
     ...tuple_type,
-    ...map_type,
     ...trait_declaration,
     ...trait_implementation,
 }

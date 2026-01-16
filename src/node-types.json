@@ -24,6 +24,10 @@
         "named": true
       },
       {
+        "type": "block",
+        "named": true
+      },
+      {
         "type": "boolean_expr",
         "named": true
       },
@@ -81,10 +85,6 @@
       },
       {
         "type": "lambda_expression",
-        "named": true
-      },
-      {
-        "type": "map_literal",
         "named": true
       },
       {
@@ -295,10 +295,6 @@
       },
       {
         "type": "generic_type",
-        "named": true
-      },
-      {
-        "type": "map_type",
         "named": true
       },
       {
@@ -581,10 +577,6 @@
           "named": true
         },
         {
-          "type": "map_type",
-          "named": true
-        },
-        {
           "type": "parameterized_type",
           "named": true
         },
@@ -816,10 +808,6 @@
           },
           {
             "type": "generic_type",
-            "named": true
-          },
-          {
-            "type": "map_type",
             "named": true
           },
           {
@@ -2120,10 +2108,6 @@
           "named": true
         },
         {
-          "type": "map_literal",
-          "named": true
-        },
-        {
           "type": "member_expression",
           "named": true
         },
@@ -2268,19 +2252,9 @@
     "type": "function_clause",
     "named": true,
     "fields": {
-      "block": {
+      "body": {
         "multiple": false,
-        "required": false,
-        "types": [
-          {
-            "type": "block",
-            "named": true
-          }
-        ]
-      },
-      "expression": {
-        "multiple": false,
-        "required": false,
+        "required": true,
         "types": [
           {
             "type": "expression",
@@ -3062,73 +3036,6 @@
     }
   },
   {
-    "type": "map_entry",
-    "named": true,
-    "fields": {
-      "key": {
-        "multiple": false,
-        "required": true,
-        "types": [
-          {
-            "type": "expression",
-            "named": true
-          }
-        ]
-      },
-      "value": {
-        "multiple": false,
-        "required": true,
-        "types": [
-          {
-            "type": "expression",
-            "named": true
-          }
-        ]
-      }
-    }
-  },
-  {
-    "type": "map_literal",
-    "named": true,
-    "fields": {},
-    "children": {
-      "multiple": true,
-      "required": false,
-      "types": [
-        {
-          "type": "map_entry",
-          "named": true
-        }
-      ]
-    }
-  },
-  {
-    "type": "map_type",
-    "named": true,
-    "fields": {
-      "key_type": {
-        "multiple": false,
-        "required": true,
-        "types": [
-          {
-            "type": "key_type",
-            "named": true
-          }
-        ]
-      },
-      "value_type": {
-        "multiple": false,
-        "required": true,
-        "types": [
-          {
-            "type": "value_type",
-            "named": true
-          }
-        ]
-      }
-    }
-  },
-  {
     "type": "match_arm",
     "named": true,
     "fields": {
@@ -3136,10 +3043,6 @@
         "multiple": false,
         "required": true,
         "types": [
-          {
-            "type": "block",
-            "named": true
-          },
           {
             "type": "expression",
             "named": true
@@ -5234,10 +5137,6 @@
             "named": true
           },
           {
-            "type": "map_type",
-            "named": true
-          },
-          {
             "type": "parameterized_type",
             "named": true
           },
@@ -5688,10 +5587,6 @@
   },
   {
     "type": "let",
-    "named": false
-  },
-  {
-    "type": "map",
     "named": false
   },
   {

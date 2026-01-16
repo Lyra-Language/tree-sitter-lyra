@@ -7,6 +7,7 @@ const postfix = require('./postfix');
 
 module.exports = {
   expression: $ => choice(
+    $.block,
     $.await_expression,
     $._postfix_expression,
     $._math_expr,
@@ -22,6 +23,8 @@ module.exports = {
     $.null_coalescing_expression,
     // Note: user_defined_type_name is accessed via _postfix_expression -> _primary_expression
   ),
+
+  block: $ => prec.left(2, seq('{', repeat($.statement), '}')),
 
   // Await expression for async operations
   await_expression: $ => prec.right(250, seq(

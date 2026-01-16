@@ -47,7 +47,7 @@ module.exports = grammar({
     identifier: () => [
       'for', 'if', 'else', 'match', 'let', 'var', 'const', 'def', 'true', 'false', 'import',
       'module', 'as', 'pub', 'async', 'await', 'Self', 'stack', 'heap', 'shared', 'weak',
-      'with', 'pure',
+      'with', 'pure'
     ],
   },
 

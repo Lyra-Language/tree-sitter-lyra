@@ -25,8 +25,6 @@ module.exports = {
 
   expression_statement: $ => $.expression,
 
-  block: $ => prec.left(2, seq('{', repeat($.statement), '}')),
-
   return_statement: $ => prec.right(170, seq('return', optional(field('value', $.expression)))),
 
   break_statement: $ => prec.right(170, seq('break', optional(field('label', $.identifier)))),

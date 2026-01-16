@@ -1,7 +1,6 @@
 const array_literal = require('./array');
 const boolean_literal = require('./boolean');
 const char_literal = require('./char');
-const map_literal = require('./map');
 const number_literals = require('./numbers');
 const regex_literal = require('./regex');
 const string_literals = require('./string');
@@ -16,7 +15,6 @@ module.exports = {
       $.array_literal,
       $.boolean_literal,
       $.char_literal,
-      $.map_literal,
       $.regex_literal,
       $.string_literal,
       $.raw_string_literal,
@@ -27,7 +25,6 @@ module.exports = {
   ...array_literal,
   ...boolean_literal,
   ...char_literal,
-  ...map_literal,
   ...number_literals,
   ...regex_literal,
   ...string_literals,

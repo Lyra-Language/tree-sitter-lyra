@@ -20,7 +20,6 @@ module.exports = {
       $.range_expression,
       $.array_literal,
       $.tuple_literal,
-      $.map_literal,
       $._postfix_expression,
     )
   )),

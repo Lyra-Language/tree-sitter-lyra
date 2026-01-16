@@ -14,7 +14,7 @@ module.exports = {
     field('pattern', $.pattern),
     optional($.guard),
     '=>',
-    field('body', choice($.block, $.expression))
+    field('body', $.expression)
   ),
 
   guard: $ => seq('if', $.expression),

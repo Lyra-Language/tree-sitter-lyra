@@ -22,10 +22,7 @@ module.exports = {
     field('parameters', $.parameter_list),
     optional($.guard),
     '=>',
-    field('body', choice(
-      field('block', $.block),
-      field('expression', $.expression),
-    )),
+    field('body', $.expression),
   ),
 
   lambda_expression: $ => $.function_clause,
