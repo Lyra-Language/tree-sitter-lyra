@@ -11,9 +11,9 @@ const trait_declaration = require('./trait_declaration');
 const trait_implementation = require('./trait_implementation');
 
 module.exports = {
-    type_annotation: $ => seq(':', $.type),
+    type_annotation: $ => seq(':', field('type', $.type)),
 
-    return_type_annotation: $ => seq('->', $.type),
+    return_type_annotation: $ => seq('->', field('type', $.type)),
 
     type_declaration: $ => choice($.struct_type, $.data_type, $.constrained_type, $.trait_declaration, $.trait_implementation),
     

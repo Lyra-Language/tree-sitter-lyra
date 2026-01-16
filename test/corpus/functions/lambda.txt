@@ -11,14 +11,14 @@ let sum: (Int, Int) -> Int = (a, b) => a + b
     (identifier)
     (type_annotation
       (function_type
-        (function_type_parameter_list
+        (parameter_type_list
           (parameter_type
             (signed_integer_type))
           (parameter_type
             (signed_integer_type)))
         (signed_integer_type)))
     (lambda_expression
-      (function_pattern
+      (function_clause
         (parameter_list
           (parameter
             (identifier))
@@ -42,20 +42,20 @@ def make_sum_fn: (Int) -> (Int) -> Int =
     (function_signature
       (identifier)
       (function_type
-        (function_type_parameter_list
+        (parameter_type_list
           (parameter_type
             (signed_integer_type)))
         (function_type
-          (function_type_parameter_list
+          (parameter_type_list
             (parameter_type
               (signed_integer_type)))
           (signed_integer_type))))
-    (function_pattern
+    (function_clause
       (parameter_list
         (parameter
           (identifier)))
       (lambda_expression
-        (function_pattern
+        (function_clause
           (parameter_list
             (parameter
               (identifier)))
@@ -87,7 +87,7 @@ let doubled = map::<Int, Int>([1, 2, 3], (x) => 2 * x)
             (integer)))
         (value
           (lambda_expression
-            (function_pattern
+            (function_clause
               (parameter_list
                 (parameter
                   (identifier)))

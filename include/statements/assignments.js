@@ -4,7 +4,7 @@ module.exports = {
       optional($.visibility),
       field('keyword', 'const'),
       field('name', $.const_identifier),
-      optional(field('type', $.type_annotation)),
+      optional(field('type_annotation', $.type_annotation)),
       '=',
       field('value', $.expression)
     ),
@@ -14,7 +14,7 @@ module.exports = {
     optional($.visibility),
     field('keyword', choice('let', 'var')),
     field('name', $.identifier),
-    optional(field('type', $.type_annotation)),
+    optional(field('type_annotation', $.type_annotation)),
     '=',
     field('value', $.expression)
   )),

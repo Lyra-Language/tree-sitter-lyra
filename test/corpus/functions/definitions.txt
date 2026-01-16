@@ -12,7 +12,7 @@ def foo = () => {
   (function_definition
     (function_signature
       (identifier))
-        (function_pattern
+        (function_clause
           (parameter_list)
           (block
             (comment)))))
@@ -34,7 +34,7 @@ def foo: () -> Int =
       (identifier)
       (function_type
         (signed_integer_type)))
-        (function_pattern
+        (function_clause
           (parameter_list)
           (block
             (return_statement
@@ -53,13 +53,13 @@ def sum: (Int, Int) -> Int = (a, b) => a + b
     (function_signature
       (identifier)
       (function_type
-        (function_type_parameter_list
+        (parameter_type_list
           (parameter_type
             (signed_integer_type))
           (parameter_type
             (signed_integer_type)))
         (signed_integer_type)))
-    (function_pattern
+    (function_clause
       (parameter_list
         (parameter
           (identifier))
@@ -84,13 +84,13 @@ def sum<n>: (n, n) -> n = (a, b) => a + b
       (generic_parameters
         (generic_type))
       (function_type
-        (function_type_parameter_list
+        (parameter_type_list
           (parameter_type
             (generic_type))
           (parameter_type
             (generic_type)))
         (generic_type)))
-        (function_pattern
+        (function_clause
           (parameter_list
             (parameter
               (identifier))
@@ -113,13 +113,13 @@ def product: (Int, Int) -> Int = (a, b = 10) => a * b
     (function_signature
       (identifier)
       (function_type
-        (function_type_parameter_list
+        (parameter_type_list
           (parameter_type
             (signed_integer_type))
           (parameter_type
             (signed_integer_type)))
         (signed_integer_type)))
-      (function_pattern
+      (function_clause
         (parameter_list
           (parameter
             (identifier))
@@ -147,7 +147,7 @@ def foo: (Str, Int, Point, []Str, SomeTuple) -> void =
     (function_signature
       (identifier)
       (function_type
-        (function_type_parameter_list
+        (parameter_type_list
           (parameter_type
             (string_type))
           (parameter_type
@@ -160,7 +160,7 @@ def foo: (Str, Int, Point, []Str, SomeTuple) -> void =
           (parameter_type
             (user_defined_type_name)))
         (generic_type)))
-      (function_pattern
+      (function_clause
         (parameter_list
           (parameter
             (identifier))
@@ -208,19 +208,19 @@ def map<t,u>: ([]t, (t) -> u) -> []u =
         (generic_type)
         (generic_type))
       (function_type
-        (function_type_parameter_list
+        (parameter_type_list
           (parameter_type
             (array_type
               (generic_type)))
           (parameter_type
             (function_type
-              (function_type_parameter_list
+              (parameter_type_list
                 (parameter_type
                   (generic_type)))
               (generic_type))))
         (array_type
           (generic_type))))
-        (function_pattern
+        (function_clause
           (parameter_list
             (parameter
               (identifier))
@@ -250,24 +250,24 @@ def fib: (Int) -> Int = {
     (function_signature
       (identifier)
       (function_type
-        (function_type_parameter_list
+        (parameter_type_list
           (parameter_type
             (signed_integer_type)))
         (signed_integer_type)))
-    (function_pattern_list
-      (function_pattern
+    (function_clause_list
+      (function_clause
         (parameter_list
           (parameter
             (literal_pattern
               (integer))))
         (integer))
-      (function_pattern
+      (function_clause
         (parameter_list
           (parameter
             (literal_pattern
               (integer))))
         (integer))
-      (function_pattern
+      (function_clause
         (parameter_list
           (parameter
             (identifier)))
@@ -303,12 +303,12 @@ def fib: (Int) -> Int = {
     (function_signature
       (identifier)
       (function_type
-        (function_type_parameter_list
+        (parameter_type_list
           (parameter_type
             (signed_integer_type)))
         (signed_integer_type)))
-    (function_pattern_list
-      (function_pattern
+    (function_clause_list
+      (function_clause
         (parameter_list
           (parameter
             (identifier)))
@@ -318,7 +318,7 @@ def fib: (Int) -> Int = {
             (less_than_operator)
             (integer)))
         (identifier))
-      (function_pattern
+      (function_clause
         (parameter_list
           (parameter
             (identifier)))
@@ -368,11 +368,11 @@ def foo: (Int Int) -> Int {
     (function_signature
       (identifier)
       (function_type
-        (function_type_parameter_list
+        (parameter_type_list
           (signed_integer_type))
         (ERROR)
         (signed_integer_type)))
-    (function_pattern
+    (function_clause
       (parameter_list
         (parameter
           (identifier))
@@ -398,11 +398,11 @@ def foo: (Int, Int) -> Int {
     (function_signature
       (identifier)
       (function_type
-        (function_type_parameter_list
+        (parameter_type_list
           (signed_integer_type)
           (signed_integer_type))
         (signed_integer_type)))
-    (function_pattern
+    (function_clause
       (parameter_list
         (parameter
           (identifier))

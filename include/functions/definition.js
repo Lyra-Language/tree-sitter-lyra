@@ -4,8 +4,8 @@ module.exports = {
     field('signature', $.function_signature),
     '=',
     choice(
-      field('pattern', $.function_pattern),
-      field('pattern_list', $.function_pattern_list),
+      field('function_clause', $.function_clause),
+      field('function_clause_list', $.function_clause_list),
     ),
   ),
 
@@ -18,22 +18,22 @@ module.exports = {
     optional(seq(':', field('function_type', $.function_type))),
   ),
 
-  function_pattern: $ => seq(
+  function_clause: $ => seq(
     field('parameters', $.parameter_list),
     optional($.guard),
     '=>',
     field('body', choice(
-      $.block,
-      $.expression,
+      field('block', $.block),
+      field('expression', $.expression),
     )),
   ),
 
-  lambda_expression: $ => $.function_pattern,
+  lambda_expression: $ => $.function_clause,
 
-  function_pattern_list: $ => seq(
+  function_clause_list: $ => seq(
     '{',
-    field('pattern', $.function_pattern),
-    repeat(seq($._comma, field('pattern', $.function_pattern))),
+    field('function_clause', $.function_clause),
+    repeat(seq($._comma, field('function_clause', $.function_clause))),
     optional($._comma),
     '}',
   ),
@@ -51,7 +51,7 @@ module.exports = {
   ),
 
   parameter: $ => seq(
-    choice(field('name', $.identifier), field('pattern', $.pattern)),
+    field('pattern', $.pattern),
     optional(field('default', $.default_value)),
   ),
 

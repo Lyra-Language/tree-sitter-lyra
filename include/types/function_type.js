@@ -1,20 +1,22 @@
 module.exports = {
   function_type: $ => prec(3, seq(
     '(',
-    optional($.function_type_parameter_list),
+    optional(field('parameter_types', $.parameter_type_list)),
     ')',
     '->',
-    $.type
+    field('return_type', $.type)
   )),
 
-  function_type_parameter_list: $ => seq(
+  parameter_type_list: $ => seq(
     $.parameter_type,
     repeat(seq(',', $.parameter_type)),
     optional(',')
   ),
 
   parameter_type: $ => seq(
-    optional(choice('ref', 'mut', 'own')),
-    $.type,
-  )
+    optional(field('modifier', $.modifier)),
+    field('type', $.type),
+  ),
+
+  modifier: $ => choice('ref', 'mut', 'own'),
 }

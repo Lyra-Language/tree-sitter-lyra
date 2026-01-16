@@ -11,13 +11,13 @@ pure def add: (Int, Int) -> Int = (a, b) => a + b
     (function_signature
       (identifier)
       (function_type
-        (function_type_parameter_list
+        (parameter_type_list
           (parameter_type
             (signed_integer_type))
           (parameter_type
             (signed_integer_type)))
         (signed_integer_type)))
-    (function_pattern
+    (function_clause
       (parameter_list
         (parameter
           (identifier))
@@ -41,13 +41,13 @@ pub pure def multiply: (Int, Int) -> Int = (a, b) => a * b
     (function_signature
       (identifier)
       (function_type
-        (function_type_parameter_list
+        (parameter_type_list
           (parameter_type
             (signed_integer_type))
           (parameter_type
             (signed_integer_type)))
         (signed_integer_type)))
-    (function_pattern
+    (function_clause
       (parameter_list
         (parameter
           (identifier))
@@ -70,11 +70,11 @@ pure async def compute: (Int) -> Int = (n) => n * 2
     (function_signature
       (identifier)
       (function_type
-        (function_type_parameter_list
+        (parameter_type_list
           (parameter_type
             (signed_integer_type)))
         (signed_integer_type)))
-    (function_pattern
+    (function_clause
       (parameter_list
         (parameter
           (identifier)))
@@ -99,24 +99,24 @@ pure def fib: (Int) -> Int = {
     (function_signature
       (identifier)
       (function_type
-        (function_type_parameter_list
+        (parameter_type_list
           (parameter_type
             (signed_integer_type)))
         (signed_integer_type)))
-    (function_pattern_list
-      (function_pattern
+    (function_clause_list
+      (function_clause
         (parameter_list
           (parameter
             (literal_pattern
               (integer))))
         (integer))
-      (function_pattern
+      (function_clause
         (parameter_list
           (parameter
             (literal_pattern
               (integer))))
         (integer))
-      (function_pattern
+      (function_clause
         (parameter_list
           (parameter
             (identifier)))
@@ -151,11 +151,11 @@ async pure def compute: (Int) -> Int = (n) => n * 2
       (ERROR)
       (identifier)
       (function_type
-        (function_type_parameter_list
+        (parameter_type_list
           (parameter_type
             (signed_integer_type)))
         (signed_integer_type)))
-    (function_pattern
+    (function_clause
       (parameter_list
         (parameter
           (identifier)))

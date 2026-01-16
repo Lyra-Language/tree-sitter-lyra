@@ -153,11 +153,11 @@ pub def greet: (Str) -> Str =
     (function_signature
       (identifier)
       (function_type
-        (function_type_parameter_list
+        (parameter_type_list
           (parameter_type
             (string_type)))
         (string_type)))
-        (function_pattern
+        (function_clause
           (parameter_list
             (parameter
               (identifier)))
@@ -246,11 +246,11 @@ def helper = () => 42
     (function_signature
       (identifier)
       (function_type
-        (function_type_parameter_list
+        (parameter_type_list
           (parameter_type
             (string_type)))
         (user_defined_type_name)))
-    (function_pattern
+    (function_clause
       (parameter_list
         (parameter
           (identifier)))
@@ -273,6 +273,6 @@ def helper = () => 42
   (function_definition
     (function_signature
       (identifier))
-    (function_pattern
+    (function_clause
       (parameter_list)
       (integer))))

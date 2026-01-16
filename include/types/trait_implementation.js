@@ -35,6 +35,6 @@ module.exports = {
       $.method_name
     ),
     '=',
-    field('function_pattern', $.function_pattern)
+    field('function_clause', $.function_clause)
   ),
 }
