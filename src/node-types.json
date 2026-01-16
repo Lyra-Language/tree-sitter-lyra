@@ -260,6 +260,10 @@
         "named": true
       },
       {
+        "type": "type_declaration",
+        "named": true
+      },
+      {
         "type": "var_reassignment",
         "named": true
       },
@@ -3971,10 +3975,6 @@
         },
         {
           "type": "statement",
-          "named": true
-        },
-        {
-          "type": "type_declaration",
           "named": true
         }
       ]

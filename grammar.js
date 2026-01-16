@@ -56,7 +56,7 @@ module.exports = grammar({
     program: $ => seq(
       optional($.module_declaration),
       repeat($.import_statement),
-      repeat(choice($.statement, $.type_declaration))
+      repeat($.statement)
     ),
 
     _comma: $ => ',',

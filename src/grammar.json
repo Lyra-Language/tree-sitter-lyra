@@ -27,17 +27,8 @@
         {
           "type": "REPEAT",
           "content": {
-            "type": "CHOICE",
-            "members": [
-              {
-                "type": "SYMBOL",
-                "name": "statement"
-              },
-              {
-                "type": "SYMBOL",
-                "name": "type_declaration"
-              }
-            ]
+            "type": "SYMBOL",
+            "name": "statement"
           }
         }
       ]
@@ -4873,68 +4864,67 @@
       ]
     },
     "statement": {
-      "type": "SEQ",
+      "type": "CHOICE",
       "members": [
         {
-          "type": "CHOICE",
-          "members": [
-            {
-              "type": "SYMBOL",
-              "name": "const_declaration"
-            },
-            {
-              "type": "SYMBOL",
-              "name": "declaration"
-            },
-            {
-              "type": "SYMBOL",
-              "name": "var_reassignment"
-            },
-            {
-              "type": "SYMBOL",
-              "name": "return_statement"
-            },
-            {
-              "type": "SYMBOL",
-              "name": "break_statement"
-            },
-            {
-              "type": "SYMBOL",
-              "name": "continue_statement"
-            },
-            {
-              "type": "SYMBOL",
-              "name": "function_definition"
-            },
-            {
-              "type": "SYMBOL",
-              "name": "destructuring_declaration"
-            },
-            {
-              "type": "SYMBOL",
-              "name": "destructuring_else_declaration"
-            },
-            {
-              "type": "SYMBOL",
-              "name": "if_destructuring_declaration"
-            },
-            {
-              "type": "SYMBOL",
-              "name": "for_loop"
-            },
-            {
-              "type": "SYMBOL",
-              "name": "for_in_loop"
-            },
-            {
-              "type": "SYMBOL",
-              "name": "with_statement"
-            },
-            {
-              "type": "SYMBOL",
-              "name": "expression_statement"
-            }
-          ]
+          "type": "SYMBOL",
+          "name": "type_declaration"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "const_declaration"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "declaration"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "var_reassignment"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "return_statement"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "break_statement"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "continue_statement"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "function_definition"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "destructuring_declaration"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "destructuring_else_declaration"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "if_destructuring_declaration"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "for_loop"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "for_in_loop"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "with_statement"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "expression_statement"
         }
       ]
     },
