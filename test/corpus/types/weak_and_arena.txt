@@ -14,10 +14,11 @@ heap struct Child {
       (allocation_modifier)
       (struct_name)
       (struct_type_body
-        (field_name)
-        (field_type
-          (weak_type
-            (user_defined_type_name)))))))
+        (struct_member
+          (field_name)
+          (field_type
+            (weak_type
+              (user_defined_type_name))))))))
 
 ==========================
 Weak Type with Maybe
@@ -36,17 +37,19 @@ shared struct Node {
       (allocation_modifier)
       (struct_name)
       (struct_type_body
-        (field_name)
-        (field_type
-          (parameterized_type
-            (user_defined_type_name)
-            (user_defined_type_name)))
-        (field_name)
-        (field_type
-          (weak_type
+        (struct_member
+          (field_name)
+          (field_type
             (parameterized_type
               (user_defined_type_name)
-              (user_defined_type_name))))))))
+              (user_defined_type_name))))
+        (struct_member
+          (field_name)
+          (field_type
+            (weak_type
+              (parameterized_type
+                (user_defined_type_name)
+                (user_defined_type_name)))))))))
 
 ==============================
 With Statement - Anonymous Arena

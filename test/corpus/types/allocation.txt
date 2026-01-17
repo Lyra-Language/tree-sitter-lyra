@@ -16,15 +16,18 @@ stack struct Vec3 {
       (allocation_modifier)
       (struct_name)
       (struct_type_body
-        (field_name)
-        (field_type
-          (float_type))
-        (field_name)
-        (field_type
-          (float_type))
-        (field_name)
-        (field_type
-          (float_type))))))
+        (struct_member
+          (field_name)
+          (field_type
+            (float_type)))
+        (struct_member
+          (field_name)
+          (field_type
+            (float_type)))
+        (struct_member
+          (field_name)
+          (field_type
+            (float_type)))))))
 
 ===============
 Heap struct type
@@ -43,12 +46,14 @@ heap struct Player {
       (allocation_modifier)
       (struct_name)
       (struct_type_body
-        (field_name)
-        (field_type
-          (string_type))
-        (field_name)
-        (field_type
-          (signed_integer_type))))))
+        (struct_member
+          (field_name)
+          (field_type
+            (string_type)))
+        (struct_member
+          (field_name)
+          (field_type
+            (signed_integer_type)))))))
 
 ==============
 Stack data type
@@ -92,14 +97,16 @@ heap data List<t> = Nil | Cons { head: t, tail: List<t> }
       (data_type_constructor
         (data_type_constructor_name)
         (struct_type_body
-          (field_name)
-          (field_type
-            (generic_type))
-          (field_name)
-          (field_type
-            (parameterized_type
-              (user_defined_type_name)
-              (generic_type))))))))
+          (struct_member
+            (field_name)
+            (field_type
+              (generic_type)))
+          (struct_member
+            (field_name)
+            (field_type
+              (parameterized_type
+                (user_defined_type_name)
+                (generic_type)))))))))
 
 ======================
 Fixed-size array type
@@ -272,15 +279,18 @@ pub stack struct Transform<t> {
       (generic_parameters
         (generic_type))
       (struct_type_body
-        (field_name)
-        (field_type
-          (generic_type))
-        (field_name)
-        (field_type
-          (user_defined_type_name))
-        (field_name)
-        (field_type
-          (generic_type))))))
+        (struct_member
+          (field_name)
+          (field_type
+            (generic_type)))
+        (struct_member
+          (field_name)
+          (field_type
+            (user_defined_type_name)))
+        (struct_member
+          (field_name)
+          (field_type
+            (generic_type)))))))
 
 =====================================
 Heap field inside stack struct
@@ -300,18 +310,21 @@ stack struct Entity {
       (allocation_modifier)
       (struct_name)
       (struct_type_body
-        (field_name)
-        (field_type
-          (unsigned_integer_type))
-        (field_name)
-        (field_type
-          (allocated_type
-            (allocation_modifier)
-            (string_type)))
-        (field_name)
-        (field_type
-          (allocated_type
-            (allocation_modifier)
-            (array_type
-              (user_defined_type_name))))))))
+        (struct_member
+          (field_name)
+          (field_type
+            (unsigned_integer_type)))
+        (struct_member
+          (field_name)
+          (field_type
+            (allocated_type
+              (allocation_modifier)
+              (string_type))))
+        (struct_member
+          (field_name)
+          (field_type
+            (allocated_type
+              (allocation_modifier)
+              (array_type
+                (user_defined_type_name)))))))))
 

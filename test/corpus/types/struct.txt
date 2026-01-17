@@ -11,12 +11,14 @@ struct Point { x: Float32, y: Float32 }
     (struct_type
       (struct_name)
       (struct_type_body
-        (field_name)
-        (field_type
-          (float_type))
-        (field_name)
-        (field_type
-          (float_type))))))
+        (struct_member
+          (field_name)
+          (field_type
+            (float_type)))
+        (struct_member
+          (field_name)
+          (field_type
+            (float_type)))))))
 
 ==============================
 Struct Instance
@@ -76,19 +78,22 @@ struct Person {
     (struct_type
       (struct_name)
       (struct_type_body
-        (field_name)
-        (field_type
-          (string_type))
-        (field_name)
-        (field_type
-          (signed_integer_type))
-        (default_field_value
-          (integer))
-        (field_name)
-        (field_type
-          (signed_integer_type))
-        (default_field_value
-          (integer))))))
+        (struct_member
+          (field_name)
+          (field_type
+            (string_type)))
+        (struct_member
+          (field_name)
+          (field_type
+            (signed_integer_type))
+          (default_field_value
+            (integer)))
+        (struct_member
+          (field_name)
+          (field_type
+            (signed_integer_type))
+          (default_field_value
+            (integer)))))))
 
 ======================================
 Struct Declaration with Generic Params
@@ -105,12 +110,14 @@ struct Point<n> { x: n, y: n }
       (generic_parameters
         (generic_type))
       (struct_type_body
-        (field_name)
-        (field_type
-          (generic_type))
-        (field_name)
-        (field_type
-          (generic_type))))))
+        (struct_member
+          (field_name)
+          (field_type
+            (generic_type)))
+        (struct_member
+          (field_name)
+          (field_type
+            (generic_type)))))))
 
 =================================
 Struct Instance with Generic Args
@@ -155,16 +162,19 @@ struct Person {
     (struct_type
       (struct_name)
       (struct_type_body
-        (field_name)
-        (field_type
-          (string_type))
+        (struct_member
+          (field_name)
+          (field_type
+            (string_type)))
         (mut_keyword)
-        (field_name)
-        (field_type
-          (signed_integer_type))
-        (field_name)
-        (field_type
-          (string_type))))))
+        (struct_member
+          (field_name)
+          (field_type
+            (signed_integer_type)))
+        (struct_member
+          (field_name)
+          (field_type
+            (string_type)))))))
 
 ===========================
 Struct with no comma Errors

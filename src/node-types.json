@@ -4407,6 +4407,42 @@
     }
   },
   {
+    "type": "struct_member",
+    "named": true,
+    "fields": {
+      "field_name": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "field_name",
+            "named": true
+          }
+        ]
+      },
+      "field_type": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "field_type",
+            "named": true
+          }
+        ]
+      }
+    },
+    "children": {
+      "multiple": false,
+      "required": false,
+      "types": [
+        {
+          "type": "default_field_value",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
     "type": "struct_name",
     "named": true,
     "fields": {}
@@ -4481,38 +4517,17 @@
   {
     "type": "struct_type_body",
     "named": true,
-    "fields": {
-      "field_name": {
-        "multiple": true,
-        "required": true,
-        "types": [
-          {
-            "type": "field_name",
-            "named": true
-          }
-        ]
-      },
-      "field_type": {
-        "multiple": true,
-        "required": true,
-        "types": [
-          {
-            "type": "field_type",
-            "named": true
-          }
-        ]
-      }
-    },
+    "fields": {},
     "children": {
       "multiple": true,
-      "required": false,
+      "required": true,
       "types": [
         {
-          "type": "default_field_value",
+          "type": "mut_keyword",
           "named": true
         },
         {
-          "type": "mut_keyword",
+          "type": "struct_member",
           "named": true
         }
       ]

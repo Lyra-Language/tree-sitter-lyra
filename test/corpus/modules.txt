@@ -181,12 +181,14 @@ pub struct Config {
       (visibility)
       (struct_name)
       (struct_type_body
-        (field_name)
-        (field_type
-          (string_type))
-        (field_name)
-        (field_type
-          (boolean_type))))))
+        (struct_member
+          (field_name)
+          (field_type
+            (string_type)))
+        (struct_member
+          (field_name)
+          (field_type
+            (boolean_type)))))))
 
 ===================
 Full Module Example
@@ -238,9 +240,10 @@ def helper = () => 42
       (visibility)
       (struct_name)
       (struct_type_body
-        (field_name)
-        (field_type
-          (string_type)))))
+        (struct_member
+          (field_name)
+          (field_type
+            (string_type))))))
   (function_definition
     (visibility)
     (function_signature
