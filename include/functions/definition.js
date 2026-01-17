@@ -20,7 +20,7 @@ module.exports = {
 
   function_clause: $ => seq(
     field('parameters', $.parameter_list),
-    optional($.guard),
+    optional(field('guard', $.guard)),
     '=>',
     field('body', $.expression),
   ),

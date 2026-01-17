@@ -2266,6 +2266,16 @@
           }
         ]
       },
+      "guard": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "guard",
+            "named": true
+          }
+        ]
+      },
       "parameters": {
         "multiple": false,
         "required": true,
@@ -2276,16 +2286,6 @@
           }
         ]
       }
-    },
-    "children": {
-      "multiple": false,
-      "required": false,
-      "types": [
-        {
-          "type": "guard",
-          "named": true
-        }
-      ]
     }
   },
   {

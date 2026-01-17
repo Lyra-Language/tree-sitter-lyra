@@ -1,5 +1,4 @@
 ## To-Dos
-- list comprehension
 - doc comments
 - pipe operator?
 
