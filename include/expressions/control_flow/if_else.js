@@ -1,46 +1,25 @@
 module.exports = {
-  if_then_expr: $ => prec.right(20, seq(
+  if_then_expr: $ => prec.right(10, seq(
     'if',
-    $.if_condition,
+    field('condition', $.if_condition),
     'then',
-    $.expression,
-    optional(
-      seq(
-        $.else_if,
-        $.if_condition,
-        'then',
-        $.expression,
-      )
-    ),
-    $.else,
-    $.expression,
-    'end',
+    field('then_expression', $.expression),
+    optional(seq(
+      'else',
+      field('else_branch', choice($.if_then_expr, $.expression))
+    )),
+    optional('end'),
   )),
 
   if_block_expr: $ => prec.right(10, seq(
     'if',
-    $.if_condition,
-    $.block,
-    optional(
-      repeat(
-        seq(
-          $.else_if,
-          $.if_condition,
-          $.block,
-        )
-      )
-    ),
-    optional(
-      seq(
-        $.else,
-        $.block,
-      )
-    )
+    field('condition', $.if_condition),
+    field('then_block', $.block),
+    optional(seq(
+      'else',
+      field('else_branch', choice($.if_block_expr, $.block))
+    ))
   )),
-  
-  else_if: $ => 'else if',
-
-  else: $ => 'else',
 
   if_condition: $ => choice(
     $.boolean_expr, 

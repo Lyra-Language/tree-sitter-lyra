@@ -53,7 +53,6 @@ if x == 3 {
               (value
                 (string_literal
                   (string_content)))))))
-      (else)
       (block
         (expression_statement
           (call_expression
@@ -82,7 +81,6 @@ let foo = if x == 0 then "zero" else "not zero" end
           (integer)))
       (string_literal
         (string_content))
-      (else)
       (string_literal
         (string_content)))))
 
@@ -114,25 +112,24 @@ end
           (value
             (string_literal
               (string_content)))))
-      (else_if)
-      (if_condition
-        (boolean_expr
+      (if_then_expr
+        (if_condition
+          (boolean_expr
+            (identifier)
+            (less_than_operator)
+            (integer)))
+        (call_expression
           (identifier)
-          (less_than_operator)
-          (integer)))
-      (call_expression
-        (identifier)
-        (argument_list
-          (value
-            (string_literal
-              (string_content)))))
-      (else)
-      (call_expression
-        (identifier)
-        (argument_list
-          (value
-            (string_literal
-              (string_content))))))))
+          (argument_list
+            (value
+              (string_literal
+                (string_content)))))
+        (call_expression
+          (identifier)
+          (argument_list
+            (value
+              (string_literal
+                (string_content)))))))))
 
 =====================
 Nested If Expressions
@@ -178,7 +175,6 @@ if x == 0 {
                     (value
                       (string_literal
                         (string_content)))))))
-            (else)
             (block
               (expression_statement
                 (call_expression
@@ -187,7 +183,6 @@ if x == 0 {
                     (value
                       (string_literal
                         (string_content))))))))))
-      (else)
       (block
         (expression_statement
           (if_block_expr
@@ -204,7 +199,6 @@ if x == 0 {
                     (value
                       (string_literal
                         (string_content)))))))
-            (else)
             (block
               (expression_statement
                 (call_expression

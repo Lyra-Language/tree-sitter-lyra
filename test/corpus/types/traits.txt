@@ -373,7 +373,6 @@ impl Eq for []t {
                 (block
                   (expression_statement
                     (boolean_literal)))
-                (else)
                 (block
                   (for_in_loop
                     (for_in_condition

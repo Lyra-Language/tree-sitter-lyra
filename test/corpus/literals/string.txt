@@ -85,7 +85,6 @@ let greeting = "Hello, #{if is_male then "Mr. #{last_name}" else "Mrs. #{last_na
             (string_content)
             (string_interpolation
               (identifier)))
-          (else)
           (string_literal
             (string_content)
             (string_interpolation
