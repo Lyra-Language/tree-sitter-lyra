@@ -12,10 +12,10 @@ module.exports = {
 
   match_arm: $ => seq(
     field('pattern', $.pattern),
-    optional($.guard),
+    optional(field('guard', $.guard)),
     '=>',
     field('body', $.expression)
   ),
 
-  guard: $ => seq('if', $.expression),
+  guard: $ => seq('if', field('guard_expression', $.expression)),
 }

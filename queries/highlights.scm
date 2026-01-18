@@ -4,7 +4,6 @@
 "then" @keyword
 "else" @keyword
 "end" @keyword
-(else_if) @keyword
 "def" @keyword.function
 "(" @punctuation.bracket
 ")" @punctuation.bracket

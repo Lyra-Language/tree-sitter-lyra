@@ -891,49 +891,258 @@
   {
     "type": "boolean_expr",
     "named": true,
-    "fields": {},
+    "fields": {
+      "expression": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "expression",
+            "named": true
+          }
+        ]
+      },
+      "left": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "addition",
+            "named": true
+          },
+          {
+            "type": "addition_assignment",
+            "named": true
+          },
+          {
+            "type": "boolean_expr",
+            "named": true
+          },
+          {
+            "type": "call_expression",
+            "named": true
+          },
+          {
+            "type": "const_identifier",
+            "named": true
+          },
+          {
+            "type": "division",
+            "named": true
+          },
+          {
+            "type": "division_assignment",
+            "named": true
+          },
+          {
+            "type": "float",
+            "named": true
+          },
+          {
+            "type": "group",
+            "named": true
+          },
+          {
+            "type": "identifier",
+            "named": true
+          },
+          {
+            "type": "index_expression",
+            "named": true
+          },
+          {
+            "type": "integer",
+            "named": true
+          },
+          {
+            "type": "member_expression",
+            "named": true
+          },
+          {
+            "type": "multiplication",
+            "named": true
+          },
+          {
+            "type": "multiplication_assignment",
+            "named": true
+          },
+          {
+            "type": "negation",
+            "named": true
+          },
+          {
+            "type": "optional_index_expression",
+            "named": true
+          },
+          {
+            "type": "optional_member_expression",
+            "named": true
+          },
+          {
+            "type": "parenthesized_expression",
+            "named": true
+          },
+          {
+            "type": "subtraction",
+            "named": true
+          },
+          {
+            "type": "subtraction_assignment",
+            "named": true
+          },
+          {
+            "type": "try_expression",
+            "named": true
+          },
+          {
+            "type": "user_defined_type_name",
+            "named": true
+          }
+        ]
+      },
+      "operator": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "and",
+            "named": true
+          },
+          {
+            "type": "equals_operator",
+            "named": true
+          },
+          {
+            "type": "greater_than_operator",
+            "named": true
+          },
+          {
+            "type": "greater_than_or_equal_operator",
+            "named": true
+          },
+          {
+            "type": "less_than_operator",
+            "named": true
+          },
+          {
+            "type": "less_than_or_equal_operator",
+            "named": true
+          },
+          {
+            "type": "not_equals_operator",
+            "named": true
+          },
+          {
+            "type": "or",
+            "named": true
+          }
+        ]
+      },
+      "right": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "addition",
+            "named": true
+          },
+          {
+            "type": "addition_assignment",
+            "named": true
+          },
+          {
+            "type": "boolean_expr",
+            "named": true
+          },
+          {
+            "type": "call_expression",
+            "named": true
+          },
+          {
+            "type": "const_identifier",
+            "named": true
+          },
+          {
+            "type": "division",
+            "named": true
+          },
+          {
+            "type": "division_assignment",
+            "named": true
+          },
+          {
+            "type": "float",
+            "named": true
+          },
+          {
+            "type": "group",
+            "named": true
+          },
+          {
+            "type": "identifier",
+            "named": true
+          },
+          {
+            "type": "index_expression",
+            "named": true
+          },
+          {
+            "type": "integer",
+            "named": true
+          },
+          {
+            "type": "member_expression",
+            "named": true
+          },
+          {
+            "type": "multiplication",
+            "named": true
+          },
+          {
+            "type": "multiplication_assignment",
+            "named": true
+          },
+          {
+            "type": "negation",
+            "named": true
+          },
+          {
+            "type": "optional_index_expression",
+            "named": true
+          },
+          {
+            "type": "optional_member_expression",
+            "named": true
+          },
+          {
+            "type": "parenthesized_expression",
+            "named": true
+          },
+          {
+            "type": "subtraction",
+            "named": true
+          },
+          {
+            "type": "subtraction_assignment",
+            "named": true
+          },
+          {
+            "type": "try_expression",
+            "named": true
+          },
+          {
+            "type": "user_defined_type_name",
+            "named": true
+          }
+        ]
+      }
+    },
     "children": {
-      "multiple": true,
-      "required": true,
+      "multiple": false,
+      "required": false,
       "types": [
         {
-          "type": "and",
-          "named": true
-        },
-        {
-          "type": "equals_operator",
-          "named": true
-        },
-        {
-          "type": "expression",
-          "named": true
-        },
-        {
-          "type": "greater_than_operator",
-          "named": true
-        },
-        {
-          "type": "greater_than_or_equal_operator",
-          "named": true
-        },
-        {
-          "type": "less_than_operator",
-          "named": true
-        },
-        {
-          "type": "less_than_or_equal_operator",
-          "named": true
-        },
-        {
           "type": "not",
-          "named": true
-        },
-        {
-          "type": "not_equals_operator",
-          "named": true
-        },
-        {
-          "type": "or",
           "named": true
         }
       ]
@@ -2007,49 +2216,258 @@
   {
     "type": "for_condition_expr",
     "named": true,
-    "fields": {},
+    "fields": {
+      "expression": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "expression",
+            "named": true
+          }
+        ]
+      },
+      "left": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "addition",
+            "named": true
+          },
+          {
+            "type": "addition_assignment",
+            "named": true
+          },
+          {
+            "type": "boolean_expr",
+            "named": true
+          },
+          {
+            "type": "call_expression",
+            "named": true
+          },
+          {
+            "type": "const_identifier",
+            "named": true
+          },
+          {
+            "type": "division",
+            "named": true
+          },
+          {
+            "type": "division_assignment",
+            "named": true
+          },
+          {
+            "type": "float",
+            "named": true
+          },
+          {
+            "type": "group",
+            "named": true
+          },
+          {
+            "type": "identifier",
+            "named": true
+          },
+          {
+            "type": "index_expression",
+            "named": true
+          },
+          {
+            "type": "integer",
+            "named": true
+          },
+          {
+            "type": "member_expression",
+            "named": true
+          },
+          {
+            "type": "multiplication",
+            "named": true
+          },
+          {
+            "type": "multiplication_assignment",
+            "named": true
+          },
+          {
+            "type": "negation",
+            "named": true
+          },
+          {
+            "type": "optional_index_expression",
+            "named": true
+          },
+          {
+            "type": "optional_member_expression",
+            "named": true
+          },
+          {
+            "type": "parenthesized_expression",
+            "named": true
+          },
+          {
+            "type": "subtraction",
+            "named": true
+          },
+          {
+            "type": "subtraction_assignment",
+            "named": true
+          },
+          {
+            "type": "try_expression",
+            "named": true
+          },
+          {
+            "type": "user_defined_type_name",
+            "named": true
+          }
+        ]
+      },
+      "operator": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "and",
+            "named": true
+          },
+          {
+            "type": "equals_operator",
+            "named": true
+          },
+          {
+            "type": "greater_than_operator",
+            "named": true
+          },
+          {
+            "type": "greater_than_or_equal_operator",
+            "named": true
+          },
+          {
+            "type": "less_than_operator",
+            "named": true
+          },
+          {
+            "type": "less_than_or_equal_operator",
+            "named": true
+          },
+          {
+            "type": "not_equals_operator",
+            "named": true
+          },
+          {
+            "type": "or",
+            "named": true
+          }
+        ]
+      },
+      "right": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "addition",
+            "named": true
+          },
+          {
+            "type": "addition_assignment",
+            "named": true
+          },
+          {
+            "type": "boolean_expr",
+            "named": true
+          },
+          {
+            "type": "call_expression",
+            "named": true
+          },
+          {
+            "type": "const_identifier",
+            "named": true
+          },
+          {
+            "type": "division",
+            "named": true
+          },
+          {
+            "type": "division_assignment",
+            "named": true
+          },
+          {
+            "type": "float",
+            "named": true
+          },
+          {
+            "type": "group",
+            "named": true
+          },
+          {
+            "type": "identifier",
+            "named": true
+          },
+          {
+            "type": "index_expression",
+            "named": true
+          },
+          {
+            "type": "integer",
+            "named": true
+          },
+          {
+            "type": "member_expression",
+            "named": true
+          },
+          {
+            "type": "multiplication",
+            "named": true
+          },
+          {
+            "type": "multiplication_assignment",
+            "named": true
+          },
+          {
+            "type": "negation",
+            "named": true
+          },
+          {
+            "type": "optional_index_expression",
+            "named": true
+          },
+          {
+            "type": "optional_member_expression",
+            "named": true
+          },
+          {
+            "type": "parenthesized_expression",
+            "named": true
+          },
+          {
+            "type": "subtraction",
+            "named": true
+          },
+          {
+            "type": "subtraction_assignment",
+            "named": true
+          },
+          {
+            "type": "try_expression",
+            "named": true
+          },
+          {
+            "type": "user_defined_type_name",
+            "named": true
+          }
+        ]
+      }
+    },
     "children": {
-      "multiple": true,
-      "required": true,
+      "multiple": false,
+      "required": false,
       "types": [
         {
-          "type": "and",
-          "named": true
-        },
-        {
-          "type": "equals_operator",
-          "named": true
-        },
-        {
-          "type": "expression",
-          "named": true
-        },
-        {
-          "type": "greater_than_operator",
-          "named": true
-        },
-        {
-          "type": "greater_than_or_equal_operator",
-          "named": true
-        },
-        {
-          "type": "less_than_operator",
-          "named": true
-        },
-        {
-          "type": "less_than_or_equal_operator",
-          "named": true
-        },
-        {
           "type": "not",
-          "named": true
-        },
-        {
-          "type": "not_equals_operator",
-          "named": true
-        },
-        {
-          "type": "or",
           "named": true
         }
       ]
@@ -2606,16 +3024,17 @@
   {
     "type": "guard",
     "named": true,
-    "fields": {},
-    "children": {
-      "multiple": false,
-      "required": true,
-      "types": [
-        {
-          "type": "expression",
-          "named": true
-        }
-      ]
+    "fields": {
+      "guard_expression": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "expression",
+            "named": true
+          }
+        ]
+      }
     }
   },
   {
@@ -3070,6 +3489,16 @@
           }
         ]
       },
+      "guard": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "guard",
+            "named": true
+          }
+        ]
+      },
       "pattern": {
         "multiple": false,
         "required": true,
@@ -3080,16 +3509,6 @@
           }
         ]
       }
-    },
-    "children": {
-      "multiple": false,
-      "required": false,
-      "types": [
-        {
-          "type": "guard",
-          "named": true
-        }
-      ]
     }
   },
   {
