@@ -21,11 +21,11 @@ module.exports = {
     _arithmetic_operator: $ => choice($.addition, $.subtraction, $.multiplication, $.division),
     _constraint_arithmetic_operator: $ => choice($.constraint_addition, $.constraint_subtraction, $.constraint_multiplication, $.constraint_division),
 
-    addition: $ => prec.left(110, seq($._primary_math_expr, '+', $._math_expr)),
-    subtraction: $ => prec.left(110, seq($._primary_math_expr, '-', $._math_expr)),
-    multiplication: $ => prec.left(120, seq($._primary_math_expr, '*', $._math_expr)),
-    division: $ => prec.left(120, seq($._primary_math_expr, '/', $._math_expr)),
-    negation: $ => prec.right(140, seq('-', $._primary_math_expr)),
+    addition: $ => prec.left(110, seq(field('left', $._primary_math_expr), field('operator', '+'), field('right', $._math_expr))),
+    subtraction: $ => prec.left(110, seq(field('left', $._primary_math_expr), field('operator', '-'), field('right', $._math_expr))),
+    multiplication: $ => prec.left(120, seq(field('left', $._primary_math_expr), field('operator', '*'), field('right', $._math_expr))),
+    division: $ => prec.left(120, seq(field('left', $._primary_math_expr), field('operator', '/'), field('right', $._math_expr))),
+    negation: $ => prec.right(140, seq(field('operator', '-'), field('operand', $._primary_math_expr))),
 
     constraint_addition: $ => prec.left(110, seq($._constraint_math_expr, '+', $._constraint_math_expr)),
     constraint_subtraction: $ => prec.left(110, seq($._constraint_math_expr, '-', $._constraint_math_expr)),

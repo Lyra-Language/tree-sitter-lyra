@@ -12,7 +12,7 @@ module.exports = {
 
   call_expression: $ => prec.left(300, seq(
     field('function', $._postfix_expression),
-    optional($.generic_arguments),
+    optional(field('generic_arguments', $.generic_arguments)),
     field('arguments', $.argument_list)
   )),
 
