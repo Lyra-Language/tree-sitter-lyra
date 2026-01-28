@@ -47,10 +47,10 @@ module.exports = {
     ')'
   ),
 
-  parameter: $ => seq(
+  parameter: $ => field('parameter', seq(
     field('pattern', $.pattern),
-    optional(field('default', $.default_value)),
-  ),
+    optional(field('default_value', $.default_value)),
+  )),
 
-  default_value: $ => seq('=', $.expression),
+  default_value: $ => seq('=', field('expression', $.expression)),
 }

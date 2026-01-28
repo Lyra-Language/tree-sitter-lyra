@@ -1,6 +1,7 @@
 ## To-Dos
 - doc comments
 - pipe operator?
+- Add tree-sitter tests for param modifiers in function definitions
 
 ## Completed
 
