@@ -2,63 +2,75 @@ module.exports = {
   constrained_type: $ => seq(
     optional($.visibility),
     'type',
-    alias($.user_defined_type_name, $.constrained_type_name),
+    field('name', alias($.user_defined_type_name, $.constrained_type_name)),
     '=',
-    $.type,
-    optional(seq('where', $.constraints))
+    choice(
+      seq(
+        field('type', $.type),
+        optional(seq('where', field('constraints', $.constraints)))
+      ),
+      field('literal_union', $.literal_union)
+    ),
   ),
 
+  // Literal union
+  literal_union: $ => seq($.literal_val, repeat(seq('|', $.literal_val))),
+  literal_val: $ => choice($.string_literal, $._number_literal),
+
   constraints: $ => seq(
-    '(',
     $.constraint,
     repeat(seq(',', $.constraint)),
     optional(','),
-    ')'
   ),
 
   constraint: $ => choice(
     $.range_constraint,
-    $.oneof_constraint,
     $.pattern_constraint, // for strings
     $.precision_constraint, // for floats
     $.step_constraint, // for floats
   ),
 
   // Range constraint
-  range_constraint: $ => seq('range', $.range),
-  range: $ => seq(
-    optional($._constraint_math_expr),
+  range_constraint: $ => seq(
+    'range','(',
+    optional(field('start', $._constraint_math_expr)),
     '..',
     optional(
-      seq(choice('<','='),
-      $._constraint_math_expr)
-    )
+      seq(
+        field('comparator', choice($.less_than_comparator, $.equal_to_comparator)),
+        field('end', $._constraint_math_expr)
+      )
+    ),
+    ')'
   ),
-
-  // Enum constraint
-  oneof_constraint: $ => seq('oneof', $.oneof),
-  oneof: $ => seq($.oneof_value, repeat(seq('|', $.oneof_value))),
-  oneof_value: $ => choice($.string_literal, $._number_literal),
+  less_than_comparator: $ => '<',
+  equal_to_comparator: $ => '=',
 
   // Regex constraint (String)
-  pattern_constraint: $ => seq('pattern', choice($.regex_literal, $.const_identifier)),
+  pattern_constraint: $ => seq('pattern', '(', $.regex_literal, ')'),
 
   // Precision constraint
   precision_constraint: $ => seq(
-    'precision',
+    'precision', '(',
     $._constraint_math_expr,
-    optional(
-      seq(':', choice('reject', seq('round', optional($.rounding_mode))))
-    )
+    optional(seq(',', $.rounding_mode)),
+    ')'
   ),
 
   // Rounding mode (defaults to "nearest even")
-  rounding_mode: $ => seq(
-    "(",
-    choice('even', 'zero', 'up', 'down', 'truncate'),
-    ")"
+  rounding_mode: $ => choice(
+    $.even_rounding_mode,
+    $.zero_rounding_mode,
+    $.up_rounding_mode,
+    $.down_rounding_mode,
+    $.truncate_rounding_mode,
   ),
+  even_rounding_mode: $ => 'round_even',
+  zero_rounding_mode: $ => 'round_zero',
+  up_rounding_mode: $ => 'round_up',
+  down_rounding_mode: $ => 'round_down',
+  truncate_rounding_mode: $ => 'round_trunc',
 
-  // Step constraint
-  step_constraint: $ => seq('step', $._constraint_math_expr),
+  // Step constraint (Float)
+  step_constraint: $ => seq('step', '(', $._constraint_math_expr, ')'),
 }

@@ -16,7 +16,8 @@ type Turn = Float
 Type with oneof constraint
 ===============================
 
-type CSSColorName = Str where(oneof "red" | "green" | "blue" | "rebeccapurple" | "aliceblue")
+type CSSColorName = "red" | "green" | "blue" | "rebeccapurple" | "aliceblue"
+type Status = 200 | 404 | 500
 
 ---
 
@@ -24,34 +25,40 @@ type CSSColorName = Str where(oneof "red" | "green" | "blue" | "rebeccapurple" |
   (type_declaration
     (constrained_type
       (constrained_type_name)
-      (string_type)
-      (constraints
-        (constraint
-          (oneof_constraint
-            (oneof
-              (oneof_value
-                (string_literal
-                  (string_content)))
-              (oneof_value
-                (string_literal
-                  (string_content)))
-              (oneof_value
-                (string_literal
-                  (string_content)))
-              (oneof_value
-                (string_literal
-                  (string_content)))
-              (oneof_value
-                (string_literal
-                  (string_content))))))))))
+      (literal_union
+        (literal_val
+          (string_literal
+            (string_content)))
+        (literal_val
+          (string_literal
+            (string_content)))
+        (literal_val
+          (string_literal
+            (string_content)))
+        (literal_val
+          (string_literal
+            (string_content)))
+        (literal_val
+          (string_literal
+            (string_content))))))
+  (type_declaration
+    (constrained_type
+      (constrained_type_name)
+      (literal_union
+        (literal_val
+          (integer))
+        (literal_val
+          (integer))
+        (literal_val
+          (integer))))))
 
 =================================
 Type with range constraints
 =================================
 
-type Angle = Float where(range 0..<360, precision 6:round(up))
-type Radian = Float64 where(range 0..=2*PI, precision 2:round(truncate))
-type Alpha = Float32 where(range 0..=1)
+type Angle = Float where range(0..<360), precision(6, round_up)
+type Radian = Float64 where range(0..=2*PI), precision(2, round_trunc)
+type Alpha = Float32 where range(0..=1)
 
 ---
 
@@ -63,13 +70,14 @@ type Alpha = Float32 where(range 0..=1)
       (constraints
         (constraint
           (range_constraint
-            (range
-              (integer)
-              (integer))))
+            (integer)
+            (less_than_comparator)
+            (integer)))
         (constraint
           (precision_constraint
             (integer)
-            (rounding_mode))))))
+            (rounding_mode
+              (up_rounding_mode)))))))
   (type_declaration
     (constrained_type
       (constrained_type_name)
@@ -77,15 +85,16 @@ type Alpha = Float32 where(range 0..=1)
       (constraints
         (constraint
           (range_constraint
-            (range
+            (integer)
+            (equal_to_comparator)
+            (constraint_multiplication
               (integer)
-              (constraint_multiplication
-                (integer)
-                (const_identifier)))))
+              (const_identifier))))
         (constraint
           (precision_constraint
             (integer)
-            (rounding_mode))))))
+            (rounding_mode
+              (truncate_rounding_mode)))))))
   (type_declaration
     (constrained_type
       (constrained_type_name)
@@ -93,15 +102,15 @@ type Alpha = Float32 where(range 0..=1)
       (constraints
         (constraint
           (range_constraint
-            (range
-              (integer)
-              (integer))))))))
+            (integer)
+            (equal_to_comparator)
+            (integer)))))))
 
 ==================================
 Type with pattern constraint
 ==================================
 
-type HexStr = Str where(pattern r/^#(?:[0-9a-fA-F]{3}){1,2}$/)
+type HexStr = Str where pattern(r/^#(?:[0-9a-fA-F]{3}){1,2}$/)
 
 ---
 
@@ -115,6 +124,52 @@ type HexStr = Str where(pattern r/^#(?:[0-9a-fA-F]{3}){1,2}$/)
           (pattern_constraint
             (regex_literal)))))))
 
+=========================
+Type with step constraint
+=========================
+
+// Only multiples of 0.25 (for currency with quarter precision)
+type Quarter = Float where range(0..=100), step(0.25)
+// Valid: 0, 0.25, 0.5, 0.75, 1.0, 1.25, ...
+
+// Degrees in 15° increments
+type CompassHeading = Int where range(0..<360), step(15)
+// Valid: 0, 15, 30, 45, ..., 345
+
+---
+
+(program
+  (comment)
+  (type_declaration
+    (constrained_type
+      (constrained_type_name)
+      (float_type)
+      (constraints
+        (constraint
+          (range_constraint
+            (integer)
+            (equal_to_comparator)
+            (integer)))
+        (constraint
+          (step_constraint
+            (float))))))
+  (comment)
+  (comment)
+  (type_declaration
+    (constrained_type
+      (constrained_type_name)
+      (signed_integer_type)
+      (constraints
+        (constraint
+          (range_constraint
+            (integer)
+            (less_than_comparator)
+            (integer)))
+        (constraint
+          (step_constraint
+            (integer))))))
+  (comment))
+
 ===================================
 Type without right side is an error
 ===================================
@@ -127,5 +182,7 @@ type Foo =
   (type_declaration
     (constrained_type
       (constrained_type_name)
-      (user_defined_type_name
-        (MISSING "user_defined_type_name_token1")))))            
+      (literal_union
+        (literal_val
+          (integer
+            (MISSING _digit_sequence)))))))         
