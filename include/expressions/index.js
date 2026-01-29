@@ -32,7 +32,7 @@ module.exports = {
     field('operand', $.expression)
   )),
 
-  identifier: $ => /[a-z][a-zA-Z0-9_]*/,
+  identifier: $ => token(prec(-1, /[a-z][a-zA-Z0-9_]*/)),
   const_identifier: $ => /[A-Z][A-Z0-9_]*/,
 
   // Grouping

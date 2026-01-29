@@ -1778,12 +1778,16 @@
     "type": "data_type_constructor",
     "named": true,
     "fields": {
-      "body": {
-        "multiple": false,
+      "constructor": {
+        "multiple": true,
         "required": false,
         "types": [
           {
             "type": "struct_type_body",
+            "named": true
+          },
+          {
+            "type": "type",
             "named": true
           }
         ]
@@ -1799,7 +1803,7 @@
         ]
       },
       "param": {
-        "multiple": false,
+        "multiple": true,
         "required": false,
         "types": [
           {
