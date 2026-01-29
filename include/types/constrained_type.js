@@ -18,12 +18,12 @@ module.exports = {
   literal_val: $ => choice($.string_literal, $._number_literal),
 
   constraints: $ => seq(
-    $.constraint,
-    repeat(seq(',', $.constraint)),
+    $._constraint,
+    repeat(seq(',', $._constraint)),
     optional(','),
   ),
 
-  constraint: $ => choice(
+  _constraint: $ => choice(
     $.range_constraint,
     $.pattern_constraint, // for strings
     $.precision_constraint, // for floats
@@ -33,12 +33,12 @@ module.exports = {
   // Range constraint
   range_constraint: $ => seq(
     'range','(',
-    optional(field('start', $._constraint_math_expr)),
+    optional(field('start', $.constraint_math_expr)),
     '..',
     optional(
       seq(
         field('comparator', choice($.less_than_comparator, $.equal_to_comparator)),
-        field('end', $._constraint_math_expr)
+        field('end', $.constraint_math_expr)
       )
     ),
     ')'
@@ -52,7 +52,7 @@ module.exports = {
   // Precision constraint
   precision_constraint: $ => seq(
     'precision', '(',
-    $._constraint_math_expr,
+    $.constraint_math_expr,
     optional(seq(',', $.rounding_mode)),
     ')'
   ),
@@ -72,5 +72,5 @@ module.exports = {
   truncate_rounding_mode: $ => 'round_trunc',
 
   // Step constraint (Float)
-  step_constraint: $ => seq('step', '(', $._constraint_math_expr, ')'),
+  step_constraint: $ => seq('step', '(', $.constraint_math_expr, ')'),
 }

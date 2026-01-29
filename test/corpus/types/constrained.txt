@@ -68,42 +68,47 @@ type Alpha = Float32 where range(0..=1)
       (constrained_type_name)
       (float_type)
       (constraints
-        (constraint
-          (range_constraint
-            (integer)
-            (less_than_comparator)
+        (range_constraint
+          (constraint_math_expr
+            (integer))
+          (less_than_comparator)
+          (constraint_math_expr
             (integer)))
-        (constraint
-          (precision_constraint
-            (integer)
-            (rounding_mode
-              (up_rounding_mode)))))))
+        (precision_constraint
+          (constraint_math_expr
+            (integer))
+          (rounding_mode
+            (up_rounding_mode))))))
   (type_declaration
     (constrained_type
       (constrained_type_name)
       (float_type)
       (constraints
-        (constraint
-          (range_constraint
-            (integer)
-            (equal_to_comparator)
+        (range_constraint
+          (constraint_math_expr
+            (integer))
+          (equal_to_comparator)
+          (constraint_math_expr
             (constraint_multiplication
-              (integer)
-              (const_identifier))))
-        (constraint
-          (precision_constraint
-            (integer)
-            (rounding_mode
-              (truncate_rounding_mode)))))))
+              (constraint_math_expr
+                (integer))
+              (constraint_math_expr
+                (const_identifier)))))
+        (precision_constraint
+          (constraint_math_expr
+            (integer))
+          (rounding_mode
+            (truncate_rounding_mode))))))
   (type_declaration
     (constrained_type
       (constrained_type_name)
       (float_type)
       (constraints
-        (constraint
-          (range_constraint
-            (integer)
-            (equal_to_comparator)
+        (range_constraint
+          (constraint_math_expr
+            (integer))
+          (equal_to_comparator)
+          (constraint_math_expr
             (integer)))))))
 
 ==================================
@@ -120,9 +125,8 @@ type HexStr = Str where pattern(r/^#(?:[0-9a-fA-F]{3}){1,2}$/)
       (constrained_type_name)
       (string_type)
       (constraints
-        (constraint
-          (pattern_constraint
-            (regex_literal)))))))
+        (pattern_constraint
+          (regex_literal))))))
 
 =========================
 Type with step constraint
@@ -145,13 +149,14 @@ type CompassHeading = Int where range(0..<360), step(15)
       (constrained_type_name)
       (float_type)
       (constraints
-        (constraint
-          (range_constraint
-            (integer)
-            (equal_to_comparator)
+        (range_constraint
+          (constraint_math_expr
+            (integer))
+          (equal_to_comparator)
+          (constraint_math_expr
             (integer)))
-        (constraint
-          (step_constraint
+        (step_constraint
+          (constraint_math_expr
             (float))))))
   (comment)
   (comment)
@@ -160,13 +165,14 @@ type CompassHeading = Int where range(0..<360), step(15)
       (constrained_type_name)
       (signed_integer_type)
       (constraints
-        (constraint
-          (range_constraint
-            (integer)
-            (less_than_comparator)
+        (range_constraint
+          (constraint_math_expr
+            (integer))
+          (less_than_comparator)
+          (constraint_math_expr
             (integer)))
-        (constraint
-          (step_constraint
+        (step_constraint
+          (constraint_math_expr
             (integer))))))
   (comment))
 
