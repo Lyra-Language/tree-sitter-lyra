@@ -9,5 +9,5 @@ module.exports = {
   octal_int: $ => seq('0o', token.immediate(/[0-7_]+/)),
   hexadecimal_int: $ => seq('0x', token.immediate(/[0-9a-fA-F_]+/)),
   
-  float_literal: $ => prec(1, token(/[0-9_]+\.[0-9_]+/)),
+  float_literal: $ => prec(1, token(/[0-9_]+\.[0-9_]+([eE][+-]?[0-9_]+)?/)),
 }

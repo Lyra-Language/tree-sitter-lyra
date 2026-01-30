@@ -290,6 +290,22 @@
         }
       }
     },
+    "binary_int": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "0b"
+        },
+        {
+          "type": "IMMEDIATE_TOKEN",
+          "content": {
+            "type": "PATTERN",
+            "value": "[01_]+"
+          }
+        }
+      ]
+    },
     "octal_int": {
       "type": "SEQ",
       "members": [
@@ -322,22 +338,6 @@
         }
       ]
     },
-    "binary_int": {
-      "type": "SEQ",
-      "members": [
-        {
-          "type": "STRING",
-          "value": "0b"
-        },
-        {
-          "type": "IMMEDIATE_TOKEN",
-          "content": {
-            "type": "PATTERN",
-            "value": "[01_]+"
-          }
-        }
-      ]
-    },
     "float_literal": {
       "type": "PREC",
       "value": 1,
@@ -345,7 +345,7 @@
         "type": "TOKEN",
         "content": {
           "type": "PATTERN",
-          "value": "[0-9_]+\\.[0-9_]+"
+          "value": "[0-9_]+\\.[0-9_]+([eE][+-]?[0-9_]+)?"
         }
       }
     },

@@ -25,6 +25,45 @@ let float_num = 1_234.567_890
     (identifier)
     (float_literal)))
 
+=====================
+Floats with exponents
+=====================
+
+let float_num = 0.03141592e2
+
+---
+
+(program
+  (declaration
+    (identifier)
+    (float_literal)))
+
+==============================
+Floats with positive exponents
+==============================
+
+let float_num = 0.03141592e+2
+
+---
+
+(program
+  (declaration
+    (identifier)
+    (float_literal)))
+
+==============================
+Floats with negative exponents
+==============================
+
+let float_num = 314.1592e-2
+
+---
+
+(program
+  (declaration
+    (identifier)
+    (float_literal)))        
+
 ======================
 Hexadecimal Int format
 ======================
