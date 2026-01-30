@@ -203,7 +203,7 @@ Double negation without expression is an error
     (boolean_expr
       (not)
       (integer
-        (MISSING _digit_sequence)))))
+        (MISSING "decimal_int_token1")))))
 
 ==============================================
 And operator without right operand is an error

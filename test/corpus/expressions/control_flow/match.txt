@@ -308,5 +308,5 @@ match foo {
     (match_arm
       (literal_pattern
         (integer
-          (MISSING _digit_sequence)))
+          (MISSING "decimal_int_token1")))
       (string_literal))))

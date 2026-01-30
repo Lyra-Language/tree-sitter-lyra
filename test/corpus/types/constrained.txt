@@ -208,4 +208,4 @@ type Foo =
         (literal_val
           (integer_literal
             (decimal_int
-              (MISSING _digit_sequence))))))))      
+              (MISSING "decimal_int_token1"))))))))      

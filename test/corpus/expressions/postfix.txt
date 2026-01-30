@@ -308,7 +308,7 @@ arr[]
   (postfix_expression
     (identifier)
     (integer
-      (MISSING _digit_sequence))))
+      (MISSING "decimal_int_token1"))))
 
 ==============================================
 Function call with unclosed parens is an error

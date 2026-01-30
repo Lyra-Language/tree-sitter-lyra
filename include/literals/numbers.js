@@ -3,12 +3,11 @@ module.exports = {
 
   integer_literal: $ => choice($.decimal_int, $.octal_int, $.hexadecimal_int, $.binary_int),
   
-  _digit_sequence: $ => /[0-9_]+/,
-
-  decimal_int: $ => $._digit_sequence,
+  
+  decimal_int: $ => prec(2, token(/[0-9_]+/)),
+  binary_int: $ => seq('0b', token.immediate(/[01_]+/)),
   octal_int: $ => seq('0o', token.immediate(/[0-7_]+/)),
   hexadecimal_int: $ => seq('0x', token.immediate(/[0-9a-fA-F_]+/)),
-  binary_int: $ => seq('0b', token.immediate(/[01_]+/)),
-
-  float_literal: $ => seq($._digit_sequence, '.', $._digit_sequence),
+  
+  float_literal: $ => prec(1, token(/[0-9_]+\.[0-9_]+/)),
 }
