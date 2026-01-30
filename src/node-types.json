@@ -4551,16 +4551,17 @@
   {
     "type": "pattern_constraint",
     "named": true,
-    "fields": {},
-    "children": {
-      "multiple": false,
-      "required": true,
-      "types": [
-        {
-          "type": "regex_literal",
-          "named": true
-        }
-      ]
+    "fields": {
+      "pattern": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "regex_literal",
+            "named": true
+          }
+        ]
+      }
     }
   },
   {
@@ -4919,16 +4920,17 @@
   {
     "type": "step_constraint",
     "named": true,
-    "fields": {},
-    "children": {
-      "multiple": false,
-      "required": true,
-      "types": [
-        {
-          "type": "constraint_math_expr",
-          "named": true
-        }
-      ]
+    "fields": {
+      "value": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "constraint_math_expr",
+            "named": true
+          }
+        ]
+      }
     }
   },
   {

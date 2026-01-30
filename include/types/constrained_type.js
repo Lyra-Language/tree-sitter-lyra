@@ -47,7 +47,7 @@ module.exports = {
   equal_to_comparator: $ => '=',
 
   // Regex constraint (String)
-  pattern_constraint: $ => seq('pattern', '(', $.regex_literal, ')'),
+  pattern_constraint: $ => seq('pattern', '(', field('pattern', $.regex_literal), ')'),
 
   // Precision constraint
   precision_constraint: $ => seq(
@@ -72,5 +72,5 @@ module.exports = {
   truncate_rounding_mode: $ => 'round_trunc',
 
   // Step constraint (float_literal)
-  step_constraint: $ => seq('step', '(', $.constraint_math_expr, ')'),
+  step_constraint: $ => seq('step', '(', field('value', $.constraint_math_expr), ')'),
 }

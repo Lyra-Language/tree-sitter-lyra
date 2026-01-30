@@ -3460,8 +3460,12 @@
           "value": "("
         },
         {
-          "type": "SYMBOL",
-          "name": "regex_literal"
+          "type": "FIELD",
+          "name": "pattern",
+          "content": {
+            "type": "SYMBOL",
+            "name": "regex_literal"
+          }
         },
         {
           "type": "STRING",
@@ -3576,8 +3580,12 @@
           "value": "("
         },
         {
-          "type": "SYMBOL",
-          "name": "constraint_math_expr"
+          "type": "FIELD",
+          "name": "value",
+          "content": {
+            "type": "SYMBOL",
+            "name": "constraint_math_expr"
+          }
         },
         {
           "type": "STRING",
