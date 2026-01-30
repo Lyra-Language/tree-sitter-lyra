@@ -11,11 +11,14 @@ let coords = (10, 20, 30)
     (identifier)
     (tuple_literal
       (tuple_value
-        (integer))
+        (integer_literal
+          (decimal_int)))
       (tuple_value
-        (integer))
+        (integer_literal
+          (decimal_int)))
       (tuple_value
-        (integer)))))
+        (integer_literal
+          (decimal_int))))))
 
 
 =========================
@@ -32,11 +35,14 @@ let coords = Coords (10, 20, 30)
     (tuple_literal
       (tuple_name)
       (tuple_value
-        (integer))
+        (integer_literal
+          (decimal_int)))
       (tuple_value
-        (integer))
+        (integer_literal
+          (decimal_int)))
       (tuple_value
-        (integer)))))
+        (integer_literal
+          (decimal_int))))))
 
 ==========================================
 Basic Named Tuple Literal with generic arg
@@ -54,8 +60,11 @@ let coords = Coords::<Int32> (10, 20, 30)
       (generic_arguments
         (signed_integer_type))
       (tuple_value
-        (integer))
+        (integer_literal
+          (decimal_int)))
       (tuple_value
-        (integer))
+        (integer_literal
+          (decimal_int)))
       (tuple_value
-        (integer)))))        
+        (integer_literal
+          (decimal_int))))))        

@@ -12,13 +12,18 @@ var fibs: [4]Int8 = [1, 1, 2, 3]
     (type_annotation
       (array_type
         (array_size
-          (integer))
+          (integer_literal
+            (decimal_int)))
         (signed_integer_type)))
     (array_literal
-      (integer)
-      (integer)
-      (integer)
-      (integer))))
+      (integer_literal
+        (decimal_int))
+      (integer_literal
+        (decimal_int))
+      (integer_literal
+        (decimal_int))
+      (integer_literal
+        (decimal_int)))))
 
 ===========================================
 Array Spread syntax - appending one element
@@ -34,7 +39,8 @@ fibs = [...fibs, 5]
     (array_literal
       (spread_expr
         (identifier))
-      (integer))))
+      (integer_literal
+        (decimal_int)))))
 
 =================================================
 Array Spread syntax - appending multiple elements
@@ -50,9 +56,12 @@ fibs = [...fibs, 5, 8, 13]
     (array_literal
       (spread_expr
         (identifier))
-      (integer)
-      (integer)
-      (integer))))
+      (integer_literal
+        (decimal_int))
+      (integer_literal
+        (decimal_int))
+      (integer_literal
+        (decimal_int)))))
 
 ===================================
 Array Spread syntax - concat arrays
@@ -67,9 +76,12 @@ fibs = [...fibs, ...more_fibs]
   (declaration
     (identifier)
     (array_literal
-      (integer)
-      (integer)
-      (integer)))
+      (integer_literal
+        (decimal_int))
+      (integer_literal
+        (decimal_int))
+      (integer_literal
+        (decimal_int))))
   (var_reassignment
     (identifier)
     (array_literal
@@ -91,15 +103,22 @@ fibs = [1, 1, ...more_fibs, 8, 13]
   (declaration
     (identifier)
     (array_literal
-      (integer)
-      (integer)
-      (integer)))
+      (integer_literal
+        (decimal_int))
+      (integer_literal
+        (decimal_int))
+      (integer_literal
+        (decimal_int))))
   (var_reassignment
     (identifier)
     (array_literal
-      (integer)
-      (integer)
+      (integer_literal
+        (decimal_int))
+      (integer_literal
+        (decimal_int))
       (spread_expr
         (identifier))
-      (integer)
-      (integer))))
+      (integer_literal
+        (decimal_int))
+      (integer_literal
+        (decimal_int)))))

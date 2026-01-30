@@ -11,7 +11,8 @@ x == 42
     (boolean_expr
       (identifier)
       (equals_operator)
-      (integer))))
+      (integer_literal
+        (decimal_int)))))
 
 ===================
 Not Equals operator
@@ -26,7 +27,8 @@ x != 42
     (boolean_expr
       (identifier)
       (not_equals_operator)
-      (integer))))
+      (integer_literal
+        (decimal_int)))))
 
 ==================
 Less-than operator
@@ -41,7 +43,8 @@ x < 42
     (boolean_expr
       (identifier)
       (less_than_operator)
-      (integer))))
+      (integer_literal
+        (decimal_int)))))
 
 =====================
 Greater-than operator
@@ -56,7 +59,8 @@ x > 42
     (boolean_expr
       (identifier)
       (greater_than_operator)
-      (integer))))
+      (integer_literal
+        (decimal_int)))))
 
 ===========================
 Less-than or equal operator
@@ -71,7 +75,8 @@ x <= 42
     (boolean_expr
       (identifier)
       (less_than_or_equal_operator)
-      (integer))))
+      (integer_literal
+        (decimal_int)))))
 
 ==============================
 Greater-than or equal operator
@@ -86,7 +91,8 @@ x >= 42
     (boolean_expr
       (identifier)
       (greater_than_or_equal_operator)
-      (integer))))
+      (integer_literal
+        (decimal_int)))))
 
 ============
 And operator
@@ -100,14 +106,16 @@ And operator
   (expression_statement
     (boolean_expr
       (boolean_expr
-        (integer)
+        (integer_literal
+          (decimal_int))
         (less_than_or_equal_operator)
         (identifier))
       (and)
       (boolean_expr
         (identifier)
         (less_than_or_equal_operator)
-        (integer)))))
+        (integer_literal
+          (decimal_int))))))
 
 ===========
 Or operator
@@ -123,12 +131,14 @@ x == 0 || x == 42
       (boolean_expr
         (identifier)
         (equals_operator)
-        (integer))
+        (integer_literal
+          (decimal_int)))
       (or)
       (boolean_expr
         (identifier)
         (equals_operator)
-        (integer)))))
+        (integer_literal
+          (decimal_int))))))
 
 ============================
 Not Operator with identifier
@@ -160,7 +170,8 @@ Not Operator with parenthesized expression
         (boolean_expr
           (identifier)
           (equals_operator)
-          (integer))))))
+          (integer_literal
+            (decimal_int)))))))
 
 ============================================
 Comparison without right operand is an error

@@ -278,4 +278,5 @@ def helper = () => 42
       (identifier))
     (function_clause
       (parameter_list)
-      (integer))))
+      (integer_literal
+        (decimal_int)))))

@@ -16,7 +16,8 @@ let foo = { bar: "baz", blah: 23 }
           (string_content)))
       (field_name)
       (field_value
-        (integer)))))
+        (integer_literal
+          (decimal_int))))))
 
 ===================================
 Struct Instance with Generic Params
@@ -36,10 +37,12 @@ let float_point = Point::<Float64> { x: 1.23, y: 4.56 }
         (signed_integer_type))
       (field_name)
       (field_value
-        (integer))
+        (integer_literal
+          (decimal_int)))
       (field_name)
       (field_value
-        (integer))))
+        (integer_literal
+          (decimal_int)))))
   (declaration
     (identifier)
     (struct_literal
@@ -48,7 +51,7 @@ let float_point = Point::<Float64> { x: 1.23, y: 4.56 }
         (float_type))
       (field_name)
       (field_value
-        (float))
+        (float_literal))
       (field_name)
       (field_value
-        (float)))))
+        (float_literal)))))

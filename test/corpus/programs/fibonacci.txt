@@ -31,15 +31,19 @@ def fib: (Int) -> Int =
               (boolean_expr
                 (identifier)
                 (equals_operator)
-                (integer)))
-            (integer)
+                (integer_literal
+                  (decimal_int))))
+            (integer_literal
+              (decimal_int))
             (if_then_expr
               (if_condition
                 (boolean_expr
                   (identifier)
                   (equals_operator)
-                  (integer)))
-              (integer)
+                  (integer_literal
+                    (decimal_int))))
+              (integer_literal
+                (decimal_int))
               (addition
                 (call_expression
                   (identifier)
@@ -47,11 +51,13 @@ def fib: (Int) -> Int =
                     (value
                       (subtraction
                         (identifier)
-                        (integer)))))
+                        (integer_literal
+                          (decimal_int))))))
                 (call_expression
                   (identifier)
                   (argument_list
                     (value
                       (subtraction
                         (identifier)
-                        (integer)))))))))))))
+                        (integer_literal
+                          (decimal_int))))))))))))))

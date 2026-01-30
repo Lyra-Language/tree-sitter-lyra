@@ -9,7 +9,7 @@ const PI = 3.141592
 (program
   (const_declaration
     (const_identifier)
-    (float)))
+    (float_literal)))
 
 ==========================
 Const Assignment with Type
@@ -24,7 +24,7 @@ const PI: Float32 = 3.141592
     (const_identifier)
     (type_annotation
       (float_type))
-    (float)))
+        (float_literal)))
 
 ===========================
 Let Assignment without Type
@@ -37,7 +37,8 @@ let answer = 42
 (program
   (declaration
     (identifier)
-    (integer)))
+    (integer_literal
+      (decimal_int))))
 
 ========================
 Let Assignment with Type
@@ -52,7 +53,8 @@ let answer: Int = 42
     (identifier)
     (type_annotation
       (signed_integer_type))
-    (integer)))
+    (integer_literal
+      (decimal_int))))
 
 ===========================
 Var Assignment without Type
@@ -66,10 +68,12 @@ answer = 6
 (program
   (declaration
     (identifier)
-    (integer))
+    (integer_literal
+      (decimal_int)))
   (var_reassignment
     (identifier)
-    (integer)))
+    (integer_literal
+      (decimal_int))))
 
 ===========================
 Var Assignment with Type
@@ -85,10 +89,10 @@ pi = 3.141592
     (identifier)
     (type_annotation
       (float_type))
-    (float))
+    (float_literal))
   (var_reassignment
     (identifier)
-    (float)))
+    (float_literal)))
 
 ===================================
 Assignment without value is an error
@@ -115,13 +119,14 @@ PI = 3.141592
 (program
   (const_declaration
     (const_identifier)
-    (float))
+    (float_literal))
   (expression_statement
     (const_identifier))
   (ERROR
     (UNEXPECTED '3'))
   (expression_statement
-    (integer)))
+    (integer_literal
+      (decimal_int))))
 
 ===================================
 Multiple equal signs is an error
@@ -148,4 +153,5 @@ let = 42
 
 (program
   (ERROR
-    (integer)))    
+    (integer_literal
+  (decimal_int)))    

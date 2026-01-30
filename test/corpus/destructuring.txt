@@ -15,9 +15,12 @@ let [a, b, c] = [1, 2, 3]
         (identifier)
         (identifier)))
     (array_literal
-      (integer)
-      (integer)
-      (integer)))
+      (integer_literal
+        (decimal_int))
+      (integer_literal
+        (decimal_int))
+      (integer_literal
+        (decimal_int))))
   (comment))
 
 ====================================
@@ -37,9 +40,12 @@ pub let [a, b, c] = [1, 2, 3]
         (identifier)
         (identifier)))
     (array_literal
-      (integer)
-      (integer)
-      (integer))))
+      (integer_literal
+        (decimal_int))
+      (integer_literal
+        (decimal_int))
+      (integer_literal
+        (decimal_int)))))
 
 =============================
 Array Destructuring with rest
@@ -57,9 +63,12 @@ let [a, ...rest] = [1, 2, 3]
         (rest_pattern
           (identifier))))
     (array_literal
-      (integer)
-      (integer)
-      (integer)))
+      (integer_literal
+        (decimal_int))
+      (integer_literal
+        (decimal_int))
+      (integer_literal
+        (decimal_int))))
   (comment))
 
 ======================================
@@ -79,9 +88,12 @@ let [...first, last] = [1, 2, 3]
           (identifier))
         (identifier)))
     (array_literal
-      (integer)
-      (integer)
-      (integer)))
+      (integer_literal
+        (decimal_int))
+      (integer_literal
+        (decimal_int))
+      (integer_literal
+        (decimal_int))))
   (comment))
 
 ====================================
@@ -103,11 +115,16 @@ let [a, b, ...middle, c] = [1, 2, 3, 4, 5]
           (identifier))
         (identifier)))
     (array_literal
-      (integer)
-      (integer)
-      (integer)
-      (integer)
-      (integer)))
+      (integer_literal
+        (decimal_int))
+      (integer_literal
+        (decimal_int))
+      (integer_literal
+        (decimal_int))
+      (integer_literal
+        (decimal_int))
+      (integer_literal
+        (decimal_int))))
   (comment))
 
 ====================

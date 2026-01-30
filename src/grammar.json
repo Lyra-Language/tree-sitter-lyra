@@ -250,17 +250,21 @@
       "members": [
         {
           "type": "SYMBOL",
-          "name": "integer"
+          "name": "integer_literal"
         },
         {
           "type": "SYMBOL",
-          "name": "float"
+          "name": "float_literal"
         }
       ]
     },
-    "integer": {
+    "integer_literal": {
       "type": "CHOICE",
       "members": [
+        {
+          "type": "SYMBOL",
+          "name": "decimal_int"
+        },
         {
           "type": "SYMBOL",
           "name": "octal_int"
@@ -272,16 +276,16 @@
         {
           "type": "SYMBOL",
           "name": "binary_int"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "_digit_sequence"
         }
       ]
     },
     "_digit_sequence": {
       "type": "PATTERN",
       "value": "[0-9_]+"
+    },
+    "decimal_int": {
+      "type": "SYMBOL",
+      "name": "_digit_sequence"
     },
     "octal_int": {
       "type": "SEQ",
@@ -331,7 +335,7 @@
         }
       ]
     },
-    "float": {
+    "float_literal": {
       "type": "SEQ",
       "members": [
         {
@@ -3480,8 +3484,12 @@
           "value": "("
         },
         {
-          "type": "SYMBOL",
-          "name": "constraint_math_expr"
+          "type": "FIELD",
+          "name": "value",
+          "content": {
+            "type": "SYMBOL",
+            "name": "constraint_math_expr"
+          }
         },
         {
           "type": "CHOICE",
@@ -3494,8 +3502,12 @@
                   "value": ","
                 },
                 {
-                  "type": "SYMBOL",
-                  "name": "rounding_mode"
+                  "type": "FIELD",
+                  "name": "rounding_mode",
+                  "content": {
+                    "type": "SYMBOL",
+                    "name": "rounding_mode"
+                  }
                 }
               ]
             },

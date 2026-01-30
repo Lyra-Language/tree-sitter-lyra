@@ -26,7 +26,8 @@ let first = array[0]
     name: (identifier)
     value: (index_expression
       object: (identifier)
-      index: (integer))))
+      index: (integer_literal
+        (decimal_int)))))
 
 ==========================
 Chained Postfix Operations
@@ -46,7 +47,8 @@ let foo = struct.function()[0].property
             (identifier)
             (identifier))
           (argument_list))
-        (integer))
+        (integer_literal
+          (decimal_int)))
       (identifier))))
 
 ============
@@ -162,7 +164,8 @@ let first = items?[0]
     (identifier)
     (optional_index_expression
       (identifier)
-      (integer))))
+      (integer_literal
+        (decimal_int)))))
 
 ================================
 Chained Optional Index Access
@@ -178,8 +181,10 @@ let value = matrix?[0]?[1]
     (optional_index_expression
       (optional_index_expression
         (identifier)
-        (integer))
-      (integer))))
+        (integer_literal
+          (decimal_int)))
+      (integer_literal
+          (decimal_int)))))
 
 ===========================================
 Mixed Optional Member and Index Access
@@ -197,7 +202,8 @@ let item = player?.inventory?[0]?.name
         (optional_member_expression
           (identifier)
           (identifier))
-        (integer))
+        (integer_literal
+          (decimal_int)))
       (identifier))))
 
 ======================
@@ -285,7 +291,8 @@ arr[0
 (program
   (postfix_expression
     (identifier)
-    (integer)
+    (integer_literal
+  (decimal_int)
     (MISSING "]")))
 
 ==========================================
@@ -317,7 +324,9 @@ foo(1, 2
     (identifier)
     (function_call
       (value
-        (integer))
+        (integer_literal
+  (decimal_int))
       (value
-        (integer))
+        (integer_literal
+  (decimal_int))
       (MISSING ")"))))

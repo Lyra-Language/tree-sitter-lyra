@@ -56,7 +56,7 @@
         "named": true
       },
       {
-        "type": "float",
+        "type": "float_literal",
         "named": true
       },
       {
@@ -80,7 +80,7 @@
         "named": true
       },
       {
-        "type": "integer",
+        "type": "integer_literal",
         "named": true
       },
       {
@@ -348,7 +348,7 @@
             "named": true
           },
           {
-            "type": "float",
+            "type": "float_literal",
             "named": true
           },
           {
@@ -364,7 +364,7 @@
             "named": true
           },
           {
-            "type": "integer",
+            "type": "integer_literal",
             "named": true
           },
           {
@@ -436,7 +436,7 @@
             "named": true
           },
           {
-            "type": "float",
+            "type": "float_literal",
             "named": true
           },
           {
@@ -452,7 +452,7 @@
             "named": true
           },
           {
-            "type": "integer",
+            "type": "integer_literal",
             "named": true
           },
           {
@@ -536,7 +536,7 @@
           "named": true
         },
         {
-          "type": "float",
+          "type": "float_literal",
           "named": true
         },
         {
@@ -552,7 +552,7 @@
           "named": true
         },
         {
-          "type": "integer",
+          "type": "integer_literal",
           "named": true
         },
         {
@@ -826,11 +826,11 @@
           "named": true
         },
         {
-          "type": "float",
+          "type": "float_literal",
           "named": true
         },
         {
-          "type": "integer",
+          "type": "integer_literal",
           "named": true
         }
       ]
@@ -849,11 +849,11 @@
           "named": true
         },
         {
-          "type": "float",
+          "type": "float_literal",
           "named": true
         },
         {
-          "type": "integer",
+          "type": "integer_literal",
           "named": true
         }
       ]
@@ -1008,7 +1008,7 @@
             "named": true
           },
           {
-            "type": "float",
+            "type": "float_literal",
             "named": true
           },
           {
@@ -1024,7 +1024,7 @@
             "named": true
           },
           {
-            "type": "integer",
+            "type": "integer_literal",
             "named": true
           },
           {
@@ -1144,7 +1144,7 @@
             "named": true
           },
           {
-            "type": "float",
+            "type": "float_literal",
             "named": true
           },
           {
@@ -1160,7 +1160,7 @@
             "named": true
           },
           {
-            "type": "integer",
+            "type": "integer_literal",
             "named": true
           },
           {
@@ -1565,7 +1565,7 @@
           "named": true
         },
         {
-          "type": "float",
+          "type": "float_literal",
           "named": true
         },
         {
@@ -1573,7 +1573,7 @@
           "named": true
         },
         {
-          "type": "integer",
+          "type": "integer_literal",
           "named": true
         }
       ]
@@ -1817,6 +1817,11 @@
     "fields": {}
   },
   {
+    "type": "decimal_int",
+    "named": true,
+    "fields": {}
+  },
+  {
     "type": "declaration",
     "named": true,
     "fields": {
@@ -2034,7 +2039,7 @@
             "named": true
           },
           {
-            "type": "float",
+            "type": "float_literal",
             "named": true
           },
           {
@@ -2050,7 +2055,7 @@
             "named": true
           },
           {
-            "type": "integer",
+            "type": "integer_literal",
             "named": true
           },
           {
@@ -2122,7 +2127,7 @@
             "named": true
           },
           {
-            "type": "float",
+            "type": "float_literal",
             "named": true
           },
           {
@@ -2138,7 +2143,7 @@
             "named": true
           },
           {
-            "type": "integer",
+            "type": "integer_literal",
             "named": true
           },
           {
@@ -2222,7 +2227,7 @@
           "named": true
         },
         {
-          "type": "float",
+          "type": "float_literal",
           "named": true
         },
         {
@@ -2238,7 +2243,7 @@
           "named": true
         },
         {
-          "type": "integer",
+          "type": "integer_literal",
           "named": true
         },
         {
@@ -2314,7 +2319,7 @@
     }
   },
   {
-    "type": "float",
+    "type": "float_literal",
     "named": true,
     "fields": {}
   },
@@ -2408,7 +2413,7 @@
             "named": true
           },
           {
-            "type": "float",
+            "type": "float_literal",
             "named": true
           },
           {
@@ -2424,7 +2429,7 @@
             "named": true
           },
           {
-            "type": "integer",
+            "type": "integer_literal",
             "named": true
           },
           {
@@ -2544,7 +2549,7 @@
             "named": true
           },
           {
-            "type": "float",
+            "type": "float_literal",
             "named": true
           },
           {
@@ -2560,7 +2565,7 @@
             "named": true
           },
           {
-            "type": "integer",
+            "type": "integer_literal",
             "named": true
           },
           {
@@ -3103,7 +3108,7 @@
           "named": true
         },
         {
-          "type": "float",
+          "type": "float_literal",
           "named": true
         },
         {
@@ -3119,7 +3124,7 @@
           "named": true
         },
         {
-          "type": "integer",
+          "type": "integer_literal",
           "named": true
         },
         {
@@ -3549,15 +3554,19 @@
     }
   },
   {
-    "type": "integer",
+    "type": "integer_literal",
     "named": true,
     "fields": {},
     "children": {
       "multiple": false,
-      "required": false,
+      "required": true,
       "types": [
         {
           "type": "binary_int",
+          "named": true
+        },
+        {
+          "type": "decimal_int",
           "named": true
         },
         {
@@ -3614,11 +3623,11 @@
           "named": true
         },
         {
-          "type": "float",
+          "type": "float_literal",
           "named": true
         },
         {
-          "type": "integer",
+          "type": "integer_literal",
           "named": true
         },
         {
@@ -3652,11 +3661,11 @@
       "required": true,
       "types": [
         {
-          "type": "float",
+          "type": "float_literal",
           "named": true
         },
         {
-          "type": "integer",
+          "type": "integer_literal",
           "named": true
         },
         {
@@ -3866,7 +3875,7 @@
             "named": true
           },
           {
-            "type": "float",
+            "type": "float_literal",
             "named": true
           },
           {
@@ -3882,7 +3891,7 @@
             "named": true
           },
           {
-            "type": "integer",
+            "type": "integer_literal",
             "named": true
           },
           {
@@ -3954,7 +3963,7 @@
             "named": true
           },
           {
-            "type": "float",
+            "type": "float_literal",
             "named": true
           },
           {
@@ -3970,7 +3979,7 @@
             "named": true
           },
           {
-            "type": "integer",
+            "type": "integer_literal",
             "named": true
           },
           {
@@ -4054,7 +4063,7 @@
           "named": true
         },
         {
-          "type": "float",
+          "type": "float_literal",
           "named": true
         },
         {
@@ -4070,7 +4079,7 @@
           "named": true
         },
         {
-          "type": "integer",
+          "type": "integer_literal",
           "named": true
         },
         {
@@ -4173,7 +4182,7 @@
             "named": true
           },
           {
-            "type": "float",
+            "type": "float_literal",
             "named": true
           },
           {
@@ -4189,7 +4198,7 @@
             "named": true
           },
           {
-            "type": "integer",
+            "type": "integer_literal",
             "named": true
           },
           {
@@ -4557,20 +4566,27 @@
   {
     "type": "precision_constraint",
     "named": true,
-    "fields": {},
-    "children": {
-      "multiple": true,
-      "required": true,
-      "types": [
-        {
-          "type": "constraint_math_expr",
-          "named": true
-        },
-        {
-          "type": "rounding_mode",
-          "named": true
-        }
-      ]
+    "fields": {
+      "rounding_mode": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "rounding_mode",
+            "named": true
+          }
+        ]
+      },
+      "value": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "constraint_math_expr",
+            "named": true
+          }
+        ]
+      }
     }
   },
   {
@@ -4683,11 +4699,11 @@
       "required": true,
       "types": [
         {
-          "type": "float",
+          "type": "float_literal",
           "named": true
         },
         {
-          "type": "integer",
+          "type": "integer_literal",
           "named": true
         },
         {
@@ -4754,7 +4770,7 @@
           "named": true
         },
         {
-          "type": "float",
+          "type": "float_literal",
           "named": true
         },
         {
@@ -4770,7 +4786,7 @@
           "named": true
         },
         {
-          "type": "integer",
+          "type": "integer_literal",
           "named": true
         },
         {
@@ -5144,7 +5160,7 @@
             "named": true
           },
           {
-            "type": "float",
+            "type": "float_literal",
             "named": true
           },
           {
@@ -5160,7 +5176,7 @@
             "named": true
           },
           {
-            "type": "integer",
+            "type": "integer_literal",
             "named": true
           },
           {
@@ -5232,7 +5248,7 @@
             "named": true
           },
           {
-            "type": "float",
+            "type": "float_literal",
             "named": true
           },
           {
@@ -5248,7 +5264,7 @@
             "named": true
           },
           {
-            "type": "integer",
+            "type": "integer_literal",
             "named": true
           },
           {
@@ -5332,7 +5348,7 @@
           "named": true
         },
         {
-          "type": "float",
+          "type": "float_literal",
           "named": true
         },
         {
@@ -5348,7 +5364,7 @@
           "named": true
         },
         {
-          "type": "integer",
+          "type": "integer_literal",
           "named": true
         },
         {

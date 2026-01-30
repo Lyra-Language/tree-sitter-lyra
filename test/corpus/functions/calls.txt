@@ -15,11 +15,13 @@ let result = sum(a=1, b=2)
         (named_argument
           (argument_name)
           (value
-            (integer)))
+            (integer_literal
+              (decimal_int))))
         (named_argument
           (argument_name)
           (value
-            (integer)))))))
+            (integer_literal
+              (decimal_int))))))))
 
 ============================================
 Basic Function call with partial application
@@ -38,7 +40,8 @@ let result = add_one(b=2)
       (identifier)
       (argument_list
         (value
-          (integer))
+          (integer_literal
+            (decimal_int)))
         (wildcard))))
   (declaration
     (identifier)
@@ -48,7 +51,8 @@ let result = add_one(b=2)
         (named_argument
           (argument_name)
           (value
-            (integer))))))
+            (integer_literal
+              (decimal_int)))))))
   (comment))
 
 ===

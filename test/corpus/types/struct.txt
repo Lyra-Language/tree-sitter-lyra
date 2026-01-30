@@ -38,10 +38,10 @@ let origin = Point {
       (struct_name)
       (field_name)
       (field_value
-        (float))
+        (float_literal))
       (field_name)
       (field_value
-        (float)))))
+        (float_literal)))))
 
 =========================
 Struct Instance Shorthand
@@ -57,9 +57,9 @@ let origin = Point { 0.0, 0.0 }
     (struct_literal
       (struct_name)
       (field_value
-        (float))
+        (float_literal))
       (field_value
-        (float)))))
+        (float_literal)))))
 
 =====================
 Struct Default Values
@@ -87,13 +87,15 @@ struct Person {
           (field_type
             (signed_integer_type))
           (default_field_value
-            (integer)))
+            (integer_literal
+              (decimal_int))))
         (struct_member
           (field_name)
           (field_type
             (signed_integer_type))
           (default_field_value
-            (integer)))))))
+            (integer_literal
+              (decimal_int))))))))
 
 ======================================
 Struct Declaration with Generic Params
@@ -139,10 +141,10 @@ let position = Point::<Float32> {
         (float_type))
       (field_name)
       (field_value
-        (float))
+        (float_literal))
       (field_name)
       (field_value
-        (float)))))
+        (float_literal)))))
 
 ==========================
 Struct with mutable fields

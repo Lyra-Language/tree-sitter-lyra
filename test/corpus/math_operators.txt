@@ -9,8 +9,10 @@ Simple Math Operator
 (program
   (expression_statement
     (addition
-      (integer)
-      (integer))))
+      (integer_literal
+        (decimal_int))
+      (integer_literal
+        (decimal_int)))))
 
 ======================
 Test Simple Precedence
@@ -23,10 +25,13 @@ Test Simple Precedence
 (program
   (expression_statement
     (addition
-      (integer)
+      (integer_literal
+        (decimal_int))
       (multiplication
-        (integer)
-        (integer)))))
+        (integer_literal
+          (decimal_int))
+        (integer_literal
+          (decimal_int))))))
 
 =====================
 Test Group Precedence
@@ -41,9 +46,12 @@ Test Group Precedence
   (multiplication
     (group
       (addition
-        (integer)
-        (integer)))
-    (integer))))
+        (integer_literal
+          (decimal_int))
+        (integer_literal
+          (decimal_int))))
+    (integer_literal
+      (decimal_int)))))
 
 ===================================
 Test Group Precedence with Negation
@@ -59,6 +67,9 @@ Test Group Precedence with Negation
       (negation
         (group
           (addition
-            (integer)
-            (integer))))
-      (integer))))
+            (integer_literal
+              (decimal_int))
+            (integer_literal
+              (decimal_int)))))
+      (integer_literal
+        (decimal_int)))))

@@ -73,7 +73,8 @@ with Arena.new(megabytes(4)) {
             (identifier)
             (argument_list
               (value
-                (integer)))))))
+                (integer_literal
+                  (decimal_int))))))))
     (block
       (declaration
         (identifier)
@@ -81,7 +82,8 @@ with Arena.new(megabytes(4)) {
           (identifier)
           (argument_list
             (value
-              (integer))))))))
+              (integer_literal
+                (decimal_int)))))))))
 
 =============================
 With Statement - Named Binding
@@ -106,7 +108,8 @@ with frame = Arena.new(megabytes(4)) {
             (identifier)
             (argument_list
               (value
-                (integer)))))))
+                (integer_literal
+                  (decimal_int))))))))
     (block
       (declaration
         (identifier)
@@ -116,7 +119,8 @@ with frame = Arena.new(megabytes(4)) {
             (identifier))
           (argument_list
             (value
-              (integer))))))))
+              (integer_literal
+                (decimal_int)))))))))
 
 ===================================
 With Statement - Multiple Statements
@@ -141,7 +145,8 @@ with Arena.new(kilobytes(64)) {
             (identifier)
             (argument_list
               (value
-                (integer)))))))
+                (integer_literal
+                  (decimal_int))))))))
     (block
       (declaration
         (identifier)
@@ -149,7 +154,8 @@ with Arena.new(kilobytes(64)) {
           (identifier)
           (argument_list
             (value
-              (integer)))))
+              (integer_literal
+                (decimal_int))))))
       (expression_statement
         (call_expression
           (identifier)
@@ -181,7 +187,8 @@ with level = Arena.new(megabytes(64)) {
             (identifier)
             (argument_list
               (value
-                (integer)))))))
+                (integer_literal
+                  (decimal_int))))))))
     (block
       (declaration
         (identifier)
@@ -189,12 +196,14 @@ with level = Arena.new(megabytes(64)) {
           (identifier)
           (argument_list
             (value
-              (integer)))))
+              (integer_literal
+                (decimal_int))))))
       (declaration
         (identifier)
         (call_expression
           (identifier)
           (argument_list
             (value
-              (integer))))))))
+              (integer_literal
+                (decimal_int)))))))))
 

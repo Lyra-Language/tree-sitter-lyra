@@ -33,13 +33,15 @@ for i < 10 {
 (program
   (declaration
     (identifier)
-    (integer))
+    (integer_literal
+      (decimal_int)))
   (for_loop
     (for_condition
       (for_condition_expr
         (identifier)
         (less_than_operator)
-        (integer)))
+        (integer_literal
+          (decimal_int))))
     (for_body
       (expression_statement
         (call_expression
@@ -67,11 +69,13 @@ for var i = 0; i < 10 {
     (for_condition
       (for_initial_expr
         (identifier)
-        (integer))
+        (integer_literal
+          (decimal_int)))
       (for_condition_expr
         (identifier)
         (less_than_operator)
-        (integer)))
+        (integer_literal
+          (decimal_int))))
     (for_body
       (expression_statement
         (call_expression
@@ -85,7 +89,8 @@ for var i = 0; i < 10 {
           (expression_statement
             (addition_assignment
               (identifier)
-              (integer))))))
+              (integer_literal
+                (decimal_int)))))))
 
 =======================================================
 For loop with condition expression and after expression
@@ -101,17 +106,20 @@ for i < 10; i += 1 {
 (program
   (declaration
     (identifier)
-    (integer))
+    (integer_literal
+      (decimal_int)))
   (for_loop
     (for_condition
       (for_condition_expr
         (identifier)
         (less_than_operator)
-        (integer))
+        (integer_literal
+          (decimal_int)))
       (for_after_expr
         (addition_assignment
           (identifier)
-          (integer))))
+          (integer_literal
+            (decimal_int)))))
     (for_body
       (expression_statement
         (call_expression
@@ -138,15 +146,18 @@ for var i = 0; i < 10; i += 1 {
     (for_condition
       (for_initial_expr
         (identifier)
-        (integer))
+        (integer_literal
+          (decimal_int)))
       (for_condition_expr
         (identifier)
         (less_than_operator)
-        (integer))
+        (integer_literal
+          (decimal_int)))
       (for_after_expr
         (addition_assignment
           (identifier)
-          (integer))))
+          (integer_literal
+            (decimal_int)))))
     (for_body
       (expression_statement
         (call_expression

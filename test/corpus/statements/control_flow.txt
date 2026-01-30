@@ -14,10 +14,12 @@ for i in 0..=10 {
       (for_variable_or_key)
       (range_expression
         (range_start
-          (integer))
+          (integer_literal
+            (decimal_int)))
         (range_end_operator)
         (range_end
-          (integer))))
+          (integer_literal
+            (decimal_int)))))
     (for_in_body
       (break_statement))))
 
@@ -40,20 +42,24 @@ outer: for x in 0..=10 {
       (for_variable_or_key)
       (range_expression
         (range_start
-          (integer))
+          (integer_literal
+            (decimal_int)))
         (range_end_operator)
         (range_end
-          (integer))))
+          (integer_literal
+            (decimal_int)))))
     (for_in_body
       (for_in_loop
         (for_in_condition
           (for_variable_or_key)
           (range_expression
             (range_start
-              (integer))
+              (integer_literal
+                (decimal_int)))
             (range_end_operator)
             (range_end
-              (integer))))
+              (integer_literal
+                (decimal_int)))))
         (for_in_body
           (break_statement
             (identifier)))))))
@@ -77,10 +83,12 @@ for i in 0..=10 {
       (for_variable_or_key)
       (range_expression
         (range_start
-          (integer))
+          (integer_literal
+            (decimal_int)))
         (range_end_operator)
         (range_end
-          (integer))))
+          (integer_literal
+            (decimal_int)))))
     (for_in_body
       (expression_statement
         (if_block_expr

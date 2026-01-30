@@ -21,7 +21,8 @@ let bar = match foo {
         (data_pattern
           (data_type_name)
           (literal_pattern
-            (integer)))
+            (integer_literal
+              (decimal_int))))
         (string_literal
           (string_content)))
       (match_arm
@@ -138,9 +139,11 @@ Match with range arms
       (identifier)
       (match_arm
         (range_pattern
-          (integer)
+          (integer_literal
+            (decimal_int))
           (range_end_operator)
-          (integer))
+          (integer_literal
+            (decimal_int)))
         (call_expression
           (identifier)
           (argument_list
@@ -149,7 +152,8 @@ Match with range arms
                 (string_content))))))
       (match_arm
         (literal_pattern
-          (integer))
+          (integer_literal
+            (decimal_int)))
         (call_expression
           (identifier)
           (argument_list
@@ -158,9 +162,11 @@ Match with range arms
                 (string_content))))))
       (match_arm
         (range_pattern
-          (integer)
+          (integer_literal
+            (decimal_int))
           (range_end_operator)
-          (integer))
+          (integer_literal
+            (decimal_int)))
         (call_expression
           (identifier)
           (argument_list
@@ -201,12 +207,14 @@ match foo {
             (boolean_expr
               (identifier)
               (greater_than_operator)
-              (integer))
+              (integer_literal
+                (decimal_int)))
             (and)
             (boolean_expr
               (identifier)
               (less_than_operator)
-              (integer))))
+              (integer_literal
+                (decimal_int)))))
         (call_expression
           (identifier)
           (argument_list
@@ -222,12 +230,14 @@ match foo {
             (boolean_expr
               (identifier)
               (greater_than_or_equal_operator)
-              (integer))
+              (integer_literal
+                (decimal_int)))
             (and)
             (boolean_expr
               (identifier)
               (less_than_operator)
-              (integer))))
+              (integer_literal
+                (decimal_int)))))
         (call_expression
           (identifier)
           (argument_list

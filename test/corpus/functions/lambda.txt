@@ -82,9 +82,12 @@ let doubled = map::<Int, Int>([1, 2, 3], (x) => 2 * x)
       (argument_list
         (value
           (array_literal
-            (integer)
-            (integer)
-            (integer)))
+            (integer_literal
+              (decimal_int))
+            (integer_literal
+              (decimal_int))
+            (integer_literal
+              (decimal_int))))
         (value
           (lambda_expression
             (function_clause
@@ -92,5 +95,6 @@ let doubled = map::<Int, Int>([1, 2, 3], (x) => 2 * x)
                 (parameter
                   (identifier)))
               (multiplication
-                (integer)
+                (integer_literal
+                  (decimal_int))
                 (identifier)))))))))

@@ -379,7 +379,8 @@ impl Eq for []t {
                       (for_variable_or_key)
                       (range_expression
                         (range_start
-                          (integer))
+                          (integer_literal
+                            (decimal_int)))
                         (range_end_operator)
                         (range_end
                           (call_expression
@@ -770,7 +771,8 @@ impl Default for Person {
         (method_name)
         (function_clause
           (parameter_list)
-          (integer)))))
+          (integer_literal
+            (decimal_int))))))
   (type_declaration
     (trait_implementation
       (trait_name)
@@ -805,4 +807,5 @@ impl Default for Person {
               (string_literal))
             (field_name)
             (field_value
-              (integer))))))))
+              (integer_literal
+                (decimal_int)))))))))

@@ -10,9 +10,12 @@ let arr = [1, 2, 3]
   (declaration
     (identifier)
     (array_literal
-      (integer)
-      (integer)
-      (integer))))
+      (integer_literal
+        (decimal_int))
+      (integer_literal
+        (decimal_int))
+      (integer_literal
+        (decimal_int)))))
 
 ====================================
 Array with missing comma is an error
@@ -27,10 +30,13 @@ let arr = [1 2 3]
   (declaration
     (identifier)
     (array_literal
-      (integer)
+      (integer_literal
+  (decimal_int)
       (MISSING "]")))
-  (integer)
-  (integer)
+  (integer_literal
+  (decimal_int)
+  (integer_literal
+  (decimal_int)
   (ERROR))
 
 ==========================
@@ -46,10 +52,13 @@ let arr = [1, 2, 3
   (declaration
     (identifier)
     (array_literal
-      (integer)
-      (integer)
-      (integer)
-      (MISSING "]"))))
+      (integer_literal
+        (decimal_int))
+      (integer_literal
+        (decimal_int))
+      (integer_literal
+        (decimal_int))
+      (MISSING "]"))))))
 
 =======================================
 Array repeat initialization with number
@@ -64,9 +73,11 @@ let zeros = [0; 16]
     (identifier)
     (array_literal
       (array_repeat
-        (integer)
+        (integer_literal
+          (decimal_int))
         (array_repeat_count
-          (integer))))))
+          (integer_literal
+            (decimal_int)))))))
 
 ==============================================
 Array repeat initialization with const count
@@ -80,12 +91,14 @@ let buffer = [0; SIZE]
 (program
   (const_declaration
     (const_identifier)
-    (integer))
+    (integer_literal
+      (decimal_int)))
   (declaration
     (identifier)
     (array_literal
       (array_repeat
-        (integer)
+        (integer_literal
+          (decimal_int))
         (array_repeat_count
           (const_identifier))))))
 
@@ -106,15 +119,19 @@ let points = [Vec3 { x: 0, y: 0, z: 0 }; 100]
           (struct_name)
           (field_name)
           (field_value
-            (integer))
+            (integer_literal
+              (decimal_int)))
           (field_name)
           (field_value
-            (integer))
+            (integer_literal
+              (decimal_int)))
           (field_name)
           (field_value
-            (integer)))
+            (integer_literal
+              (decimal_int))))
         (array_repeat_count
-          (integer))))))
+          (integer_literal
+            (decimal_int)))))))
 
 ============================================
 Array repeat initialization with float value
@@ -129,6 +146,7 @@ let matrix = [1.0; 16]
     (identifier)
     (array_literal
       (array_repeat
-        (float)
+        (float_literal)
         (array_repeat_count
-          (integer))))))
+          (integer_literal
+            (decimal_int)))))))

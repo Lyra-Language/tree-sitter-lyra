@@ -52,8 +52,8 @@ module.exports = {
   // Precision constraint
   precision_constraint: $ => seq(
     'precision', '(',
-    $.constraint_math_expr,
-    optional(seq(',', $.rounding_mode)),
+    field('value', $.constraint_math_expr),
+    optional(seq(',', field('rounding_mode', $.rounding_mode))),
     ')'
   ),
 
@@ -71,6 +71,6 @@ module.exports = {
   down_rounding_mode: $ => 'round_down',
   truncate_rounding_mode: $ => 'round_trunc',
 
-  // Step constraint (Float)
+  // Step constraint (float_literal)
   step_constraint: $ => seq('step', '(', $.constraint_math_expr, ')'),
 }

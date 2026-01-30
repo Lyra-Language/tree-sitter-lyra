@@ -12,9 +12,9 @@ type Turn = Float
       (constrained_type_name)
       (float_type))))
 
-===============================
-Type with oneof constraint
-===============================
+=======================
+Type with literal union
+=======================
 
 type CSSColorName = "red" | "green" | "blue" | "rebeccapurple" | "aliceblue"
 type Status = 200 | 404 | 500
@@ -46,11 +46,14 @@ type Status = 200 | 404 | 500
       (constrained_type_name)
       (literal_union
         (literal_val
-          (integer))
+          (integer_literal
+            (decimal_int)))
         (literal_val
-          (integer))
+          (integer_literal
+            (decimal_int)))
         (literal_val
-          (integer))))))
+          (integer_literal
+            (decimal_int)))))))
 
 =================================
 Type with range constraints
@@ -70,13 +73,16 @@ type Alpha = Float32 where range(0..=1)
       (constraints
         (range_constraint
           (constraint_math_expr
-            (integer))
+            (integer_literal
+              (decimal_int)))
           (less_than_comparator)
           (constraint_math_expr
-            (integer)))
+            (integer_literal
+              (decimal_int))))
         (precision_constraint
           (constraint_math_expr
-            (integer))
+            (integer_literal
+              (decimal_int)))
           (rounding_mode
             (up_rounding_mode))))))
   (type_declaration
@@ -86,17 +92,20 @@ type Alpha = Float32 where range(0..=1)
       (constraints
         (range_constraint
           (constraint_math_expr
-            (integer))
+            (integer_literal
+              (decimal_int)))
           (equal_to_comparator)
           (constraint_math_expr
             (constraint_multiplication
               (constraint_math_expr
-                (integer))
+                (integer_literal
+                  (decimal_int)))
               (constraint_math_expr
                 (const_identifier)))))
         (precision_constraint
           (constraint_math_expr
-            (integer))
+            (integer_literal
+              (decimal_int)))
           (rounding_mode
             (truncate_rounding_mode))))))
   (type_declaration
@@ -106,10 +115,12 @@ type Alpha = Float32 where range(0..=1)
       (constraints
         (range_constraint
           (constraint_math_expr
-            (integer))
+            (integer_literal
+              (decimal_int)))
           (equal_to_comparator)
           (constraint_math_expr
-            (integer)))))))
+            (integer_literal
+              (decimal_int))))))))
 
 ==================================
 Type with pattern constraint
@@ -151,13 +162,15 @@ type CompassHeading = Int where range(0..<360), step(15)
       (constraints
         (range_constraint
           (constraint_math_expr
-            (integer))
+            (integer_literal
+              (decimal_int)))
           (equal_to_comparator)
           (constraint_math_expr
-            (integer)))
+            (integer_literal
+              (decimal_int))))
         (step_constraint
           (constraint_math_expr
-            (float))))))
+            (float_literal))))))
   (comment)
   (comment)
   (type_declaration
@@ -167,13 +180,16 @@ type CompassHeading = Int where range(0..<360), step(15)
       (constraints
         (range_constraint
           (constraint_math_expr
-            (integer))
+            (integer_literal
+              (decimal_int)))
           (less_than_comparator)
           (constraint_math_expr
-            (integer)))
+            (integer_literal
+              (decimal_int))))
         (step_constraint
           (constraint_math_expr
-            (integer))))))
+            (integer_literal
+              (decimal_int)))))))
   (comment))
 
 ===================================
@@ -190,5 +206,6 @@ type Foo =
       (constrained_type_name)
       (literal_union
         (literal_val
-          (integer
-            (MISSING _digit_sequence)))))))         
+          (integer_literal
+            (decimal_int
+              (MISSING _digit_sequence))))))))      

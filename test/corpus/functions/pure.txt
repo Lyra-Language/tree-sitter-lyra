@@ -80,7 +80,8 @@ pure async def compute: (Int) -> Int = (n) => n * 2
           (identifier)))
       (multiplication
         (identifier)
-        (integer)))))
+        (integer_literal
+          (decimal_int))))))
 
 ================================
 Pure with pattern matching
@@ -108,14 +109,18 @@ pure def fib: (Int) -> Int = {
         (parameter_list
           (parameter
             (literal_pattern
-              (integer))))
-        (integer))
+              (integer_literal
+                (decimal_int)))))
+        (integer_literal
+          (decimal_int)))
       (function_clause
         (parameter_list
           (parameter
             (literal_pattern
-              (integer))))
-        (integer))
+              (integer_literal
+                (decimal_int)))))
+        (integer_literal
+          (decimal_int)))
       (function_clause
         (parameter_list
           (parameter
@@ -127,14 +132,16 @@ pure def fib: (Int) -> Int = {
               (value
                 (subtraction
                   (identifier)
-                  (integer)))))
+                  (integer_literal
+                    (decimal_int))))))
           (call_expression
             (identifier)
             (argument_list
               (value
                 (subtraction
                   (identifier)
-                  (integer))))))))))
+                  (integer_literal
+                    (decimal_int)))))))))))
 
 ===========================
 Pure keyword in wrong order
@@ -161,4 +168,5 @@ async pure def compute: (Int) -> Int = (n) => n * 2
           (identifier)))
       (multiplication
         (identifier)
-        (integer)))))
+        (integer_literal
+  (decimal_int)))))

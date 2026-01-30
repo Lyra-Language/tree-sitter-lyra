@@ -38,7 +38,8 @@ def foo: () -> Int =
           (parameter_list)
           (block
             (return_statement
-              (integer))))))
+              (integer_literal
+                (decimal_int)))))))
 
 ==========================================
 Basic Function declaration with parameters
@@ -126,7 +127,8 @@ def product: (Int, Int) -> Int = (a, b = 10) => a * b
           (parameter
             (identifier)
             (default_value
-              (integer))))
+              (integer_literal
+                (decimal_int)))))
         (multiplication
           (identifier)
           (identifier)))))
@@ -166,7 +168,8 @@ def foo: (Str, Int, Point, []Str, SomeTuple) -> void =
             (identifier))
           (parameter
             (literal_pattern
-              (integer)))
+              (integer_literal
+                (decimal_int))))
           (parameter
             (struct_pattern
               (identifier)
@@ -259,14 +262,18 @@ def fib: (Int) -> Int = {
         (parameter_list
           (parameter
             (literal_pattern
-              (integer))))
-        (integer))
+              (integer_literal
+                (decimal_int)))))
+        (integer_literal
+          (decimal_int)))
       (function_clause
         (parameter_list
           (parameter
             (literal_pattern
-              (integer))))
-        (integer))
+              (integer_literal
+                (decimal_int)))))
+        (integer_literal
+          (decimal_int)))
       (function_clause
         (parameter_list
           (parameter
@@ -278,14 +285,16 @@ def fib: (Int) -> Int = {
               (value
                 (subtraction
                   (identifier)
-                  (integer)))))
+                  (integer_literal
+                    (decimal_int))))))
           (call_expression
             (identifier)
             (argument_list
               (value
                 (subtraction
                   (identifier)
-                  (integer))))))))))
+                  (integer_literal
+                    (decimal_int)))))))))))
 
 ==================================================
 Function with multiple function patterns and guard
@@ -316,7 +325,8 @@ def fib: (Int) -> Int = {
           (boolean_expr
             (identifier)
             (less_than_operator)
-            (integer)))
+            (integer_literal
+              (decimal_int))))
         (identifier))
       (function_clause
         (parameter_list
@@ -329,14 +339,16 @@ def fib: (Int) -> Int = {
               (value
                 (subtraction
                   (identifier)
-                  (integer)))))
+                  (integer_literal
+                    (decimal_int))))))
           (call_expression
             (identifier)
             (argument_list
               (value
                 (subtraction
                   (identifier)
-                  (integer))))))))))
+                  (integer_literal
+                    (decimal_int)))))))))))
 
 ===================================
 Function without body is an error

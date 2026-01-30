@@ -11,7 +11,8 @@ let x = 42
   (comment)
   (declaration
     (identifier)
-    (integer)))
+    (integer_literal
+      (decimal_int))))
 
 =================
 Mult-line comment
@@ -27,7 +28,8 @@ some more text to fill up the lines */ let x = 42
   (comment)
   (declaration
     (identifier)
-    (integer)))
+    (integer_literal
+      (decimal_int))))
 
 ========================================
 Nested Mult-line comments
@@ -43,4 +45,5 @@ some more text */ to fill up the lines */ let x = 42
   (comment)
   (declaration
     (identifier)
-    (integer)))
+    (integer_literal
+      (decimal_int))))
