@@ -1,4 +1,4 @@
-const array_literal = require('./array');
+const array_literals = require('./array');
 const boolean_literal = require('./boolean');
 const char_literal = require('./char');
 const number_literals = require('./numbers');
@@ -13,6 +13,7 @@ module.exports = {
     choice(
       $._number_literal,
       $.array_literal,
+      $.array_repeat_init,
       $.boolean_literal,
       $.char_literal,
       $.regex_literal,
@@ -22,7 +23,7 @@ module.exports = {
       $.tuple_literal,
     )
   ),
-  ...array_literal,
+  ...array_literals,
   ...boolean_literal,
   ...char_literal,
   ...number_literals,

@@ -1,6 +1,6 @@
-=================
-Array declaration
-=================
+========================
+Static Array declaration
+========================
 
 var fibs: [4]Int8 = [1, 1, 2, 3]
 
@@ -24,6 +24,40 @@ var fibs: [4]Int8 = [1, 1, 2, 3]
         (decimal_int))
       (integer_literal
         (decimal_int)))))
+
+=========================
+Dynamic Array declaration
+=========================
+
+let fibs: []Int8 = [1, 1, 2, 3]
+fibs.push(5)
+
+-------
+
+(program
+  (declaration
+    (identifier)
+    (type_annotation
+      (array_type
+        (signed_integer_type)))
+    (array_literal
+      (integer_literal
+        (decimal_int))
+      (integer_literal
+        (decimal_int))
+      (integer_literal
+        (decimal_int))
+      (integer_literal
+        (decimal_int))))
+  (expression_statement
+    (call_expression
+      (member_expression
+        (identifier)
+        (identifier))
+      (argument_list
+        (value
+          (integer_literal
+            (decimal_int)))))))
 
 ===========================================
 Array Spread syntax - appending one element

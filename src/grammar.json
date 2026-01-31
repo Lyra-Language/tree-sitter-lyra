@@ -53,6 +53,10 @@
           },
           {
             "type": "SYMBOL",
+            "name": "array_repeat_init"
+          },
+          {
+            "type": "SYMBOL",
             "name": "boolean_literal"
           },
           {
@@ -93,46 +97,37 @@
           "type": "CHOICE",
           "members": [
             {
-              "type": "CHOICE",
+              "type": "SEQ",
               "members": [
                 {
                   "type": "SYMBOL",
-                  "name": "array_repeat"
+                  "name": "expression"
                 },
                 {
-                  "type": "SEQ",
+                  "type": "REPEAT",
+                  "content": {
+                    "type": "SEQ",
+                    "members": [
+                      {
+                        "type": "STRING",
+                        "value": ","
+                      },
+                      {
+                        "type": "SYMBOL",
+                        "name": "expression"
+                      }
+                    ]
+                  }
+                },
+                {
+                  "type": "CHOICE",
                   "members": [
                     {
-                      "type": "SYMBOL",
-                      "name": "expression"
+                      "type": "STRING",
+                      "value": ","
                     },
                     {
-                      "type": "REPEAT",
-                      "content": {
-                        "type": "SEQ",
-                        "members": [
-                          {
-                            "type": "STRING",
-                            "value": ","
-                          },
-                          {
-                            "type": "SYMBOL",
-                            "name": "expression"
-                          }
-                        ]
-                      }
-                    },
-                    {
-                      "type": "CHOICE",
-                      "members": [
-                        {
-                          "type": "STRING",
-                          "value": ","
-                        },
-                        {
-                          "type": "BLANK"
-                        }
-                      ]
+                      "type": "BLANK"
                     }
                   ]
                 }
@@ -149,9 +144,13 @@
         }
       ]
     },
-    "array_repeat": {
+    "array_repeat_init": {
       "type": "SEQ",
       "members": [
+        {
+          "type": "STRING",
+          "value": "["
+        },
         {
           "type": "FIELD",
           "name": "value",
@@ -171,6 +170,10 @@
             "type": "SYMBOL",
             "name": "array_repeat_count"
           }
+        },
+        {
+          "type": "STRING",
+          "value": "]"
         }
       ]
     },
