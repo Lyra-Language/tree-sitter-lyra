@@ -2,7 +2,7 @@
 Static Array declaration
 ========================
 
-var fibs: [4]Int8 = [1, 1, 2, 3]
+var fibs: [4]i8 = [1, 1, 2, 3]
 
 ------------------------------
 
@@ -29,7 +29,7 @@ var fibs: [4]Int8 = [1, 1, 2, 3]
 Dynamic Array declaration
 =========================
 
-let fibs: []Int8 = [1, 1, 2, 3]
+let fibs: []i8 = [1, 1, 2, 3]
 fibs.push(5)
 
 -------

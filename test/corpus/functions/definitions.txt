@@ -21,7 +21,7 @@ def foo = () => {
 Basic Function declaration without parameters with return type
 ==============================================================
 
-def foo: () -> Int =
+def foo: () -> int =
 () => {
   return 42
 }
@@ -45,7 +45,7 @@ def foo: () -> Int =
 Basic Function declaration with parameters
 ==========================================
 
-def sum: (Int, Int) -> Int = (a, b) => a + b
+def sum: (int, int) -> int = (a, b) => a + b
 
 ---
 
@@ -105,7 +105,7 @@ def sum<n>: (n, n) -> n = (a, b) => a + b
 Function declaration with defaults
 ==================================
 
-def product: (Int, Int) -> Int = (a, b = 10) => a * b
+def product: (int, int) -> int = (a, b = 10) => a * b
 
 ---
 
@@ -137,7 +137,7 @@ def product: (Int, Int) -> Int = (a, b = 10) => a * b
 Function with patterns for parameters
 =====================================
 
-def foo: (Str, Int, Point, []Str, SomeTuple) -> void =
+def foo: (string, int, Point, []string, SomeTuple) -> void =
 (bar, 42, { x, y }, [one, two, three, ...rest], (alpha, beta)) => {
   // do stuff
 }
@@ -240,7 +240,7 @@ def map<t,u>: ([]t, (t) -> u) -> []u =
 Function with multiple function patterns
 ========================================
 
-def fib: (Int) -> Int = {
+def fib: (int) -> int = {
   (0) => 0,
   (1) => 1,
   (n) => fib(n-2) + fib(n-1),
@@ -300,7 +300,7 @@ def fib: (Int) -> Int = {
 Function with multiple function patterns and guard
 ==================================================
 
-def fib: (Int) -> Int = {
+def fib: (int) -> int = {
   (n) if n < 2 => n,
   (n) => fib(n-2) + fib(n-1),
 }
@@ -369,7 +369,7 @@ Missing comma in parameters types is an error
 :error
 =============================================
 
-def foo: (Int Int) -> Int {
+def foo: (int int) -> int {
   (x, y) => x * y
 }
 
@@ -399,7 +399,7 @@ Missing comma in parameter names is an error
 :error
 ============================================
 
-def foo: (Int, Int) -> Int {
+def foo: (int, int) -> int {
   (x y) => x * y
 }
 

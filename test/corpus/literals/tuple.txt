@@ -48,7 +48,7 @@ let coords = Coords (10, 20, 30)
 Basic Named Tuple Literal with generic arg
 ==========================================
 
-let coords = Coords::<Int32> (10, 20, 30)
+let coords = Coords::<i32> (10, 20, 30)
 
 ---
 

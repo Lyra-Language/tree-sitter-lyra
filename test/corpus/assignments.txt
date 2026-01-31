@@ -15,7 +15,7 @@ const PI = 3.141592
 Const Assignment with Type
 ==========================
 
-const PI: Float32 = 3.141592
+const PI: f32 = 3.141592
 
 ---
 
@@ -44,7 +44,7 @@ let answer = 42
 Let Assignment with Type
 ========================
 
-let answer: Int = 42
+let answer: int = 42
 
 ---
 
@@ -79,7 +79,7 @@ answer = 6
 Var Assignment with Type
 ===========================
 
-var pi: Float32 = 3.1416
+var pi: f32 = 3.1416
 pi = 3.141592
 
 ---

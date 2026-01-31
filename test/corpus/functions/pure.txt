@@ -2,7 +2,7 @@
 Pure function declaration
 ================================
 
-pure def add: (Int, Int) -> Int = (a, b) => a + b
+pure def add: (int, int) -> int = (a, b) => a + b
 
 ---
 
@@ -31,7 +31,7 @@ pure def add: (Int, Int) -> Int = (a, b) => a + b
 Public pure function
 ================================
 
-pub pure def multiply: (Int, Int) -> Int = (a, b) => a * b
+pub pure def multiply: (int, int) -> int = (a, b) => a * b
 
 ---
 
@@ -61,7 +61,7 @@ pub pure def multiply: (Int, Int) -> Int = (a, b) => a * b
 Pure async function
 ================================
 
-pure async def compute: (Int) -> Int = (n) => n * 2
+pure async def compute: (int) -> int = (n) => n * 2
 
 ---
 
@@ -87,7 +87,7 @@ pure async def compute: (Int) -> Int = (n) => n * 2
 Pure with pattern matching
 ================================
 
-pure def fib: (Int) -> Int = {
+pure def fib: (int) -> int = {
   (0) => 0,
   (1) => 1,
   (n) => fib(n-1) + fib(n-2),
@@ -148,7 +148,7 @@ Pure keyword in wrong order
 :error
 ===========================
 
-async pure def compute: (Int) -> Int = (n) => n * 2
+async pure def compute: (int) -> int = (n) => n * 2
 
 ---
 

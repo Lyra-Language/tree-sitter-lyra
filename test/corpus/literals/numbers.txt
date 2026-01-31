@@ -1,5 +1,5 @@
 =========================
-Integers allow underscores
+integers allow underscores
 =========================
 
 let one_million = 1_000_000
@@ -65,7 +65,7 @@ let float_num = 314.1592e-2
     (float_literal)))        
 
 ======================
-Hexadecimal Int format
+Hexadecimal int format
 ======================
 
 let the_answer = 0x2A

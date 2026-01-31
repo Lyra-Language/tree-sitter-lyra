@@ -5041,6 +5041,16 @@
             "named": true
           }
         ]
+      },
+      "var_keyword": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "var",
+            "named": false
+          }
+        ]
       }
     },
     "children": {
@@ -5134,10 +5144,6 @@
       "multiple": true,
       "required": true,
       "types": [
-        {
-          "type": "mut_keyword",
-          "named": true
-        },
         {
           "type": "struct_member",
           "named": true
@@ -6090,63 +6096,7 @@
     "named": false
   },
   {
-    "type": "Float",
-    "named": false
-  },
-  {
-    "type": "Float16",
-    "named": false
-  },
-  {
-    "type": "Float32",
-    "named": false
-  },
-  {
-    "type": "Float64",
-    "named": false
-  },
-  {
-    "type": "Int",
-    "named": false
-  },
-  {
-    "type": "Int16",
-    "named": false
-  },
-  {
-    "type": "Int32",
-    "named": false
-  },
-  {
-    "type": "Int64",
-    "named": false
-  },
-  {
-    "type": "Int8",
-    "named": false
-  },
-  {
     "type": "Self",
-    "named": false
-  },
-  {
-    "type": "UInt",
-    "named": false
-  },
-  {
-    "type": "UInt16",
-    "named": false
-  },
-  {
-    "type": "UInt32",
-    "named": false
-  },
-  {
-    "type": "UInt64",
-    "named": false
-  },
-  {
-    "type": "UInt8",
     "named": false
   },
   {
@@ -6234,12 +6184,28 @@
     "named": true
   },
   {
+    "type": "f16",
+    "named": false
+  },
+  {
+    "type": "f32",
+    "named": false
+  },
+  {
+    "type": "f64",
+    "named": false
+  },
+  {
     "type": "false",
     "named": false
   },
   {
     "type": "field_name",
     "named": true
+  },
+  {
+    "type": "float",
+    "named": false
   },
   {
     "type": "for",
@@ -6255,6 +6221,22 @@
   },
   {
     "type": "heap",
+    "named": false
+  },
+  {
+    "type": "i16",
+    "named": false
+  },
+  {
+    "type": "i32",
+    "named": false
+  },
+  {
+    "type": "i64",
+    "named": false
+  },
+  {
+    "type": "i8",
     "named": false
   },
   {
@@ -6275,6 +6257,10 @@
   },
   {
     "type": "in",
+    "named": false
+  },
+  {
+    "type": "int",
     "named": false
   },
   {
@@ -6300,10 +6286,6 @@
   {
     "type": "mut",
     "named": false
-  },
-  {
-    "type": "mut_keyword",
-    "named": true
   },
   {
     "type": "new_name",
@@ -6379,6 +6361,26 @@
   },
   {
     "type": "type",
+    "named": false
+  },
+  {
+    "type": "u16",
+    "named": false
+  },
+  {
+    "type": "u32",
+    "named": false
+  },
+  {
+    "type": "u64",
+    "named": false
+  },
+  {
+    "type": "u8",
+    "named": false
+  },
+  {
+    "type": "uint",
     "named": false
   },
   {

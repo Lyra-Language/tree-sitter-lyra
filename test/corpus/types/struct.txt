@@ -2,7 +2,7 @@
 Struct Declaration
 ==================
 
-struct Point { x: Float32, y: Float32 }
+struct Point { x: f32, y: f32 }
 
 ------------------------------
 
@@ -66,9 +66,9 @@ Struct Default Values
 =====================
 
 struct Person {
-  name: Str,
-  age: Int8 = 0,
-  hitpoints: Int8 = 100
+  name: string,
+  age: i8 = 0,
+  hitpoints: i8 = 100
 }
 
 ---
@@ -125,7 +125,7 @@ struct Point<n> { x: n, y: n }
 Struct Instance with Generic Args
 =================================
 
-let position = Point::<Float32> {
+let position = Point::<f32> {
   x: 3.124,
   y: 78.093,
 }
@@ -151,10 +151,9 @@ Struct with mutable fields
 ==========================
 
 struct Person {
-  name: Str,
-[mut]:
-  age: Int8,
-  title: Str,
+  name: string,
+  var age: i8,
+  var title: string,
 }
 
 ---
@@ -168,7 +167,6 @@ struct Person {
           (field_name)
           (field_type
             (string_type)))
-        (mut_keyword)
         (struct_member
           (field_name)
           (field_type
@@ -183,7 +181,7 @@ Struct with no comma Errors
 :error
 ===========================
 
-struct Point { x: Float64 y: Float64 }
+struct Point { x: f64 y: f64 }
 
 ----------------------------------
 

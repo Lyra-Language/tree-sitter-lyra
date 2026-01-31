@@ -23,8 +23,8 @@ let foo = { bar: "baz", blah: 23 }
 Struct Instance with Generic Params
 ===================================
 
-let int_point = Point::<Int32> { x: 123, y: 456 }
-let float_point = Point::<Float64> { x: 1.23, y: 4.56 }
+let int_point = Point::<i32> { x: 123, y: 456 }
+let float_point = Point::<f64> { x: 1.23, y: 4.56 }
 
 ----------------------------------
 

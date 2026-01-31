@@ -3,9 +3,9 @@ Stack struct type
 ================
 
 stack struct Vec3 {
-  x: Float32,
-  y: Float32,
-  z: Float32,
+  x: f32,
+  y: f32,
+  z: f32,
 }
 
 ---
@@ -34,8 +34,8 @@ Heap struct type
 ===============
 
 heap struct Player {
-  name: Str,
-  health: Int,
+  name: string,
+  health: int,
 }
 
 ---
@@ -112,7 +112,7 @@ heap data List<t> = Nil | Cons { head: t, tail: List<t> }
 Fixed-size array type
 ======================
 
-let buffer: [16]UInt8 = [0, 0, 0, 0]
+let buffer: [16]u8 = [0, 0, 0, 0]
 
 ---
 
@@ -139,7 +139,7 @@ let buffer: [16]UInt8 = [0, 0, 0, 0]
 Fixed-size array with stack modifier
 ===============================
 
-let matrix: stack [4]Float32 = [0.0, 0.0, 0.0, 0.0]
+let matrix: stack [4]f32 = [0.0, 0.0, 0.0, 0.0]
 
 ---
 
@@ -164,7 +164,7 @@ let matrix: stack [4]Float32 = [0.0, 0.0, 0.0, 0.0]
 Dynamic array type
 ===================
 
-let items: []Int = [1, 2, 3]
+let items: []int = [1, 2, 3]
 
 ---
 
@@ -313,8 +313,8 @@ Heap field inside stack struct
 =====================================
 
 stack struct Entity {
-  id: UInt64,
-  name: heap Str,
+  id: u64,
+  name: heap string,
   components: heap []Component,
 }
 

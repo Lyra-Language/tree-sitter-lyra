@@ -3,14 +3,14 @@ Simple Trait with Implementations
 =================================
 
 trait Show {
-  show: (Self) -> Str
+  show: (Self) -> string
 }
 
-impl Show for Int {
+impl Show for int {
   show = (n) => int_to_string(n)
 }
 
-impl Show for Str {
+impl Show for string {
   show = (s) => s
 }
 
@@ -62,11 +62,11 @@ trait Converter<from, to> {
   convert: (from) -> to
 }
 
-impl Converter<Str, Int> for StringParser {
+impl Converter<string, int> for StringParser {
   convert = (s) => parse_int(s)
 }
 
-impl Converter<Int, Str> for IntFormatter {
+impl Converter<int, string> for IntFormatter {
   convert = (n) => int_to_string(n)
 }
 
@@ -129,11 +129,11 @@ trait Functor {
   map: (Self<a>, (a) -> b) -> Self<b>
 }
 
-impl Functor for Array {
+impl Functor for DynamicArray<t> {
   map = (arr, fn) => {
-    var result = []
-    for item in arr {
-      result = [...result, fn(item)]
+    let result: []t = []
+    for idx, item in arr {
+      result.push(fn(item))
     }
     result
   }
@@ -170,7 +170,9 @@ impl Functor for Maybe {
   (type_declaration
     (trait_implementation
       (trait_name)
-      (user_defined_type_name)
+      (parameterized_type
+        (user_defined_type_name)
+        (generic_type))
       (trait_method_implementation
         (method_name)
         (function_clause
@@ -182,22 +184,28 @@ impl Functor for Maybe {
           (block
             (declaration
               (identifier)
+              (type_annotation
+                (array_type
+                  (generic_type)))
               (array_literal))
             (for_in_loop
               (for_in_condition
                 (for_variable_or_key)
+                (for_index_or_value)
                 (identifier))
               (for_in_body
-                (var_reassignment
-                  (identifier)
-                  (array_literal
-                    (spread_expr
-                      (identifier))
-                    (call_expression
+                (expression_statement
+                  (call_expression
+                    (member_expression
                       (identifier)
-                      (argument_list
-                        (value
-                          (identifier))))))))
+                      (identifier))
+                    (argument_list
+                      (value
+                        (call_expression
+                          (identifier)
+                          (argument_list
+                            (value
+                              (identifier))))))))))
             (expression_statement
               (identifier)))))))
   (type_declaration
@@ -297,8 +305,8 @@ Generic Trait Implemented for Generic Type with binary operators
 ================================================================
 
 trait Eq {
-  (_==_): (Self, Self) -> Bool,
-  (_!=_): (Self, Self) -> Bool
+  (_==_): (Self, Self) -> bool,
+  (_!=_): (Self, Self) -> bool
 }
 
 impl Eq for []t {
@@ -429,11 +437,11 @@ trait Mappable<container, elem> {
   map_elements: (container<elem>, (elem) -> elem) -> container<elem>
 }
 
-impl Mappable<Array, Int> for IntArrayMapper {
+impl Mappable<Array, int> for IntArrayMapper {
   map_elements = (arr, fn) => map(arr, fn)
 }
 
-impl Mappable<Array, Str> for StringArrayMapper {
+impl Mappable<Array, string> for StringArrayMapper {
   map_elements = (arr, fn) => map(arr, fn)
 }
 
@@ -509,14 +517,14 @@ Trait with Function Type Generic Parameter
 =============================================
 
 trait Applicable<f> {
-  apply: (f, Int) -> Int
+  apply: (f, int) -> int
 }
 
-impl Applicable<(Int) -> Int> for UnaryOp {
+impl Applicable<(int) -> int> for UnaryOp {
   apply = (fn, x) => fn(x)
 }
 
-impl Applicable<(Int, Int) -> Int> for BinaryOp {
+impl Applicable<(int, int) -> int> for BinaryOp {
   apply = (fn, x) => fn(x, x)
 }
 
@@ -593,11 +601,11 @@ Trait with Multiple Methods and Generic Types
 trait Collection<c, e> {
   add: (c<e>, e) -> c<e>,
   remove: (c<e>, e) -> c<e>,
-  contains: (c<e>, e) -> Bool,
-  size: (c<e>) -> Int
+  contains: (c<e>, e) -> bool,
+  size: (c<e>) -> int
 }
 
-impl Collection<Array, Str> for StringList {
+impl Collection<Array, string> for StringList {
   add = (arr, item) => [...arr, item],
   remove = (arr, item) => filter(arr, (x) => x != item),
   contains = (arr, item) => any(arr, (x) => x == item),
@@ -737,11 +745,11 @@ trait Default {
   default: () -> Self
 }
 
-impl Default for Int {
+impl Default for int {
   default = () => 0
 }
 
-impl Default for Str {
+impl Default for string {
   default = () => ""
 }
 

@@ -1,6 +1,6 @@
 module.exports = {
   _integer_type: $ => choice($.signed_integer_type, $.unsigned_integer_type),
-  signed_integer_type: $ => choice('Int','Int8', 'Int16', 'Int32', 'Int64'),
-  unsigned_integer_type: $ => choice('UInt', 'UInt8', 'UInt16', 'UInt32', 'UInt64'),
-  float_type: $ => choice('Float', 'Float16', 'Float32', 'Float64'),
+  signed_integer_type: $ => choice('int', 'i8', 'i16', 'i32', 'i64'),
+  unsigned_integer_type: $ => choice('uint', 'u8', 'u16', 'u32', 'u64'),
+  float_type: $ => choice('float', 'f16', 'f32', 'f64'),
 }

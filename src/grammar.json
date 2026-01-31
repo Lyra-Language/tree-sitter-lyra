@@ -3035,11 +3035,11 @@
     },
     "string_type": {
       "type": "STRING",
-      "value": "Str"
+      "value": "string"
     },
     "boolean_type": {
       "type": "STRING",
-      "value": "Bool"
+      "value": "bool"
     },
     "allocation_modifier": {
       "type": "CHOICE",
@@ -4084,23 +4084,23 @@
       "members": [
         {
           "type": "STRING",
-          "value": "Int"
+          "value": "int"
         },
         {
           "type": "STRING",
-          "value": "Int8"
+          "value": "i8"
         },
         {
           "type": "STRING",
-          "value": "Int16"
+          "value": "i16"
         },
         {
           "type": "STRING",
-          "value": "Int32"
+          "value": "i32"
         },
         {
           "type": "STRING",
-          "value": "Int64"
+          "value": "i64"
         }
       ]
     },
@@ -4109,23 +4109,23 @@
       "members": [
         {
           "type": "STRING",
-          "value": "UInt"
+          "value": "uint"
         },
         {
           "type": "STRING",
-          "value": "UInt8"
+          "value": "u8"
         },
         {
           "type": "STRING",
-          "value": "UInt16"
+          "value": "u16"
         },
         {
           "type": "STRING",
-          "value": "UInt32"
+          "value": "u32"
         },
         {
           "type": "STRING",
-          "value": "UInt64"
+          "value": "u64"
         }
       ]
     },
@@ -4134,19 +4134,19 @@
       "members": [
         {
           "type": "STRING",
-          "value": "Float"
+          "value": "float"
         },
         {
           "type": "STRING",
-          "value": "Float16"
+          "value": "f16"
         },
         {
           "type": "STRING",
-          "value": "Float32"
+          "value": "f32"
         },
         {
           "type": "STRING",
-          "value": "Float64"
+          "value": "f64"
         }
       ]
     },
@@ -4216,38 +4216,25 @@
         }
       ]
     },
-    "_struct_fields": {
-      "type": "PREC_RIGHT",
-      "value": 0,
-      "content": {
-        "type": "SEQ",
-        "members": [
-          {
-            "type": "SYMBOL",
-            "name": "struct_member"
-          },
-          {
-            "type": "REPEAT",
-            "content": {
-              "type": "SEQ",
-              "members": [
-                {
-                  "type": "STRING",
-                  "value": ","
-                },
-                {
-                  "type": "SYMBOL",
-                  "name": "struct_member"
-                }
-              ]
-            }
-          }
-        ]
-      }
-    },
     "struct_member": {
       "type": "SEQ",
       "members": [
+        {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "FIELD",
+              "name": "var_keyword",
+              "content": {
+                "type": "STRING",
+                "value": "var"
+              }
+            },
+            {
+              "type": "BLANK"
+            }
+          ]
+        },
         {
           "type": "FIELD",
           "name": "field_name",
@@ -4292,13 +4279,6 @@
         }
       ]
     },
-    "mut_keyword": {
-      "type": "TOKEN",
-      "content": {
-        "type": "STRING",
-        "value": "[mut]:"
-      }
-    },
     "struct_type_body": {
       "type": "SEQ",
       "members": [
@@ -4307,148 +4287,37 @@
           "value": "{"
         },
         {
-          "type": "CHOICE",
+          "type": "SEQ",
           "members": [
             {
-              "type": "SEQ",
-              "members": [
-                {
-                  "type": "SYMBOL",
-                  "name": "struct_member"
-                },
-                {
-                  "type": "REPEAT",
-                  "content": {
-                    "type": "SEQ",
-                    "members": [
-                      {
-                        "type": "STRING",
-                        "value": ","
-                      },
-                      {
-                        "type": "SYMBOL",
-                        "name": "struct_member"
-                      }
-                    ]
-                  }
-                },
-                {
-                  "type": "CHOICE",
-                  "members": [
-                    {
-                      "type": "STRING",
-                      "value": ","
-                    },
-                    {
-                      "type": "BLANK"
-                    }
-                  ]
-                }
-              ]
+              "type": "SYMBOL",
+              "name": "struct_member"
             },
             {
-              "type": "SEQ",
-              "members": [
-                {
-                  "type": "SYMBOL",
-                  "name": "mut_keyword"
-                },
-                {
-                  "type": "SYMBOL",
-                  "name": "struct_member"
-                },
-                {
-                  "type": "REPEAT",
-                  "content": {
-                    "type": "SEQ",
-                    "members": [
-                      {
-                        "type": "STRING",
-                        "value": ","
-                      },
-                      {
-                        "type": "SYMBOL",
-                        "name": "struct_member"
-                      }
-                    ]
+              "type": "REPEAT",
+              "content": {
+                "type": "SEQ",
+                "members": [
+                  {
+                    "type": "STRING",
+                    "value": ","
+                  },
+                  {
+                    "type": "SYMBOL",
+                    "name": "struct_member"
                   }
-                },
-                {
-                  "type": "CHOICE",
-                  "members": [
-                    {
-                      "type": "STRING",
-                      "value": ","
-                    },
-                    {
-                      "type": "BLANK"
-                    }
-                  ]
-                }
-              ]
+                ]
+              }
             },
             {
-              "type": "SEQ",
+              "type": "CHOICE",
               "members": [
-                {
-                  "type": "SYMBOL",
-                  "name": "struct_member"
-                },
-                {
-                  "type": "REPEAT",
-                  "content": {
-                    "type": "SEQ",
-                    "members": [
-                      {
-                        "type": "STRING",
-                        "value": ","
-                      },
-                      {
-                        "type": "SYMBOL",
-                        "name": "struct_member"
-                      }
-                    ]
-                  }
-                },
                 {
                   "type": "STRING",
                   "value": ","
                 },
                 {
-                  "type": "SYMBOL",
-                  "name": "mut_keyword"
-                },
-                {
-                  "type": "SYMBOL",
-                  "name": "struct_member"
-                },
-                {
-                  "type": "REPEAT",
-                  "content": {
-                    "type": "SEQ",
-                    "members": [
-                      {
-                        "type": "STRING",
-                        "value": ","
-                      },
-                      {
-                        "type": "SYMBOL",
-                        "name": "struct_member"
-                      }
-                    ]
-                  }
-                },
-                {
-                  "type": "CHOICE",
-                  "members": [
-                    {
-                      "type": "STRING",
-                      "value": ","
-                    },
-                    {
-                      "type": "BLANK"
-                    }
-                  ]
+                  "type": "BLANK"
                 }
               ]
             }

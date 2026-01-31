@@ -2,7 +2,7 @@
 Simple Lambda Function
 ======================
 
-let sum: (Int, Int) -> Int = (a, b) => a + b
+let sum: (int, int) -> int = (a, b) => a + b
 
 ---
 
@@ -32,7 +32,7 @@ let sum: (Int, Int) -> Int = (a, b) => a + b
 Function that returns a lambda
 ==============================
 
-def make_sum_fn: (Int) -> (Int) -> Int =
+def make_sum_fn: (int) -> (int) -> int =
 (a) => (b) => a + b
 
 ---
@@ -67,7 +67,7 @@ def make_sum_fn: (Int) -> (Int) -> Int =
 Function that accepts a lambda
 ==============================
 
-let doubled = map::<Int, Int>([1, 2, 3], (x) => 2 * x)
+let doubled = map::<int, int>([1, 2, 3], (x) => 2 * x)
 
 ---
 

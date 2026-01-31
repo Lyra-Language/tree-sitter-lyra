@@ -2,7 +2,7 @@
 Basic Type without constraints (alias)
 ======================================
 
-type Turn = Float
+type Turn = float
 
 ---
 
@@ -59,9 +59,9 @@ type Status = 200 | 404 | 500
 Type with range constraints
 =================================
 
-type Angle = Float where range(0..<360), precision(6, round_up)
-type Radian = Float64 where range(0..=2*PI), precision(2, round_trunc)
-type Alpha = Float32 where range(0..=1)
+type Angle = float where range(0..<360), precision(6, round_up)
+type Radian = f64 where range(0..=2*PI), precision(2, round_trunc)
+type Alpha = f32 where range(0..=1)
 
 ---
 
@@ -126,7 +126,7 @@ type Alpha = Float32 where range(0..=1)
 Type with pattern constraint
 ==================================
 
-type HexStr = Str where pattern(r/^#(?:[0-9a-fA-F]{3}){1,2}$/)
+type HexStr = string where pattern(r/^#(?:[0-9a-fA-F]{3}){1,2}$/)
 
 ---
 
@@ -144,11 +144,11 @@ Type with step constraint
 =========================
 
 // Only multiples of 0.25 (for currency with quarter precision)
-type Quarter = Float where range(0..=100), step(0.25)
+type Quarter = float where range(0..=100), step(0.25)
 // Valid: 0, 0.25, 0.5, 0.75, 1.0, 1.25, ...
 
 // Degrees in 15° increments
-type CompassHeading = Int where range(0..<360), step(15)
+type CompassHeading = int where range(0..<360), step(15)
 // Valid: 0, 15, 30, 45, ..., 345
 
 ---

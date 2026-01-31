@@ -1,5 +1,5 @@
 =======================================
-Simple Range w/ Int literals, less than
+Simple Range w/ int literals, less than
 =======================================
 
 0..<10
@@ -18,7 +18,7 @@ Simple Range w/ Int literals, less than
           (decimal_int))))))
 
 ====================================
-Simple Range w/ Int literals, equals
+Simple Range w/ int literals, equals
 ====================================
 
 0..=10
