@@ -47,8 +47,8 @@ module.exports = {
   // Allocated type - wraps any type with an allocation modifier
   // Used for: `heap Vec3`, `stack Player`, `stack [16]f32`, `heap []int`
   allocated_type: $ => prec(4, seq(
-    $.allocation_modifier,
-    $._non_allocated_type
+    field('allocation', $.allocation_modifier),
+    field('type', $._non_allocated_type)
   )),
 }
 

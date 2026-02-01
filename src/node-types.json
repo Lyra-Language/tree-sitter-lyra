@@ -628,60 +628,67 @@
   {
     "type": "allocated_type",
     "named": true,
-    "fields": {},
-    "children": {
-      "multiple": true,
-      "required": true,
-      "types": [
-        {
-          "type": "allocation_modifier",
-          "named": true
-        },
-        {
-          "type": "array_type",
-          "named": true
-        },
-        {
-          "type": "boolean_type",
-          "named": true
-        },
-        {
-          "type": "float_type",
-          "named": true
-        },
-        {
-          "type": "function_type",
-          "named": true
-        },
-        {
-          "type": "generic_type",
-          "named": true
-        },
-        {
-          "type": "parameterized_type",
-          "named": true
-        },
-        {
-          "type": "self_type",
-          "named": true
-        },
-        {
-          "type": "signed_integer_type",
-          "named": true
-        },
-        {
-          "type": "string_type",
-          "named": true
-        },
-        {
-          "type": "unsigned_integer_type",
-          "named": true
-        },
-        {
-          "type": "user_defined_type_name",
-          "named": true
-        }
-      ]
+    "fields": {
+      "allocation": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "allocation_modifier",
+            "named": true
+          }
+        ]
+      },
+      "type": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "array_type",
+            "named": true
+          },
+          {
+            "type": "boolean_type",
+            "named": true
+          },
+          {
+            "type": "float_type",
+            "named": true
+          },
+          {
+            "type": "function_type",
+            "named": true
+          },
+          {
+            "type": "generic_type",
+            "named": true
+          },
+          {
+            "type": "parameterized_type",
+            "named": true
+          },
+          {
+            "type": "self_type",
+            "named": true
+          },
+          {
+            "type": "signed_integer_type",
+            "named": true
+          },
+          {
+            "type": "string_type",
+            "named": true
+          },
+          {
+            "type": "unsigned_integer_type",
+            "named": true
+          },
+          {
+            "type": "user_defined_type_name",
+            "named": true
+          }
+        ]
+      }
     }
   },
   {

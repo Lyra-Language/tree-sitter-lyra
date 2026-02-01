@@ -3173,12 +3173,20 @@
         "type": "SEQ",
         "members": [
           {
-            "type": "SYMBOL",
-            "name": "allocation_modifier"
+            "type": "FIELD",
+            "name": "allocation",
+            "content": {
+              "type": "SYMBOL",
+              "name": "allocation_modifier"
+            }
           },
           {
-            "type": "SYMBOL",
-            "name": "_non_allocated_type"
+            "type": "FIELD",
+            "name": "type",
+            "content": {
+              "type": "SYMBOL",
+              "name": "_non_allocated_type"
+            }
           }
         ]
       }
