@@ -1413,16 +1413,6 @@
           }
         ]
       },
-      "literal_union": {
-        "multiple": false,
-        "required": false,
-        "types": [
-          {
-            "type": "literal_union",
-            "named": true
-          }
-        ]
-      },
       "name": {
         "multiple": false,
         "required": true,
@@ -1435,7 +1425,7 @@
       },
       "type": {
         "multiple": false,
-        "required": false,
+        "required": true,
         "types": [
           {
             "type": "type",
@@ -1685,6 +1675,10 @@
       "multiple": true,
       "required": true,
       "types": [
+        {
+          "type": "literal_union_constraint",
+          "named": true
+        },
         {
           "type": "pattern_constraint",
           "named": true
@@ -3638,18 +3632,23 @@
     }
   },
   {
-    "type": "literal_union",
+    "type": "literal_union_constraint",
     "named": true,
-    "fields": {},
-    "children": {
-      "multiple": true,
-      "required": true,
-      "types": [
-        {
-          "type": "literal_val",
-          "named": true
-        }
-      ]
+    "fields": {
+      "values": {
+        "multiple": true,
+        "required": true,
+        "types": [
+          {
+            "type": ",",
+            "named": false
+          },
+          {
+            "type": "literal_val",
+            "named": true
+          }
+        ]
+      }
     }
   },
   {
@@ -6386,6 +6385,10 @@
   {
     "type": "up_rounding_mode",
     "named": true
+  },
+  {
+    "type": "values",
+    "named": false
   },
   {
     "type": "var",

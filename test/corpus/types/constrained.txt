@@ -16,8 +16,8 @@ type Turn = float
 Type with literal union
 =======================
 
-type CSSColorName = "red" | "green" | "blue" | "rebeccapurple" | "aliceblue"
-type Status = 200 | 404 | 500
+type CSSColorName = string where values("red", "green", "blue", "rebeccapurple", "aliceblue")
+type Status = int16 where values(200, 404, 500)
 
 ---
 
@@ -25,35 +25,39 @@ type Status = 200 | 404 | 500
   (type_declaration
     (constrained_type
       (constrained_type_name)
-      (literal_union
-        (literal_val
-          (string_literal
-            (string_content)))
-        (literal_val
-          (string_literal
-            (string_content)))
-        (literal_val
-          (string_literal
-            (string_content)))
-        (literal_val
-          (string_literal
-            (string_content)))
-        (literal_val
-          (string_literal
-            (string_content))))))
+      (string_type)
+      (constraints
+        (literal_union_constraint
+          (literal_val
+            (string_literal
+              (string_content)))
+          (literal_val
+            (string_literal
+              (string_content)))
+          (literal_val
+            (string_literal
+              (string_content)))
+          (literal_val
+            (string_literal
+              (string_content)))
+          (literal_val
+            (string_literal
+              (string_content)))))))
   (type_declaration
     (constrained_type
       (constrained_type_name)
-      (literal_union
-        (literal_val
-          (integer_literal
-            (decimal_int)))
-        (literal_val
-          (integer_literal
-            (decimal_int)))
-        (literal_val
-          (integer_literal
-            (decimal_int)))))))
+      (generic_type)
+      (constraints
+        (literal_union_constraint
+          (literal_val
+            (integer_literal
+              (decimal_int)))
+          (literal_val
+            (integer_literal
+              (decimal_int)))
+          (literal_val
+            (integer_literal
+              (decimal_int))))))))
 
 =================================
 Type with range constraints
@@ -204,8 +208,5 @@ type Foo =
   (type_declaration
     (constrained_type
       (constrained_type_name)
-      (literal_union
-        (literal_val
-          (integer_literal
-            (decimal_int
-              (MISSING "decimal_int_token1"))))))))      
+      (user_defined_type_name
+        (MISSING "user_defined_type_name_token1")))))     

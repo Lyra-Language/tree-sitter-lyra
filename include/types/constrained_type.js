@@ -4,18 +4,11 @@ module.exports = {
     'type',
     field('name', alias($.user_defined_type_name, $.constrained_type_name)),
     '=',
-    choice(
-      seq(
-        field('type', $.type),
-        optional(seq('where', field('constraints', $.constraints)))
-      ),
-      field('literal_union', $.literal_union)
+    seq(
+      field('type', $.type),
+      optional(seq('where', field('constraints', $.constraints)))
     ),
   ),
-
-  // Literal union
-  literal_union: $ => seq($.literal_val, repeat(seq('|', $.literal_val))),
-  literal_val: $ => choice($.string_literal, $._number_literal),
 
   constraints: $ => seq(
     $._constraint,
@@ -28,7 +21,17 @@ module.exports = {
     $.pattern_constraint, // for strings
     $.precision_constraint, // for floats
     $.step_constraint, // for floats
+    $.literal_union_constraint,
   ),
+
+  // Literal union constraint
+  literal_union_constraint: $ => seq(
+    'values',
+    '(',
+    field('values', seq($.literal_val, repeat(seq(',', $.literal_val)))),
+    ')',
+  ),
+  literal_val: $ => choice($.string_literal, $._number_literal),
 
   // Range constraint
   range_constraint: $ => seq(
