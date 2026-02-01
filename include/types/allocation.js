@@ -4,7 +4,7 @@
  * Usage:
  *   - On type declarations: `stack struct Vec3 { ... }`, `heap data Tree<t> = ...`
  *   - On type annotations: `let pos: stack Vec3 = ...`, `let boxed: heap Vec3 = ...`
- *   - On array types: `stack [16]Float32` (fixed-size), `heap [Float32]` (dynamic)
+ *   - On array types: `stack [16]f32` (fixed-size), `heap [f32]` (dynamic)
  *   - Weak references: `weak Parent` (for breaking cycles in shared types)
  */
 
@@ -45,7 +45,7 @@ module.exports = {
   ),
 
   // Allocated type - wraps any type with an allocation modifier
-  // Used for: `heap Vec3`, `stack Player`, `stack [16]Float32`, `heap []Int`
+  // Used for: `heap Vec3`, `stack Player`, `stack [16]f32`, `heap []int`
   allocated_type: $ => prec(4, seq(
     $.allocation_modifier,
     $._non_allocated_type

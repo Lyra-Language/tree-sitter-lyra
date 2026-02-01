@@ -32,7 +32,7 @@ module.exports = {
 
     self_type: $ => 'Self',
 
-    // Parameterized types like Maybe<Int>, Tree<a>, Self<a>
+    // Parameterized types like Maybe<i>, Tree<a>, Self<a>
     parameterized_type: $ => seq(
         field('name', choice('Self', $.user_defined_type_name)),
         '<',
