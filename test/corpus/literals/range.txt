@@ -36,6 +36,68 @@ Simple Range w/ int literals, equals
         (integer_literal
           (decimal_int))))))
 
+====================
+Simple Range w/ step
+====================
+
+0..=10,2
+
+---
+
+(program
+  (expression_statement
+    (range_expression
+      (range_start
+        (integer_literal
+          (decimal_int)))
+      (range_end_operator)
+      (range_end
+        (integer_literal
+          (decimal_int)))
+      (range_step
+        (integer_literal
+          (decimal_int))))))
+
+====================
+Range with variables
+====================
+
+start..=end
+
+---
+
+(program
+  (expression_statement
+    (range_expression
+      (range_start
+        (identifier))
+      (range_end_operator)
+      (range_end
+        (identifier)))))
+
+======================
+Range with expressions
+======================
+
+foo/2..=end-1
+
+---
+
+(program
+  (expression_statement
+    (range_expression
+      (range_start
+        (division
+          (identifier)
+          (integer_literal
+            (decimal_int))))
+      (range_end_operator)
+      (range_end
+        (subtraction
+          (identifier)
+          (integer_literal
+            (decimal_int)))))))
+
 ================================================================
 Don't allow more than 2 dots (that is a spread or rest operator)
 :error
@@ -49,4 +111,3 @@ Don't allow more than 2 dots (that is a spread or rest operator)
   (integer_literal
     (decimal_int))
   (ERROR))
-
