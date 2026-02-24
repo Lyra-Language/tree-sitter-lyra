@@ -2929,6 +2929,14 @@
           {
             "type": "SYMBOL",
             "name": "weak_type"
+          },
+          {
+            "type": "SYMBOL",
+            "name": "anonymous_tuple_type"
+          },
+          {
+            "type": "SYMBOL",
+            "name": "tuple_type"
           }
         ]
       }
@@ -4361,6 +4369,55 @@
           "name": "expression"
         }
       ]
+    },
+    "anonymous_tuple_type": {
+      "type": "FIELD",
+      "name": "tuple_type_body",
+      "content": {
+        "type": "SEQ",
+        "members": [
+          {
+            "type": "STRING",
+            "value": "("
+          },
+          {
+            "type": "SYMBOL",
+            "name": "type"
+          },
+          {
+            "type": "REPEAT",
+            "content": {
+              "type": "SEQ",
+              "members": [
+                {
+                  "type": "STRING",
+                  "value": ","
+                },
+                {
+                  "type": "SYMBOL",
+                  "name": "type"
+                }
+              ]
+            }
+          },
+          {
+            "type": "CHOICE",
+            "members": [
+              {
+                "type": "STRING",
+                "value": ","
+              },
+              {
+                "type": "BLANK"
+              }
+            ]
+          },
+          {
+            "type": "STRING",
+            "value": ")"
+          }
+        ]
+      }
     },
     "tuple_type": {
       "type": "SEQ",
