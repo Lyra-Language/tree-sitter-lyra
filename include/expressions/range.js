@@ -2,11 +2,11 @@ module.exports = {
   range_expression: $ => prec.right(
     20,
     seq(
-      alias($.expression, $.range_start),
+      field('start', alias($.expression, $.range_start)),
       '..',
-      $.range_end_operator,
-      alias($.expression, $.range_end),
-      optional(seq(',', alias($.expression, $.range_step)))
+      field('end_operator', alias($.range_end_operator, $.range_end_operator)),
+      field('end', alias($.expression, $.range_end)),
+      optional(seq(',', field('step', alias($.expression, $.range_step))))
     )
   ),
 

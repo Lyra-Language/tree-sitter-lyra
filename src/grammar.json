@@ -2329,30 +2329,47 @@
         "type": "SEQ",
         "members": [
           {
-            "type": "ALIAS",
+            "type": "FIELD",
+            "name": "start",
             "content": {
-              "type": "SYMBOL",
-              "name": "expression"
-            },
-            "named": true,
-            "value": "range_start"
+              "type": "ALIAS",
+              "content": {
+                "type": "SYMBOL",
+                "name": "expression"
+              },
+              "named": true,
+              "value": "range_start"
+            }
           },
           {
             "type": "STRING",
             "value": ".."
           },
           {
-            "type": "SYMBOL",
-            "name": "range_end_operator"
+            "type": "FIELD",
+            "name": "end_operator",
+            "content": {
+              "type": "ALIAS",
+              "content": {
+                "type": "SYMBOL",
+                "name": "range_end_operator"
+              },
+              "named": true,
+              "value": "range_end_operator"
+            }
           },
           {
-            "type": "ALIAS",
+            "type": "FIELD",
+            "name": "end",
             "content": {
-              "type": "SYMBOL",
-              "name": "expression"
-            },
-            "named": true,
-            "value": "range_end"
+              "type": "ALIAS",
+              "content": {
+                "type": "SYMBOL",
+                "name": "expression"
+              },
+              "named": true,
+              "value": "range_end"
+            }
           },
           {
             "type": "CHOICE",
@@ -2365,13 +2382,17 @@
                     "value": ","
                   },
                   {
-                    "type": "ALIAS",
+                    "type": "FIELD",
+                    "name": "step",
                     "content": {
-                      "type": "SYMBOL",
-                      "name": "expression"
-                    },
-                    "named": true,
-                    "value": "range_step"
+                      "type": "ALIAS",
+                      "content": {
+                        "type": "SYMBOL",
+                        "name": "expression"
+                      },
+                      "named": true,
+                      "value": "range_step"
+                    }
                   }
                 ]
               },
@@ -2929,14 +2950,6 @@
           {
             "type": "SYMBOL",
             "name": "weak_type"
-          },
-          {
-            "type": "SYMBOL",
-            "name": "anonymous_tuple_type"
-          },
-          {
-            "type": "SYMBOL",
-            "name": "tuple_type"
           }
         ]
       }
@@ -4369,55 +4382,6 @@
           "name": "expression"
         }
       ]
-    },
-    "anonymous_tuple_type": {
-      "type": "FIELD",
-      "name": "tuple_type_body",
-      "content": {
-        "type": "SEQ",
-        "members": [
-          {
-            "type": "STRING",
-            "value": "("
-          },
-          {
-            "type": "SYMBOL",
-            "name": "type"
-          },
-          {
-            "type": "REPEAT",
-            "content": {
-              "type": "SEQ",
-              "members": [
-                {
-                  "type": "STRING",
-                  "value": ","
-                },
-                {
-                  "type": "SYMBOL",
-                  "name": "type"
-                }
-              ]
-            }
-          },
-          {
-            "type": "CHOICE",
-            "members": [
-              {
-                "type": "STRING",
-                "value": ","
-              },
-              {
-                "type": "BLANK"
-              }
-            ]
-          },
-          {
-            "type": "STRING",
-            "value": ")"
-          }
-        ]
-      }
     },
     "tuple_type": {
       "type": "SEQ",

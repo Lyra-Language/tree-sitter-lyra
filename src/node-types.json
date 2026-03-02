@@ -4673,28 +4673,47 @@
   {
     "type": "range_expression",
     "named": true,
-    "fields": {},
-    "children": {
-      "multiple": true,
-      "required": true,
-      "types": [
-        {
-          "type": "range_end",
-          "named": true
-        },
-        {
-          "type": "range_end_operator",
-          "named": true
-        },
-        {
-          "type": "range_start",
-          "named": true
-        },
-        {
-          "type": "range_step",
-          "named": true
-        }
-      ]
+    "fields": {
+      "end": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "range_end",
+            "named": true
+          }
+        ]
+      },
+      "end_operator": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "range_end_operator",
+            "named": true
+          }
+        ]
+      },
+      "start": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "range_start",
+            "named": true
+          }
+        ]
+      },
+      "step": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "range_step",
+            "named": true
+          }
+        ]
+      }
     }
   },
   {
