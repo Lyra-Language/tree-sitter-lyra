@@ -12,7 +12,7 @@
         "named": true
       },
       {
-        "type": "array_comprehension",
+        "type": "array_comp_expr",
         "named": true
       },
       {
@@ -738,26 +738,47 @@
     }
   },
   {
-    "type": "array_comprehension",
+    "type": "array_comp_expr",
     "named": true,
-    "fields": {},
-    "children": {
-      "multiple": true,
-      "required": true,
-      "types": [
-        {
-          "type": "comprehension_guard",
-          "named": true
-        },
-        {
-          "type": "generator",
-          "named": true
-        },
-        {
-          "type": "result_expression",
-          "named": true
-        }
-      ]
+    "fields": {
+      "generators": {
+        "multiple": true,
+        "required": true,
+        "types": [
+          {
+            "type": ",",
+            "named": false
+          },
+          {
+            "type": "generator",
+            "named": true
+          }
+        ]
+      },
+      "guards": {
+        "multiple": true,
+        "required": false,
+        "types": [
+          {
+            "type": ",",
+            "named": false
+          },
+          {
+            "type": "comprehension_guard",
+            "named": true
+          }
+        ]
+      },
+      "result_expression": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "result_expression",
+            "named": true
+          }
+        ]
+      }
     }
   },
   {
@@ -2982,28 +3003,39 @@
   {
     "type": "generator",
     "named": true,
-    "fields": {},
-    "children": {
-      "multiple": true,
-      "required": true,
-      "types": [
-        {
-          "type": "array_literal",
-          "named": true
-        },
-        {
-          "type": "identifier",
-          "named": true
-        },
-        {
-          "type": "range_expression",
-          "named": true
-        },
-        {
-          "type": "string_literal",
-          "named": true
-        }
-      ]
+    "fields": {
+      "identifier": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "identifier",
+            "named": true
+          }
+        ]
+      },
+      "value": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "array_literal",
+            "named": true
+          },
+          {
+            "type": "identifier",
+            "named": true
+          },
+          {
+            "type": "range_expression",
+            "named": true
+          },
+          {
+            "type": "string_literal",
+            "named": true
+          }
+        ]
+      }
     }
   },
   {

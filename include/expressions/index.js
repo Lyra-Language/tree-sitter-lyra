@@ -1,6 +1,6 @@
 const control_flow = require('./control_flow/');
 const boolean = require('./boolean');
-const array_comprehension = require('./array_comprehension');
+const array_comp_expr = require('./array_comprehension');
 const math = require('./math');
 const range = require('./range');
 const postfix = require('./postfix');
@@ -19,7 +19,7 @@ module.exports = {
     $._literal,
     $.spread_expr,
     $.lambda_expression,
-    $.array_comprehension,
+    $.array_comp_expr,
     $.null_coalescing_expression,
     // Note: user_defined_type_name is accessed via _postfix_expression -> _primary_expression
   ),
@@ -59,6 +59,6 @@ module.exports = {
   ...boolean,
   ...math,
   ...range,
-  ...array_comprehension,
+  ...array_comp_expr,
   ...postfix,
 }

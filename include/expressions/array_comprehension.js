@@ -1,10 +1,10 @@
 module.exports = {
-  array_comprehension: $ => prec(2, seq(
+  array_comp_expr: $ => prec(2, seq(
     '[',
     $._generators,
     optional(seq('|', $._guards)),
     '|',
-    $.result_expression,
+    field('result_expression', $.result_expression),
     ']',
   )),
 
@@ -14,16 +14,16 @@ module.exports = {
     optional(','),
   ),
   generator: $ => seq(
-    choice($.range_expression, $.array_literal, $.string_literal),
+    field('value', choice($.range_expression, $.array_literal, $.string_literal, $.identifier)),
     '->',
-    $.identifier,
+    field('identifier', $.identifier),
   ),
 
-  _guards: $ => seq(
+  _guards: $ => field('guards', seq(
     $.comprehension_guard,
     repeat(seq(',', $.comprehension_guard)),
     optional(','),
-  ),
+  )),
   comprehension_guard: $ => choice($.boolean_expr, $.call_expression, $.identifier),
 
   result_expression: $ => choice(

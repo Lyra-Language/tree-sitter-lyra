@@ -10,7 +10,7 @@ let squares = [ 1..=5 -> x | x * x ]
 (program
   (declaration
     (identifier)
-    (array_comprehension
+    (array_comp_expr
       (generator
         (range_expression
           (range_start
@@ -39,7 +39,7 @@ let even_squares = [ 1..=10 -> x | even(x) | x * x ]
 (program
   (declaration
     (identifier)
-    (array_comprehension
+    (array_comp_expr
       (generator
         (range_expression
           (range_start
@@ -74,7 +74,7 @@ let foo = [ 1..=5 -> x, 1..=5 -> y | odd(x), even(y) | (x, y, x * y) ]
 (program
   (declaration
     (identifier)
-    (array_comprehension
+    (array_comp_expr
       (generator
         (range_expression
           (range_start
@@ -117,4 +117,79 @@ let foo = [ 1..=5 -> x, 1..=5 -> y | odd(x), even(y) | (x, y, x * y) ]
             (multiplication
               (identifier)
               (identifier)))))))
+  (comment))
+
+=========================================
+Array Comprehension with an array literal
+=========================================
+
+let squares = [ [1, 2, 3] -> x | x * x ]
+// squares == [1, 4, 9]
+
+---
+
+(program
+  (declaration
+    (identifier)
+    (array_comp_expr
+      (generator
+        (array_literal
+          (integer_literal
+            (decimal_int))
+          (integer_literal
+            (decimal_int))
+          (integer_literal
+            (decimal_int)))
+        (identifier))
+      (result_expression
+        (multiplication
+          (identifier)
+          (identifier)))))
+  (comment))
+
+=========================================
+Array Comprehension with a string literal
+=========================================
+
+let char_codes = [ "Hello" -> c | ord(c) ]
+// char_codes == [72, 101, 108, 108, 111]
+
+---
+
+(program
+  (declaration
+    (identifier)
+    (array_comp_expr
+      (generator
+        (string_literal
+          (string_content))
+        (identifier))
+      (result_expression
+        (call_expression
+          (identifier)
+          (argument_list
+            (value
+              (identifier)))))))
+  (comment))
+
+====================================
+Array Comprehension with an identier
+====================================
+
+let squares = [ one_to_five -> x | x * x ]
+// squares == [1, 4, 9, 16, 25]
+
+---
+
+(program
+  (declaration
+    (identifier)
+    (array_comp_expr
+      (generator
+        (identifier)
+        (identifier))
+      (result_expression
+        (multiplication
+          (identifier)
+          (identifier)))))
   (comment))
