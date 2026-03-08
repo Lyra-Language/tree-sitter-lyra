@@ -1,0 +1,71 @@
+=============================
+Basic named tuple declaration
+=============================
+
+tuple Point2D(int, int)
+
+---
+
+(program
+  (type_declaration
+    (tuple_type
+      (tuple_type_name)
+      (tuple_type_body
+        (signed_integer_type)
+        (signed_integer_type)))))
+
+=======================================
+Named tuple declaration with visibility
+=======================================
+
+pub tuple Point3D(float, float, float)
+
+---
+
+(program
+  (type_declaration
+    (tuple_type
+      (visibility)
+      (tuple_type_name)
+      (tuple_type_body
+        (float_type)
+        (float_type)
+        (float_type)))))
+
+===============================================================
+Named tuple declaration with visibility and allocation modifier
+===============================================================
+
+pub stack tuple Point3D(float, float, float)
+
+---
+
+(program
+  (type_declaration
+    (tuple_type
+      (visibility)
+      (allocation_modifier)
+      (tuple_type_name)
+      (tuple_type_body
+        (float_type)
+        (float_type)
+        (float_type)))))
+
+===============================================
+Named tuple declaration with generic parameters
+===============================================
+
+tuple Point2D<t>(t, t, t)
+
+---
+
+(program
+  (type_declaration
+    (tuple_type
+      (tuple_type_name)
+      (generic_parameters
+        (generic_type))
+      (tuple_type_body
+        (generic_type)
+        (generic_type)
+        (generic_type)))))

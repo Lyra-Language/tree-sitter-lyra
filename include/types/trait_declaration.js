@@ -2,7 +2,7 @@ module.exports = {
   trait_declaration: $ => seq(
     optional($.visibility),
     'trait',
-    field('name', $.trait_name),
+    field('name', alias($.user_defined_type_name, $.trait_name)),
     optional(field('generic_parameters', $.generic_parameters)),
     optional(seq(':', field('trait_bounds', $.trait_bounds))),
     '{',
@@ -12,11 +12,9 @@ module.exports = {
     '}'
   ),
 
-  trait_name: $ => /[A-Z][a-zA-Z0-9]*/,
-
   trait_bounds: $ => seq(
-    $.trait_name,
-    repeat(seq('+', $.trait_name)),
+    $.user_defined_type_name,
+    repeat(seq('+', $.user_defined_type_name)),
   ),
   
   trait_method: $ => seq(

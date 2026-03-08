@@ -15,8 +15,7 @@ module.exports = {
     field('keyword', choice('let', 'var')),
     field('name', $.identifier),
     optional(field('type_annotation', $.type_annotation)),
-    '=',
-    field('value', $.expression)
+    optional(seq('=', field('value', $.expression))),
   )),
 
   var_reassignment: $ => seq($.identifier, '=', field('value', $.expression)),

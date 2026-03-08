@@ -1,7 +1,7 @@
 module.exports = {
   trait_implementation: $ => prec.right(100, seq(
     'impl',
-    $.trait_name,
+    alias($.user_defined_type_name, $.trait_name),
     optional(
       seq('<', $.type, repeat(seq(',', $.type)), optional(','), '>'), 
     ),

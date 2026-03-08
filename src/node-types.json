@@ -741,20 +741,6 @@
     "type": "array_comp_expr",
     "named": true,
     "fields": {
-      "generators": {
-        "multiple": true,
-        "required": true,
-        "types": [
-          {
-            "type": ",",
-            "named": false
-          },
-          {
-            "type": "generator",
-            "named": true
-          }
-        ]
-      },
       "guards": {
         "multiple": true,
         "required": false,
@@ -779,6 +765,16 @@
           }
         ]
       }
+    },
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "generator",
+          "named": true
+        }
+      ]
     }
   },
   {
@@ -1883,7 +1879,7 @@
       },
       "value": {
         "multiple": false,
-        "required": true,
+        "required": false,
         "types": [
           {
             "type": "expression",
@@ -2797,7 +2793,7 @@
       },
       "value": {
         "multiple": false,
-        "required": true,
+        "required": false,
         "types": [
           {
             "type": "expression",
@@ -5493,7 +5489,7 @@
       "required": true,
       "types": [
         {
-          "type": "trait_name",
+          "type": "user_defined_type_name",
           "named": true
         }
       ]
@@ -5784,6 +5780,70 @@
     }
   },
   {
+    "type": "tuple_type",
+    "named": true,
+    "fields": {
+      "allocation": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "allocation_modifier",
+            "named": true
+          }
+        ]
+      },
+      "name": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "tuple_type_name",
+            "named": true
+          }
+        ]
+      }
+    },
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "generic_parameters",
+          "named": true
+        },
+        {
+          "type": "tuple_type_body",
+          "named": true
+        },
+        {
+          "type": "visibility",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "tuple_type_body",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "type",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "tuple_type_name",
+    "named": true,
+    "fields": {}
+  },
+  {
     "type": "type_annotation",
     "named": true,
     "fields": {
@@ -5825,6 +5885,10 @@
         },
         {
           "type": "trait_implementation",
+          "named": true
+        },
+        {
+          "type": "tuple_type",
           "named": true
         }
       ]
@@ -6415,6 +6479,10 @@
   {
     "type": "truncate_rounding_mode",
     "named": true
+  },
+  {
+    "type": "tuple",
+    "named": false
   },
   {
     "type": "type",

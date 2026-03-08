@@ -1,11 +1,12 @@
 module.exports = {
   tuple_type: $ => seq(
-    $.tuple_type_name,
+    optional($.visibility),
+    optional(field('allocation', $.allocation_modifier)),
+    'tuple',
+    field('name', alias($.user_defined_type_name, $.tuple_type_name)),
     optional($.generic_parameters),
     $.tuple_type_body
   ),
-
-  tuple_type_name: $ => /[A-Z][a-zA-Z0-9]*/,
 
   tuple_type_body: $ => seq(
     '(',

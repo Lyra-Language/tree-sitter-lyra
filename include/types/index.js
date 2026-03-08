@@ -14,7 +14,14 @@ module.exports = {
 
     return_type_annotation: $ => seq('->', field('type', $.type)),
 
-    type_declaration: $ => choice($.struct_type, $.data_type, $.constrained_type, $.trait_declaration, $.trait_implementation),
+    type_declaration: $ => choice(
+        $.struct_type,
+        $.data_type,
+        $.tuple_type,
+        $.constrained_type,
+        $.trait_declaration,
+        $.trait_implementation,
+    ),
     
     type: $ => prec(2, choice(
         $._primitive_type,

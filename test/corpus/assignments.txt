@@ -56,6 +56,22 @@ let answer: int = 42
     (integer_literal
       (decimal_int))))
 
+============================
+Var Assignment without value
+============================
+var answer
+answer = 42
+
+---
+
+(program
+  (declaration
+    (identifier))
+  (var_reassignment
+    (identifier)
+    (integer_literal
+      (decimal_int))))
+
 ===========================
 Var Assignment without Type
 ===========================
