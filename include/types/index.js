@@ -57,6 +57,8 @@ module.exports = {
 
     boolean_type: $ => 'bool',
 
+    default_field_value: $ => seq('=', $.expression),
+
     ...allocation,
     ...constrained_type,
     ...data_type,

@@ -5793,6 +5793,16 @@
           }
         ]
       },
+      "generic_parameters": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "generic_parameters",
+            "named": true
+          }
+        ]
+      },
       "name": {
         "multiple": false,
         "required": true,
@@ -5802,25 +5812,27 @@
             "named": true
           }
         ]
+      },
+      "tuple_type_body": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "tuple_type_body",
+            "named": true
+          }
+        ]
+      },
+      "visibility": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "visibility",
+            "named": true
+          }
+        ]
       }
-    },
-    "children": {
-      "multiple": true,
-      "required": true,
-      "types": [
-        {
-          "type": "generic_parameters",
-          "named": true
-        },
-        {
-          "type": "tuple_type_body",
-          "named": true
-        },
-        {
-          "type": "visibility",
-          "named": true
-        }
-      ]
     }
   },
   {
@@ -5831,6 +5843,25 @@
       "multiple": true,
       "required": true,
       "types": [
+        {
+          "type": "tuple_type_element",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "tuple_type_element",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "default_field_value",
+          "named": true
+        },
         {
           "type": "type",
           "named": true

@@ -24,7 +24,5 @@ module.exports = {
         optional(',')
       ),
     '}'
-  ),
-
-  default_field_value: $ => seq('=', $.expression)
+  )
 }

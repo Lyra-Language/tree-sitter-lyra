@@ -3086,6 +3086,19 @@
       "type": "STRING",
       "value": "bool"
     },
+    "default_field_value": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "="
+        },
+        {
+          "type": "SYMBOL",
+          "name": "expression"
+        }
+      ]
+    },
     "allocation_modifier": {
       "type": "CHOICE",
       "members": [
@@ -4394,19 +4407,6 @@
         }
       ]
     },
-    "default_field_value": {
-      "type": "SEQ",
-      "members": [
-        {
-          "type": "STRING",
-          "value": "="
-        },
-        {
-          "type": "SYMBOL",
-          "name": "expression"
-        }
-      ]
-    },
     "tuple_type": {
       "type": "SEQ",
       "members": [
@@ -4414,8 +4414,12 @@
           "type": "CHOICE",
           "members": [
             {
-              "type": "SYMBOL",
-              "name": "visibility"
+              "type": "FIELD",
+              "name": "visibility",
+              "content": {
+                "type": "SYMBOL",
+                "name": "visibility"
+              }
             },
             {
               "type": "BLANK"
@@ -4459,8 +4463,12 @@
           "type": "CHOICE",
           "members": [
             {
-              "type": "SYMBOL",
-              "name": "generic_parameters"
+              "type": "FIELD",
+              "name": "generic_parameters",
+              "content": {
+                "type": "SYMBOL",
+                "name": "generic_parameters"
+              }
             },
             {
               "type": "BLANK"
@@ -4468,8 +4476,12 @@
           ]
         },
         {
-          "type": "SYMBOL",
-          "name": "tuple_type_body"
+          "type": "FIELD",
+          "name": "tuple_type_body",
+          "content": {
+            "type": "SYMBOL",
+            "name": "tuple_type_body"
+          }
         }
       ]
     },
@@ -4482,7 +4494,7 @@
         },
         {
           "type": "SYMBOL",
-          "name": "type"
+          "name": "tuple_type_element"
         },
         {
           "type": "REPEAT",
@@ -4495,7 +4507,7 @@
               },
               {
                 "type": "SYMBOL",
-                "name": "type"
+                "name": "tuple_type_element"
               }
             ]
           }
@@ -4515,6 +4527,27 @@
         {
           "type": "STRING",
           "value": ")"
+        }
+      ]
+    },
+    "tuple_type_element": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "SYMBOL",
+          "name": "type"
+        },
+        {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "SYMBOL",
+              "name": "default_field_value"
+            },
+            {
+              "type": "BLANK"
+            }
+          ]
         }
       ]
     },

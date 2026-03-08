@@ -1,6 +1,6 @@
-=============================
-Basic named tuple declaration
-=============================
+=======================
+Basic tuple declaration
+=======================
 
 tuple Point2D(int, int)
 
@@ -11,12 +11,14 @@ tuple Point2D(int, int)
     (tuple_type
       (tuple_type_name)
       (tuple_type_body
-        (signed_integer_type)
-        (signed_integer_type)))))
+        (tuple_type_element
+          (signed_integer_type))
+        (tuple_type_element
+          (signed_integer_type))))))
 
-=======================================
-Named tuple declaration with visibility
-=======================================
+=================================
+Tuple declaration with visibility
+=================================
 
 pub tuple Point3D(float, float, float)
 
@@ -28,13 +30,16 @@ pub tuple Point3D(float, float, float)
       (visibility)
       (tuple_type_name)
       (tuple_type_body
-        (float_type)
-        (float_type)
-        (float_type)))))
+        (tuple_type_element
+          (float_type))
+        (tuple_type_element
+          (float_type))
+        (tuple_type_element
+          (float_type))))))
 
-===============================================================
-Named tuple declaration with visibility and allocation modifier
-===============================================================
+=========================================================
+Tuple declaration with visibility and allocation modifier
+=========================================================
 
 pub stack tuple Point3D(float, float, float)
 
@@ -47,13 +52,40 @@ pub stack tuple Point3D(float, float, float)
       (allocation_modifier)
       (tuple_type_name)
       (tuple_type_body
-        (float_type)
-        (float_type)
-        (float_type)))))
+        (tuple_type_element
+          (float_type))
+        (tuple_type_element
+          (float_type))
+        (tuple_type_element
+          (float_type))))))
 
-===============================================
-Named tuple declaration with generic parameters
-===============================================
+=====================================
+Tuple declaration with default params
+=====================================
+
+tuple RGBA(u8, u8, u8, float = 1.0)
+
+---
+
+(program
+  (type_declaration
+    (tuple_type
+      (tuple_type_name)
+      (tuple_type_body
+        (tuple_type_element
+          (unsigned_integer_type))
+        (tuple_type_element
+          (unsigned_integer_type))
+        (tuple_type_element
+          (unsigned_integer_type))
+        (tuple_type_element
+          (float_type)
+          (default_field_value
+            (float_literal)))))))
+
+=========================================
+Tuple declaration with generic parameters
+=========================================
 
 tuple Point2D<t>(t, t, t)
 
@@ -66,6 +98,9 @@ tuple Point2D<t>(t, t, t)
       (generic_parameters
         (generic_type))
       (tuple_type_body
-        (generic_type)
-        (generic_type)
-        (generic_type)))))
+        (tuple_type_element
+          (generic_type))
+        (tuple_type_element
+          (generic_type))
+        (tuple_type_element
+          (generic_type))))))
