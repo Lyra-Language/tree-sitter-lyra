@@ -8,13 +8,33 @@ tuple Point2D(int, int)
 
 (program
   (type_declaration
-    (tuple_type
+    (named_tuple_type
       (tuple_type_name)
       (tuple_type_body
         (tuple_type_element
           (signed_integer_type))
         (tuple_type_element
           (signed_integer_type))))))
+
+====================
+Basic tuple instance
+====================
+
+let origin = Point2D(0, 0)
+
+---
+
+(program
+  (declaration
+    (identifier)
+    (tuple_literal
+      (tuple_name)
+      (tuple_value
+        (integer_literal
+          (decimal_int)))
+      (tuple_value
+        (integer_literal
+          (decimal_int))))))
 
 =================================
 Tuple declaration with visibility
@@ -26,7 +46,7 @@ pub tuple Point3D(float, float, float)
 
 (program
   (type_declaration
-    (tuple_type
+    (named_tuple_type
       (visibility)
       (tuple_type_name)
       (tuple_type_body
@@ -47,7 +67,7 @@ pub stack tuple Point3D(float, float, float)
 
 (program
   (type_declaration
-    (tuple_type
+    (named_tuple_type
       (visibility)
       (allocation_modifier)
       (tuple_type_name)
@@ -69,7 +89,7 @@ tuple RGBA(u8, u8, u8, float = 1.0)
 
 (program
   (type_declaration
-    (tuple_type
+    (named_tuple_type
       (tuple_type_name)
       (tuple_type_body
         (tuple_type_element
@@ -87,13 +107,13 @@ tuple RGBA(u8, u8, u8, float = 1.0)
 Tuple declaration with generic parameters
 =========================================
 
-tuple Point2D<t>(t, t, t)
+tuple Point3D<t>(t, t, t)
 
 ---
 
 (program
   (type_declaration
-    (tuple_type
+    (named_tuple_type
       (tuple_type_name)
       (generic_parameters
         (generic_type))
@@ -104,3 +124,50 @@ tuple Point2D<t>(t, t, t)
           (generic_type))
         (tuple_type_element
           (generic_type))))))
+
+=====================================
+Tuple instance with generic arguments
+=====================================
+
+let some_point = Point3D::<f32>(1.43, 4.22, 3.59)
+
+---
+
+(program
+  (declaration
+    (identifier)
+    (tuple_literal
+      (tuple_name)
+      (generic_arguments
+        (float_type))
+      (tuple_value
+        (float_literal))
+      (tuple_value
+        (float_literal))
+      (tuple_value
+        (float_literal)))))
+
+===================================
+Tuple declaration with nested tuple
+===================================
+
+tuple RGBA((u8, u8, u8), float)
+
+---
+
+(program
+  (type_declaration
+    (named_tuple_type
+      (tuple_type_name)
+      (tuple_type_body
+        (tuple_type_element
+          (anonymous_tuple_type
+            (tuple_type_body
+              (tuple_type_element
+                (unsigned_integer_type))
+              (tuple_type_element
+                (unsigned_integer_type))
+              (tuple_type_element
+                (unsigned_integer_type)))))
+        (tuple_type_element
+          (float_type))))))

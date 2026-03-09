@@ -1,5 +1,5 @@
 module.exports = {
-  tuple_type: $ => seq(
+  named_tuple_type: $ => seq(
     optional(field('visibility', $.visibility)),
     optional(field('allocation', $.allocation_modifier)),
     'tuple',
@@ -16,5 +16,7 @@ module.exports = {
     ')'
   ),
 
-  tuple_type_element: $ => seq($.type, optional($.default_field_value))
+  tuple_type_element: $ => seq($.type, optional($.default_field_value)),
+
+  anonymous_tuple_type: $ => $.tuple_type_body,
 }

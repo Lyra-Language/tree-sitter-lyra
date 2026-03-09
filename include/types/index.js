@@ -17,7 +17,7 @@ module.exports = {
     type_declaration: $ => choice(
         $.struct_type,
         $.data_type,
-        $.tuple_type,
+        $.named_tuple_type,
         $.constrained_type,
         $.trait_declaration,
         $.trait_implementation,
@@ -33,6 +33,7 @@ module.exports = {
         $.function_type,
         $.allocated_type,
         $.weak_type,
+        $.anonymous_tuple_type,
     )),
     
     user_defined_type_name: $ => /[A-Z][a-zA-Z0-9]*/,

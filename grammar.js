@@ -41,6 +41,7 @@ module.exports = grammar({
     [$._primary_expression, $.data_pattern],
     [$._field_value, $.expression_statement],
     [$._primary_expression, $.result_expression],
+    [$.parameter_type, $.tuple_type_element],
   ],
 
   reserved: {

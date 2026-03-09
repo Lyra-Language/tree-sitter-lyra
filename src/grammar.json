@@ -2917,7 +2917,7 @@
         },
         {
           "type": "SYMBOL",
-          "name": "tuple_type"
+          "name": "named_tuple_type"
         },
         {
           "type": "SYMBOL",
@@ -2974,6 +2974,10 @@
           {
             "type": "SYMBOL",
             "name": "weak_type"
+          },
+          {
+            "type": "SYMBOL",
+            "name": "anonymous_tuple_type"
           }
         ]
       }
@@ -4407,7 +4411,7 @@
         }
       ]
     },
-    "tuple_type": {
+    "named_tuple_type": {
       "type": "SEQ",
       "members": [
         {
@@ -4550,6 +4554,10 @@
           ]
         }
       ]
+    },
+    "anonymous_tuple_type": {
+      "type": "SYMBOL",
+      "name": "tuple_type_body"
     },
     "trait_declaration": {
       "type": "SEQ",
@@ -7081,6 +7089,10 @@
     [
       "_primary_expression",
       "result_expression"
+    ],
+    [
+      "parameter_type",
+      "tuple_type_element"
     ]
   ],
   "precedences": [],
