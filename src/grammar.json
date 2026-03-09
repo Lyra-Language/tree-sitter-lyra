@@ -649,8 +649,12 @@
                 "type": "CHOICE",
                 "members": [
                   {
-                    "type": "SYMBOL",
-                    "name": "generic_arguments"
+                    "type": "FIELD",
+                    "name": "generic_arguments",
+                    "content": {
+                      "type": "SYMBOL",
+                      "name": "generic_arguments"
+                    }
                   },
                   {
                     "type": "BLANK"
@@ -4538,15 +4542,23 @@
       "type": "SEQ",
       "members": [
         {
-          "type": "SYMBOL",
-          "name": "type"
+          "type": "FIELD",
+          "name": "type",
+          "content": {
+            "type": "SYMBOL",
+            "name": "type"
+          }
         },
         {
           "type": "CHOICE",
           "members": [
             {
-              "type": "SYMBOL",
-              "name": "default_field_value"
+              "type": "FIELD",
+              "name": "default_field_value",
+              "content": {
+                "type": "SYMBOL",
+                "name": "default_field_value"
+              }
             },
             {
               "type": "BLANK"

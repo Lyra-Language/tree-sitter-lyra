@@ -6,7 +6,7 @@ module.exports = {
       // Named tuple: allows single element without comma
       seq(
         $._tuple_name,
-        optional($.generic_arguments),
+        optional(field('generic_arguments', $.generic_arguments)),
         '(',
           $._tuple_value,
           optional(seq(repeat1(seq($._comma, $._tuple_value)), optional($._comma))),

@@ -5779,6 +5779,16 @@
     "type": "tuple_literal",
     "named": true,
     "fields": {
+      "generic_arguments": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "generic_arguments",
+            "named": true
+          }
+        ]
+      },
       "tuple_name": {
         "multiple": false,
         "required": false,
@@ -5794,10 +5804,6 @@
       "multiple": true,
       "required": false,
       "types": [
-        {
-          "type": "generic_arguments",
-          "named": true
-        },
         {
           "type": "tuple_value",
           "named": true
@@ -5872,20 +5878,27 @@
   {
     "type": "tuple_type_element",
     "named": true,
-    "fields": {},
-    "children": {
-      "multiple": true,
-      "required": true,
-      "types": [
-        {
-          "type": "default_field_value",
-          "named": true
-        },
-        {
-          "type": "type",
-          "named": true
-        }
-      ]
+    "fields": {
+      "default_field_value": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "default_field_value",
+            "named": true
+          }
+        ]
+      },
+      "type": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "type",
+            "named": true
+          }
+        ]
+      }
     }
   },
   {

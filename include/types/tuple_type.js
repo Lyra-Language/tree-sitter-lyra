@@ -16,7 +16,7 @@ module.exports = {
     ')'
   ),
 
-  tuple_type_element: $ => seq($.type, optional($.default_field_value)),
+  tuple_type_element: $ => seq(field('type', $.type), optional(field('default_field_value', $.default_field_value))),
 
   anonymous_tuple_type: $ => $.tuple_type_body,
 }
