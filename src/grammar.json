@@ -487,63 +487,72 @@
             ]
           },
           {
-            "type": "STRING",
-            "value": "{"
-          },
-          {
-            "type": "CHOICE",
-            "members": [
-              {
-                "type": "SYMBOL",
-                "name": "_struct_shorthand"
-              },
-              {
-                "type": "SEQ",
-                "members": [
-                  {
-                    "type": "SYMBOL",
-                    "name": "_struct_field"
-                  },
-                  {
-                    "type": "REPEAT",
-                    "content": {
+            "type": "FIELD",
+            "name": "struct_body",
+            "content": {
+              "type": "SEQ",
+              "members": [
+                {
+                  "type": "STRING",
+                  "value": "{"
+                },
+                {
+                  "type": "CHOICE",
+                  "members": [
+                    {
+                      "type": "SYMBOL",
+                      "name": "struct_shorthand"
+                    },
+                    {
                       "type": "SEQ",
                       "members": [
                         {
-                          "type": "STRING",
-                          "value": ","
+                          "type": "SYMBOL",
+                          "name": "struct_field"
                         },
                         {
-                          "type": "SYMBOL",
-                          "name": "_struct_field"
+                          "type": "REPEAT",
+                          "content": {
+                            "type": "SEQ",
+                            "members": [
+                              {
+                                "type": "STRING",
+                                "value": ","
+                              },
+                              {
+                                "type": "SYMBOL",
+                                "name": "struct_field"
+                              }
+                            ]
+                          }
+                        },
+                        {
+                          "type": "CHOICE",
+                          "members": [
+                            {
+                              "type": "STRING",
+                              "value": ","
+                            },
+                            {
+                              "type": "BLANK"
+                            }
+                          ]
                         }
                       ]
                     }
-                  },
-                  {
-                    "type": "CHOICE",
-                    "members": [
-                      {
-                        "type": "STRING",
-                        "value": ","
-                      },
-                      {
-                        "type": "BLANK"
-                      }
-                    ]
-                  }
-                ]
-              }
-            ]
-          },
-          {
-            "type": "STRING",
-            "value": "}"
+                  ]
+                },
+                {
+                  "type": "STRING",
+                  "value": "}"
+                }
+              ]
+            }
           }
         ]
       }
     },
-    "_struct_shorthand": {
+    "struct_shorthand": {
       "type": "SEQ",
       "members": [
         {
@@ -580,7 +589,7 @@
         }
       ]
     },
-    "_struct_field": {
+    "struct_field": {
       "type": "SEQ",
       "members": [
         {
@@ -6081,8 +6090,17 @@
           "type": "FIELD",
           "name": "body",
           "content": {
-            "type": "SYMBOL",
-            "name": "expression"
+            "type": "CHOICE",
+            "members": [
+              {
+                "type": "SYMBOL",
+                "name": "expression"
+              },
+              {
+                "type": "SYMBOL",
+                "name": "block"
+              }
+            ]
           }
         }
       ]
@@ -7105,6 +7123,10 @@
     [
       "parameter_type",
       "tuple_type_element"
+    ],
+    [
+      "function_clause",
+      "expression"
     ]
   ],
   "precedences": [],

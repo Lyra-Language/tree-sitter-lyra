@@ -149,15 +149,16 @@ for i in foo.bar {
   (declaration
     (identifier)
     (struct_literal
-      (field_name)
-      (field_value
-        (array_literal
-          (integer_literal
-            (decimal_int))
-          (integer_literal
-            (decimal_int))
-          (integer_literal
-            (decimal_int))))))
+      (struct_field
+        (field_name)
+        (field_value
+          (array_literal
+            (integer_literal
+              (decimal_int))
+            (integer_literal
+              (decimal_int))
+            (integer_literal
+              (decimal_int)))))))
   (for_in_loop
     (for_in_condition
       (for_variable_or_key)

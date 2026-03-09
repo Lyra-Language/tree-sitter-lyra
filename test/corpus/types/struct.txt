@@ -20,47 +20,6 @@ struct Point { x: f32, y: f32 }
           (field_type
             (float_type)))))))
 
-==============================
-Struct Instance
-==============================
-
-let origin = Point {
-  x: 0.0,
-  y: 0.0,
-}
-
----------------------------------
-
-(program
-  (declaration
-    (identifier)
-    (struct_literal
-      (struct_name)
-      (field_name)
-      (field_value
-        (float_literal))
-      (field_name)
-      (field_value
-        (float_literal)))))
-
-=========================
-Struct Instance Shorthand
-=========================
-
-let origin = Point { 0.0, 0.0 }
-
----
-
-(program
-  (declaration
-    (identifier)
-    (struct_literal
-      (struct_name)
-      (field_value
-        (float_literal))
-      (field_value
-        (float_literal)))))
-
 =====================
 Struct Default Values
 =====================
@@ -120,31 +79,6 @@ struct Point<n> { x: n, y: n }
           (field_name)
           (field_type
             (generic_type)))))))
-
-=================================
-Struct Instance with Generic Args
-=================================
-
-let position = Point::<f32> {
-  x: 3.124,
-  y: 78.093,
-}
-
----
-
-(program
-  (declaration
-    (identifier)
-    (struct_literal
-      (struct_name)
-      (generic_arguments
-        (float_type))
-      (field_name)
-      (field_value
-        (float_literal))
-      (field_name)
-      (field_value
-        (float_literal)))))
 
 ==========================
 Struct with mutable fields

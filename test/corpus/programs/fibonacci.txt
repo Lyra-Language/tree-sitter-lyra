@@ -24,8 +24,8 @@ def fib: (int) -> int =
       (parameter_list
         (parameter
           (identifier)))
-      (struct_literal
-        (field_value
+      (block
+        (expression_statement
           (if_then_expr
             (if_condition
               (boolean_expr
