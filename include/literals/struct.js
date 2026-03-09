@@ -1,14 +1,16 @@
 module.exports = {
   struct_literal: $ => prec.left(2, seq(
     optional(prec(4, field('struct_name', alias($.user_defined_type_name, $.struct_name)))),
-    optional($.generic_arguments),
-    field('struct_body', seq('{',
-      choice(
-        $.struct_shorthand,
-        seq($.struct_field, repeat(seq(',', $.struct_field)), optional(',')),
-      ),
-    '}'))
+    optional(field('generic_arguments', $.generic_arguments)),
+    field('struct_body', $.struct_body)
   )),
+
+  struct_body: $ => seq('{',
+    choice(
+      $.struct_shorthand,
+      seq($.struct_field, repeat(seq(',', $.struct_field)), optional(',')),
+    ),
+  '}'),
 
   struct_shorthand: $ => seq(
     $._field_value,

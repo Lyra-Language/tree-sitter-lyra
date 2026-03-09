@@ -10,16 +10,17 @@ let foo = { bar: "baz", blah: 23 }
   (declaration
     (identifier)
     (struct_literal
-      (struct_field
-        (field_name)
-        (field_value
-          (string_literal
-            (string_content))))
-      (struct_field
-        (field_name)
-        (field_value
-          (integer_literal
-            (decimal_int)))))))
+      (struct_body
+        (struct_field
+          (field_name)
+          (field_value
+            (string_literal
+              (string_content))))
+        (struct_field
+          (field_name)
+          (field_value
+            (integer_literal
+              (decimal_int))))))))
 
 ==============================
 Struct Instance
@@ -37,14 +38,15 @@ let origin = Point {
     (identifier)
     (struct_literal
       (struct_name)
-      (struct_field
-        (field_name)
-        (field_value
-          (float_literal)))
-      (struct_field
-        (field_name)
-        (field_value
-          (float_literal))))))            
+      (struct_body
+        (struct_field
+          (field_name)
+          (field_value
+            (float_literal)))
+        (struct_field
+          (field_name)
+          (field_value
+            (float_literal)))))))        
 
 =========================
 Struct Instance Shorthand
@@ -59,11 +61,12 @@ let origin = Point { 0.0, 0.0 }
     (identifier)
     (struct_literal
       (struct_name)
-      (struct_shorthand
-        (field_value
-          (float_literal))
-        (field_value
-          (float_literal))))))            
+      (struct_body
+        (struct_shorthand
+          (field_value
+            (float_literal))
+          (field_value
+            (float_literal)))))))       
 
 ===================================
 Struct Instance with Generic Args
@@ -81,27 +84,29 @@ let float_point = Point::<f64> { x: 1.23, y: 4.56 }
       (struct_name)
       (generic_arguments
         (signed_integer_type))
-      (struct_field
-        (field_name)
-        (field_value
-          (integer_literal
-            (decimal_int))))
-      (struct_field
-        (field_name)
-        (field_value
-          (integer_literal
-            (decimal_int))))))
+      (struct_body
+        (struct_field
+          (field_name)
+          (field_value
+            (integer_literal
+              (decimal_int))))
+        (struct_field
+          (field_name)
+          (field_value
+            (integer_literal
+              (decimal_int)))))))
   (declaration
     (identifier)
     (struct_literal
       (struct_name)
       (generic_arguments
         (float_type))
-      (struct_field
-        (field_name)
-        (field_value
-          (float_literal)))
-      (struct_field
-        (field_name)
-        (field_value
-          (float_literal))))))
+      (struct_body
+        (struct_field
+          (field_name)
+          (field_value
+            (float_literal)))
+        (struct_field
+          (field_name)
+          (field_value
+            (float_literal)))))))

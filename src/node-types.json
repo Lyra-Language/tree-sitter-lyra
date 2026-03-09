@@ -5101,6 +5101,25 @@
     }
   },
   {
+    "type": "struct_body",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "struct_field",
+          "named": true
+        },
+        {
+          "type": "struct_shorthand",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
     "type": "struct_field",
     "named": true,
     "fields": {
@@ -5130,29 +5149,23 @@
     "type": "struct_literal",
     "named": true,
     "fields": {
+      "generic_arguments": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "generic_arguments",
+            "named": true
+          }
+        ]
+      },
       "struct_body": {
-        "multiple": true,
+        "multiple": false,
         "required": true,
         "types": [
           {
-            "type": ",",
-            "named": false
-          },
-          {
-            "type": "struct_field",
+            "type": "struct_body",
             "named": true
-          },
-          {
-            "type": "struct_shorthand",
-            "named": true
-          },
-          {
-            "type": "{",
-            "named": false
-          },
-          {
-            "type": "}",
-            "named": false
           }
         ]
       },
@@ -5166,16 +5179,6 @@
           }
         ]
       }
-    },
-    "children": {
-      "multiple": false,
-      "required": false,
-      "types": [
-        {
-          "type": "generic_arguments",
-          "named": true
-        }
-      ]
     }
   },
   {

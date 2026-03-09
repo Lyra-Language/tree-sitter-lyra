@@ -218,21 +218,22 @@ let boxed: heap Vec3 = Vec3 { x: 1, y: 2, z: 3 }
         (user_defined_type_name)))
     (struct_literal
       (struct_name)
-      (struct_field
-        (field_name)
-        (field_value
-          (integer_literal
-            (decimal_int))))
-      (struct_field
-        (field_name)
-        (field_value
-          (integer_literal
-            (decimal_int))))
-      (struct_field
-        (field_name)
-        (field_value
-          (integer_literal
-            (decimal_int))))))
+      (struct_body
+        (struct_field
+          (field_name)
+          (field_value
+            (integer_literal
+              (decimal_int))))
+        (struct_field
+          (field_name)
+          (field_value
+            (integer_literal
+              (decimal_int))))
+        (struct_field
+          (field_name)
+          (field_value
+            (integer_literal
+              (decimal_int)))))))
   (declaration
     (identifier)
     (type_annotation
@@ -241,21 +242,22 @@ let boxed: heap Vec3 = Vec3 { x: 1, y: 2, z: 3 }
         (user_defined_type_name)))
     (struct_literal
       (struct_name)
-      (struct_field
-        (field_name)
-        (field_value
-          (integer_literal
-            (decimal_int))))
-      (struct_field
-        (field_name)
-        (field_value
-          (integer_literal
-            (decimal_int))))
-      (struct_field
-        (field_name)
-        (field_value
-          (integer_literal
-            (decimal_int)))))))
+      (struct_body
+        (struct_field
+          (field_name)
+          (field_value
+            (integer_literal
+              (decimal_int))))
+        (struct_field
+          (field_name)
+          (field_value
+            (integer_literal
+              (decimal_int))))
+        (struct_field
+          (field_name)
+          (field_value
+            (integer_literal
+              (decimal_int))))))))
 
 ===========================================
 Fixed-size array with const size expression

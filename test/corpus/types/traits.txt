@@ -280,20 +280,21 @@ let inverted: Point = -my_point // uses the overloaded prefix -
               (identifier)))
           (struct_literal
             (struct_name)
-            (struct_field
-              (field_name)
-              (field_value
-                (negation
-                  (member_expression
-                    (identifier)
-                    (identifier)))))
-            (struct_field
-              (field_name)
-              (field_value
-                (negation
-                  (member_expression
-                    (identifier)
-                    (identifier))))))))))
+            (struct_body
+              (struct_field
+                (field_name)
+                (field_value
+                  (negation
+                    (member_expression
+                      (identifier)
+                      (identifier)))))
+              (struct_field
+                (field_name)
+                (field_value
+                  (negation
+                    (member_expression
+                      (identifier)
+                      (identifier)))))))))))
   (declaration
     (identifier)
     (type_annotation
@@ -812,12 +813,13 @@ impl Default for Person {
           (parameter_list)
           (struct_literal
             (struct_name)
-            (struct_field
-              (field_name)
-              (field_value
-                (string_literal)))
-            (struct_field
-              (field_name)
-              (field_value
-                (integer_literal
-                  (decimal_int))))))))))
+            (struct_body
+              (struct_field
+                (field_name)
+                (field_value
+                  (string_literal)))
+              (struct_field
+                (field_name)
+                (field_value
+                  (integer_literal
+                    (decimal_int)))))))))))
