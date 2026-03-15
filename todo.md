@@ -1,7 +1,10 @@
 ## To-Dos
+- await expression tests
+- func type param modifiers (ref, mut, own)
+- math assignment ops (+=, -=, *=, /=)
+- function_type / type-only tests
 - doc comments
 - pipe operator?
-- Add tree-sitter tests for param modifiers in function definitions
 
 ## Completed
 
