@@ -1,0 +1,77 @@
+===================
+Simple char literal
+===================
+
+let a = 'a'
+
+---
+
+(program
+  (declaration
+    (identifier)
+    (char_literal)))
+
+===========================================
+Simple char literal with single char escape
+===========================================
+
+let newline = '\n'
+
+---
+
+(program
+  (declaration
+    (identifier)
+    (char_literal)))
+
+=====================================
+Simple char literal with octal escape
+=====================================
+
+let tab = '\o011'
+
+---
+
+(program
+  (declaration
+    (identifier)
+    (char_literal))) 
+
+===================================
+Simple char literal with hex escape
+===================================
+
+let unit_sep = '\x1F'
+
+---
+
+(program
+  (declaration
+    (identifier)
+    (char_literal))) 
+
+========================================
+Simple char literal with 4-digit unicode
+========================================
+
+let cap_a = '\u0041'
+
+---
+
+(program
+  (declaration
+    (identifier)
+    (char_literal)))
+
+========================================
+Simple char literal with 8-digit unicode
+========================================
+
+let grinning_face = '\U0001F600'
+
+---
+
+(program
+  (declaration
+    (identifier)
+    (char_literal)))   
