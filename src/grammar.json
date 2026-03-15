@@ -6571,7 +6571,7 @@
           "members": [
             {
               "type": "FIELD",
-              "name": "type",
+              "name": "type_annotation",
               "content": {
                 "type": "SYMBOL",
                 "name": "type_annotation"
@@ -7094,8 +7094,12 @@
           "value": "..."
         },
         {
-          "type": "SYMBOL",
-          "name": "identifier"
+          "type": "FIELD",
+          "name": "identifier",
+          "content": {
+            "type": "SYMBOL",
+            "name": "identifier"
+          }
         }
       ]
     }

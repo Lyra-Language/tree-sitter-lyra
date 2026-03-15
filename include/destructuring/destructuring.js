@@ -13,7 +13,7 @@ module.exports = {
     optional($.visibility),
     field('keyword', choice('let', 'var')),
     field('pattern', $.destructuring_pattern),
-    optional(field('type', $.type_annotation)),
+    optional(field('type_annotation', $.type_annotation)),
     '=',
     field('value', $.expression),
   ),

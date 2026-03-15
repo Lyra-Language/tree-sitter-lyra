@@ -173,7 +173,7 @@ let { a, ...rest } = some_struct
 Struct destructuring with rest pattern and new names
 ====================================================
 
-// let some_struct = Foo { a: 1, b: 2, c: 3 }
+// let some_struct = Foo{ a: 1, b: 2, c: 3 }
 let { a: foo, ...rest } = some_struct
 // foo == 1, rest == { b: 2, c: 3 }
 
@@ -195,7 +195,7 @@ let { a: foo, ...rest } = some_struct
 Tuple destructuring
 ===================
 
-// let some_tuple = Foo (1, 2, 3)
+// let some_tuple = Foo(1, 2, 3)
 let (a, b, c) = some_tuple
 // a == 1, b == 2, c == 3
 

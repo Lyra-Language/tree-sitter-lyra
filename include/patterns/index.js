@@ -90,5 +90,5 @@ module.exports = {
   wildcard_pattern: $ => prec.left(20, '_'),
 
   // Rest pattern
-  rest_pattern: $ => seq('...', $.identifier),
+  rest_pattern: $ => seq('...', field('identifier', $.identifier)),
 }
