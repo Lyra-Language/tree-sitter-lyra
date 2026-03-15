@@ -19,7 +19,7 @@ module.exports = {
       $.regex_literal,
       $.string_literal,
       $.raw_string_literal,
-      $.struct_literal,
+      $.struct_literal,   // Before tuple_literal so Point::<T> { } parses as struct
       $.tuple_literal,
     )
   ),

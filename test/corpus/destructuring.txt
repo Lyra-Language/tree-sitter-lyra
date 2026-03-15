@@ -250,11 +250,32 @@ let (a, ...rest) = some_tuple
     (identifier))
   (comment))
 
+=======================
+Data type destructuring
+=======================
+
+let Node { left: left_tree, value, right: right_tree } = some_node
+
+---
+
+(program
+  (destructuring_declaration
+    (destructuring_pattern
+      (data_pattern
+        (data_type_name)
+        (struct_pattern
+          (identifier)
+          (new_name)
+          (identifier)
+          (identifier)
+          (new_name))))
+    (identifier)))
+
 ===============================
 If Let Destructuring Expression
 ===============================
 
-if let Some(num) = get_num() {
+if let Some num = get_num() {
   println("We got the number: #{num}")
 }
 
@@ -285,7 +306,7 @@ if let Some(num) = get_num() {
 If Let Else Destructuring Expression
 ====================================
 
-if let Some(num) = get_num() {
+if let Some num = get_num() {
   println("We got the number: #{num}")
 } else {
   println("Darn, we didn't get the number!")
@@ -326,7 +347,7 @@ if let Some(num) = get_num() {
 Let Else Destructuring Expression
 =================================
 
-let Some(num) = get_num() else {
+let Some num = get_num() else {
   println("Darn, we didn't get the number!")
 }
 println("We got the number: #{num}")

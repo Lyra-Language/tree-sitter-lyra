@@ -141,7 +141,7 @@ impl Functor for DynamicArray<t> {
 
 impl Functor for Maybe {
   map = (maybe, fn) => match maybe {
-    Some(x) => Some(fn(x)),
+    Some x => Some fn(x),
     None => None
   }
 }
@@ -226,14 +226,13 @@ impl Functor for Maybe {
               (data_pattern
                 (data_type_name)
                 (identifier))
-              (tuple_literal
-                (tuple_name)
-                (tuple_value
-                  (call_expression
-                    (identifier)
-                    (argument_list
-                      (value
-                        (identifier)))))))
+              (data_constructor_expression
+                (data_type_name)
+                (call_expression
+                  (identifier)
+                  (argument_list
+                    (value
+                      (identifier))))))
             (match_arm
               (data_pattern
                 (data_type_name))

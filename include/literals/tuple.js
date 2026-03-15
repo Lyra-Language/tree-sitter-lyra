@@ -3,7 +3,7 @@ module.exports = {
     choice(
       // Empty tuple: ()
       seq('(',')'),
-      // Named tuple: allows single element without comma
+      // Named tuple with parens: Some(x) or Some(x, y)
       seq(
         $._tuple_name,
         optional(field('generic_arguments', $.generic_arguments)),

@@ -9,6 +9,8 @@ module.exports = {
   expression: $ => choice(
     $.block,
     $.await_expression,
+    $._literal,
+    $.data_constructor_expression,
     $._postfix_expression,
     $._math_expr,
     $.boolean_expr,
@@ -16,7 +18,6 @@ module.exports = {
     $.if_then_expr,
     $.if_block_expr,
     $.match_expr,
-    $._literal,
     $.spread_expr,
     $.lambda_expression,
     $.array_comp_expr,
@@ -37,6 +38,12 @@ module.exports = {
 
   // Grouping
   parenthesized_expression: $ => seq('(', $.expression, ')'),
+
+  // Data constructor application (single argument, no parens): Some fn(x), None
+  data_constructor_expression: $ => seq(
+    field('constructor', alias($.user_defined_type_name, $.data_type_name)),
+    field('value', $.expression)
+  ),
 
   _primary_expression: $ => choice(
     $.identifier,

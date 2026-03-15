@@ -4,8 +4,8 @@ Simple Match
 
 // let foo: Maybe<int> = Some(42)
 let bar = match foo {
-  Some(42) => "The Answer!",
-  Some(_) => "Just some number",
+  Some 42 => "The Answer!",
+  Some _ => "Just some number",
   None => "huh?",
 }
 
@@ -193,8 +193,8 @@ Match with guards
 =================
 
 match foo {
-  Some(x) if x > 0 && x < 10 => println("1-9"),
-  Some(x) if x >= 10 && x < 100 => println("10-99"),
+  Some x if x > 0 && x < 10 => println("1-9"),
+  Some x if x >= 10 && x < 100 => println("10-99"),
   None => println("No number!"),
 }
 
@@ -280,7 +280,7 @@ Match arm without body is an error
 ===================================
 
 match foo {
-  Some(x) =>,
+  Some x =>,
   None => "nothing",
 }
 

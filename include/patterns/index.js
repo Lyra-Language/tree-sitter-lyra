@@ -69,8 +69,8 @@ module.exports = {
 
   // Data pattern
   data_pattern: $ => prec.left(seq(
-    alias($.user_defined_type_name, $.data_type_name),
-    optional(seq('(', $.pattern, ')')),
+    field('name', alias($.user_defined_type_name, $.data_type_name)),
+    optional(field('pattern', $.pattern)),
   )),
 
   // Literal patterns (for pattern matching)

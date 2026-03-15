@@ -1,5 +1,5 @@
 module.exports = {
-  struct_literal: $ => prec.left(2, seq(
+  struct_literal: $ => prec.left(10, seq(
     optional(prec(4, field('struct_name', alias($.user_defined_type_name, $.struct_name)))),
     optional(field('generic_arguments', $.generic_arguments)),
     field('struct_body', $.struct_body)
