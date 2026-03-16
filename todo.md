@@ -1,17 +1,17 @@
 ## To-Dos
-- tests for func type param modifiers (ref, mut, own)
-- allow ref and mut modifiers for return types
-- math assignment ops (+=, -=, *=, /=)
-- function_type / type-only tests
-- doc comments
-- pipe operator?
 - "unsafe" blocks / raw pointers and pointer arithmetic
 - unchecked indexing in release or behind a flag
+- doc comments
+- pipe operator?
 
 ## Completed
 
 ### 03/15/25
 - await expression tests
+- tests for func type param modifiers (ref, mut, own)
+- allow ref and mut modifiers for return types
+- math assignment ops (+=, -=, *=, /=)
+- function_type / type-only tests
 
 ### 11/29/25
 - struct default values added
