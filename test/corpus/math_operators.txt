@@ -73,3 +73,34 @@ Test Group Precedence with Negation
               (decimal_int)))))
       (integer_literal
         (decimal_int)))))
+
+====================
+Assignment operators
+====================
+
+x += 1.2
+x -= 1
+y *= 2.5
+z /= 2
+
+---
+
+(program
+  (expression_statement
+    (addition_assignment
+      (identifier)
+      (float_literal)))
+  (expression_statement
+    (subtraction_assignment
+      (identifier)
+      (integer_literal
+        (decimal_int))))
+  (expression_statement
+    (multiplication_assignment
+      (identifier)
+      (float_literal)))
+  (expression_statement
+    (division_assignment
+      (identifier)
+      (integer_literal
+        (decimal_int)))))
