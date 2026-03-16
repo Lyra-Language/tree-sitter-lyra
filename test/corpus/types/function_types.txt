@@ -1,0 +1,39 @@
+============================================
+Variable with function type annotation
+============================================
+
+let f: (int) -> string = (x) => "ok"
+
+---
+
+(program
+  (declaration
+    (identifier)
+    (type_annotation
+      (function_type
+        (parameter_type_list
+          (parameter_type
+            (signed_integer_type)))
+        (string_type)))
+    (lambda_expression
+      (function_clause
+        (parameter_list
+          (parameter
+            (identifier)))
+        (string_literal
+          (string_content))))))
+
+=============================
+Type alias with function type
+=============================
+
+type Callback = () -> int
+
+---
+
+(program
+  (type_declaration
+    (constrained_type
+      (constrained_type_name)
+      (function_type
+        (signed_integer_type)))))
