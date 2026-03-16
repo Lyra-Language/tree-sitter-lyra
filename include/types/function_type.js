@@ -4,7 +4,10 @@ module.exports = {
     optional(field('parameter_types', $.parameter_type_list)),
     ')',
     '->',
-    field('return_type', $.type)
+    seq(
+      optional(field('modifier', $.modifier)),
+      field('return_type', $.type)
+    )
   )),
 
   parameter_type_list: $ => seq(

@@ -1,0 +1,47 @@
+=======================
+Simple Async/Await Test
+=======================
+
+async def fetch_data<t>: (string) -> t = (url) => {
+  let result = await http.fetch(url)
+  return json.parse(result.data)
+}
+
+---
+
+(program
+  (function_definition
+    (function_signature
+      (identifier)
+      (generic_parameters
+        (generic_type))
+      (function_type
+        (parameter_type_list
+          (parameter_type
+            (string_type)))
+        (generic_type)))
+    (function_clause
+      (parameter_list
+        (parameter
+          (identifier)))
+      (block
+        (declaration
+          (identifier)
+          (await_expression
+            (call_expression
+              (member_expression
+                (identifier)
+                (identifier))
+              (argument_list
+                (value
+                  (identifier))))))
+        (return_statement
+          (call_expression
+            (member_expression
+              (identifier)
+              (identifier))
+            (argument_list
+              (value
+                (member_expression
+                  (identifier)
+                  (identifier))))))))))

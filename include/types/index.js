@@ -27,6 +27,7 @@ module.exports = {
         $._primitive_type,
         $.parameterized_type,
         $.self_type,
+        $.void_type,
         $.user_defined_type_name,
         $.array_type,
         $.generic_type,
@@ -39,6 +40,8 @@ module.exports = {
     user_defined_type_name: $ => /[A-Z][a-zA-Z0-9]*/,
 
     self_type: $ => 'Self',
+
+    void_type: $ => 'Void',
 
     // Parameterized types like Maybe<i>, Tree<a>, Self<a>
     parameterized_type: $ => seq(

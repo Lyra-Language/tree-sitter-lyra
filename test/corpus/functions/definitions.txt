@@ -137,7 +137,7 @@ def product: (int, int) -> int = (a, b = 10) => a * b
 Function with patterns for parameters
 =====================================
 
-def foo: (string, int, Point, []string, SomeTuple) -> void =
+def foo: (string, int, Point, []string, SomeTuple) -> Void =
 (bar, 42, { x, y }, [one, two, three, ...rest], (alpha, beta)) => {
   // do stuff
 }
@@ -161,7 +161,7 @@ def foo: (string, int, Point, []string, SomeTuple) -> void =
               (string_type)))
           (parameter_type
             (user_defined_type_name)))
-        (generic_type)))
+        (void_type)))
       (function_clause
         (parameter_list
           (parameter
@@ -349,6 +349,65 @@ def fib: (int) -> int = {
                   (identifier)
                   (integer_literal
                     (decimal_int)))))))))))
+
+=================================
+Function type parameter modifiers
+=================================
+
+def render: (ref Scene) -> Void =
+(scene) => {
+  // render the scene
+}
+
+---
+
+(program
+  (function_definition
+    (function_signature
+      (identifier)
+      (function_type
+        (parameter_type_list
+          (parameter_type
+            (modifier)
+            (user_defined_type_name)))
+        (void_type)))
+    (function_clause
+      (parameter_list
+        (parameter
+          (identifier)))
+      (block
+        (comment)))))
+
+=============================
+Function type return modifier
+=============================
+
+def open_file: (string) -> mut File =
+(path) => {
+  // do some stuff
+  return file
+}
+
+---
+
+(program
+  (function_definition
+    (function_signature
+      (identifier)
+      (function_type
+        (parameter_type_list
+          (parameter_type
+            (string_type)))
+        (modifier)
+        (user_defined_type_name)))
+    (function_clause
+      (parameter_list
+        (parameter
+          (identifier)))
+      (block
+        (comment)
+        (return_statement
+          (identifier))))))
 
 ===================================
 Function without body is an error

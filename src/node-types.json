@@ -338,6 +338,10 @@
         "named": true
       },
       {
+        "type": "void_type",
+        "named": true
+      },
+      {
         "type": "weak_type",
         "named": true
       }
@@ -3030,6 +3034,16 @@
     "type": "function_type",
     "named": true,
     "fields": {
+      "modifier": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "modifier",
+            "named": true
+          }
+        ]
+      },
       "parameter_types": {
         "multiple": false,
         "required": false,
@@ -6674,6 +6688,10 @@
   },
   {
     "type": "visibility",
+    "named": true
+  },
+  {
+    "type": "void_type",
     "named": true
   },
   {
