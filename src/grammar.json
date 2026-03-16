@@ -6813,7 +6813,7 @@
         },
         {
           "type": "SYMBOL",
-          "name": "_pattern_field"
+          "name": "struct_field_pattern"
         },
         {
           "type": "REPEAT",
@@ -6826,7 +6826,7 @@
               },
               {
                 "type": "SYMBOL",
-                "name": "_pattern_field"
+                "name": "struct_field_pattern"
               }
             ]
           }
@@ -6848,6 +6848,118 @@
           "value": "}"
         }
       ]
+    },
+    "struct_field_rename": {
+      "type": "PREC",
+      "value": 10,
+      "content": {
+        "type": "SEQ",
+        "members": [
+          {
+            "type": "FIELD",
+            "name": "name",
+            "content": {
+              "type": "SYMBOL",
+              "name": "identifier"
+            }
+          },
+          {
+            "type": "STRING",
+            "value": ":"
+          },
+          {
+            "type": "FIELD",
+            "name": "new_name",
+            "content": {
+              "type": "ALIAS",
+              "content": {
+                "type": "SYMBOL",
+                "name": "identifier"
+              },
+              "named": true,
+              "value": "new_name"
+            }
+          }
+        ]
+      }
+    },
+    "struct_field_with_pattern": {
+      "type": "PREC",
+      "value": 1,
+      "content": {
+        "type": "SEQ",
+        "members": [
+          {
+            "type": "FIELD",
+            "name": "name",
+            "content": {
+              "type": "SYMBOL",
+              "name": "identifier"
+            }
+          },
+          {
+            "type": "STRING",
+            "value": ":"
+          },
+          {
+            "type": "FIELD",
+            "name": "pattern",
+            "content": {
+              "type": "SYMBOL",
+              "name": "pattern"
+            }
+          }
+        ]
+      }
+    },
+    "struct_field_pattern": {
+      "type": "PREC",
+      "value": 1,
+      "content": {
+        "type": "CHOICE",
+        "members": [
+          {
+            "type": "FIELD",
+            "name": "name",
+            "content": {
+              "type": "SYMBOL",
+              "name": "identifier"
+            }
+          },
+          {
+            "type": "FIELD",
+            "name": "struct_field_rename",
+            "content": {
+              "type": "SYMBOL",
+              "name": "struct_field_rename"
+            }
+          },
+          {
+            "type": "FIELD",
+            "name": "struct_field_with_pattern",
+            "content": {
+              "type": "SYMBOL",
+              "name": "struct_field_with_pattern"
+            }
+          },
+          {
+            "type": "FIELD",
+            "name": "rest_pattern",
+            "content": {
+              "type": "SYMBOL",
+              "name": "rest_pattern"
+            }
+          },
+          {
+            "type": "FIELD",
+            "name": "wildcard_pattern",
+            "content": {
+              "type": "SYMBOL",
+              "name": "wildcard_pattern"
+            }
+          }
+        ]
+      }
     },
     "tuple_pattern": {
       "type": "PREC_LEFT",
@@ -6968,53 +7080,6 @@
       "content": {
         "type": "CHOICE",
         "members": [
-          {
-            "type": "SYMBOL",
-            "name": "pattern"
-          },
-          {
-            "type": "SYMBOL",
-            "name": "rest_pattern"
-          },
-          {
-            "type": "SYMBOL",
-            "name": "wildcard_pattern"
-          }
-        ]
-      }
-    },
-    "_pattern_field": {
-      "type": "PREC",
-      "value": 1,
-      "content": {
-        "type": "CHOICE",
-        "members": [
-          {
-            "type": "SYMBOL",
-            "name": "identifier"
-          },
-          {
-            "type": "SEQ",
-            "members": [
-              {
-                "type": "SYMBOL",
-                "name": "identifier"
-              },
-              {
-                "type": "STRING",
-                "value": ":"
-              },
-              {
-                "type": "ALIAS",
-                "content": {
-                  "type": "SYMBOL",
-                  "name": "identifier"
-                },
-                "named": true,
-                "value": "new_name"
-              }
-            ]
-          },
           {
             "type": "SYMBOL",
             "name": "pattern"

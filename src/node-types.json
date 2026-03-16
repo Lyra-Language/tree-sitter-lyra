@@ -5198,6 +5198,114 @@
     }
   },
   {
+    "type": "struct_field_pattern",
+    "named": true,
+    "fields": {
+      "name": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "identifier",
+            "named": true
+          }
+        ]
+      },
+      "rest_pattern": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "rest_pattern",
+            "named": true
+          }
+        ]
+      },
+      "struct_field_rename": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "struct_field_rename",
+            "named": true
+          }
+        ]
+      },
+      "struct_field_with_pattern": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "struct_field_with_pattern",
+            "named": true
+          }
+        ]
+      },
+      "wildcard_pattern": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "wildcard_pattern",
+            "named": true
+          }
+        ]
+      }
+    }
+  },
+  {
+    "type": "struct_field_rename",
+    "named": true,
+    "fields": {
+      "name": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "identifier",
+            "named": true
+          }
+        ]
+      },
+      "new_name": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "new_name",
+            "named": true
+          }
+        ]
+      }
+    }
+  },
+  {
+    "type": "struct_field_with_pattern",
+    "named": true,
+    "fields": {
+      "name": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "identifier",
+            "named": true
+          }
+        ]
+      },
+      "pattern": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "pattern",
+            "named": true
+          }
+        ]
+      }
+    }
+  },
+  {
     "type": "struct_literal",
     "named": true,
     "fields": {
@@ -5293,15 +5401,7 @@
       "required": true,
       "types": [
         {
-          "type": "new_name",
-          "named": true
-        },
-        {
-          "type": "pattern",
-          "named": true
-        },
-        {
-          "type": "rest_pattern",
+          "type": "struct_field_pattern",
           "named": true
         }
       ]

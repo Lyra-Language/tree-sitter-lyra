@@ -172,8 +172,10 @@ def foo: (string, int, Point, []string, SomeTuple) -> Void =
                 (decimal_int))))
           (parameter
             (struct_pattern
-              (identifier)
-              (identifier)))
+              (struct_field_pattern
+                (identifier))
+              (struct_field_pattern
+                (identifier))))
           (parameter
             (array_pattern
               (identifier)

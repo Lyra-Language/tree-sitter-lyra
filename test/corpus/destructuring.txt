@@ -142,9 +142,12 @@ let { a, b, c } = some_struct
   (destructuring_declaration
     (destructuring_pattern
       (struct_pattern
-        (identifier)
-        (identifier)
-        (identifier)))
+        (struct_field_pattern
+          (identifier))
+        (struct_field_pattern
+          (identifier))
+        (struct_field_pattern
+          (identifier))))
     (identifier))
   (comment))
 
@@ -163,9 +166,11 @@ let { a, ...rest } = some_struct
   (destructuring_declaration
     (destructuring_pattern
       (struct_pattern
-        (identifier)
-        (rest_pattern
-          (identifier))))
+        (struct_field_pattern
+          (identifier))
+        (struct_field_pattern
+          (rest_pattern
+            (identifier)))))
     (identifier))
   (comment))
 
@@ -184,10 +189,42 @@ let { a: foo, ...rest } = some_struct
   (destructuring_declaration
     (destructuring_pattern
       (struct_pattern
-        (identifier)
-        (new_name)
-        (rest_pattern
-          (identifier))))
+        (struct_field_pattern
+          (struct_field_rename
+            (identifier)
+            (new_name)))
+        (struct_field_pattern
+          (rest_pattern
+            (identifier)))))
+    (identifier))
+  (comment))
+
+======================================
+Struct destructuring with sub-patterns
+======================================
+
+// let some_struct = Foo { a: 1, b: 2, c: [3, 4, 5] }
+let { a, b, c: [d, e, f] } = some_struct
+// a == 1, b == 2, d == 3, e == 4, f == 5
+
+---
+
+(program
+  (comment)
+  (destructuring_declaration
+    (destructuring_pattern
+      (struct_pattern
+        (struct_field_pattern
+          (identifier))
+        (struct_field_pattern
+          (identifier))
+        (struct_field_pattern
+          (struct_field_with_pattern
+            (identifier)
+            (array_pattern
+              (identifier)
+              (identifier)
+              (identifier))))))
     (identifier))
   (comment))
 
@@ -264,11 +301,16 @@ let Node { left: left_tree, value, right: right_tree } = some_node
       (data_pattern
         (data_type_name)
         (struct_pattern
-          (identifier)
-          (new_name)
-          (identifier)
-          (identifier)
-          (new_name))))
+          (struct_field_pattern
+            (struct_field_rename
+              (identifier)
+              (new_name)))
+          (struct_field_pattern
+            (identifier))
+          (struct_field_pattern
+            (struct_field_rename
+              (identifier)
+              (new_name))))))
     (identifier)))
 
 ===============================

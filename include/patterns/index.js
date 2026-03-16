@@ -23,11 +23,33 @@ module.exports = {
   // Struct patterns (shared)
   struct_pattern: $ => seq(
     '{',
-    $._pattern_field,
-    repeat(seq(',', $._pattern_field)),
+    $.struct_field_pattern,
+    repeat(seq(',', $.struct_field_pattern)),
     optional(','),
     '}'
   ),
+
+  // Rename form: { oldName: newName } — precedence > pattern (5) so identifier isn't reduced to pattern first
+  struct_field_rename: $ => prec(10, seq(
+    field('name', $.identifier),
+    ':',
+    field('new_name', alias($.identifier, $.new_name))
+  )),
+
+  // Nested pattern form: { oldName: Some(x) } or { oldName: (a, b) }
+  struct_field_with_pattern: $ => prec(1, seq(
+    field('name', $.identifier),
+    ':',
+    field('pattern', $.pattern)
+  )),
+
+  // Pattern fields (shared)
+  struct_field_pattern: $ => prec(1, choice(
+    field('name', $.identifier),                   // { name }
+    field('struct_field_rename', $.struct_field_rename),                         // { a: foo }
+    field('struct_field_with_pattern', $.struct_field_with_pattern),                  // { a: Some(x) }
+    field('rest_pattern', $.rest_pattern),
+  )),
 
   // Tuple patterns (shared)
   tuple_pattern: $ => prec.left(10, seq(
@@ -49,19 +71,6 @@ module.exports = {
 
   // Pattern elements (shared)
   _pattern_element: $ => prec(1, choice(
-    $.pattern,                      // nested patterns
-    $.rest_pattern,                 // ...rest
-    $.wildcard_pattern              // _
-  )),
-
-  // Pattern fields (shared)
-  _pattern_field: $ => prec(1, choice(
-    $.identifier,                   // { name }
-    seq(
-      $.identifier,
-      ':',
-      alias($.identifier, $.new_name)
-    ), // { oldName: newName }
     $.pattern,                      // nested patterns
     $.rest_pattern,                 // ...rest
     $.wildcard_pattern              // _
