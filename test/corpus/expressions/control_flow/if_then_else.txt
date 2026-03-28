@@ -221,6 +221,52 @@ if x == 0 {
                         (string_interpolation
                           (identifier))))))))))))))
 
+======================================
+If with multiple statements in a block
+======================================
+
+if x == 3 {
+  do_something()
+  let foo = do_something_else()
+  if foo {
+    print("foo is true!")
+  }
+}
+
+---
+
+(program
+  (expression_statement
+    (if_block_expr
+      (if_condition
+        (boolean_expr
+          (identifier)
+          (equals_operator)
+          (integer_literal
+            (decimal_int))))
+      (block
+        (expression_statement
+          (call_expression
+            (identifier)
+            (argument_list)))
+        (declaration
+          (identifier)
+          (call_expression
+            (identifier)
+            (argument_list)))
+        (expression_statement
+          (if_block_expr
+            (if_condition
+              (identifier))
+            (block
+              (expression_statement
+                (call_expression
+                  (identifier)
+                  (argument_list
+                    (value
+                      (string_literal
+                        (string_content)))))))))))))
+
 ===================================
 If without condition is an error
 :error

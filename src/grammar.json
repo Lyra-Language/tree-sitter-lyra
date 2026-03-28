@@ -6662,16 +6662,24 @@
         "type": "SEQ",
         "members": [
           {
-            "type": "SYMBOL",
-            "name": "destructuring_declaration"
+            "type": "FIELD",
+            "name": "destructuring_declaration",
+            "content": {
+              "type": "SYMBOL",
+              "name": "destructuring_declaration"
+            }
           },
           {
             "type": "STRING",
             "value": "else"
           },
           {
-            "type": "SYMBOL",
-            "name": "block"
+            "type": "FIELD",
+            "name": "else_block",
+            "content": {
+              "type": "SYMBOL",
+              "name": "block"
+            }
           }
         ]
       }
@@ -6687,12 +6695,20 @@
             "value": "if"
           },
           {
-            "type": "SYMBOL",
-            "name": "destructuring_declaration"
+            "type": "FIELD",
+            "name": "destructuring_declaration",
+            "content": {
+              "type": "SYMBOL",
+              "name": "destructuring_declaration"
+            }
           },
           {
-            "type": "SYMBOL",
-            "name": "block"
+            "type": "FIELD",
+            "name": "then_block",
+            "content": {
+              "type": "SYMBOL",
+              "name": "block"
+            }
           },
           {
             "type": "CHOICE",
@@ -6705,8 +6721,12 @@
                     "value": "else"
                   },
                   {
-                    "type": "SYMBOL",
-                    "name": "block"
+                    "type": "FIELD",
+                    "name": "else_block",
+                    "content": {
+                      "type": "SYMBOL",
+                      "name": "block"
+                    }
                   }
                 ]
               },
@@ -6948,14 +6968,6 @@
             "content": {
               "type": "SYMBOL",
               "name": "rest_pattern"
-            }
-          },
-          {
-            "type": "FIELD",
-            "name": "wildcard_pattern",
-            "content": {
-              "type": "SYMBOL",
-              "name": "wildcard_pattern"
             }
           }
         ]

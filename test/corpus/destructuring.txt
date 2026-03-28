@@ -313,9 +313,9 @@ let Node { left: left_tree, value, right: right_tree } = some_node
               (new_name))))))
     (identifier)))
 
-===============================
-If Let Destructuring Expression
-===============================
+===========================
+If Destructuring Expression
+===========================
 
 if let Some num = get_num() {
   println("We got the number: #{num}")
@@ -344,9 +344,9 @@ if let Some num = get_num() {
                 (string_interpolation
                   (identifier))))))))))
 
-====================================
-If Let Else Destructuring Expression
-====================================
+================================
+If Else Destructuring Expression
+================================
 
 if let Some num = get_num() {
   println("We got the number: #{num}")

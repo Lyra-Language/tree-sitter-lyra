@@ -2053,20 +2053,27 @@
   {
     "type": "destructuring_else_declaration",
     "named": true,
-    "fields": {},
-    "children": {
-      "multiple": true,
-      "required": true,
-      "types": [
-        {
-          "type": "block",
-          "named": true
-        },
-        {
-          "type": "destructuring_declaration",
-          "named": true
-        }
-      ]
+    "fields": {
+      "destructuring_declaration": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "destructuring_declaration",
+            "named": true
+          }
+        ]
+      },
+      "else_block": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "block",
+            "named": true
+          }
+        ]
+      }
     }
   },
   {
@@ -3392,20 +3399,37 @@
   {
     "type": "if_destructuring_declaration",
     "named": true,
-    "fields": {},
-    "children": {
-      "multiple": true,
-      "required": true,
-      "types": [
-        {
-          "type": "block",
-          "named": true
-        },
-        {
-          "type": "destructuring_declaration",
-          "named": true
-        }
-      ]
+    "fields": {
+      "destructuring_declaration": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "destructuring_declaration",
+            "named": true
+          }
+        ]
+      },
+      "else_block": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "block",
+            "named": true
+          }
+        ]
+      },
+      "then_block": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "block",
+            "named": true
+          }
+        ]
+      }
     }
   },
   {
@@ -5237,16 +5261,6 @@
         "types": [
           {
             "type": "struct_field_with_pattern",
-            "named": true
-          }
-        ]
-      },
-      "wildcard_pattern": {
-        "multiple": false,
-        "required": false,
-        "types": [
-          {
-            "type": "wildcard_pattern",
             "named": true
           }
         ]
