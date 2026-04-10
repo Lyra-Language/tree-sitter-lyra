@@ -5399,11 +5399,11 @@
         },
         {
           "type": "SYMBOL",
-          "name": "destructuring_else_declaration"
+          "name": "destructuring_if_declaration"
         },
         {
           "type": "SYMBOL",
-          "name": "if_destructuring_declaration"
+          "name": "destructuring_else_declaration"
         },
         {
           "type": "SYMBOL",
@@ -6684,7 +6684,7 @@
         ]
       }
     },
-    "if_destructuring_declaration": {
+    "destructuring_if_declaration": {
       "type": "PREC_RIGHT",
       "value": 20,
       "content": {

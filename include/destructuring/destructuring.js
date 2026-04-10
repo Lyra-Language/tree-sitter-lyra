@@ -26,7 +26,7 @@ module.exports = {
   )),
 
   // If Destructuring Declaration
-  if_destructuring_declaration: $ => prec.right(20, seq(
+  destructuring_if_declaration: $ => prec.right(20, seq(
     'if',
     field('destructuring_declaration', $.destructuring_declaration),
     field('then_block', $.block),

@@ -324,7 +324,7 @@ if let Some num = get_num() {
 ---
 
 (program
-  (if_destructuring_declaration
+  (destructuring_if_declaration
     (destructuring_declaration
       (destructuring_pattern
         (data_pattern
@@ -357,7 +357,7 @@ if let Some num = get_num() {
 ---
 
 (program
-  (if_destructuring_declaration
+  (destructuring_if_declaration
     (destructuring_declaration
       (destructuring_pattern
         (data_pattern

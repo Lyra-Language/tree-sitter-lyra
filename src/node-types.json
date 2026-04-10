@@ -244,6 +244,10 @@
         "named": true
       },
       {
+        "type": "destructuring_if_declaration",
+        "named": true
+      },
+      {
         "type": "expression_statement",
         "named": true
       },
@@ -257,10 +261,6 @@
       },
       {
         "type": "function_definition",
-        "named": true
-      },
-      {
-        "type": "if_destructuring_declaration",
         "named": true
       },
       {
@@ -2077,6 +2077,42 @@
     }
   },
   {
+    "type": "destructuring_if_declaration",
+    "named": true,
+    "fields": {
+      "destructuring_declaration": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "destructuring_declaration",
+            "named": true
+          }
+        ]
+      },
+      "else_block": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "block",
+            "named": true
+          }
+        ]
+      },
+      "then_block": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "block",
+            "named": true
+          }
+        ]
+      }
+    }
+  },
+  {
     "type": "destructuring_pattern",
     "named": true,
     "fields": {},
@@ -3394,42 +3430,6 @@
           "named": true
         }
       ]
-    }
-  },
-  {
-    "type": "if_destructuring_declaration",
-    "named": true,
-    "fields": {
-      "destructuring_declaration": {
-        "multiple": false,
-        "required": true,
-        "types": [
-          {
-            "type": "destructuring_declaration",
-            "named": true
-          }
-        ]
-      },
-      "else_block": {
-        "multiple": false,
-        "required": false,
-        "types": [
-          {
-            "type": "block",
-            "named": true
-          }
-        ]
-      },
-      "then_block": {
-        "multiple": false,
-        "required": true,
-        "types": [
-          {
-            "type": "block",
-            "named": true
-          }
-        ]
-      }
     }
   },
   {
