@@ -90,9 +90,11 @@ module.exports = {
   ),
 
   // Range patterns (for pattern matching)
-  range_pattern: $ => prec.left(25, choice(
-    seq($._number_literal, '..', $.range_end_operator, $._number_literal),  // 0..=9, 10..99
-    seq($._number_literal, '..', $._number_literal)                        // 0..9
+  range_pattern: $ => prec.left(25, seq(
+    field('start', $._number_literal),
+    '..',
+    optional(field('end_operator', $.range_end_operator)),
+    field('end', $._number_literal),
   )),
 
   // Wildcard pattern
