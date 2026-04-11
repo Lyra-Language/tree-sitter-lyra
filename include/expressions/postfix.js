@@ -10,6 +10,14 @@ module.exports = {
     $._primary_expression,
   ),
 
+  _primary_expression: $ => choice(
+    $.identifier,
+    $.const_identifier,
+    $.user_defined_type_name,  // For static method calls like Arena.new()
+    $.parenthesized_expression,
+    // $.lambda_expression, // TODO: add lambda expression
+  ),
+
   call_expression: $ => prec.left(300, seq(
     field('function', $._postfix_expression),
     optional(field('generic_arguments', $.generic_arguments)),

@@ -45,14 +45,6 @@ module.exports = {
     field('value', $.expression)
   ),
 
-  _primary_expression: $ => choice(
-    $.identifier,
-    $.const_identifier,
-    $.user_defined_type_name,  // For static method calls like Arena.new()
-    $.parenthesized_expression,
-    // $.lambda_expression, // TODO: add lambda expression
-  ),
-
   // Null coalescing - provide default value for Maybe<T>
   null_coalescing_expression: $ => prec.right(25, seq(
     field('optional', $.expression),
