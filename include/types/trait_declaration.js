@@ -1,74 +1,92 @@
 module.exports = {
-  trait_declaration: $ => seq(
-    optional($.visibility),
-    'trait',
-    field('name', alias($.user_defined_type_name, $.trait_name)),
-    optional(field('generic_parameters', $.generic_parameters)),
-    optional(seq(':', field('trait_bounds', $.trait_bounds))),
-    '{',
-    field('method', $.trait_method),
-    repeat(seq(',', field('method', $.trait_method))),
-    optional(','),
-    '}'
-  ),
-
-  trait_bounds: $ => seq(
-    $.user_defined_type_name,
-    repeat(seq('+', $.user_defined_type_name)),
-  ),
-  
-  trait_method: $ => seq(
-    alias(
-      choice($.identifier, $.unary_operator, $.binary_operator),
-      $.method_name
+  trait_declaration: ($) =>
+    seq(
+      optional(field("visibility", $.visibility)),
+      "trait",
+      field("name", alias($.user_defined_type_name, $.trait_name)),
+      optional(field("generic_parameters", $.generic_parameters)),
+      optional(seq(":", field("trait_bounds", $.trait_bounds))),
+      optional(
+        seq(
+          "where",
+          field(
+            "trait_generic_parameter_constraints",
+            $.trait_generic_parameter_constraints,
+          ),
+        ),
+      ),
+      "{",
+      field("methods", $.trait_methods),
+      "}",
     ),
-    ':',
-    field('function_type', $.function_type),
-  ),
 
-  unary_operator: $ => prec(1, seq(
-    '(',
-    choice($.prefix_operator, $.suffix_operator),
-    ')',
-  )),
-
-  prefix_operator: $ => prec(1, seq(
-    choice('-', '!', '~'),
-    '_',
-  )),
-
-  suffix_operator: $ => prec(1, seq(
-    '_',
-    choice('++', '--', '!'),
-  )),
-
-  binary_operator: $ => prec(1, seq(
-    '(',
-    '_',
-    choice(
-      token('=='),
-      token('!='),
-      token('>'),
-      token('<'),
-      token('>='),
-      token('<='),
-      token('<=>'),
-      token('&&'),
-      token('||'),
-      token('+'),
-      token('-'),
-      token('*'),
-      token('/'),
-      token('%'),
-      token('**'),
-      token('<<'),
-      token('>>'),
-      token('&'),
-      token('|'),
-      token('^'),
-      token('~'),
+  trait_bounds: ($) =>
+    seq(
+      alias($.user_defined_type_name, $.trait_name),
+      repeat(seq("+", alias($.user_defined_type_name, $.trait_name))),
     ),
-    '_',
-    ')'
-  )),
-}
+
+  trait_generic_parameter_constraints: ($) =>
+    seq(
+      $.trait_generic_parameter_constraint,
+      repeat(seq(",", $.trait_generic_parameter_constraint)),
+      optional(","),
+    ),
+
+  trait_generic_parameter_constraint: ($) =>
+    seq(
+      field("generic_type", $.generic_type),
+      ":",
+      field("trait_bounds", $.trait_bounds),
+    ),
+
+  trait_methods: ($) =>
+    seq($.trait_method, repeat(seq(",", $.trait_method)), optional(",")),
+
+  trait_method: ($) =>
+    seq(
+      field("name", choice($.identifier, $.unary_operator, $.binary_operator)),
+      ":",
+      field("signature", alias($.function_type, $.trait_method_signature)),
+    ),
+
+  unary_operator: ($) =>
+    prec(1, seq("(", choice($.prefix_operator, $.suffix_operator), ")")),
+
+  prefix_operator: ($) => prec(1, seq(choice("-", "!", "~"), "_")),
+
+  suffix_operator: ($) => prec(1, seq("_", choice("++", "--"))),
+
+  binary_operator: ($) =>
+    prec(
+      1,
+      seq(
+        "(",
+        "_",
+        choice(
+          token("=="),
+          token("!="),
+          token(">"),
+          token("<"),
+          token(">="),
+          token("<="),
+          token("<=>"),
+          token("&&"),
+          token("||"),
+          token("+"),
+          token("-"),
+          token("*"),
+          token("/"),
+          token("%"),
+          token("**"),
+          token("<<"),
+          token(">>"),
+          token("&"),
+          token("|"),
+          token("^"),
+        ),
+        "_",
+        ")",
+      ),
+    ),
+};
