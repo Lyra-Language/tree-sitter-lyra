@@ -1563,7 +1563,7 @@
                   "name": "left",
                   "content": {
                     "type": "SYMBOL",
-                    "name": "_math_expr"
+                    "name": "_math_operand"
                   }
                 },
                 {
@@ -1596,7 +1596,7 @@
                   "name": "right",
                   "content": {
                     "type": "SYMBOL",
-                    "name": "_math_expr"
+                    "name": "_math_operand"
                   }
                 }
               ]
@@ -1613,7 +1613,7 @@
                   "name": "left",
                   "content": {
                     "type": "SYMBOL",
-                    "name": "_math_expr"
+                    "name": "_math_operand"
                   }
                 },
                 {
@@ -1638,7 +1638,7 @@
                   "name": "right",
                   "content": {
                     "type": "SYMBOL",
-                    "name": "_math_expr"
+                    "name": "_math_operand"
                   }
                 }
               ]
@@ -1797,66 +1797,255 @@
       "members": [
         {
           "type": "SYMBOL",
-          "name": "_primary_math_expr"
+          "name": "binary_expression"
         },
         {
           "type": "SYMBOL",
-          "name": "addition"
+          "name": "compound_assignment"
         },
         {
           "type": "SYMBOL",
-          "name": "subtraction"
+          "name": "negation"
         },
         {
           "type": "SYMBOL",
-          "name": "multiplication"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "division"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "addition_assignment"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "subtraction_assignment"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "multiplication_assignment"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "division_assignment"
+          "name": "group"
         }
       ]
     },
-    "_primary_math_expr": {
+    "binary_expression": {
+      "type": "CHOICE",
+      "members": [
+        {
+          "type": "PREC_LEFT",
+          "value": 110,
+          "content": {
+            "type": "SEQ",
+            "members": [
+              {
+                "type": "FIELD",
+                "name": "left",
+                "content": {
+                  "type": "SYMBOL",
+                  "name": "_math_operand"
+                }
+              },
+              {
+                "type": "FIELD",
+                "name": "operator",
+                "content": {
+                  "type": "CHOICE",
+                  "members": [
+                    {
+                      "type": "SYMBOL",
+                      "name": "add_operator"
+                    },
+                    {
+                      "type": "SYMBOL",
+                      "name": "sub_operator"
+                    }
+                  ]
+                }
+              },
+              {
+                "type": "FIELD",
+                "name": "right",
+                "content": {
+                  "type": "SYMBOL",
+                  "name": "_math_operand"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "PREC_LEFT",
+          "value": 120,
+          "content": {
+            "type": "SEQ",
+            "members": [
+              {
+                "type": "FIELD",
+                "name": "left",
+                "content": {
+                  "type": "SYMBOL",
+                  "name": "_math_operand"
+                }
+              },
+              {
+                "type": "FIELD",
+                "name": "operator",
+                "content": {
+                  "type": "CHOICE",
+                  "members": [
+                    {
+                      "type": "SYMBOL",
+                      "name": "mul_operator"
+                    },
+                    {
+                      "type": "SYMBOL",
+                      "name": "div_operator"
+                    }
+                  ]
+                }
+              },
+              {
+                "type": "FIELD",
+                "name": "right",
+                "content": {
+                  "type": "SYMBOL",
+                  "name": "_math_operand"
+                }
+              }
+            ]
+          }
+        }
+      ]
+    },
+    "compound_assignment": {
       "type": "PREC_RIGHT",
-      "value": 130,
+      "value": 110,
       "content": {
-        "type": "CHOICE",
+        "type": "SEQ",
         "members": [
           {
-            "type": "SYMBOL",
-            "name": "_number_literal"
+            "type": "FIELD",
+            "name": "left",
+            "content": {
+              "type": "SYMBOL",
+              "name": "_math_operand"
+            }
           },
           {
-            "type": "SYMBOL",
-            "name": "_postfix_expression"
+            "type": "FIELD",
+            "name": "operator",
+            "content": {
+              "type": "CHOICE",
+              "members": [
+                {
+                  "type": "SYMBOL",
+                  "name": "add_assign_operator"
+                },
+                {
+                  "type": "SYMBOL",
+                  "name": "sub_assign_operator"
+                },
+                {
+                  "type": "SYMBOL",
+                  "name": "mul_assign_operator"
+                },
+                {
+                  "type": "SYMBOL",
+                  "name": "div_assign_operator"
+                }
+              ]
+            }
           },
           {
-            "type": "SYMBOL",
-            "name": "group"
-          },
-          {
-            "type": "SYMBOL",
-            "name": "negation"
+            "type": "FIELD",
+            "name": "right",
+            "content": {
+              "type": "SYMBOL",
+              "name": "_math_operand"
+            }
           }
         ]
       }
+    },
+    "add_operator": {
+      "type": "STRING",
+      "value": "+"
+    },
+    "sub_operator": {
+      "type": "STRING",
+      "value": "-"
+    },
+    "mul_operator": {
+      "type": "STRING",
+      "value": "*"
+    },
+    "div_operator": {
+      "type": "STRING",
+      "value": "/"
+    },
+    "add_assign_operator": {
+      "type": "STRING",
+      "value": "+="
+    },
+    "sub_assign_operator": {
+      "type": "STRING",
+      "value": "-="
+    },
+    "mul_assign_operator": {
+      "type": "STRING",
+      "value": "*="
+    },
+    "div_assign_operator": {
+      "type": "STRING",
+      "value": "/="
+    },
+    "negation": {
+      "type": "PREC_RIGHT",
+      "value": 140,
+      "content": {
+        "type": "SEQ",
+        "members": [
+          {
+            "type": "FIELD",
+            "name": "operator",
+            "content": {
+              "type": "STRING",
+              "value": "-"
+            }
+          },
+          {
+            "type": "FIELD",
+            "name": "operand",
+            "content": {
+              "type": "SYMBOL",
+              "name": "_math_operand"
+            }
+          }
+        ]
+      }
+    },
+    "group": {
+      "type": "PREC",
+      "value": 180,
+      "content": {
+        "type": "SEQ",
+        "members": [
+          {
+            "type": "STRING",
+            "value": "("
+          },
+          {
+            "type": "SYMBOL",
+            "name": "_math_expr"
+          },
+          {
+            "type": "STRING",
+            "value": ")"
+          }
+        ]
+      }
+    },
+    "_math_operand": {
+      "type": "CHOICE",
+      "members": [
+        {
+          "type": "SYMBOL",
+          "name": "_number_literal"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "_postfix_expression"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "_math_expr"
+        }
+      ]
     },
     "constraint_math_expr": {
       "type": "CHOICE",
@@ -1883,27 +2072,6 @@
         }
       ]
     },
-    "_arithmetic_operator": {
-      "type": "CHOICE",
-      "members": [
-        {
-          "type": "SYMBOL",
-          "name": "addition"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "subtraction"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "multiplication"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "division"
-        }
-      ]
-    },
     "_constraint_arithmetic_operator": {
       "type": "CHOICE",
       "members": [
@@ -1924,163 +2092,6 @@
           "name": "constraint_division"
         }
       ]
-    },
-    "addition": {
-      "type": "PREC_LEFT",
-      "value": 110,
-      "content": {
-        "type": "SEQ",
-        "members": [
-          {
-            "type": "FIELD",
-            "name": "left",
-            "content": {
-              "type": "SYMBOL",
-              "name": "_primary_math_expr"
-            }
-          },
-          {
-            "type": "FIELD",
-            "name": "operator",
-            "content": {
-              "type": "STRING",
-              "value": "+"
-            }
-          },
-          {
-            "type": "FIELD",
-            "name": "right",
-            "content": {
-              "type": "SYMBOL",
-              "name": "_math_expr"
-            }
-          }
-        ]
-      }
-    },
-    "subtraction": {
-      "type": "PREC_LEFT",
-      "value": 110,
-      "content": {
-        "type": "SEQ",
-        "members": [
-          {
-            "type": "FIELD",
-            "name": "left",
-            "content": {
-              "type": "SYMBOL",
-              "name": "_primary_math_expr"
-            }
-          },
-          {
-            "type": "FIELD",
-            "name": "operator",
-            "content": {
-              "type": "STRING",
-              "value": "-"
-            }
-          },
-          {
-            "type": "FIELD",
-            "name": "right",
-            "content": {
-              "type": "SYMBOL",
-              "name": "_math_expr"
-            }
-          }
-        ]
-      }
-    },
-    "multiplication": {
-      "type": "PREC_LEFT",
-      "value": 120,
-      "content": {
-        "type": "SEQ",
-        "members": [
-          {
-            "type": "FIELD",
-            "name": "left",
-            "content": {
-              "type": "SYMBOL",
-              "name": "_primary_math_expr"
-            }
-          },
-          {
-            "type": "FIELD",
-            "name": "operator",
-            "content": {
-              "type": "STRING",
-              "value": "*"
-            }
-          },
-          {
-            "type": "FIELD",
-            "name": "right",
-            "content": {
-              "type": "SYMBOL",
-              "name": "_math_expr"
-            }
-          }
-        ]
-      }
-    },
-    "division": {
-      "type": "PREC_LEFT",
-      "value": 120,
-      "content": {
-        "type": "SEQ",
-        "members": [
-          {
-            "type": "FIELD",
-            "name": "left",
-            "content": {
-              "type": "SYMBOL",
-              "name": "_primary_math_expr"
-            }
-          },
-          {
-            "type": "FIELD",
-            "name": "operator",
-            "content": {
-              "type": "STRING",
-              "value": "/"
-            }
-          },
-          {
-            "type": "FIELD",
-            "name": "right",
-            "content": {
-              "type": "SYMBOL",
-              "name": "_math_expr"
-            }
-          }
-        ]
-      }
-    },
-    "negation": {
-      "type": "PREC_RIGHT",
-      "value": 140,
-      "content": {
-        "type": "SEQ",
-        "members": [
-          {
-            "type": "FIELD",
-            "name": "operator",
-            "content": {
-              "type": "STRING",
-              "value": "-"
-            }
-          },
-          {
-            "type": "FIELD",
-            "name": "operand",
-            "content": {
-              "type": "SYMBOL",
-              "name": "_primary_math_expr"
-            }
-          }
-        ]
-      }
     },
     "constraint_addition": {
       "type": "PREC_LEFT",
@@ -2235,111 +2246,6 @@
               "type": "SYMBOL",
               "name": "constraint_math_expr"
             }
-          }
-        ]
-      }
-    },
-    "addition_assignment": {
-      "type": "PREC_LEFT",
-      "value": 110,
-      "content": {
-        "type": "SEQ",
-        "members": [
-          {
-            "type": "SYMBOL",
-            "name": "_primary_math_expr"
-          },
-          {
-            "type": "STRING",
-            "value": "+="
-          },
-          {
-            "type": "SYMBOL",
-            "name": "_math_expr"
-          }
-        ]
-      }
-    },
-    "subtraction_assignment": {
-      "type": "PREC_LEFT",
-      "value": 110,
-      "content": {
-        "type": "SEQ",
-        "members": [
-          {
-            "type": "SYMBOL",
-            "name": "_primary_math_expr"
-          },
-          {
-            "type": "STRING",
-            "value": "-="
-          },
-          {
-            "type": "SYMBOL",
-            "name": "_math_expr"
-          }
-        ]
-      }
-    },
-    "multiplication_assignment": {
-      "type": "PREC_LEFT",
-      "value": 120,
-      "content": {
-        "type": "SEQ",
-        "members": [
-          {
-            "type": "SYMBOL",
-            "name": "_primary_math_expr"
-          },
-          {
-            "type": "STRING",
-            "value": "*="
-          },
-          {
-            "type": "SYMBOL",
-            "name": "_math_expr"
-          }
-        ]
-      }
-    },
-    "division_assignment": {
-      "type": "PREC_LEFT",
-      "value": 120,
-      "content": {
-        "type": "SEQ",
-        "members": [
-          {
-            "type": "SYMBOL",
-            "name": "_primary_math_expr"
-          },
-          {
-            "type": "STRING",
-            "value": "/="
-          },
-          {
-            "type": "SYMBOL",
-            "name": "_math_expr"
-          }
-        ]
-      }
-    },
-    "group": {
-      "type": "PREC",
-      "value": 180,
-      "content": {
-        "type": "SEQ",
-        "members": [
-          {
-            "type": "STRING",
-            "value": "("
-          },
-          {
-            "type": "SYMBOL",
-            "name": "_math_expr"
-          },
-          {
-            "type": "STRING",
-            "value": ")"
           }
         ]
       }
@@ -2635,11 +2541,7 @@
       "members": [
         {
           "type": "SYMBOL",
-          "name": "_math_expr"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "identifier"
+          "name": "_math_operand"
         },
         {
           "type": "SYMBOL",
@@ -7445,16 +7347,16 @@
       "expression_statement"
     ],
     [
-      "_primary_expression",
-      "result_expression"
-    ],
-    [
       "parameter_type",
       "tuple_type_element"
     ],
     [
       "function_clause",
       "expression"
+    ],
+    [
+      "expression",
+      "_math_operand"
     ]
   ],
   "precedences": [],

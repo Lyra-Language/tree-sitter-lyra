@@ -8,9 +8,10 @@ Simple Math Operator
 
 (program
   (expression_statement
-    (addition
+    (binary_expression
       (integer_literal
         (decimal_int))
+      (add_operator)
       (integer_literal
         (decimal_int)))))
 
@@ -24,12 +25,14 @@ Test Simple Precedence
 
 (program
   (expression_statement
-    (addition
+    (binary_expression
       (integer_literal
         (decimal_int))
-      (multiplication
+      (add_operator)
+      (binary_expression
         (integer_literal
           (decimal_int))
+        (mul_operator)
         (integer_literal
           (decimal_int))))))
 
@@ -43,15 +46,17 @@ Test Group Precedence
 
 (program
   (expression_statement
-  (multiplication
-    (group
-      (addition
-        (integer_literal
-          (decimal_int))
-        (integer_literal
-          (decimal_int))))
-    (integer_literal
-      (decimal_int)))))
+    (binary_expression
+      (group
+        (binary_expression
+          (integer_literal
+            (decimal_int))
+          (add_operator)
+          (integer_literal
+            (decimal_int))))
+      (mul_operator)
+      (integer_literal
+        (decimal_int)))))
 
 ===================================
 Test Group Precedence with Negation
@@ -63,16 +68,57 @@ Test Group Precedence with Negation
 
 (program
   (expression_statement
-    (multiplication
+    (binary_expression
       (negation
         (group
-          (addition
+          (binary_expression
             (integer_literal
               (decimal_int))
+            (add_operator)
             (integer_literal
               (decimal_int)))))
+      (mul_operator)
       (integer_literal
         (decimal_int)))))
+
+=====================
+Left-associative chain
+=====================
+
+a - b - c
+
+---
+
+(program
+  (expression_statement
+    (binary_expression
+      (binary_expression
+        (identifier)
+        (sub_operator)
+        (identifier))
+      (sub_operator)
+      (identifier))))
+
+========================================
+Mixed precedence chain is left-associated
+========================================
+
+a + b * c - d
+
+---
+
+(program
+  (expression_statement
+    (binary_expression
+      (binary_expression
+        (identifier)
+        (add_operator)
+        (binary_expression
+          (identifier)
+          (mul_operator)
+          (identifier)))
+      (sub_operator)
+      (identifier))))
 
 ====================
 Assignment operators
@@ -87,20 +133,24 @@ z /= 2
 
 (program
   (expression_statement
-    (addition_assignment
+    (compound_assignment
       (identifier)
+      (add_assign_operator)
       (float_literal)))
   (expression_statement
-    (subtraction_assignment
+    (compound_assignment
       (identifier)
+      (sub_assign_operator)
       (integer_literal
         (decimal_int))))
   (expression_statement
-    (multiplication_assignment
+    (compound_assignment
       (identifier)
+      (mul_assign_operator)
       (float_literal)))
   (expression_statement
-    (division_assignment
+    (compound_assignment
       (identifier)
+      (div_assign_operator)
       (integer_literal
         (decimal_int)))))

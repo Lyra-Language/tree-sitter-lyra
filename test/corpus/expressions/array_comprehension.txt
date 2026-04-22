@@ -22,8 +22,9 @@ let squares = [ 1..=5 -> x | x * x ]
               (decimal_int))))
         (identifier))
       (result_expression
-        (multiplication
+        (binary_expression
           (identifier)
+          (mul_operator)
           (identifier)))))
   (comment))
 
@@ -57,8 +58,9 @@ let even_squares = [ 1..=10 -> x | even(x) | x * x ]
             (value
               (identifier)))))
       (result_expression
-        (multiplication
+        (binary_expression
           (identifier)
+          (mul_operator)
           (identifier)))))
   (comment))
 
@@ -114,8 +116,9 @@ let foo = [ 1..=5 -> x, 1..=5 -> y | odd(x), even(y) | (x, y, x * y) ]
           (tuple_value
             (identifier))
           (tuple_value
-            (multiplication
+            (binary_expression
               (identifier)
+              (mul_operator)
               (identifier)))))))
   (comment))
 
@@ -142,8 +145,9 @@ let squares = [ [1, 2, 3] -> x | x * x ]
             (decimal_int)))
         (identifier))
       (result_expression
-        (multiplication
+        (binary_expression
           (identifier)
+          (mul_operator)
           (identifier)))))
   (comment))
 
@@ -189,7 +193,8 @@ let squares = [ one_to_five -> x | x * x ]
         (identifier)
         (identifier))
       (result_expression
-        (multiplication
+        (binary_expression
           (identifier)
+          (mul_operator)
           (identifier)))))
   (comment))

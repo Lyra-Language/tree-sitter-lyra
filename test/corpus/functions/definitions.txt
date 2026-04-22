@@ -12,10 +12,10 @@ def foo = () => {
   (function_definition
     (function_signature
       (identifier))
-        (function_clause
-          (parameter_list)
-          (block
-            (comment)))))
+    (function_clause
+      (parameter_list)
+      (block
+        (comment)))))
 
 ==============================================================
 Basic Function declaration without parameters with return type
@@ -34,12 +34,12 @@ def foo: () -> int =
       (identifier)
       (function_type
         (signed_integer_type)))
-        (function_clause
-          (parameter_list)
-          (block
-            (return_statement
-              (integer_literal
-                (decimal_int)))))))
+    (function_clause
+      (parameter_list)
+      (block
+        (return_statement
+          (integer_literal
+            (decimal_int)))))))
 
 ==========================================
 Basic Function declaration with parameters
@@ -66,8 +66,9 @@ def sum: (int, int) -> int = (a, b) => a + b
           (identifier))
         (parameter
           (identifier)))
-      (addition
+      (binary_expression
         (identifier)
+        (add_operator)
         (identifier)))))
 
 ==================================================
@@ -91,15 +92,16 @@ def sum<n>: (n, n) -> n = (a, b) => a + b
           (parameter_type
             (generic_type)))
         (generic_type)))
-        (function_clause
-          (parameter_list
-            (parameter
-              (identifier))
-            (parameter
-              (identifier)))
-          (addition
-            (identifier)
-            (identifier)))))
+    (function_clause
+      (parameter_list
+        (parameter
+          (identifier))
+        (parameter
+          (identifier)))
+      (binary_expression
+        (identifier)
+        (add_operator)
+        (identifier)))))
 
 ==================================
 Function declaration with defaults
@@ -120,18 +122,19 @@ def product: (int, int) -> int = (a, b = 10) => a * b
           (parameter_type
             (signed_integer_type)))
         (signed_integer_type)))
-      (function_clause
-        (parameter_list
-          (parameter
-            (identifier))
-          (parameter
-            (identifier)
-            (default_value
-              (integer_literal
-                (decimal_int)))))
-        (multiplication
+    (function_clause
+      (parameter_list
+        (parameter
+          (identifier))
+        (parameter
           (identifier)
-          (identifier)))))
+          (default_value
+            (integer_literal
+              (decimal_int)))))
+      (binary_expression
+        (identifier)
+        (mul_operator)
+        (identifier)))))
 
 =====================================
 Function with patterns for parameters
@@ -162,33 +165,33 @@ def foo: (string, int, Point, []string, SomeTuple) -> Void =
           (parameter_type
             (user_defined_type_name)))
         (void_type)))
-      (function_clause
-        (parameter_list
-          (parameter
-            (identifier))
-          (parameter
-            (literal_pattern
-              (integer_literal
-                (decimal_int))))
-          (parameter
-            (struct_pattern
-              (struct_field_pattern
-                (identifier))
-              (struct_field_pattern
-                (identifier))))
-          (parameter
-            (array_pattern
-              (identifier)
-              (identifier)
-              (identifier)
-              (rest_pattern
-                (identifier))))
-          (parameter
-            (tuple_pattern
-              (identifier)
+    (function_clause
+      (parameter_list
+        (parameter
+          (identifier))
+        (parameter
+          (literal_pattern
+            (integer_literal
+              (decimal_int))))
+        (parameter
+          (struct_pattern
+            (struct_field_pattern
+              (identifier))
+            (struct_field_pattern
               (identifier))))
-        (block
-          (comment)))))
+        (parameter
+          (array_pattern
+            (identifier)
+            (identifier)
+            (identifier)
+            (rest_pattern
+              (identifier))))
+        (parameter
+          (tuple_pattern
+            (identifier)
+            (identifier))))
+      (block
+        (comment)))))
 
 =====================
 Higher order function
@@ -225,18 +228,18 @@ def map<t,u>: ([]t, (t) -> u) -> []u =
               (generic_type))))
         (array_type
           (generic_type))))
-        (function_clause
-          (parameter_list
-            (parameter
-              (identifier))
-            (parameter
-              (identifier)))
-          (block
-            (comment)
-            (comment)
-            (comment)
-            (comment)
-            (comment)))))
+    (function_clause
+      (parameter_list
+        (parameter
+          (identifier))
+        (parameter
+          (identifier)))
+      (block
+        (comment)
+        (comment)
+        (comment)
+        (comment)
+        (comment)))))
 
 ========================================
 Function with multiple function patterns
@@ -280,21 +283,24 @@ def fib: (int) -> int = {
         (parameter_list
           (parameter
             (identifier)))
-        (addition
+        (binary_expression
           (call_expression
             (identifier)
             (argument_list
               (value
-                (subtraction
+                (binary_expression
                   (identifier)
+                  (sub_operator)
                   (integer_literal
                     (decimal_int))))))
+          (add_operator)
           (call_expression
             (identifier)
             (argument_list
               (value
-                (subtraction
+                (binary_expression
                   (identifier)
+                  (sub_operator)
                   (integer_literal
                     (decimal_int)))))))))))
 
@@ -334,21 +340,24 @@ def fib: (int) -> int = {
         (parameter_list
           (parameter
             (identifier)))
-        (addition
+        (binary_expression
           (call_expression
             (identifier)
             (argument_list
               (value
-                (subtraction
+                (binary_expression
                   (identifier)
+                  (sub_operator)
                   (integer_literal
                     (decimal_int))))))
+          (add_operator)
           (call_expression
             (identifier)
             (argument_list
               (value
-                (subtraction
+                (binary_expression
                   (identifier)
+                  (sub_operator)
                   (integer_literal
                     (decimal_int)))))))))))
 

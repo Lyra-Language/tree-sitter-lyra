@@ -24,8 +24,9 @@ let sum: (int, int) -> int = (a, b) => a + b
             (identifier))
           (parameter
             (identifier)))
-        (addition
+        (binary_expression
           (identifier)
+          (add_operator)
           (identifier))))))
 
 ==============================
@@ -59,8 +60,9 @@ def make_sum_fn: (int) -> (int) -> int =
           (parameter_list
             (parameter
               (identifier)))
-          (addition
+          (binary_expression
             (identifier)
+            (add_operator)
             (identifier)))))))
 
 ==============================
@@ -94,7 +96,8 @@ let doubled = map::<int, int>([1, 2, 3], (x) => 2 * x)
               (parameter_list
                 (parameter
                   (identifier)))
-              (multiplication
+              (binary_expression
                 (integer_literal
                   (decimal_int))
+                (mul_operator)
                 (identifier)))))))))

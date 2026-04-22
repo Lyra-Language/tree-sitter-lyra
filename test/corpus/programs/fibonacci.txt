@@ -44,20 +44,23 @@ def fib: (int) -> int =
                     (decimal_int))))
               (integer_literal
                 (decimal_int))
-              (addition
+              (binary_expression
                 (call_expression
                   (identifier)
                   (argument_list
                     (value
-                      (subtraction
+                      (binary_expression
                         (identifier)
+                        (sub_operator)
                         (integer_literal
                           (decimal_int))))))
+                (add_operator)
                 (call_expression
                   (identifier)
                   (argument_list
                     (value
-                      (subtraction
+                      (binary_expression
                         (identifier)
+                        (sub_operator)
                         (integer_literal
                           (decimal_int))))))))))))))

@@ -23,8 +23,9 @@ pure def add: (int, int) -> int = (a, b) => a + b
           (identifier))
         (parameter
           (identifier)))
-      (addition
+      (binary_expression
         (identifier)
+        (add_operator)
         (identifier)))))
 
 ================================
@@ -53,8 +54,9 @@ pub pure def multiply: (int, int) -> int = (a, b) => a * b
           (identifier))
         (parameter
           (identifier)))
-      (multiplication
+      (binary_expression
         (identifier)
+        (mul_operator)
         (identifier)))))
 
 ================================
@@ -78,8 +80,9 @@ pure async def compute: (int) -> int = (n) => n * 2
       (parameter_list
         (parameter
           (identifier)))
-      (multiplication
+      (binary_expression
         (identifier)
+        (mul_operator)
         (integer_literal
           (decimal_int))))))
 
@@ -125,21 +128,24 @@ pure def fib: (int) -> int = {
         (parameter_list
           (parameter
             (identifier)))
-        (addition
+        (binary_expression
           (call_expression
             (identifier)
             (argument_list
               (value
-                (subtraction
+                (binary_expression
                   (identifier)
+                  (sub_operator)
                   (integer_literal
                     (decimal_int))))))
+          (add_operator)
           (call_expression
             (identifier)
             (argument_list
               (value
-                (subtraction
+                (binary_expression
                   (identifier)
+                  (sub_operator)
                   (integer_literal
                     (decimal_int)))))))))))
 
@@ -169,4 +175,4 @@ async pure def compute: (int) -> int = (n) => n * 2
       (multiplication
         (identifier)
         (integer_literal
-  (decimal_int)))))
+          (decimal_int)))))

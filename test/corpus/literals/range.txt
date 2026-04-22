@@ -87,14 +87,16 @@ foo/2..=end-1
   (expression_statement
     (range_expression
       (range_start
-        (division
+        (binary_expression
           (identifier)
+          (div_operator)
           (integer_literal
             (decimal_int))))
       (range_end_operator)
       (range_end
-        (subtraction
+        (binary_expression
           (identifier)
+          (sub_operator)
           (integer_literal
             (decimal_int)))))))
 

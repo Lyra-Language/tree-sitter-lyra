@@ -37,8 +37,10 @@ module.exports = {
 
   result_expression: ($) =>
     choice(
-      $._math_expr,
-      $.identifier,
+      // `_math_operand` already covers plain identifiers / postfix forms
+      // (e.g. `x`, `foo(x).bar`) as well as any nested math expression
+      // (e.g. `x * 2`), so we don't need a separate `$.identifier` branch.
+      $._math_operand,
       $.tuple_literal,
       $.struct_literal,
       $.array_literal,

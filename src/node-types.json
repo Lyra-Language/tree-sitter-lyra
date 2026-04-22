@@ -4,14 +4,6 @@
     "named": true,
     "subtypes": [
       {
-        "type": "addition",
-        "named": true
-      },
-      {
-        "type": "addition_assignment",
-        "named": true
-      },
-      {
         "type": "array_comp_expr",
         "named": true
       },
@@ -25,6 +17,10 @@
       },
       {
         "type": "await_expression",
+        "named": true
+      },
+      {
+        "type": "binary_expression",
         "named": true
       },
       {
@@ -48,19 +44,15 @@
         "named": true
       },
       {
+        "type": "compound_assignment",
+        "named": true
+      },
+      {
         "type": "const_identifier",
         "named": true
       },
       {
         "type": "data_constructor_expression",
-        "named": true
-      },
-      {
-        "type": "division",
-        "named": true
-      },
-      {
-        "type": "division_assignment",
         "named": true
       },
       {
@@ -101,14 +93,6 @@
       },
       {
         "type": "member_expression",
-        "named": true
-      },
-      {
-        "type": "multiplication",
-        "named": true
-      },
-      {
-        "type": "multiplication_assignment",
         "named": true
       },
       {
@@ -153,14 +137,6 @@
       },
       {
         "type": "struct_literal",
-        "named": true
-      },
-      {
-        "type": "subtraction",
-        "named": true
-      },
-      {
-        "type": "subtraction_assignment",
         "named": true
       },
       {
@@ -356,275 +332,9 @@
     ]
   },
   {
-    "type": "addition",
+    "type": "add_operator",
     "named": true,
-    "fields": {
-      "left": {
-        "multiple": false,
-        "required": true,
-        "types": [
-          {
-            "type": "call_expression",
-            "named": true
-          },
-          {
-            "type": "const_identifier",
-            "named": true
-          },
-          {
-            "type": "float_literal",
-            "named": true
-          },
-          {
-            "type": "group",
-            "named": true
-          },
-          {
-            "type": "identifier",
-            "named": true
-          },
-          {
-            "type": "index_expression",
-            "named": true
-          },
-          {
-            "type": "integer_literal",
-            "named": true
-          },
-          {
-            "type": "member_expression",
-            "named": true
-          },
-          {
-            "type": "negation",
-            "named": true
-          },
-          {
-            "type": "optional_index_expression",
-            "named": true
-          },
-          {
-            "type": "optional_member_expression",
-            "named": true
-          },
-          {
-            "type": "parenthesized_expression",
-            "named": true
-          },
-          {
-            "type": "try_expression",
-            "named": true
-          },
-          {
-            "type": "user_defined_type_name",
-            "named": true
-          }
-        ]
-      },
-      "operator": {
-        "multiple": false,
-        "required": true,
-        "types": [
-          {
-            "type": "+",
-            "named": false
-          }
-        ]
-      },
-      "right": {
-        "multiple": false,
-        "required": true,
-        "types": [
-          {
-            "type": "addition",
-            "named": true
-          },
-          {
-            "type": "addition_assignment",
-            "named": true
-          },
-          {
-            "type": "call_expression",
-            "named": true
-          },
-          {
-            "type": "const_identifier",
-            "named": true
-          },
-          {
-            "type": "division",
-            "named": true
-          },
-          {
-            "type": "division_assignment",
-            "named": true
-          },
-          {
-            "type": "float_literal",
-            "named": true
-          },
-          {
-            "type": "group",
-            "named": true
-          },
-          {
-            "type": "identifier",
-            "named": true
-          },
-          {
-            "type": "index_expression",
-            "named": true
-          },
-          {
-            "type": "integer_literal",
-            "named": true
-          },
-          {
-            "type": "member_expression",
-            "named": true
-          },
-          {
-            "type": "multiplication",
-            "named": true
-          },
-          {
-            "type": "multiplication_assignment",
-            "named": true
-          },
-          {
-            "type": "negation",
-            "named": true
-          },
-          {
-            "type": "optional_index_expression",
-            "named": true
-          },
-          {
-            "type": "optional_member_expression",
-            "named": true
-          },
-          {
-            "type": "parenthesized_expression",
-            "named": true
-          },
-          {
-            "type": "subtraction",
-            "named": true
-          },
-          {
-            "type": "subtraction_assignment",
-            "named": true
-          },
-          {
-            "type": "try_expression",
-            "named": true
-          },
-          {
-            "type": "user_defined_type_name",
-            "named": true
-          }
-        ]
-      }
-    }
-  },
-  {
-    "type": "addition_assignment",
-    "named": true,
-    "fields": {},
-    "children": {
-      "multiple": true,
-      "required": true,
-      "types": [
-        {
-          "type": "addition",
-          "named": true
-        },
-        {
-          "type": "addition_assignment",
-          "named": true
-        },
-        {
-          "type": "call_expression",
-          "named": true
-        },
-        {
-          "type": "const_identifier",
-          "named": true
-        },
-        {
-          "type": "division",
-          "named": true
-        },
-        {
-          "type": "division_assignment",
-          "named": true
-        },
-        {
-          "type": "float_literal",
-          "named": true
-        },
-        {
-          "type": "group",
-          "named": true
-        },
-        {
-          "type": "identifier",
-          "named": true
-        },
-        {
-          "type": "index_expression",
-          "named": true
-        },
-        {
-          "type": "integer_literal",
-          "named": true
-        },
-        {
-          "type": "member_expression",
-          "named": true
-        },
-        {
-          "type": "multiplication",
-          "named": true
-        },
-        {
-          "type": "multiplication_assignment",
-          "named": true
-        },
-        {
-          "type": "negation",
-          "named": true
-        },
-        {
-          "type": "optional_index_expression",
-          "named": true
-        },
-        {
-          "type": "optional_member_expression",
-          "named": true
-        },
-        {
-          "type": "parenthesized_expression",
-          "named": true
-        },
-        {
-          "type": "subtraction",
-          "named": true
-        },
-        {
-          "type": "subtraction_assignment",
-          "named": true
-        },
-        {
-          "type": "try_expression",
-          "named": true
-        },
-        {
-          "type": "user_defined_type_name",
-          "named": true
-        }
-      ]
-    }
+    "fields": {}
   },
   {
     "type": "alias_name",
@@ -1001,6 +711,174 @@
     }
   },
   {
+    "type": "binary_expression",
+    "named": true,
+    "fields": {
+      "left": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "binary_expression",
+            "named": true
+          },
+          {
+            "type": "call_expression",
+            "named": true
+          },
+          {
+            "type": "compound_assignment",
+            "named": true
+          },
+          {
+            "type": "const_identifier",
+            "named": true
+          },
+          {
+            "type": "float_literal",
+            "named": true
+          },
+          {
+            "type": "group",
+            "named": true
+          },
+          {
+            "type": "identifier",
+            "named": true
+          },
+          {
+            "type": "index_expression",
+            "named": true
+          },
+          {
+            "type": "integer_literal",
+            "named": true
+          },
+          {
+            "type": "member_expression",
+            "named": true
+          },
+          {
+            "type": "negation",
+            "named": true
+          },
+          {
+            "type": "optional_index_expression",
+            "named": true
+          },
+          {
+            "type": "optional_member_expression",
+            "named": true
+          },
+          {
+            "type": "parenthesized_expression",
+            "named": true
+          },
+          {
+            "type": "try_expression",
+            "named": true
+          },
+          {
+            "type": "user_defined_type_name",
+            "named": true
+          }
+        ]
+      },
+      "operator": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "add_operator",
+            "named": true
+          },
+          {
+            "type": "div_operator",
+            "named": true
+          },
+          {
+            "type": "mul_operator",
+            "named": true
+          },
+          {
+            "type": "sub_operator",
+            "named": true
+          }
+        ]
+      },
+      "right": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "binary_expression",
+            "named": true
+          },
+          {
+            "type": "call_expression",
+            "named": true
+          },
+          {
+            "type": "compound_assignment",
+            "named": true
+          },
+          {
+            "type": "const_identifier",
+            "named": true
+          },
+          {
+            "type": "float_literal",
+            "named": true
+          },
+          {
+            "type": "group",
+            "named": true
+          },
+          {
+            "type": "identifier",
+            "named": true
+          },
+          {
+            "type": "index_expression",
+            "named": true
+          },
+          {
+            "type": "integer_literal",
+            "named": true
+          },
+          {
+            "type": "member_expression",
+            "named": true
+          },
+          {
+            "type": "negation",
+            "named": true
+          },
+          {
+            "type": "optional_index_expression",
+            "named": true
+          },
+          {
+            "type": "optional_member_expression",
+            "named": true
+          },
+          {
+            "type": "parenthesized_expression",
+            "named": true
+          },
+          {
+            "type": "try_expression",
+            "named": true
+          },
+          {
+            "type": "user_defined_type_name",
+            "named": true
+          }
+        ]
+      }
+    }
+  },
+  {
     "type": "binary_int",
     "named": true,
     "fields": {}
@@ -1044,11 +922,7 @@
         "required": false,
         "types": [
           {
-            "type": "addition",
-            "named": true
-          },
-          {
-            "type": "addition_assignment",
+            "type": "binary_expression",
             "named": true
           },
           {
@@ -1060,15 +934,11 @@
             "named": true
           },
           {
+            "type": "compound_assignment",
+            "named": true
+          },
+          {
             "type": "const_identifier",
-            "named": true
-          },
-          {
-            "type": "division",
-            "named": true
-          },
-          {
-            "type": "division_assignment",
             "named": true
           },
           {
@@ -1096,14 +966,6 @@
             "named": true
           },
           {
-            "type": "multiplication",
-            "named": true
-          },
-          {
-            "type": "multiplication_assignment",
-            "named": true
-          },
-          {
             "type": "negation",
             "named": true
           },
@@ -1117,14 +979,6 @@
           },
           {
             "type": "parenthesized_expression",
-            "named": true
-          },
-          {
-            "type": "subtraction",
-            "named": true
-          },
-          {
-            "type": "subtraction_assignment",
             "named": true
           },
           {
@@ -1180,11 +1034,7 @@
         "required": false,
         "types": [
           {
-            "type": "addition",
-            "named": true
-          },
-          {
-            "type": "addition_assignment",
+            "type": "binary_expression",
             "named": true
           },
           {
@@ -1196,15 +1046,11 @@
             "named": true
           },
           {
+            "type": "compound_assignment",
+            "named": true
+          },
+          {
             "type": "const_identifier",
-            "named": true
-          },
-          {
-            "type": "division",
-            "named": true
-          },
-          {
-            "type": "division_assignment",
             "named": true
           },
           {
@@ -1232,14 +1078,6 @@
             "named": true
           },
           {
-            "type": "multiplication",
-            "named": true
-          },
-          {
-            "type": "multiplication_assignment",
-            "named": true
-          },
-          {
             "type": "negation",
             "named": true
           },
@@ -1253,14 +1091,6 @@
           },
           {
             "type": "parenthesized_expression",
-            "named": true
-          },
-          {
-            "type": "subtraction",
-            "named": true
-          },
-          {
-            "type": "subtraction_assignment",
             "named": true
           },
           {
@@ -1383,6 +1213,174 @@
     "named": true,
     "extra": true,
     "fields": {}
+  },
+  {
+    "type": "compound_assignment",
+    "named": true,
+    "fields": {
+      "left": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "binary_expression",
+            "named": true
+          },
+          {
+            "type": "call_expression",
+            "named": true
+          },
+          {
+            "type": "compound_assignment",
+            "named": true
+          },
+          {
+            "type": "const_identifier",
+            "named": true
+          },
+          {
+            "type": "float_literal",
+            "named": true
+          },
+          {
+            "type": "group",
+            "named": true
+          },
+          {
+            "type": "identifier",
+            "named": true
+          },
+          {
+            "type": "index_expression",
+            "named": true
+          },
+          {
+            "type": "integer_literal",
+            "named": true
+          },
+          {
+            "type": "member_expression",
+            "named": true
+          },
+          {
+            "type": "negation",
+            "named": true
+          },
+          {
+            "type": "optional_index_expression",
+            "named": true
+          },
+          {
+            "type": "optional_member_expression",
+            "named": true
+          },
+          {
+            "type": "parenthesized_expression",
+            "named": true
+          },
+          {
+            "type": "try_expression",
+            "named": true
+          },
+          {
+            "type": "user_defined_type_name",
+            "named": true
+          }
+        ]
+      },
+      "operator": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "add_assign_operator",
+            "named": true
+          },
+          {
+            "type": "div_assign_operator",
+            "named": true
+          },
+          {
+            "type": "mul_assign_operator",
+            "named": true
+          },
+          {
+            "type": "sub_assign_operator",
+            "named": true
+          }
+        ]
+      },
+      "right": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "binary_expression",
+            "named": true
+          },
+          {
+            "type": "call_expression",
+            "named": true
+          },
+          {
+            "type": "compound_assignment",
+            "named": true
+          },
+          {
+            "type": "const_identifier",
+            "named": true
+          },
+          {
+            "type": "float_literal",
+            "named": true
+          },
+          {
+            "type": "group",
+            "named": true
+          },
+          {
+            "type": "identifier",
+            "named": true
+          },
+          {
+            "type": "index_expression",
+            "named": true
+          },
+          {
+            "type": "integer_literal",
+            "named": true
+          },
+          {
+            "type": "member_expression",
+            "named": true
+          },
+          {
+            "type": "negation",
+            "named": true
+          },
+          {
+            "type": "optional_index_expression",
+            "named": true
+          },
+          {
+            "type": "optional_member_expression",
+            "named": true
+          },
+          {
+            "type": "parenthesized_expression",
+            "named": true
+          },
+          {
+            "type": "try_expression",
+            "named": true
+          },
+          {
+            "type": "user_defined_type_name",
+            "named": true
+          }
+        ]
+      }
+    }
   },
   {
     "type": "comprehension_guard",
@@ -2157,275 +2155,9 @@
     }
   },
   {
-    "type": "division",
+    "type": "div_operator",
     "named": true,
-    "fields": {
-      "left": {
-        "multiple": false,
-        "required": true,
-        "types": [
-          {
-            "type": "call_expression",
-            "named": true
-          },
-          {
-            "type": "const_identifier",
-            "named": true
-          },
-          {
-            "type": "float_literal",
-            "named": true
-          },
-          {
-            "type": "group",
-            "named": true
-          },
-          {
-            "type": "identifier",
-            "named": true
-          },
-          {
-            "type": "index_expression",
-            "named": true
-          },
-          {
-            "type": "integer_literal",
-            "named": true
-          },
-          {
-            "type": "member_expression",
-            "named": true
-          },
-          {
-            "type": "negation",
-            "named": true
-          },
-          {
-            "type": "optional_index_expression",
-            "named": true
-          },
-          {
-            "type": "optional_member_expression",
-            "named": true
-          },
-          {
-            "type": "parenthesized_expression",
-            "named": true
-          },
-          {
-            "type": "try_expression",
-            "named": true
-          },
-          {
-            "type": "user_defined_type_name",
-            "named": true
-          }
-        ]
-      },
-      "operator": {
-        "multiple": false,
-        "required": true,
-        "types": [
-          {
-            "type": "/",
-            "named": false
-          }
-        ]
-      },
-      "right": {
-        "multiple": false,
-        "required": true,
-        "types": [
-          {
-            "type": "addition",
-            "named": true
-          },
-          {
-            "type": "addition_assignment",
-            "named": true
-          },
-          {
-            "type": "call_expression",
-            "named": true
-          },
-          {
-            "type": "const_identifier",
-            "named": true
-          },
-          {
-            "type": "division",
-            "named": true
-          },
-          {
-            "type": "division_assignment",
-            "named": true
-          },
-          {
-            "type": "float_literal",
-            "named": true
-          },
-          {
-            "type": "group",
-            "named": true
-          },
-          {
-            "type": "identifier",
-            "named": true
-          },
-          {
-            "type": "index_expression",
-            "named": true
-          },
-          {
-            "type": "integer_literal",
-            "named": true
-          },
-          {
-            "type": "member_expression",
-            "named": true
-          },
-          {
-            "type": "multiplication",
-            "named": true
-          },
-          {
-            "type": "multiplication_assignment",
-            "named": true
-          },
-          {
-            "type": "negation",
-            "named": true
-          },
-          {
-            "type": "optional_index_expression",
-            "named": true
-          },
-          {
-            "type": "optional_member_expression",
-            "named": true
-          },
-          {
-            "type": "parenthesized_expression",
-            "named": true
-          },
-          {
-            "type": "subtraction",
-            "named": true
-          },
-          {
-            "type": "subtraction_assignment",
-            "named": true
-          },
-          {
-            "type": "try_expression",
-            "named": true
-          },
-          {
-            "type": "user_defined_type_name",
-            "named": true
-          }
-        ]
-      }
-    }
-  },
-  {
-    "type": "division_assignment",
-    "named": true,
-    "fields": {},
-    "children": {
-      "multiple": true,
-      "required": true,
-      "types": [
-        {
-          "type": "addition",
-          "named": true
-        },
-        {
-          "type": "addition_assignment",
-          "named": true
-        },
-        {
-          "type": "call_expression",
-          "named": true
-        },
-        {
-          "type": "const_identifier",
-          "named": true
-        },
-        {
-          "type": "division",
-          "named": true
-        },
-        {
-          "type": "division_assignment",
-          "named": true
-        },
-        {
-          "type": "float_literal",
-          "named": true
-        },
-        {
-          "type": "group",
-          "named": true
-        },
-        {
-          "type": "identifier",
-          "named": true
-        },
-        {
-          "type": "index_expression",
-          "named": true
-        },
-        {
-          "type": "integer_literal",
-          "named": true
-        },
-        {
-          "type": "member_expression",
-          "named": true
-        },
-        {
-          "type": "multiplication",
-          "named": true
-        },
-        {
-          "type": "multiplication_assignment",
-          "named": true
-        },
-        {
-          "type": "negation",
-          "named": true
-        },
-        {
-          "type": "optional_index_expression",
-          "named": true
-        },
-        {
-          "type": "optional_member_expression",
-          "named": true
-        },
-        {
-          "type": "parenthesized_expression",
-          "named": true
-        },
-        {
-          "type": "subtraction",
-          "named": true
-        },
-        {
-          "type": "subtraction_assignment",
-          "named": true
-        },
-        {
-          "type": "try_expression",
-          "named": true
-        },
-        {
-          "type": "user_defined_type_name",
-          "named": true
-        }
-      ]
-    }
+    "fields": {}
   },
   {
     "type": "equal_to_comparator",
@@ -2519,11 +2251,7 @@
         "required": false,
         "types": [
           {
-            "type": "addition",
-            "named": true
-          },
-          {
-            "type": "addition_assignment",
+            "type": "binary_expression",
             "named": true
           },
           {
@@ -2535,15 +2263,11 @@
             "named": true
           },
           {
+            "type": "compound_assignment",
+            "named": true
+          },
+          {
             "type": "const_identifier",
-            "named": true
-          },
-          {
-            "type": "division",
-            "named": true
-          },
-          {
-            "type": "division_assignment",
             "named": true
           },
           {
@@ -2571,14 +2295,6 @@
             "named": true
           },
           {
-            "type": "multiplication",
-            "named": true
-          },
-          {
-            "type": "multiplication_assignment",
-            "named": true
-          },
-          {
             "type": "negation",
             "named": true
           },
@@ -2592,14 +2308,6 @@
           },
           {
             "type": "parenthesized_expression",
-            "named": true
-          },
-          {
-            "type": "subtraction",
-            "named": true
-          },
-          {
-            "type": "subtraction_assignment",
             "named": true
           },
           {
@@ -2655,11 +2363,7 @@
         "required": false,
         "types": [
           {
-            "type": "addition",
-            "named": true
-          },
-          {
-            "type": "addition_assignment",
+            "type": "binary_expression",
             "named": true
           },
           {
@@ -2671,15 +2375,11 @@
             "named": true
           },
           {
+            "type": "compound_assignment",
+            "named": true
+          },
+          {
             "type": "const_identifier",
-            "named": true
-          },
-          {
-            "type": "division",
-            "named": true
-          },
-          {
-            "type": "division_assignment",
             "named": true
           },
           {
@@ -2707,14 +2407,6 @@
             "named": true
           },
           {
-            "type": "multiplication",
-            "named": true
-          },
-          {
-            "type": "multiplication_assignment",
-            "named": true
-          },
-          {
             "type": "negation",
             "named": true
           },
@@ -2728,14 +2420,6 @@
           },
           {
             "type": "parenthesized_expression",
-            "named": true
-          },
-          {
-            "type": "subtraction",
-            "named": true
-          },
-          {
-            "type": "subtraction_assignment",
             "named": true
           },
           {
@@ -3258,31 +2942,11 @@
       "required": true,
       "types": [
         {
-          "type": "addition",
+          "type": "binary_expression",
           "named": true
         },
         {
-          "type": "addition_assignment",
-          "named": true
-        },
-        {
-          "type": "call_expression",
-          "named": true
-        },
-        {
-          "type": "const_identifier",
-          "named": true
-        },
-        {
-          "type": "division",
-          "named": true
-        },
-        {
-          "type": "division_assignment",
-          "named": true
-        },
-        {
-          "type": "float_literal",
+          "type": "compound_assignment",
           "named": true
         },
         {
@@ -3290,59 +2954,7 @@
           "named": true
         },
         {
-          "type": "identifier",
-          "named": true
-        },
-        {
-          "type": "index_expression",
-          "named": true
-        },
-        {
-          "type": "integer_literal",
-          "named": true
-        },
-        {
-          "type": "member_expression",
-          "named": true
-        },
-        {
-          "type": "multiplication",
-          "named": true
-        },
-        {
-          "type": "multiplication_assignment",
-          "named": true
-        },
-        {
           "type": "negation",
-          "named": true
-        },
-        {
-          "type": "optional_index_expression",
-          "named": true
-        },
-        {
-          "type": "optional_member_expression",
-          "named": true
-        },
-        {
-          "type": "parenthesized_expression",
-          "named": true
-        },
-        {
-          "type": "subtraction",
-          "named": true
-        },
-        {
-          "type": "subtraction_assignment",
-          "named": true
-        },
-        {
-          "type": "try_expression",
-          "named": true
-        },
-        {
-          "type": "user_defined_type_name",
           "named": true
         }
       ]
@@ -4019,275 +3631,9 @@
     }
   },
   {
-    "type": "multiplication",
+    "type": "mul_operator",
     "named": true,
-    "fields": {
-      "left": {
-        "multiple": false,
-        "required": true,
-        "types": [
-          {
-            "type": "call_expression",
-            "named": true
-          },
-          {
-            "type": "const_identifier",
-            "named": true
-          },
-          {
-            "type": "float_literal",
-            "named": true
-          },
-          {
-            "type": "group",
-            "named": true
-          },
-          {
-            "type": "identifier",
-            "named": true
-          },
-          {
-            "type": "index_expression",
-            "named": true
-          },
-          {
-            "type": "integer_literal",
-            "named": true
-          },
-          {
-            "type": "member_expression",
-            "named": true
-          },
-          {
-            "type": "negation",
-            "named": true
-          },
-          {
-            "type": "optional_index_expression",
-            "named": true
-          },
-          {
-            "type": "optional_member_expression",
-            "named": true
-          },
-          {
-            "type": "parenthesized_expression",
-            "named": true
-          },
-          {
-            "type": "try_expression",
-            "named": true
-          },
-          {
-            "type": "user_defined_type_name",
-            "named": true
-          }
-        ]
-      },
-      "operator": {
-        "multiple": false,
-        "required": true,
-        "types": [
-          {
-            "type": "*",
-            "named": false
-          }
-        ]
-      },
-      "right": {
-        "multiple": false,
-        "required": true,
-        "types": [
-          {
-            "type": "addition",
-            "named": true
-          },
-          {
-            "type": "addition_assignment",
-            "named": true
-          },
-          {
-            "type": "call_expression",
-            "named": true
-          },
-          {
-            "type": "const_identifier",
-            "named": true
-          },
-          {
-            "type": "division",
-            "named": true
-          },
-          {
-            "type": "division_assignment",
-            "named": true
-          },
-          {
-            "type": "float_literal",
-            "named": true
-          },
-          {
-            "type": "group",
-            "named": true
-          },
-          {
-            "type": "identifier",
-            "named": true
-          },
-          {
-            "type": "index_expression",
-            "named": true
-          },
-          {
-            "type": "integer_literal",
-            "named": true
-          },
-          {
-            "type": "member_expression",
-            "named": true
-          },
-          {
-            "type": "multiplication",
-            "named": true
-          },
-          {
-            "type": "multiplication_assignment",
-            "named": true
-          },
-          {
-            "type": "negation",
-            "named": true
-          },
-          {
-            "type": "optional_index_expression",
-            "named": true
-          },
-          {
-            "type": "optional_member_expression",
-            "named": true
-          },
-          {
-            "type": "parenthesized_expression",
-            "named": true
-          },
-          {
-            "type": "subtraction",
-            "named": true
-          },
-          {
-            "type": "subtraction_assignment",
-            "named": true
-          },
-          {
-            "type": "try_expression",
-            "named": true
-          },
-          {
-            "type": "user_defined_type_name",
-            "named": true
-          }
-        ]
-      }
-    }
-  },
-  {
-    "type": "multiplication_assignment",
-    "named": true,
-    "fields": {},
-    "children": {
-      "multiple": true,
-      "required": true,
-      "types": [
-        {
-          "type": "addition",
-          "named": true
-        },
-        {
-          "type": "addition_assignment",
-          "named": true
-        },
-        {
-          "type": "call_expression",
-          "named": true
-        },
-        {
-          "type": "const_identifier",
-          "named": true
-        },
-        {
-          "type": "division",
-          "named": true
-        },
-        {
-          "type": "division_assignment",
-          "named": true
-        },
-        {
-          "type": "float_literal",
-          "named": true
-        },
-        {
-          "type": "group",
-          "named": true
-        },
-        {
-          "type": "identifier",
-          "named": true
-        },
-        {
-          "type": "index_expression",
-          "named": true
-        },
-        {
-          "type": "integer_literal",
-          "named": true
-        },
-        {
-          "type": "member_expression",
-          "named": true
-        },
-        {
-          "type": "multiplication",
-          "named": true
-        },
-        {
-          "type": "multiplication_assignment",
-          "named": true
-        },
-        {
-          "type": "negation",
-          "named": true
-        },
-        {
-          "type": "optional_index_expression",
-          "named": true
-        },
-        {
-          "type": "optional_member_expression",
-          "named": true
-        },
-        {
-          "type": "parenthesized_expression",
-          "named": true
-        },
-        {
-          "type": "subtraction",
-          "named": true
-        },
-        {
-          "type": "subtraction_assignment",
-          "named": true
-        },
-        {
-          "type": "try_expression",
-          "named": true
-        },
-        {
-          "type": "user_defined_type_name",
-          "named": true
-        }
-      ]
-    }
+    "fields": {}
   },
   {
     "type": "named_argument",
@@ -4390,7 +3736,15 @@
         "required": true,
         "types": [
           {
+            "type": "binary_expression",
+            "named": true
+          },
+          {
             "type": "call_expression",
+            "named": true
+          },
+          {
+            "type": "compound_assignment",
             "named": true
           },
           {
@@ -5000,15 +4354,11 @@
       "required": true,
       "types": [
         {
-          "type": "addition",
-          "named": true
-        },
-        {
-          "type": "addition_assignment",
-          "named": true
-        },
-        {
           "type": "array_literal",
+          "named": true
+        },
+        {
+          "type": "binary_expression",
           "named": true
         },
         {
@@ -5016,15 +4366,11 @@
           "named": true
         },
         {
+          "type": "compound_assignment",
+          "named": true
+        },
+        {
           "type": "const_identifier",
-          "named": true
-        },
-        {
-          "type": "division",
-          "named": true
-        },
-        {
-          "type": "division_assignment",
           "named": true
         },
         {
@@ -5052,14 +4398,6 @@
           "named": true
         },
         {
-          "type": "multiplication",
-          "named": true
-        },
-        {
-          "type": "multiplication_assignment",
-          "named": true
-        },
-        {
           "type": "negation",
           "named": true
         },
@@ -5077,14 +4415,6 @@
         },
         {
           "type": "struct_literal",
-          "named": true
-        },
-        {
-          "type": "subtraction",
-          "named": true
-        },
-        {
-          "type": "subtraction_assignment",
           "named": true
         },
         {
@@ -5561,275 +4891,9 @@
     }
   },
   {
-    "type": "subtraction",
+    "type": "sub_operator",
     "named": true,
-    "fields": {
-      "left": {
-        "multiple": false,
-        "required": true,
-        "types": [
-          {
-            "type": "call_expression",
-            "named": true
-          },
-          {
-            "type": "const_identifier",
-            "named": true
-          },
-          {
-            "type": "float_literal",
-            "named": true
-          },
-          {
-            "type": "group",
-            "named": true
-          },
-          {
-            "type": "identifier",
-            "named": true
-          },
-          {
-            "type": "index_expression",
-            "named": true
-          },
-          {
-            "type": "integer_literal",
-            "named": true
-          },
-          {
-            "type": "member_expression",
-            "named": true
-          },
-          {
-            "type": "negation",
-            "named": true
-          },
-          {
-            "type": "optional_index_expression",
-            "named": true
-          },
-          {
-            "type": "optional_member_expression",
-            "named": true
-          },
-          {
-            "type": "parenthesized_expression",
-            "named": true
-          },
-          {
-            "type": "try_expression",
-            "named": true
-          },
-          {
-            "type": "user_defined_type_name",
-            "named": true
-          }
-        ]
-      },
-      "operator": {
-        "multiple": false,
-        "required": true,
-        "types": [
-          {
-            "type": "-",
-            "named": false
-          }
-        ]
-      },
-      "right": {
-        "multiple": false,
-        "required": true,
-        "types": [
-          {
-            "type": "addition",
-            "named": true
-          },
-          {
-            "type": "addition_assignment",
-            "named": true
-          },
-          {
-            "type": "call_expression",
-            "named": true
-          },
-          {
-            "type": "const_identifier",
-            "named": true
-          },
-          {
-            "type": "division",
-            "named": true
-          },
-          {
-            "type": "division_assignment",
-            "named": true
-          },
-          {
-            "type": "float_literal",
-            "named": true
-          },
-          {
-            "type": "group",
-            "named": true
-          },
-          {
-            "type": "identifier",
-            "named": true
-          },
-          {
-            "type": "index_expression",
-            "named": true
-          },
-          {
-            "type": "integer_literal",
-            "named": true
-          },
-          {
-            "type": "member_expression",
-            "named": true
-          },
-          {
-            "type": "multiplication",
-            "named": true
-          },
-          {
-            "type": "multiplication_assignment",
-            "named": true
-          },
-          {
-            "type": "negation",
-            "named": true
-          },
-          {
-            "type": "optional_index_expression",
-            "named": true
-          },
-          {
-            "type": "optional_member_expression",
-            "named": true
-          },
-          {
-            "type": "parenthesized_expression",
-            "named": true
-          },
-          {
-            "type": "subtraction",
-            "named": true
-          },
-          {
-            "type": "subtraction_assignment",
-            "named": true
-          },
-          {
-            "type": "try_expression",
-            "named": true
-          },
-          {
-            "type": "user_defined_type_name",
-            "named": true
-          }
-        ]
-      }
-    }
-  },
-  {
-    "type": "subtraction_assignment",
-    "named": true,
-    "fields": {},
-    "children": {
-      "multiple": true,
-      "required": true,
-      "types": [
-        {
-          "type": "addition",
-          "named": true
-        },
-        {
-          "type": "addition_assignment",
-          "named": true
-        },
-        {
-          "type": "call_expression",
-          "named": true
-        },
-        {
-          "type": "const_identifier",
-          "named": true
-        },
-        {
-          "type": "division",
-          "named": true
-        },
-        {
-          "type": "division_assignment",
-          "named": true
-        },
-        {
-          "type": "float_literal",
-          "named": true
-        },
-        {
-          "type": "group",
-          "named": true
-        },
-        {
-          "type": "identifier",
-          "named": true
-        },
-        {
-          "type": "index_expression",
-          "named": true
-        },
-        {
-          "type": "integer_literal",
-          "named": true
-        },
-        {
-          "type": "member_expression",
-          "named": true
-        },
-        {
-          "type": "multiplication",
-          "named": true
-        },
-        {
-          "type": "multiplication_assignment",
-          "named": true
-        },
-        {
-          "type": "negation",
-          "named": true
-        },
-        {
-          "type": "optional_index_expression",
-          "named": true
-        },
-        {
-          "type": "optional_member_expression",
-          "named": true
-        },
-        {
-          "type": "parenthesized_expression",
-          "named": true
-        },
-        {
-          "type": "subtraction",
-          "named": true
-        },
-        {
-          "type": "subtraction_assignment",
-          "named": true
-        },
-        {
-          "type": "try_expression",
-          "named": true
-        },
-        {
-          "type": "user_defined_type_name",
-          "named": true
-        }
-      ]
-    }
+    "fields": {}
   },
   {
     "type": "suffix_operator",
@@ -6542,19 +5606,11 @@
     "named": false
   },
   {
-    "type": "*=",
-    "named": false
-  },
-  {
     "type": "+",
     "named": false
   },
   {
     "type": "++",
-    "named": false
-  },
-  {
-    "type": "+=",
     "named": false
   },
   {
@@ -6567,10 +5623,6 @@
   },
   {
     "type": "--",
-    "named": false
-  },
-  {
-    "type": "-=",
     "named": false
   },
   {
@@ -6595,10 +5647,6 @@
   },
   {
     "type": "/",
-    "named": false
-  },
-  {
-    "type": "/=",
     "named": false
   },
   {
@@ -6702,6 +5750,10 @@
     "named": false
   },
   {
+    "type": "add_assign_operator",
+    "named": true
+  },
+  {
     "type": "argument_name",
     "named": true
   },
@@ -6748,6 +5800,10 @@
   {
     "type": "def",
     "named": false
+  },
+  {
+    "type": "div_assign_operator",
+    "named": true
   },
   {
     "type": "down_rounding_mode",
@@ -6866,6 +5922,10 @@
     "named": true
   },
   {
+    "type": "mul_assign_operator",
+    "named": true
+  },
+  {
     "type": "mut",
     "named": false
   },
@@ -6924,6 +5984,10 @@
   {
     "type": "struct",
     "named": false
+  },
+  {
+    "type": "sub_assign_operator",
+    "named": true
   },
   {
     "type": "then",
