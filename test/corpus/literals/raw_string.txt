@@ -11,11 +11,11 @@ const URL = `http:\\www.example.com`
     (const_identifier)
     (raw_string_literal)))
 
-=====================================
-Raw String Literal with escaped tilde
-=====================================
+=========================================
+Raw String Literal containing a backtick
+=========================================
 
-const URL = `a tilde: \``
+const SNIPPET = #`use the ` character`#
 
 ---
 
@@ -24,18 +24,55 @@ const URL = `a tilde: \``
     (const_identifier)
     (raw_string_literal)))
 
-======================================================
-Raw String Literal with an unescaped tilde is an error
-:error
-======================================================
+==================================================
+Raw String Literal with two levels of # delimiters
+==================================================
 
-const URL = `a tilde: ``
+const SNIPPET = ##`mix of ` and `# inside`##
 
 ---
 
 (program
   (const_declaration
     (const_identifier)
-    (raw_string_literal))
-  (raw_string_literal
-    (MISSING "`")))
+    (raw_string_literal)))
+
+====================================================
+Raw String Literal does not process escape sequences
+====================================================
+
+const PATH = `C:\Users\name\n.txt`
+
+---
+
+(program
+  (const_declaration
+    (const_identifier)
+    (raw_string_literal)))
+
+==============================================
+Raw String Literal does not interpolate values
+==============================================
+
+const TEMPLATE = `hello #{name}`
+
+---
+
+(program
+  (const_declaration
+    (const_identifier)
+    (raw_string_literal)))
+
+=============================================================
+Unterminated Raw String Literal is an error
+:error
+=============================================================
+
+const URL = `oops
+
+---
+
+(program
+  (const_declaration
+    (const_identifier)
+    (ERROR)))

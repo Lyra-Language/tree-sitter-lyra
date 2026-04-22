@@ -14,8 +14,8 @@ module.exports = {
 
   function_signature: ($) =>
     seq(
-      optional(token("pure")),
-      optional(token("async")),
+      optional(field("is_pure", "pure")),
+      optional(field("is_async", "async")),
       "def",
       field("name", $.identifier),
       optional(field("generic_parameters", $.generic_parameters)),

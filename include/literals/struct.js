@@ -21,7 +21,11 @@ module.exports = {
     ),
 
   struct_body: ($) =>
-    seq("{", choice($.struct_shorthand, commaSep1($.struct_field)), "}"),
+    seq(
+      "{",
+      choice($.struct_shorthand, commaSep1($.struct_field)),
+      "}",
+    ),
 
   struct_shorthand: ($) => commaSep1($._field_value),
 

@@ -110,3 +110,91 @@ let float_point = Point::<f64> { x: 1.23, y: 4.56 }
           (field_name)
           (field_value
             (float_literal)))))))
+
+======================================
+Anonymous struct field value is spread
+======================================
+
+let opts = { verbose: ...flags }
+
+---
+
+(program
+  (declaration
+    (identifier)
+    (struct_literal
+      (struct_body
+        (struct_field
+          (field_name)
+          (field_value
+            (spread_expr
+              (identifier))))))))
+
+=============================================
+Named struct fields with spread expressions
+=============================================
+
+let p = Point { x: ...xs, y: ...ys }
+
+---
+
+(program
+  (declaration
+    (identifier)
+    (struct_literal
+      (struct_name)
+      (struct_body
+        (struct_field
+          (field_name)
+          (field_value
+            (spread_expr
+              (identifier))))
+        (struct_field
+          (field_name)
+          (field_value
+            (spread_expr
+              (identifier))))))))
+
+==================================================
+Named struct shorthand with multiple spread values
+==================================================
+
+let merged = Point { ...base, ...extra }
+
+---
+
+(program
+  (declaration
+    (identifier)
+    (struct_literal
+      (struct_name)
+      (struct_body
+        (struct_shorthand
+          (field_value
+            (spread_expr
+              (identifier)))
+          (field_value
+            (spread_expr
+              (identifier))))))))
+
+=====================================================
+Named struct with generics and spread field values
+=====================================================
+
+let p = Point::<i32> { x: ...xs }
+
+---
+
+(program
+  (declaration
+    (identifier)
+    (struct_literal
+      (struct_name)
+      (generic_arguments
+        (signed_integer_type))
+      (struct_body
+        (struct_field
+          (field_name)
+          (field_value
+            (spread_expr
+              (identifier))))))))

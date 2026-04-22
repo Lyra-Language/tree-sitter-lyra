@@ -1,7 +1,8 @@
 const { commaSep } = require("../helpers");
 
 module.exports = {
-  array_literal: ($) => seq("[", commaSep($.expression), "]"),
+  array_literal: ($) =>
+    seq("[", commaSep($.expression), "]"),
 
   // Array repeat initialization: [value; count]
   // Creates an array with `count` copies of `value`

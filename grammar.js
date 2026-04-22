@@ -32,6 +32,7 @@ module.exports = grammar({
     $._interpolation_start,
     $._interpolation_end,
     $._string_end,
+    $._raw_string_literal,
   ],
 
   inline: ($) => [$._comma],

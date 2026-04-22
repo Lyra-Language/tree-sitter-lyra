@@ -9,6 +9,7 @@ enum TokenType {
   INTERPOLATION_START,
   INTERPOLATION_END,
   STRING_END,
+  RAW_STRING_LITERAL,
 };
 
 // Context type for the stack
@@ -129,6 +130,44 @@ static bool scan_block_comment(TSLexer *lexer) {
   return true;
 }
 
+// Scan a Swift-style raw string literal: `...`, #`...`#, ##`...`##, etc.
+// The number of '#' characters preceding the opening backtick determines the
+// number of '#' characters required after the closing backtick. Content is
+// literal: no escape sequences, no interpolation.
+static bool scan_raw_string(TSLexer *lexer) {
+  unsigned hash_count = 0;
+  while (lexer->lookahead == '#') {
+    lexer->advance(lexer, false);
+    hash_count++;
+  }
+
+  if (lexer->lookahead != '`') {
+    return false;
+  }
+  lexer->advance(lexer, false);
+
+  while (!lexer->eof(lexer)) {
+    if (lexer->lookahead == '`') {
+      lexer->advance(lexer, false);
+      unsigned matched = 0;
+      while (matched < hash_count && lexer->lookahead == '#') {
+        lexer->advance(lexer, false);
+        matched++;
+      }
+      if (matched == hash_count) {
+        lexer->mark_end(lexer);
+        lexer->result_symbol = RAW_STRING_LITERAL;
+        return true;
+      }
+      // Not a complete terminator; keep scanning the body.
+      continue;
+    }
+    lexer->advance(lexer, false);
+  }
+
+  return false;
+}
+
 // External scanner API
 void *tree_sitter_lyra_external_scanner_create(void) {
   Scanner *scanner = calloc(1, sizeof(Scanner));
@@ -188,6 +227,16 @@ bool tree_sitter_lyra_external_scanner_scan(void *payload, TSLexer *lexer, const
   if (valid_symbols[BLOCK_COMMENT]) {
     if (scan_block_comment(lexer)) {
       return true;
+    }
+  }
+
+  // Handle raw string literal. Only valid outside of regular string content,
+  // since inside a "..." string, '#' may start an interpolation.
+  if (valid_symbols[RAW_STRING_LITERAL] && !in_string(scanner)) {
+    if (lexer->lookahead == '#' || lexer->lookahead == '`') {
+      if (scan_raw_string(lexer)) {
+        return true;
+      }
     }
   }
 

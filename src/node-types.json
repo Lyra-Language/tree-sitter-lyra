@@ -3073,6 +3073,26 @@
           }
         ]
       },
+      "is_async": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "async",
+            "named": false
+          }
+        ]
+      },
+      "is_pure": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "pure",
+            "named": false
+          }
+        ]
+      },
       "name": {
         "multiple": false,
         "required": true,
@@ -6679,10 +6699,6 @@
   },
   {
     "type": "_",
-    "named": false
-  },
-  {
-    "type": "`",
     "named": false
   },
   {

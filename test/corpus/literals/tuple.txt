@@ -67,4 +67,26 @@ let coords = Coords::<i32> (10, 20, 30)
           (decimal_int)))
       (tuple_value
         (integer_literal
-          (decimal_int))))))        
+          (decimal_int))))))
+
+==============================
+Tuple literal with spread expr
+==============================
+
+let nums = (0, ...rest, 3)
+
+---
+
+(program
+  (declaration
+    (identifier)
+    (tuple_literal
+      (tuple_value
+        (integer_literal
+          (decimal_int)))
+      (tuple_value
+        (spread_expr
+          (identifier)))
+      (tuple_value
+        (integer_literal
+          (decimal_int))))))

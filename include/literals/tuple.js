@@ -36,5 +36,8 @@ module.exports = {
   _tuple_value: ($) => prec.right(PREC.TUPLE_VALUE, alias($.expression, $.tuple_value)),
 
   _tuple_name: ($) =>
-    prec(PREC.TUPLE_NAME, field("tuple_name", alias($.user_defined_type_name, $.tuple_name))),
+    prec(
+      PREC.TUPLE_NAME,
+      field("tuple_name", alias($.user_defined_type_name, $.tuple_name)),
+    ),
 };
