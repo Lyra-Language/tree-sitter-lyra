@@ -4,7 +4,7 @@ integers allow underscores
 
 let one_million = 1_000_000
 
----------------------------
+---
 
 (program
   (declaration
@@ -18,7 +18,7 @@ Floats allow underscores
 
 let float_num = 1_234.567_890
 
----------------------------
+---
 
 (program
   (declaration
@@ -76,7 +76,8 @@ let the_answer = 0x2A
   (declaration
     (identifier)
     (integer_literal
-      (hexadecimal_int))))
+      (hexadecimal_int
+        (hexadecimal_prefix)))))
 
 ================
 Octal int format
@@ -90,7 +91,8 @@ let the_answer = 0o46
   (declaration
     (identifier)
     (integer_literal
-      (octal_int))))
+      (octal_int
+        (octal_prefix)))))
 
 =================
 Binary int format
@@ -104,4 +106,5 @@ let the_answer = 0b101010
   (declaration
     (identifier)
     (integer_literal
-      (binary_int))))
+      (binary_int
+        (binary_prefix)))))

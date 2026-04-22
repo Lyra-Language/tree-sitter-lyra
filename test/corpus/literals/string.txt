@@ -91,6 +91,21 @@ let greeting = "Hello, #{if is_male then "Mr. #{last_name}" else "Mrs. #{last_na
               (identifier)))))
       (string_content))))
 
+========================================
+String with no closing quote is an error
+:error
+========================================
+
+"Testing 1, 2, 3...
+
+---
+
+(program
+  (expression_statement
+    (string_literal
+      (string_content)
+      (MISSING """))))
+
 =============================================================
 String interpolation with missing closing bracket is an error
 :error

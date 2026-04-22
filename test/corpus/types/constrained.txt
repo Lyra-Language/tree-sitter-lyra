@@ -199,6 +199,7 @@ type CompassHeading = int where range(0..<360), step(15)
 
 ===================================
 Type without right side is an error
+:error
 ===================================
 
 type Foo =
@@ -211,3 +212,43 @@ type Foo =
       (constrained_type_name)
       (user_defined_type_name
         (MISSING "user_defined_type_name_token1")))))
+
+===================================================
+Type without a constraint after "where" is an error
+:error
+===================================================
+
+type Foo = float where
+
+---
+
+(program
+  (type_declaration
+    (constrained_type
+      (constrained_type_name)
+      (float_type)))
+  (ERROR))
+
+====================================
+Type with unclosed range is an error
+====================================
+
+type Alpha = f32 where range(0..=1
+
+---
+
+(program
+  (type_declaration
+    (constrained_type
+      (constrained_type_name)
+      (float_type)
+      (constraints
+        (range_constraint
+          (constraint_math_expr
+            (integer_literal
+              (decimal_int)))
+          (equal_to_comparator)
+          (constraint_math_expr
+            (integer_literal
+              (decimal_int)))
+          (MISSING ")"))))))

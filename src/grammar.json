@@ -297,8 +297,8 @@
       "type": "SEQ",
       "members": [
         {
-          "type": "STRING",
-          "value": "0b"
+          "type": "SYMBOL",
+          "name": "binary_prefix"
         },
         {
           "type": "IMMEDIATE_TOKEN",
@@ -309,12 +309,16 @@
         }
       ]
     },
+    "binary_prefix": {
+      "type": "STRING",
+      "value": "0b"
+    },
     "octal_int": {
       "type": "SEQ",
       "members": [
         {
-          "type": "STRING",
-          "value": "0o"
+          "type": "SYMBOL",
+          "name": "octal_prefix"
         },
         {
           "type": "IMMEDIATE_TOKEN",
@@ -325,12 +329,16 @@
         }
       ]
     },
+    "octal_prefix": {
+      "type": "STRING",
+      "value": "0o"
+    },
     "hexadecimal_int": {
       "type": "SEQ",
       "members": [
         {
-          "type": "STRING",
-          "value": "0x"
+          "type": "SYMBOL",
+          "name": "hexadecimal_prefix"
         },
         {
           "type": "IMMEDIATE_TOKEN",
@@ -340,6 +348,10 @@
           }
         }
       ]
+    },
+    "hexadecimal_prefix": {
+      "type": "STRING",
+      "value": "0x"
     },
     "float_literal": {
       "type": "PREC",

@@ -493,3 +493,37 @@ def foo: (int, int) -> int {
       (multiplication
         (identifier)
         (identifier)))))
+
+===================================
+Unclosed generic params is an error
+:error
+===================================
+
+def sum<n: (n, n) -> n = (a, b) => a + b
+
+---
+
+(program
+  (function_definition
+    (function_signature
+      (identifier)
+      (generic_parameters
+        (generic_type)
+        (MISSING ">"))
+      (function_type
+        (parameter_type_list
+          (parameter_type
+            (generic_type))
+          (parameter_type
+            (generic_type)))
+        (generic_type)))
+    (function_clause
+      (parameter_list
+        (parameter
+          (identifier))
+        (parameter
+          (identifier)))
+      (binary_expression
+        (identifier)
+        (add_operator)
+        (identifier)))))

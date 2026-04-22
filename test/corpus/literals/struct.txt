@@ -198,3 +198,52 @@ let p = Point::<i32> { x: ...xs }
           (field_value
             (spread_expr
               (identifier))))))))
+
+================================================
+Struct with no closing bracket produces an error
+:error
+================================================
+
+let foo = { bar: "baz", blah: 23
+
+---
+
+(program
+  (declaration
+    (identifier)
+    (struct_literal
+      (struct_body
+        (struct_field
+          (field_name)
+          (field_value
+            (string_literal
+              (string_content))))
+        (struct_field
+          (field_name)
+          (field_value
+            (integer_literal
+              (decimal_int))))
+        (MISSING "}")))))
+
+==================================================================
+Struct field/value pairs without colon separator produces an error
+:error
+==================================================================
+
+let foo = { bar: "baz", blah 23 }
+
+---
+
+(program
+  (declaration
+    (identifier)
+    (struct_literal
+      (struct_body
+        (struct_field
+          (field_name)
+          (field_value
+            (string_literal
+              (string_content))))
+        (ERROR
+          (identifier)
+          (UNEXPECTED '2'))))))
