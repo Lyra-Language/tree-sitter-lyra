@@ -7,25 +7,25 @@
 /// <reference types="tree-sitter-cli/dsl" />
 // @ts-check
 
-const modules = require('./include/modules/');
-const literals = require('./include/literals/');
-const numbers = require('./include/literals/numbers');
-const expressions = require('./include/expressions/');
-const types = require('./include/types/');
-const statements = require('./include/statements');
-const functions = require('./include/functions/');
-const comments = require('./include/comments');
-const destructuring = require('./include/destructuring/destructuring');
-const patterns = require('./include/patterns');
+const modules = require("./include/modules/");
+const literals = require("./include/literals/");
+const numbers = require("./include/literals/numbers");
+const expressions = require("./include/expressions/");
+const types = require("./include/types/");
+const statements = require("./include/statements");
+const functions = require("./include/functions/");
+const comments = require("./include/comments");
+const destructuring = require("./include/destructuring/destructuring");
+const patterns = require("./include/patterns");
 
 module.exports = grammar({
   name: "lyra",
 
-  supertypes: $ => [$.expression, $.statement, $.pattern, $.type],
+  supertypes: ($) => [$.expression, $.statement, $.pattern, $.type],
 
-  extras: $ => [/\s/, $.comment],
+  extras: ($) => [/\s/, $.comment],
 
-  externals: $ => [
+  externals: ($) => [
     $._BLOCK_COMMENT,
     $._string_start,
     $._string_content,
@@ -34,10 +34,15 @@ module.exports = grammar({
     $._string_end,
   ],
 
-  inline: $ => [$._comma],
+  inline: ($) => [$._comma],
 
-  conflicts: $ => [
-    [$.struct_literal, $._tuple_name, $.data_constructor_expression, $._primary_expression],
+  conflicts: ($) => [
+    [
+      $.struct_literal,
+      $._tuple_name,
+      $.data_constructor_expression,
+      $._primary_expression,
+    ],
     [$.struct_literal, $.struct_literal],
     [$.data_constructor_expression, $._primary_expression],
     [$.data_constructor_expression, $._primary_expression, $.data_pattern],
@@ -50,21 +55,42 @@ module.exports = grammar({
 
   reserved: {
     identifier: () => [
-      'for', 'if', 'else', 'match', 'let', 'var', 'const', 'def', 'true', 'false', 'import',
-      'module', 'as', 'pub', 'async', 'await', 'Self', 'stack', 'heap', 'shared', 'weak',
-      'with', 'pure'
+      "for",
+      "if",
+      "else",
+      "match",
+      "let",
+      "var",
+      "const",
+      "def",
+      "true",
+      "false",
+      "import",
+      "module",
+      "as",
+      "pub",
+      "async",
+      "await",
+      "Self",
+      "stack",
+      "heap",
+      "shared",
+      "weak",
+      "with",
+      "pure",
     ],
   },
 
   rules: {
     // Updated program rule
-    program: $ => seq(
-      optional($.module_declaration),
-      repeat($.import_statement),
-      repeat($.statement)
-    ),
+    program: ($) =>
+      seq(
+        optional($.module_declaration),
+        repeat($.import_statement),
+        repeat($.statement),
+      ),
 
-    _comma: $ => ',',
+    _comma: ($) => ",",
 
     ...literals,
     ...numbers,
@@ -76,5 +102,5 @@ module.exports = grammar({
     ...comments,
     ...destructuring,
     ...patterns,
-  }
+  },
 });

@@ -2991,17 +2991,16 @@
   {
     "type": "function_clause_list",
     "named": true,
-    "fields": {
-      "function_clause": {
-        "multiple": true,
-        "required": true,
-        "types": [
-          {
-            "type": "function_clause",
-            "named": true
-          }
-        ]
-      }
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "function_clause",
+          "named": true
+        }
+      ]
     }
   },
   {

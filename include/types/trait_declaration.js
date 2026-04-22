@@ -1,3 +1,5 @@
+const { commaSep1 } = require("../helpers");
+
 module.exports = {
   trait_declaration: ($) =>
     seq(
@@ -40,8 +42,7 @@ module.exports = {
       field("trait_bounds", $.trait_bounds),
     ),
 
-  trait_methods: ($) =>
-    seq($.trait_method, repeat(seq(",", $.trait_method)), optional(",")),
+  trait_methods: ($) => commaSep1($.trait_method),
 
   trait_method: ($) =>
     seq(

@@ -1,3 +1,5 @@
+const { commaSep1 } = require("../helpers");
+
 module.exports = {
   // Module declaration (must be first non-comment item in file)
   module_declaration: ($) => seq("module", field("path", $.module_path)),
@@ -26,14 +28,7 @@ module.exports = {
   import_alias: ($) => seq("as", field("name", $.identifier)),
 
   // Selective imports: import std.collections.{ Map, Set, HashMap }
-  import_members: ($) =>
-    seq(
-      ".{",
-      $.import_member,
-      repeat(seq(",", $.import_member)),
-      optional(","),
-      "}",
-    ),
+  import_members: ($) => seq(".{", commaSep1($.import_member), "}"),
 
   // Each member can optionally be aliased: { HashMap as HM, Set }
   import_member: ($) =>

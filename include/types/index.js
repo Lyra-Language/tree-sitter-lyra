@@ -8,6 +8,7 @@ const struct_type = require("./struct_type");
 const tuple_type = require("./tuple_type");
 const trait_declaration = require("./trait_declaration");
 const trait_implementation = require("./trait_implementation");
+const { commaSep1 } = require("../helpers");
 
 module.exports = {
   type_annotation: ($) => seq(":", field("type", $.type)),
@@ -47,10 +48,7 @@ module.exports = {
     seq(
       field("name", choice("Self", $.user_defined_type_name)),
       "<",
-      field(
-        "type_arguments",
-        seq($.type, repeat(seq(",", $.type)), optional(",")),
-      ),
+      field("type_arguments", commaSep1($.type)),
       ">",
     ),
 

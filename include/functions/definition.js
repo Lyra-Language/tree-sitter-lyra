@@ -1,3 +1,5 @@
+const { commaSep, commaSep1 } = require("../helpers");
+
 module.exports = {
   function_definition: ($) =>
     seq(
@@ -30,27 +32,9 @@ module.exports = {
 
   lambda_expression: ($) => $.function_clause,
 
-  function_clause_list: ($) =>
-    seq(
-      "{",
-      field("function_clause", $.function_clause),
-      repeat(seq($._comma, field("function_clause", $.function_clause))),
-      optional($._comma),
-      "}",
-    ),
+  function_clause_list: ($) => seq("{", commaSep1($.function_clause), "}"),
 
-  parameter_list: ($) =>
-    seq(
-      "(",
-      optional(
-        seq(
-          $.parameter,
-          repeat(seq($._comma, $.parameter)),
-          optional($._comma),
-        ),
-      ),
-      ")",
-    ),
+  parameter_list: ($) => seq("(", commaSep($.parameter), ")"),
 
   parameter: ($) =>
     field(
