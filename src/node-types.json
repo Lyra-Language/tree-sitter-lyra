@@ -1513,7 +1513,7 @@
     "fields": {}
   },
   {
-    "type": "constraint_addition",
+    "type": "constraint_binary_expression",
     "named": true,
     "fields": {
       "left": {
@@ -1531,44 +1531,20 @@
         "required": true,
         "types": [
           {
-            "type": "+",
-            "named": false
-          }
-        ]
-      },
-      "right": {
-        "multiple": false,
-        "required": true,
-        "types": [
-          {
-            "type": "constraint_math_expr",
+            "type": "add_operator",
             "named": true
-          }
-        ]
-      }
-    }
-  },
-  {
-    "type": "constraint_division",
-    "named": true,
-    "fields": {
-      "left": {
-        "multiple": false,
-        "required": true,
-        "types": [
+          },
           {
-            "type": "constraint_math_expr",
+            "type": "div_operator",
             "named": true
-          }
-        ]
-      },
-      "operator": {
-        "multiple": false,
-        "required": true,
-        "types": [
+          },
           {
-            "type": "/",
-            "named": false
+            "type": "mul_operator",
+            "named": true
+          },
+          {
+            "type": "sub_operator",
+            "named": true
           }
         ]
       },
@@ -1597,23 +1573,11 @@
           "named": true
         },
         {
-          "type": "constraint_addition",
-          "named": true
-        },
-        {
-          "type": "constraint_division",
-          "named": true
-        },
-        {
-          "type": "constraint_multiplication",
+          "type": "constraint_binary_expression",
           "named": true
         },
         {
           "type": "constraint_negation",
-          "named": true
-        },
-        {
-          "type": "constraint_subtraction",
           "named": true
         },
         {
@@ -1629,42 +1593,6 @@
           "named": true
         }
       ]
-    }
-  },
-  {
-    "type": "constraint_multiplication",
-    "named": true,
-    "fields": {
-      "left": {
-        "multiple": false,
-        "required": true,
-        "types": [
-          {
-            "type": "constraint_math_expr",
-            "named": true
-          }
-        ]
-      },
-      "operator": {
-        "multiple": false,
-        "required": true,
-        "types": [
-          {
-            "type": "*",
-            "named": false
-          }
-        ]
-      },
-      "right": {
-        "multiple": false,
-        "required": true,
-        "types": [
-          {
-            "type": "constraint_math_expr",
-            "named": true
-          }
-        ]
-      }
     }
   },
   {
@@ -1688,42 +1616,6 @@
           {
             "type": "-",
             "named": false
-          }
-        ]
-      }
-    }
-  },
-  {
-    "type": "constraint_subtraction",
-    "named": true,
-    "fields": {
-      "left": {
-        "multiple": false,
-        "required": true,
-        "types": [
-          {
-            "type": "constraint_math_expr",
-            "named": true
-          }
-        ]
-      },
-      "operator": {
-        "multiple": false,
-        "required": true,
-        "types": [
-          {
-            "type": "-",
-            "named": false
-          }
-        ]
-      },
-      "right": {
-        "multiple": false,
-        "required": true,
-        "types": [
-          {
-            "type": "constraint_math_expr",
-            "named": true
           }
         ]
       }

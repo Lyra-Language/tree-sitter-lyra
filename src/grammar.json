@@ -1902,6 +1902,31 @@
         }
       ]
     },
+    "negation": {
+      "type": "PREC_RIGHT",
+      "value": 140,
+      "content": {
+        "type": "SEQ",
+        "members": [
+          {
+            "type": "FIELD",
+            "name": "operator",
+            "content": {
+              "type": "STRING",
+              "value": "-"
+            }
+          },
+          {
+            "type": "FIELD",
+            "name": "operand",
+            "content": {
+              "type": "SYMBOL",
+              "name": "_math_operand"
+            }
+          }
+        ]
+      }
+    },
     "compound_assignment": {
       "type": "PREC_RIGHT",
       "value": 110,
@@ -1984,31 +2009,6 @@
       "type": "STRING",
       "value": "/="
     },
-    "negation": {
-      "type": "PREC_RIGHT",
-      "value": 140,
-      "content": {
-        "type": "SEQ",
-        "members": [
-          {
-            "type": "FIELD",
-            "name": "operator",
-            "content": {
-              "type": "STRING",
-              "value": "-"
-            }
-          },
-          {
-            "type": "FIELD",
-            "name": "operand",
-            "content": {
-              "type": "SYMBOL",
-              "name": "_math_operand"
-            }
-          }
-        ]
-      }
-    },
     "group": {
       "type": "PREC",
       "value": 180,
@@ -2056,7 +2056,7 @@
         },
         {
           "type": "SYMBOL",
-          "name": "_constraint_arithmetic_operator"
+          "name": "constraint_binary_expression"
         },
         {
           "type": "SYMBOL",
@@ -2072,158 +2072,94 @@
         }
       ]
     },
-    "_constraint_arithmetic_operator": {
+    "constraint_binary_expression": {
       "type": "CHOICE",
       "members": [
         {
-          "type": "SYMBOL",
-          "name": "constraint_addition"
+          "type": "PREC_LEFT",
+          "value": 110,
+          "content": {
+            "type": "SEQ",
+            "members": [
+              {
+                "type": "FIELD",
+                "name": "left",
+                "content": {
+                  "type": "SYMBOL",
+                  "name": "constraint_math_expr"
+                }
+              },
+              {
+                "type": "FIELD",
+                "name": "operator",
+                "content": {
+                  "type": "CHOICE",
+                  "members": [
+                    {
+                      "type": "SYMBOL",
+                      "name": "add_operator"
+                    },
+                    {
+                      "type": "SYMBOL",
+                      "name": "sub_operator"
+                    }
+                  ]
+                }
+              },
+              {
+                "type": "FIELD",
+                "name": "right",
+                "content": {
+                  "type": "SYMBOL",
+                  "name": "constraint_math_expr"
+                }
+              }
+            ]
+          }
         },
         {
-          "type": "SYMBOL",
-          "name": "constraint_subtraction"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "constraint_multiplication"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "constraint_division"
+          "type": "PREC_LEFT",
+          "value": 120,
+          "content": {
+            "type": "SEQ",
+            "members": [
+              {
+                "type": "FIELD",
+                "name": "left",
+                "content": {
+                  "type": "SYMBOL",
+                  "name": "constraint_math_expr"
+                }
+              },
+              {
+                "type": "FIELD",
+                "name": "operator",
+                "content": {
+                  "type": "CHOICE",
+                  "members": [
+                    {
+                      "type": "SYMBOL",
+                      "name": "mul_operator"
+                    },
+                    {
+                      "type": "SYMBOL",
+                      "name": "div_operator"
+                    }
+                  ]
+                }
+              },
+              {
+                "type": "FIELD",
+                "name": "right",
+                "content": {
+                  "type": "SYMBOL",
+                  "name": "constraint_math_expr"
+                }
+              }
+            ]
+          }
         }
       ]
-    },
-    "constraint_addition": {
-      "type": "PREC_LEFT",
-      "value": 110,
-      "content": {
-        "type": "SEQ",
-        "members": [
-          {
-            "type": "FIELD",
-            "name": "left",
-            "content": {
-              "type": "SYMBOL",
-              "name": "constraint_math_expr"
-            }
-          },
-          {
-            "type": "FIELD",
-            "name": "operator",
-            "content": {
-              "type": "STRING",
-              "value": "+"
-            }
-          },
-          {
-            "type": "FIELD",
-            "name": "right",
-            "content": {
-              "type": "SYMBOL",
-              "name": "constraint_math_expr"
-            }
-          }
-        ]
-      }
-    },
-    "constraint_subtraction": {
-      "type": "PREC_LEFT",
-      "value": 110,
-      "content": {
-        "type": "SEQ",
-        "members": [
-          {
-            "type": "FIELD",
-            "name": "left",
-            "content": {
-              "type": "SYMBOL",
-              "name": "constraint_math_expr"
-            }
-          },
-          {
-            "type": "FIELD",
-            "name": "operator",
-            "content": {
-              "type": "STRING",
-              "value": "-"
-            }
-          },
-          {
-            "type": "FIELD",
-            "name": "right",
-            "content": {
-              "type": "SYMBOL",
-              "name": "constraint_math_expr"
-            }
-          }
-        ]
-      }
-    },
-    "constraint_multiplication": {
-      "type": "PREC_LEFT",
-      "value": 120,
-      "content": {
-        "type": "SEQ",
-        "members": [
-          {
-            "type": "FIELD",
-            "name": "left",
-            "content": {
-              "type": "SYMBOL",
-              "name": "constraint_math_expr"
-            }
-          },
-          {
-            "type": "FIELD",
-            "name": "operator",
-            "content": {
-              "type": "STRING",
-              "value": "*"
-            }
-          },
-          {
-            "type": "FIELD",
-            "name": "right",
-            "content": {
-              "type": "SYMBOL",
-              "name": "constraint_math_expr"
-            }
-          }
-        ]
-      }
-    },
-    "constraint_division": {
-      "type": "PREC_LEFT",
-      "value": 120,
-      "content": {
-        "type": "SEQ",
-        "members": [
-          {
-            "type": "FIELD",
-            "name": "left",
-            "content": {
-              "type": "SYMBOL",
-              "name": "constraint_math_expr"
-            }
-          },
-          {
-            "type": "FIELD",
-            "name": "operator",
-            "content": {
-              "type": "STRING",
-              "value": "/"
-            }
-          },
-          {
-            "type": "FIELD",
-            "name": "right",
-            "content": {
-              "type": "SYMBOL",
-              "name": "constraint_math_expr"
-            }
-          }
-        ]
-      }
     },
     "constraint_negation": {
       "type": "PREC_RIGHT",

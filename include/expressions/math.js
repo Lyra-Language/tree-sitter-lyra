@@ -3,7 +3,7 @@ const { PREC } = require("../prec");
 /**
  * Arithmetic expression rules.
  *
- * Design note:
+ * Design notes:
  *
  *   `_math_expr` is intentionally narrow — it matches ONLY forms that contain
  *   an actual math operator (binary op, compound assignment, negation, or a
@@ -28,31 +28,63 @@ const { PREC } = require("../prec");
  *   already models its relational / equality operators and lets both the
  *   corpus tests and the Go collector recover the operator through one
  *   code path instead of four parallel ones.
+ *
+ *   Runtime math (`binary_expression` / `negation`) and type-level
+ *   constraint math (`constraint_binary_expression` /
+ *   `constraint_negation`) share identical grammar productions but
+ *   inhabit different semantic spaces — runtime expressions vs.
+ *   compile-time numeric constraints on generic type parameters. The
+ *   `arithmeticRules` factory below builds both from one place so the
+ *   precedence / associativity rules stay in lock-step. The two
+ *   sub-grammars differ only in their operand rule and in the node
+ *   names they expose.
  */
+
+/**
+ * Build a `{ [binary]: …, [unary]: … }` rule map over the supplied
+ * operand rule. `operand` is itself a `($) => rule` thunk so the
+ * factory stays compatible with tree-sitter's `grammar({ rules: … })`
+ * function-style rule definitions.
+ */
+function arithmeticRules({ binary, unary, operand }) {
+  return {
+    [binary]: ($) =>
+      choice(
+        prec.left(
+          PREC.ADDITIVE,
+          seq(
+            field("left", operand($)),
+            field("operator", choice($.add_operator, $.sub_operator)),
+            field("right", operand($)),
+          ),
+        ),
+        prec.left(
+          PREC.MULTIPLICATIVE,
+          seq(
+            field("left", operand($)),
+            field("operator", choice($.mul_operator, $.div_operator)),
+            field("right", operand($)),
+          ),
+        ),
+      ),
+
+    [unary]: ($) =>
+      prec.right(
+        PREC.UNARY,
+        seq(field("operator", "-"), field("operand", operand($))),
+      ),
+  };
+}
 
 module.exports = {
   _math_expr: ($) =>
     choice($.binary_expression, $.compound_assignment, $.negation, $.group),
 
-  binary_expression: ($) =>
-    choice(
-      prec.left(
-        PREC.ADDITIVE,
-        seq(
-          field("left", $._math_operand),
-          field("operator", choice($.add_operator, $.sub_operator)),
-          field("right", $._math_operand),
-        ),
-      ),
-      prec.left(
-        PREC.MULTIPLICATIVE,
-        seq(
-          field("left", $._math_operand),
-          field("operator", choice($.mul_operator, $.div_operator)),
-          field("right", $._math_operand),
-        ),
-      ),
-    ),
+  ...arithmeticRules({
+    binary: "binary_expression",
+    unary: "negation",
+    operand: ($) => $._math_operand,
+  }),
 
   compound_assignment: ($) =>
     prec.right(
@@ -81,12 +113,6 @@ module.exports = {
   mul_assign_operator: ($) => "*=",
   div_assign_operator: ($) => "/=",
 
-  negation: ($) =>
-    prec.right(
-      PREC.UNARY,
-      seq(field("operator", "-"), field("operand", $._math_operand)),
-    ),
-
   group: ($) => prec(PREC.MATH_GROUP, seq("(", $._math_expr, ")")),
 
   // An operand inside an arithmetic expression. Atoms (numbers, postfix
@@ -99,71 +125,27 @@ module.exports = {
 
   // ---------------------------------------------------------------------
   // Constraint arithmetic — used inside type-level constraint expressions
-  // (e.g. `where n >= 1` in a constrained type). This is an independent
-  // sub-grammar that operates over `const_identifier` / generic type
-  // variables rather than runtime expressions, so it intentionally stays
-  // separate from `_math_expr` / `binary_expression` above.
+  // (e.g. `where range(0..=2*PI)` in a constrained type). This is an
+  // independent sub-grammar that operates over `identifier` /
+  // `const_identifier` / number literals rather than runtime expressions,
+  // so it stays separate from `_math_expr` / `binary_expression` above
+  // even though the operator productions are identical. Sharing the
+  // productions via `arithmeticRules` guarantees the two sub-grammars
+  // cannot drift apart on precedence or associativity.
   // ---------------------------------------------------------------------
 
   constraint_math_expr: ($) =>
     choice(
       $._number_literal,
-      $._constraint_arithmetic_operator,
+      $.constraint_binary_expression,
       $.constraint_negation,
       $.identifier,
       $.const_identifier,
     ),
 
-  _constraint_arithmetic_operator: ($) =>
-    choice(
-      $.constraint_addition,
-      $.constraint_subtraction,
-      $.constraint_multiplication,
-      $.constraint_division,
-    ),
-
-  constraint_addition: ($) =>
-    prec.left(
-      PREC.ADDITIVE,
-      seq(
-        field("left", $.constraint_math_expr),
-        field("operator", "+"),
-        field("right", $.constraint_math_expr),
-      ),
-    ),
-  constraint_subtraction: ($) =>
-    prec.left(
-      PREC.ADDITIVE,
-      seq(
-        field("left", $.constraint_math_expr),
-        field("operator", "-"),
-        field("right", $.constraint_math_expr),
-      ),
-    ),
-  constraint_multiplication: ($) =>
-    prec.left(
-      PREC.MULTIPLICATIVE,
-      seq(
-        field("left", $.constraint_math_expr),
-        field("operator", "*"),
-        field("right", $.constraint_math_expr),
-      ),
-    ),
-  constraint_division: ($) =>
-    prec.left(
-      PREC.MULTIPLICATIVE,
-      seq(
-        field("left", $.constraint_math_expr),
-        field("operator", "/"),
-        field("right", $.constraint_math_expr),
-      ),
-    ),
-  constraint_negation: ($) =>
-    prec.right(
-      PREC.UNARY,
-      seq(
-        field("operator", "-"),
-        field("operand", $.constraint_math_expr),
-      ),
-    ),
+  ...arithmeticRules({
+    binary: "constraint_binary_expression",
+    unary: "constraint_negation",
+    operand: ($) => $.constraint_math_expr,
+  }),
 };

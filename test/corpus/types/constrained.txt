@@ -100,10 +100,11 @@ type Alpha = f32 where range(0..=1)
               (decimal_int)))
           (equal_to_comparator)
           (constraint_math_expr
-            (constraint_multiplication
+            (constraint_binary_expression
               (constraint_math_expr
                 (integer_literal
                   (decimal_int)))
+              (mul_operator)
               (constraint_math_expr
                 (const_identifier)))))
         (precision_constraint
@@ -209,4 +210,4 @@ type Foo =
     (constrained_type
       (constrained_type_name)
       (user_defined_type_name
-        (MISSING "user_defined_type_name_token1")))))     
+        (MISSING "user_defined_type_name_token1")))))
