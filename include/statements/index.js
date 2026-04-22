@@ -2,6 +2,7 @@ const assignments = require("./assignments");
 const for_loop = require("./control_flow/for_loop");
 const for_in_loop = require("./control_flow/for_in_loop");
 const arena = require("./arena");
+const { PREC } = require("../prec");
 
 module.exports = {
   statement: ($) =>
@@ -28,12 +29,12 @@ module.exports = {
   expression_statement: ($) => $.expression,
 
   return_statement: ($) =>
-    prec.right(170, seq("return", optional(field("value", $.expression)))),
+    prec.right(PREC.JUMP, seq("return", optional(field("value", $.expression)))),
 
   break_statement: ($) =>
-    prec.right(170, seq("break", optional(field("label", $.identifier)))),
+    prec.right(PREC.JUMP, seq("break", optional(field("label", $.identifier)))),
 
-  continue_statement: ($) => prec.right(170, "continue"),
+  continue_statement: ($) => prec.right(PREC.JUMP, "continue"),
 
   ...assignments,
   ...for_loop,

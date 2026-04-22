@@ -1,10 +1,11 @@
 const { commaSep1 } = require("../helpers");
+const { PREC } = require("../prec");
 
 module.exports = {
   // Core pattern types
   pattern: ($) =>
     prec.left(
-      5,
+      PREC.PATTERN,
       choice(
         $.identifier, // simple binding: x
         $.literal_pattern, // literal matching: 42, "hello"
@@ -26,7 +27,7 @@ module.exports = {
   // Rename form: { oldName: newName } — precedence > pattern (5) so identifier isn't reduced to pattern first
   struct_field_rename: ($) =>
     prec(
-      10,
+      PREC.STRUCT_FIELD_RENAME,
       seq(
         field("name", $.identifier),
         ":",
@@ -36,12 +37,12 @@ module.exports = {
 
   // Nested pattern form: { oldName: Some(x) } or { oldName: (a, b) }
   struct_field_with_pattern: ($) =>
-    prec(1, seq(field("name", $.identifier), ":", field("pattern", $.pattern))),
+    prec(PREC.STRUCT_FIELD_WITH_PATTERN, seq(field("name", $.identifier), ":", field("pattern", $.pattern))),
 
   // Pattern fields (shared)
   struct_field_pattern: ($) =>
     prec(
-      1,
+      PREC.STRUCT_FIELD_WITH_PATTERN,
       choice(
         field("name", $.identifier), // { name }
         field("struct_field_rename", $.struct_field_rename), // { a: foo }
@@ -53,7 +54,7 @@ module.exports = {
   // Tuple patterns (shared)
   tuple_pattern: ($) =>
     prec.left(
-      10,
+      PREC.TUPLE_PATTERN,
       seq(
         choice(
           $.unit_pattern,
@@ -73,7 +74,7 @@ module.exports = {
   // Pattern elements (shared)
   _pattern_element: ($) =>
     prec(
-      1,
+      PREC.PATTERN_ELEMENT,
       choice(
         $.pattern, // nested patterns
         $.rest_pattern, // ...rest
@@ -97,7 +98,7 @@ module.exports = {
   // Range patterns (for pattern matching)
   range_pattern: ($) =>
     prec.left(
-      25,
+      PREC.RANGE_PATTERN,
       seq(
         field("start", $._number_literal),
         "..",
@@ -107,7 +108,7 @@ module.exports = {
     ),
 
   // Wildcard pattern
-  wildcard_pattern: ($) => prec.left(20, "_"),
+  wildcard_pattern: ($) => prec.left(PREC.WILDCARD_PATTERN, "_"),
 
   // Rest pattern
   rest_pattern: ($) => seq("...", field("identifier", $.identifier)),

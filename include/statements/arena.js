@@ -12,12 +12,14 @@
  *   - Arena is automatically freed at end of `with` block
  */
 
+const { PREC } = require("../prec");
+
 module.exports = {
   // With block - scoped arena usage
   // All allocations in the block use the specified arena
   // `with Arena.new(megabytes(4)) { ... }` - anonymous
   // `with frame = Arena.new(megabytes(4)) { ... }` - named binding
-  with_statement: $ => prec.right(200, seq(
+  with_statement: $ => prec.right(PREC.WITH_STATEMENT, seq(
     'with',
     optional(seq(
       field('name', $.identifier),

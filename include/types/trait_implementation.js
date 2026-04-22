@@ -1,9 +1,10 @@
 const { commaSep1 } = require("../helpers");
+const { PREC } = require("../prec");
 
 module.exports = {
   trait_implementation: ($) =>
     prec.right(
-      100,
+      PREC.TRAIT_IMPL,
       seq(
         "impl",
         alias($.user_defined_type_name, $.trait_name),

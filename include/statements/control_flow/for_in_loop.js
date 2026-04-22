@@ -1,3 +1,5 @@
+const { PREC } = require("../../prec");
+
 module.exports = {
   // for item, idx in 0..10 { println("item: #{item}, idx: #{idx}") }
   // for item, idx in [1, 2, 3] { println("item: #{item}, idx: #{idx}") }
@@ -12,7 +14,7 @@ module.exports = {
     alias($.block, $.for_in_body)
   ),
 
-  for_in_condition: $ => prec.left(1, seq(
+  for_in_condition: $ => prec.left(PREC.FOR_IN_CONDITION, seq(
     alias($.identifier, $.for_variable_or_key),
     optional(seq(',', alias($.identifier, $.for_index_or_value))),
     'in',

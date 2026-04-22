@@ -1,5 +1,7 @@
+const { PREC } = require("../../prec");
+
 module.exports = {
-  if_then_expr: $ => prec.right(10, seq(
+  if_then_expr: $ => prec.right(PREC.IF_EXPR, seq(
     'if',
     field('condition', $.if_condition),
     'then',
@@ -11,7 +13,7 @@ module.exports = {
     optional('end'),
   )),
 
-  if_block_expr: $ => prec.right(10, seq(
+  if_block_expr: $ => prec.right(PREC.IF_EXPR, seq(
     'if',
     field('condition', $.if_condition),
     field('then_block', $.block),

@@ -1,7 +1,9 @@
+const { PREC } = require("../prec");
+
 module.exports = {
   tuple_literal: ($) =>
     prec.left(
-      1,
+      PREC.TUPLE_LITERAL,
       choice(
         // Empty tuple: ()
         seq("(", ")"),
@@ -31,8 +33,8 @@ module.exports = {
       ),
     ),
 
-  _tuple_value: ($) => prec.right(1, alias($.expression, $.tuple_value)),
+  _tuple_value: ($) => prec.right(PREC.TUPLE_VALUE, alias($.expression, $.tuple_value)),
 
   _tuple_name: ($) =>
-    prec(2, field("tuple_name", alias($.user_defined_type_name, $.tuple_name))),
+    prec(PREC.TUPLE_NAME, field("tuple_name", alias($.user_defined_type_name, $.tuple_name))),
 };

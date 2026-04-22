@@ -1,4 +1,5 @@
 const { commaSep1 } = require("../helpers");
+const { PREC } = require("../prec");
 
 module.exports = {
   // A generic type is a lowercase letter optionally followed by any number of letters or numbers
@@ -15,7 +16,7 @@ module.exports = {
     ),
 
   generic_parameters: ($) =>
-    prec.left(15, seq("<", commaSep1($.generic_type), ">")),
+    prec.left(PREC.GENERIC_PARAMETERS, seq("<", commaSep1($.generic_type), ">")),
 
   generic_arguments: ($) => seq("::", "<", commaSep1($.type), ">"),
 };

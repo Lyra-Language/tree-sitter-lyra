@@ -9,6 +9,7 @@ const tuple_type = require("./tuple_type");
 const trait_declaration = require("./trait_declaration");
 const trait_implementation = require("./trait_implementation");
 const { commaSep1 } = require("../helpers");
+const { PREC } = require("../prec");
 
 module.exports = {
   type_annotation: ($) => seq(":", field("type", $.type)),
@@ -20,7 +21,7 @@ module.exports = {
 
   type: ($) =>
     prec(
-      2,
+      PREC.TYPE,
       choice(
         $._primitive_type,
         $.parameterized_type,

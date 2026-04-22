@@ -1,6 +1,8 @@
+const { PREC } = require("../../prec");
+
 module.exports = {
   // Pattern matching expressions
-  match_expr: $ => prec(201, seq(
+  match_expr: $ => prec(PREC.MATCH_EXPR, seq(
     'match',
     field('value', $.expression),
     '{',

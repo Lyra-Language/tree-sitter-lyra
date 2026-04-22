@@ -1,3 +1,5 @@
+const { PREC } = require("../prec");
+
 module.exports = {
   // Destructuring-specific rules that extend patterns
   destructuring_pattern: $ => prec.right(choice(
@@ -19,14 +21,14 @@ module.exports = {
   ),
 
   // Destructuring declaration with else block
-  destructuring_else_declaration: $ => prec.right(20, seq(
+  destructuring_else_declaration: $ => prec.right(PREC.DESTRUCTURING_ELSE, seq(
     field('destructuring_declaration', $.destructuring_declaration),
     'else',
     field('else_block', $.block),
   )),
 
   // If Destructuring Declaration
-  destructuring_if_declaration: $ => prec.right(20, seq(
+  destructuring_if_declaration: $ => prec.right(PREC.DESTRUCTURING_IF, seq(
     'if',
     field('destructuring_declaration', $.destructuring_declaration),
     field('then_block', $.block),

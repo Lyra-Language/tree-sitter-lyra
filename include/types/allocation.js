@@ -8,13 +8,15 @@
  *   - Weak references: `weak Parent` (for breaking cycles in shared types)
  */
 
+const { PREC } = require("../prec");
+
 module.exports = {
   // Allocation modifier - stack or heap
   allocation_modifier: $ => choice('stack', 'heap', 'shared'),
 
   // Weak reference type - for breaking cycles in shared types
   // Usage: `parent: weak Parent`, `prev: weak Maybe<Node>`
-  weak_type: $ => prec(4, seq(
+  weak_type: $ => prec(PREC.WEAK_TYPE, seq(
     'weak',
     field('inner_type', $._non_allocated_type)
   )),
@@ -23,7 +25,7 @@ module.exports = {
   // The size must be a compile-time constant (number literal or const identifier)
   // Use `stack [N]T` via allocated_type for explicit stack allocation
   // If the size is not provided, it is a dynamic array
-  array_type: $ => prec(3, seq(
+  array_type: $ => prec(PREC.ARRAY_TYPE, seq(
     '[',
     optional(field('size', $.array_size)),
     ']',
@@ -46,7 +48,7 @@ module.exports = {
 
   // Allocated type - wraps any type with an allocation modifier
   // Used for: `heap Vec3`, `stack Player`, `stack [16]f32`, `heap []int`
-  allocated_type: $ => prec(4, seq(
+  allocated_type: $ => prec(PREC.ALLOCATED_TYPE, seq(
     field('allocation', $.allocation_modifier),
     field('type', $._non_allocated_type)
   )),

@@ -1,4 +1,5 @@
 const { commaSep1 } = require("../helpers");
+const { PREC } = require("../prec");
 
 module.exports = {
   trait_declaration: ($) =>
@@ -52,15 +53,15 @@ module.exports = {
     ),
 
   unary_operator: ($) =>
-    prec(1, seq("(", choice($.prefix_operator, $.suffix_operator), ")")),
+    prec(PREC.OPERATOR_OVERLOAD, seq("(", choice($.prefix_operator, $.suffix_operator), ")")),
 
-  prefix_operator: ($) => prec(1, seq(choice("-", "!", "~"), "_")),
+  prefix_operator: ($) => prec(PREC.OPERATOR_OVERLOAD, seq(choice("-", "!", "~"), "_")),
 
-  suffix_operator: ($) => prec(1, seq("_", choice("++", "--"))),
+  suffix_operator: ($) => prec(PREC.OPERATOR_OVERLOAD, seq("_", choice("++", "--"))),
 
   binary_operator: ($) =>
     prec(
-      1,
+      PREC.OPERATOR_OVERLOAD,
       seq(
         "(",
         "_",

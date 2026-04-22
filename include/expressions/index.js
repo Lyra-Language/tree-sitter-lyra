@@ -4,6 +4,7 @@ const array_comp_expr = require('./array_comprehension');
 const math = require('./math');
 const range = require('./range');
 const postfix = require('./postfix');
+const { PREC } = require('../prec');
 
 module.exports = {
   expression: $ => choice(
@@ -25,15 +26,15 @@ module.exports = {
     // Note: user_defined_type_name is accessed via _postfix_expression -> _primary_expression
   ),
 
-  block: $ => prec.left(2, seq('{', repeat($.statement), '}')),
+  block: $ => prec.left(PREC.BLOCK, seq('{', repeat($.statement), '}')),
 
   // Await expression for async operations
-  await_expression: $ => prec.right(250, seq(
+  await_expression: $ => prec.right(PREC.AWAIT, seq(
     'await',
     field('operand', $.expression)
   )),
 
-  identifier: $ => token(prec(-1, /[a-z][a-zA-Z0-9_]*/)),
+  identifier: $ => token(prec(PREC.IDENTIFIER_TOKEN, /[a-z][a-zA-Z0-9_]*/)),
   const_identifier: $ => /[A-Z][A-Z0-9_]*/,
 
   // Grouping
@@ -46,13 +47,13 @@ module.exports = {
   ),
 
   // Null coalescing - provide default value for Maybe<T>
-  null_coalescing_expression: $ => prec.right(25, seq(
+  null_coalescing_expression: $ => prec.right(PREC.NULL_COALESCE, seq(
     field('optional', $.expression),
     '??',
     field('default', $.expression)
   )),
 
-  spread_expr: $ => prec.right(20, seq('...', $.identifier)),
+  spread_expr: $ => prec.right(PREC.SPREAD, seq('...', $.identifier)),
 
   ...control_flow,
   ...boolean,

@@ -1,5 +1,7 @@
+const { PREC } = require("../prec");
+
 module.exports = {
-  data_type: $ => prec.right(10, seq(
+  data_type: $ => prec.right(PREC.DATA_TYPE, seq(
     optional($.visibility),
     optional(field('allocation', $.allocation_modifier)),
     'data',
@@ -13,17 +15,17 @@ module.exports = {
 
   data_type_constructor: $ => field('constructor', choice(
     // Constructor with struct body - highest priority
-    prec.right(10, seq(
+    prec.right(PREC.DATA_CTOR, seq(
       field('name', $.data_type_constructor_name),
       $.struct_type_body
     )),
     // Constructor with type params - high priority
-    prec.right(10, seq(
+    prec.right(PREC.DATA_CTOR, seq(
       field('name', $.data_type_constructor_name),
       repeat1(field('param', $.type))
     )),
     // Bare constructor (no params) - lower priority
-    prec.right(5, field('name', $.data_type_constructor_name)),
+    prec.right(PREC.DATA_CTOR_BARE, field('name', $.data_type_constructor_name)),
   )),
 
   data_type_constructor_name: $ => /[A-Z][a-zA-Z0-9]*/,

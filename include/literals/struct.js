@@ -1,13 +1,14 @@
 const { commaSep1 } = require("../helpers");
+const { PREC } = require("../prec");
 
 module.exports = {
   struct_literal: ($) =>
     prec.left(
-      10,
+      PREC.STRUCT_LITERAL,
       seq(
         optional(
           prec(
-            4,
+            PREC.STRUCT_NAME,
             field(
               "struct_name",
               alias($.user_defined_type_name, $.struct_name),

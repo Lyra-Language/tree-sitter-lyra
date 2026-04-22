@@ -1,7 +1,9 @@
+const { PREC } = require("../prec");
+
 module.exports = {
-  boolean_expr: $ => prec(10, choice(
-    prec.left(140, seq($.not, field('expression', $.expression))),
-    prec.left(90, seq(
+  boolean_expr: $ => prec(PREC.BOOLEAN_EXPR, choice(
+    prec.left(PREC.UNARY, seq($.not, field('expression', $.expression))),
+    prec.left(PREC.RELATIONAL, seq(
       field('left', $._math_expr),
       field('operator', choice(
         $.greater_than_operator,
@@ -11,13 +13,13 @@ module.exports = {
       )),
       field('right', $._math_expr)
     )),
-    prec.left(80, seq(
+    prec.left(PREC.EQUALITY, seq(
       field('left', $._math_expr),
       field('operator', choice($.equals_operator, $.not_equals_operator)),
       field('right', $._math_expr)
     )),
-    prec.left(40, seq(field('left', $.boolean_expr), field('operator', $.and), field('right', $.boolean_expr))),
-    prec.left(30, seq(field('left', $.boolean_expr), field('operator', $.or), field('right', $.boolean_expr))),
+    prec.left(PREC.LOGICAL_AND, seq(field('left', $.boolean_expr), field('operator', $.and), field('right', $.boolean_expr))),
+    prec.left(PREC.LOGICAL_OR, seq(field('left', $.boolean_expr), field('operator', $.or), field('right', $.boolean_expr))),
   )),
 
   // Keep these for backwards compatibility if used elsewhere

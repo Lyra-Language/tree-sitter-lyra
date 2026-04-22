@@ -1,9 +1,10 @@
 const { commaSep1 } = require("../helpers");
+const { PREC } = require("../prec");
 
 module.exports = {
   array_comp_expr: ($) =>
     prec(
-      2,
+      PREC.ARRAY_COMP,
       seq(
         "[",
         $._generators,
