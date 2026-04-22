@@ -357,12 +357,48 @@
       "type": "PREC",
       "value": 1,
       "content": {
-        "type": "TOKEN",
-        "content": {
-          "type": "PATTERN",
-          "value": "[0-9_]+\\.[0-9_]+([eE][+-]?[0-9_]+)?"
-        }
+        "type": "SEQ",
+        "members": [
+          {
+            "type": "TOKEN",
+            "content": {
+              "type": "PATTERN",
+              "value": "[0-9_]+\\.[0-9_]+"
+            }
+          },
+          {
+            "type": "CHOICE",
+            "members": [
+              {
+                "type": "SYMBOL",
+                "name": "float_exponent"
+              },
+              {
+                "type": "BLANK"
+              }
+            ]
+          }
+        ]
       }
+    },
+    "float_exponent": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "IMMEDIATE_TOKEN",
+          "content": {
+            "type": "PATTERN",
+            "value": "[eE]"
+          }
+        },
+        {
+          "type": "IMMEDIATE_TOKEN",
+          "content": {
+            "type": "PATTERN",
+            "value": "[+-]?[0-9_]+"
+          }
+        }
+      ]
     },
     "regex_literal": {
       "type": "PATTERN",

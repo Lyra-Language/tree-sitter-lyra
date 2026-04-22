@@ -36,7 +36,8 @@ let float_num = 0.03141592e2
 (program
   (declaration
     (identifier)
-    (float_literal)))
+    (float_literal
+      (float_exponent))))
 
 ==============================
 Floats with positive exponents
@@ -49,7 +50,8 @@ let float_num = 0.03141592e+2
 (program
   (declaration
     (identifier)
-    (float_literal)))
+    (float_literal
+      (float_exponent))))
 
 ==============================
 Floats with negative exponents
@@ -62,7 +64,8 @@ let float_num = 314.1592e-2
 (program
   (declaration
     (identifier)
-    (float_literal)))        
+    (float_literal
+      (float_exponent))))   
 
 ======================
 Hexadecimal int format

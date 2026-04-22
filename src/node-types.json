@@ -2087,9 +2087,24 @@
     }
   },
   {
-    "type": "float_literal",
+    "type": "float_exponent",
     "named": true,
     "fields": {}
+  },
+  {
+    "type": "float_literal",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": false,
+      "types": [
+        {
+          "type": "float_exponent",
+          "named": true
+        }
+      ]
+    }
   },
   {
     "type": "float_type",

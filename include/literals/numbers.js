@@ -21,6 +21,9 @@ module.exports = {
   float_literal: ($) =>
     prec(
       PREC.FLOAT_LITERAL_TOKEN,
-      token(/[0-9_]+\.[0-9_]+([eE][+-]?[0-9_]+)?/),
+      seq(token(/[0-9_]+\.[0-9_]+/), optional($.float_exponent)),
     ),
+
+  float_exponent: ($) =>
+    seq(token.immediate(/[eE]/), token.immediate(/[+-]?[0-9_]+/)),
 };
