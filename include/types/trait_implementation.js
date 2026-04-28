@@ -7,28 +7,38 @@ module.exports = {
       PREC.TRAIT_IMPL,
       seq(
         "impl",
-        alias($.user_defined_type_name, $.trait_name),
-        optional(seq("<", commaSep1($.type), ">")),
+        field("trait_name", alias($.user_defined_type_name, $.trait_name)),
+        optional(field("generic_parameters", seq("<", commaSep1($.type), ">"))),
         "for",
-        $.type,
+        field("type", $.type),
         optional(seq("where", field("constraints", $.impl_constraints))),
         "{",
-        commaSep1(field("method", $.trait_method_implementation)),
+        field("methods", $.impl_methods),
         "}",
       ),
     ),
 
-  impl_constraints: ($) => seq("(", commaSep1($.impl_constraint), ")"),
+  impl_constraints: ($) =>
+    seq($.impl_constraint, repeat(seq(",", $.impl_constraint)), optional(",")),
 
-  impl_constraint: ($) => seq($.generic_type, ":", $.trait_bounds),
+  impl_constraint: ($) =>
+    seq(
+      field(
+        "generic_type",
+        choice($.generic_type, alias($.identifier, $.generic_type)),
+      ),
+      ":",
+      field("trait_bounds", $.trait_bounds),
+    ),
+
+  impl_methods: ($) => commaSep1($.trait_method_implementation),
 
   trait_method_implementation: ($) =>
     seq(
-      alias(
-        choice($.identifier, $.unary_operator, $.binary_operator),
-        $.method_name,
-      ),
+      field("method_name", $.method_name),
       "=",
       field("function_clause", $.function_clause),
     ),
+
+  method_name: ($) => choice($.identifier, $.unary_operator, $.binary_operator),
 };

@@ -3042,20 +3042,27 @@
   {
     "type": "impl_constraint",
     "named": true,
-    "fields": {},
-    "children": {
-      "multiple": true,
-      "required": true,
-      "types": [
-        {
-          "type": "generic_type",
-          "named": true
-        },
-        {
-          "type": "trait_bounds",
-          "named": true
-        }
-      ]
+    "fields": {
+      "generic_type": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "generic_type",
+            "named": true
+          }
+        ]
+      },
+      "trait_bounds": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "trait_bounds",
+            "named": true
+          }
+        ]
+      }
     }
   },
   {
@@ -3068,6 +3075,21 @@
       "types": [
         {
           "type": "impl_constraint",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "impl_methods",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "trait_method_implementation",
           "named": true
         }
       ]
@@ -3508,14 +3530,18 @@
     "fields": {},
     "children": {
       "multiple": false,
-      "required": false,
+      "required": true,
       "types": [
         {
-          "type": "prefix_operator",
+          "type": "binary_operator",
           "named": true
         },
         {
-          "type": "suffix_operator",
+          "type": "identifier",
+          "named": true
+        },
+        {
+          "type": "unary_operator",
           "named": true
         }
       ]
@@ -4973,30 +4999,58 @@
           }
         ]
       },
-      "method": {
+      "generic_parameters": {
         "multiple": true,
+        "required": false,
+        "types": [
+          {
+            "type": ",",
+            "named": false
+          },
+          {
+            "type": "<",
+            "named": false
+          },
+          {
+            "type": ">",
+            "named": false
+          },
+          {
+            "type": "type",
+            "named": true
+          }
+        ]
+      },
+      "methods": {
+        "multiple": false,
         "required": true,
         "types": [
           {
-            "type": "trait_method_implementation",
+            "type": "impl_methods",
+            "named": true
+          }
+        ]
+      },
+      "trait_name": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "trait_name",
+            "named": true
+          }
+        ]
+      },
+      "type": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "type",
             "named": true
           }
         ]
       }
-    },
-    "children": {
-      "multiple": true,
-      "required": true,
-      "types": [
-        {
-          "type": "trait_name",
-          "named": true
-        },
-        {
-          "type": "type",
-          "named": true
-        }
-      ]
     }
   },
   {
@@ -5046,17 +5100,17 @@
             "named": true
           }
         ]
+      },
+      "method_name": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "method_name",
+            "named": true
+          }
+        ]
       }
-    },
-    "children": {
-      "multiple": false,
-      "required": true,
-      "types": [
-        {
-          "type": "method_name",
-          "named": true
-        }
-      ]
     }
   },
   {
