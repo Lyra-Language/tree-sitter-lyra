@@ -142,27 +142,21 @@ import math.{ sin, cos, PI }
 Public Function Definition
 ==========================
 
-pub def greet: (string) -> string =
-(name) => "Hello, ${name}!"
+pub def greet = (name: string) -> string => "Hello, ${name}!"
 
 ---
 
 (program
   (function_definition
     (visibility)
-    (function_signature
-      (identifier)
-      (function_type
-        (parameter_type_list
-          (parameter_type
-            (string_type)))
+    (identifier)
+    (parameter_list
+      (parameter
+        (identifier)
         (string_type)))
-        (function_clause
-          (parameter_list
-            (parameter
-              (identifier)))
-          (string_literal
-            (string_content)))))
+    (string_type)
+    (string_literal
+      (string_content))))
 
 =============
 Public Struct
@@ -203,13 +197,12 @@ pub struct Config {
   path: string
 }
 
-pub def loadConfig: (string) -> Config =
-(path) => {
+pub def loadConfig = (path: string) -> Config => {
   let contents = io.readFile(path)
   parse(contents)
 }
 
-def helper = () => 42
+let helper = () => 42
 
 ---
 
@@ -246,37 +239,31 @@ def helper = () => 42
             (string_type))))))
   (function_definition
     (visibility)
-    (function_signature
-      (identifier)
-      (function_type
-        (parameter_type_list
-          (parameter_type
-            (string_type)))
-        (user_defined_type_name)))
-    (function_clause
-      (parameter_list
-        (parameter
-          (identifier)))
-      (block
-        (declaration
-          (identifier)
-          (call_expression
-            (member_expression
-              (identifier)
-              (identifier))
-            (argument_list
-              (value
-                (identifier)))))
-        (expression_statement                
-          (call_expression
+    (identifier)
+    (parameter_list
+      (parameter
+        (identifier)
+        (string_type)))
+    (user_defined_type_name)
+    (block
+      (declaration
+        (identifier)
+        (call_expression
+          (member_expression
             (identifier)
-            (argument_list
-              (value
-                (identifier))))))))
-  (function_definition
-    (function_signature
-      (identifier))
-    (function_clause
-      (parameter_list)
+            (identifier))
+          (argument_list
+            (value
+              (identifier)))))
+      (expression_statement
+        (call_expression
+          (identifier)
+          (argument_list
+            (value
+              (identifier)))))))
+  (declaration
+    (identifier)
+    (lambda_expression
+      (pattern_parameter_list)
       (integer_literal
         (decimal_int)))))

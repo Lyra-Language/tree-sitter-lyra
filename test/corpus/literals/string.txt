@@ -68,7 +68,7 @@ String Literal with escaped hash char
 String Literal with nested interpolation
 ========================================
 
-let greeting = "Hello, #{if is_male then "Mr. #{last_name}" else "Mrs. #{last_name}" end}!"
+let greeting = "Hello, #{if is_male { "Mr. #{last_name}" } else { "Mrs. #{last_name}" }}!"
 
 ---
 
@@ -78,17 +78,21 @@ let greeting = "Hello, #{if is_male then "Mr. #{last_name}" else "Mrs. #{last_na
     (string_literal
       (string_content)
       (string_interpolation
-        (if_then_expr
+        (if_block_expr
           (if_condition
             (identifier))
-          (string_literal
-            (string_content)
-            (string_interpolation
-              (identifier)))
-          (string_literal
-            (string_content)
-            (string_interpolation
-              (identifier)))))
+          (block
+            (expression_statement
+              (string_literal
+                (string_content)
+                (string_interpolation
+                  (identifier)))))
+          (block
+            (expression_statement
+              (string_literal
+                (string_content)
+                (string_interpolation
+                  (identifier)))))))
       (string_content))))
 
 ========================================

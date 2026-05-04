@@ -1,18 +1,6 @@
 const { PREC } = require("../../prec");
 
 module.exports = {
-  if_then_expr: $ => prec.right(PREC.IF_EXPR, seq(
-    'if',
-    field('condition', $.if_condition),
-    'then',
-    field('then_expression', $.expression),
-    optional(seq(
-      'else',
-      field('else_branch', choice($.if_then_expr, $.expression))
-    )),
-    optional('end'),
-  )),
-
   if_block_expr: $ => prec.right(PREC.IF_EXPR, seq(
     'if',
     field('condition', $.if_condition),

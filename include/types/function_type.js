@@ -11,7 +11,7 @@ module.exports = {
         ")",
         "->",
         seq(
-          optional(field("modifier", $.modifier)),
+          optional(field("modifier", $.type_modifier)),
           field("return_type", $.type),
         ),
       ),
@@ -20,7 +20,7 @@ module.exports = {
   parameter_type_list: ($) => commaSep1($.parameter_type),
 
   parameter_type: ($) =>
-    seq(optional(field("modifier", $.modifier)), field("type", $.type)),
+    seq(optional(field("modifier", $.type_modifier)), field("type", $.type)),
 
-  modifier: ($) => choice("ref", "mut", "own"),
+  type_modifier: ($) => choice("ref", "mut", "own"),
 };

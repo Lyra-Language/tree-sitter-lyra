@@ -17,7 +17,6 @@ module.exports = {
       $._math_expr,
       $.boolean_expr,
       $.range_expression,
-      $.if_then_expr,
       $.if_block_expr,
       $.match_expr,
       $.lambda_expression,

@@ -35,9 +35,8 @@ impl Show for string {
         (method_name
           (identifier))
         (function_clause
-          (parameter_list
-            (parameter
-              (identifier)))
+          (pattern_parameter_list
+            (identifier))
           (call_expression
             (identifier)
             (argument_list
@@ -51,9 +50,8 @@ impl Show for string {
         (method_name
           (identifier))
         (function_clause
-          (parameter_list
-            (parameter
-              (identifier)))
+          (pattern_parameter_list
+            (identifier))
           (identifier))))))
 
 =====================================================
@@ -98,9 +96,8 @@ impl Converter<int, string> for IntFormatter {
         (method_name
               (identifier))
         (function_clause
-          (parameter_list
-            (parameter
-              (identifier)))
+          (pattern_parameter_list
+            (identifier))
           (call_expression
             (identifier)
             (argument_list
@@ -116,9 +113,8 @@ impl Converter<int, string> for IntFormatter {
         (method_name
               (identifier))
         (function_clause
-          (parameter_list
-            (parameter
-              (identifier)))
+          (pattern_parameter_list
+            (identifier))
           (call_expression
             (identifier)
             (argument_list
@@ -181,13 +177,11 @@ impl Functor for Maybe {
     (impl_methods
       (trait_method_implementation
         (method_name
-              (identifier))
+          (identifier))
         (function_clause
-          (parameter_list
-            (parameter
-              (identifier))
-            (parameter
-              (identifier)))
+          (pattern_parameter_list
+            (identifier)
+            (identifier))
           (block
             (declaration
               (identifier)
@@ -221,13 +215,11 @@ impl Functor for Maybe {
     (impl_methods
       (trait_method_implementation
         (method_name
-              (identifier))
+          (identifier))
         (function_clause
-          (parameter_list
-            (parameter
-              (identifier))
-            (parameter
-              (identifier)))
+          (pattern_parameter_list
+            (identifier)
+            (identifier))
           (match_expr
             (identifier)
             (match_arm
@@ -283,9 +275,8 @@ let inverted: Point = -my_point // uses the overloaded prefix -
           (unary_operator
             (prefix_operator)))
         (function_clause
-          (parameter_list
-            (parameter
-              (identifier)))
+          (pattern_parameter_list
+            (identifier))
           (struct_literal
             (struct_name)
             (struct_body
@@ -372,11 +363,9 @@ impl Eq<t> for []t {
             (method_name
               (binary_operator))
             (function_clause
-              (parameter_list
-                (parameter
-                  (identifier))
-                (parameter
-                  (identifier)))
+              (pattern_parameter_list
+                (identifier)
+                (identifier))
               (block
                 (expression_statement
                   (if_block_expr
@@ -432,11 +421,9 @@ impl Eq<t> for []t {
             (method_name
               (binary_operator))
             (function_clause
-              (parameter_list
-                (parameter
-                  (identifier))
-                (parameter
-                  (identifier)))
+              (pattern_parameter_list
+                (identifier)
+                (identifier))
               (boolean_expr
                 (not)
                 (parenthesized_expression
@@ -495,11 +482,9 @@ impl Mappable<Array, string> for StringArrayMapper {
         (method_name
           (identifier))
         (function_clause
-          (parameter_list
-            (parameter
-              (identifier))
-            (parameter
-              (identifier)))
+          (pattern_parameter_list
+            (identifier)
+            (identifier))
           (call_expression
             (identifier)
             (argument_list
@@ -517,11 +502,9 @@ impl Mappable<Array, string> for StringArrayMapper {
         (method_name
           (identifier))
         (function_clause
-          (parameter_list
-            (parameter
-              (identifier))
-            (parameter
-              (identifier)))
+          (pattern_parameter_list
+            (identifier)
+            (identifier))
           (call_expression
             (identifier)
             (argument_list
@@ -576,11 +559,9 @@ impl Applicable<(int, int) -> int> for BinaryOp {
         (method_name
           (identifier))
         (function_clause
-          (parameter_list
-            (parameter
-              (identifier))
-            (parameter
-              (identifier)))
+          (pattern_parameter_list
+            (identifier)
+            (identifier))
           (call_expression
             (identifier)
             (argument_list
@@ -601,11 +582,9 @@ impl Applicable<(int, int) -> int> for BinaryOp {
         (method_name
           (identifier))
         (function_clause
-          (parameter_list
-            (parameter
-              (identifier))
-            (parameter
-              (identifier)))
+          (pattern_parameter_list
+            (identifier)
+            (identifier))
           (call_expression
             (identifier)
             (argument_list
@@ -634,132 +613,121 @@ impl Collection<Array, string> for StringList {
 
 ---
 
-    (program
-      (trait_declaration
-        (trait_name)
-        (generic_parameters
-          (generic_type)
-          (generic_type))
-        (trait_methods
-          (trait_method
-            (identifier)
-            (trait_method_signature
-              (parameter_type_list
-                (parameter_type
-                  (generic_type
-                    (generic_type_parameter)))
-                (parameter_type
-                  (generic_type)))
+(program
+  (trait_declaration
+    (trait_name)
+    (generic_parameters
+      (generic_type)
+      (generic_type))
+    (trait_methods
+      (trait_method
+        (identifier)
+        (trait_method_signature
+          (parameter_type_list
+            (parameter_type
+              (generic_type
+                (generic_type_parameter)))
+            (parameter_type
+              (generic_type)))
+          (generic_type
+            (generic_type_parameter))))
+      (trait_method
+        (identifier)
+        (trait_method_signature
+          (parameter_type_list
+            (parameter_type
+              (generic_type
+                (generic_type_parameter)))
+            (parameter_type
+              (generic_type)))
+          (generic_type
+            (generic_type_parameter))))
+      (trait_method
+        (identifier)
+        (trait_method_signature
+          (parameter_type_list
+            (parameter_type
+              (generic_type
+                (generic_type_parameter)))
+            (parameter_type
+              (generic_type)))
+          (boolean_type)))
+      (trait_method
+        (identifier)
+        (trait_method_signature
+          (parameter_type_list
+            (parameter_type
               (generic_type
                 (generic_type_parameter))))
-          (trait_method
+          (signed_integer_type)))))
+  (trait_implementation
+    (trait_name)
+    (user_defined_type_name)
+    (string_type)
+    (user_defined_type_name)
+    (impl_methods
+      (trait_method_implementation
+        (method_name
+          (identifier))
+        (function_clause
+          (pattern_parameter_list
             (identifier)
-            (trait_method_signature
-              (parameter_type_list
-                (parameter_type
-                  (generic_type
-                    (generic_type_parameter)))
-                (parameter_type
-                  (generic_type)))
-              (generic_type
-                (generic_type_parameter))))
-          (trait_method
-            (identifier)
-            (trait_method_signature
-              (parameter_type_list
-                (parameter_type
-                  (generic_type
-                    (generic_type_parameter)))
-                (parameter_type
-                  (generic_type)))
-              (boolean_type)))
-          (trait_method
-            (identifier)
-            (trait_method_signature
-              (parameter_type_list
-                (parameter_type
-                  (generic_type
-                    (generic_type_parameter))))
-              (signed_integer_type)))))
-      (trait_implementation
-        (trait_name)
-        (user_defined_type_name)
-        (string_type)
-        (user_defined_type_name)
-        (impl_methods
-          (trait_method_implementation
-            (method_name
+            (identifier))
+          (array_literal
+            (spread_expr
               (identifier))
-            (function_clause
-              (parameter_list
-                (parameter
-                  (identifier))
-                (parameter
-                  (identifier)))
-              (array_literal
-                (spread_expr
-                  (identifier))
-                (identifier))))
-          (trait_method_implementation
-            (method_name
-              (identifier))
-            (function_clause
-              (parameter_list
-                (parameter
-                  (identifier))
-                (parameter
-                  (identifier)))
-              (call_expression
-                (identifier)
-                (argument_list
-                  (value
+            (identifier))))
+      (trait_method_implementation
+        (method_name
+          (identifier))
+        (function_clause
+          (pattern_parameter_list
+            (identifier)
+            (identifier))
+          (call_expression
+            (identifier)
+            (argument_list
+              (value
+                (identifier))
+              (value
+                (lambda_expression
+                  (pattern_parameter_list
                     (identifier))
-                  (value
-                    (lambda_expression
-                      (function_clause
-                        (parameter_list
-                          (parameter
-                            (identifier)))
-                        (boolean_expr
-                          (identifier)
-                          (not_equals_operator)
-                          (identifier)))))))))
-          (trait_method_implementation
-            (method_name
-              (identifier))
-            (function_clause
-              (parameter_list
-                (parameter
-                  (identifier))
-                (parameter
-                  (identifier)))
-              (call_expression
-                (identifier)
-                (argument_list
-                  (value
+                  (boolean_expr
+                    (identifier)
+                    (not_equals_operator)
+                    (identifier))))))))
+      (trait_method_implementation
+        (method_name
+          (identifier))
+        (function_clause
+          (pattern_parameter_list
+            (identifier)
+            (identifier))
+          (call_expression
+            (identifier)
+            (argument_list
+              (value
+                (identifier))
+              (value
+                (lambda_expression
+                  (pattern_parameter_list
                     (identifier))
-                  (value
-                    (lambda_expression
-                      (function_clause
-                        (parameter_list
-                          (parameter
-                            (identifier)))
-                        (boolean_expr
-                          (identifier)
-                          (equals_operator)
-                          (identifier)))))))))
-          (trait_method_implementation
-            (method_name
+                  (boolean_expr
+                    (identifier)
+                    (equals_operator)
+                    (identifier))))))))
+      (trait_method_implementation
+        (method_name
+          (identifier))
+        (function_clause
+          (pattern_parameter_list
+            (identifier))
+          (call_expression
+            (member_expression
+              (identifier)
               (identifier))
-            (function_clause
-              (parameter_list
-                (parameter
-                  (identifier)))
-              (call_expression
-                (member_expression
-                  (identifier)
-                  (identifier))
-                (argument_list)))))))
+            (argument_list)))))))
 
 ===================================================
 Trait Implementation for Primitive and Custom Types
@@ -803,7 +771,7 @@ impl Default for Person {
         (method_name
           (identifier))
         (function_clause
-          (parameter_list)
+          (pattern_parameter_list)
           (integer_literal
             (decimal_int))))))
   (trait_implementation
@@ -814,7 +782,7 @@ impl Default for Person {
         (method_name
           (identifier))
         (function_clause
-          (parameter_list)
+          (pattern_parameter_list)
           (string_literal)))))
   (trait_implementation
     (trait_name)
@@ -825,7 +793,7 @@ impl Default for Person {
         (method_name
               (identifier))
         (function_clause
-          (parameter_list)
+          (pattern_parameter_list)
           (array_literal)))))
   (trait_implementation
     (trait_name)
@@ -835,7 +803,7 @@ impl Default for Person {
         (method_name
           (identifier))
         (function_clause
-          (parameter_list)
+          (pattern_parameter_list)
           (struct_literal
             (struct_name)
             (struct_body
@@ -960,7 +928,6 @@ impl Render<t> for []t where t: Render, {
         (method_name
           (identifier))
         (function_clause
-          (parameter_list
-            (parameter
-              (identifier)))
+          (pattern_parameter_list
+            (identifier))
           (string_literal))))))

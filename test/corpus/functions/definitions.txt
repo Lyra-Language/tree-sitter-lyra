@@ -2,7 +2,7 @@
 Basic Function declaration without parameters
 =============================================
 
-def foo = () => {
+def foo = () -> void => {
   // do stuff
 }
 
@@ -10,138 +10,282 @@ def foo = () => {
 
 (program
   (function_definition
-    (function_signature
-      (identifier))
-    (function_clause
-      (parameter_list)
-      (block
-        (comment)))))
+    (identifier)
+    (parameter_list)
+    (generic_type)
+    (block
+      (comment))))
+
+=============================================
+Basic Function declaration with visibility
+=============================================
+
+pub def foo = () -> void => {
+  // do stuff
+}
+
+---
+
+(program
+  (function_definition
+    (visibility)
+    (identifier)
+    (parameter_list)
+    (generic_type)
+    (block
+      (comment))))
+
+================================
+Pure function declaration
+================================
+
+pure def add = (a: int, b: int) -> int => a + b
+
+---
+
+(program
+  (function_definition
+    (identifier)
+    (parameter_list
+      (parameter
+        (identifier)
+        (signed_integer_type))
+      (parameter
+        (identifier)
+        (signed_integer_type)))
+    (signed_integer_type)
+    (binary_expression
+      (identifier)
+      (add_operator)
+      (identifier))))
+
+================================
+Public pure function
+================================
+
+pub pure def multiply = (a: int, b: int) -> int => a * b
+
+---
+
+(program
+  (function_definition
+    (visibility)
+    (identifier)
+    (parameter_list
+      (parameter
+        (identifier)
+        (signed_integer_type))
+      (parameter
+        (identifier)
+        (signed_integer_type)))
+    (signed_integer_type)
+    (binary_expression
+      (identifier)
+      (mul_operator)
+      (identifier))))
+
+================================
+Pure async function
+================================
+
+pure async def compute = (n: int) -> int => n * 2
+
+---
+
+(program
+  (function_definition
+    (identifier)
+    (parameter_list
+      (parameter
+        (identifier)
+        (signed_integer_type)))
+    (signed_integer_type)
+    (binary_expression
+      (identifier)
+      (mul_operator)
+      (integer_literal
+        (decimal_int)))))
+
+================================
+Pure with pattern matching
+================================
+
+pure def fib = (n: int) -> int {
+  (0) => 0,
+  (1) => 1,
+  (n) => fib(n-1) + fib(n-2),
+}
+
+---
+
+(program
+  (function_definition
+    (identifier)
+    (parameter_list
+      (parameter
+        (identifier)
+        (signed_integer_type)))
+    (signed_integer_type)
+    (function_clause_list
+      (function_clause
+        (pattern_parameter_list
+          (literal_pattern
+            (integer_literal
+              (decimal_int))))
+        (integer_literal
+          (decimal_int)))
+      (function_clause
+        (pattern_parameter_list
+          (literal_pattern
+            (integer_literal
+              (decimal_int))))
+        (integer_literal
+          (decimal_int)))
+      (function_clause
+        (pattern_parameter_list
+          (identifier))
+        (binary_expression
+          (call_expression
+            (identifier)
+            (argument_list
+              (value
+                (binary_expression
+                  (identifier)
+                  (sub_operator)
+                  (integer_literal
+                    (decimal_int))))))
+          (add_operator)
+          (call_expression
+            (identifier)
+            (argument_list
+              (value
+                (binary_expression
+                  (identifier)
+                  (sub_operator)
+                  (integer_literal
+                    (decimal_int)))))))))))
+
+===========================
+Pure keyword in wrong order
+===========================
+
+async pure def compute = (n: int) -> int => n * 2
+
+---
+
+(program
+  (function_definition
+    (ERROR)
+    (identifier)
+    (parameter_list
+      (parameter
+        (identifier)
+        (signed_integer_type)))
+    (signed_integer_type)
+    (binary_expression
+      (identifier)
+      (mul_operator)
+      (integer_literal
+        (decimal_int)))))
 
 ==============================================================
 Basic Function declaration without parameters with return type
 ==============================================================
 
-def foo: () -> int =
-() => {
-  return 42
-}
+def foo = () -> int => 42
 
 ---
 
 (program
   (function_definition
-    (function_signature
-      (identifier)
-      (function_type
-        (signed_integer_type)))
-    (function_clause
-      (parameter_list)
-      (block
-        (return_statement
-          (integer_literal
-            (decimal_int)))))))
+    (identifier)
+    (parameter_list)
+    (signed_integer_type)
+    (integer_literal
+      (decimal_int))))
 
 ==========================================
 Basic Function declaration with parameters
 ==========================================
 
-def sum: (int, int) -> int = (a, b) => a + b
+def sum = (a: int, b: int) -> int => a + b
 
 ---
 
 (program
   (function_definition
-    (function_signature
-      (identifier)
-      (function_type
-        (parameter_type_list
-          (parameter_type
-            (signed_integer_type))
-          (parameter_type
-            (signed_integer_type)))
-        (signed_integer_type)))
-    (function_clause
-      (parameter_list
-        (parameter
-          (identifier))
-        (parameter
-          (identifier)))
-      (binary_expression
+    (identifier)
+    (parameter_list
+      (parameter
         (identifier)
-        (add_operator)
-        (identifier)))))
+        (signed_integer_type))
+      (parameter
+        (identifier)
+        (signed_integer_type)))
+    (signed_integer_type)
+    (binary_expression
+      (identifier)
+      (add_operator)
+      (identifier))))
 
 ==================================================
 Basic Function declaration with generic parameters
 ==================================================
 
-def sum<n>: (n, n) -> n = (a, b) => a + b
+def sum<n> = (a: n, b: n) -> n => a + b
 
 ---
 
 (program
   (function_definition
-    (function_signature
-      (identifier)
-      (generic_parameters
-        (generic_type))
-      (function_type
-        (parameter_type_list
-          (parameter_type
-            (generic_type))
-          (parameter_type
-            (generic_type)))
-        (generic_type)))
-    (function_clause
-      (parameter_list
-        (parameter
-          (identifier))
-        (parameter
-          (identifier)))
-      (binary_expression
+    (identifier)
+    (generic_parameters
+      (generic_type))
+    (parameter_list
+      (parameter
         (identifier)
-        (add_operator)
-        (identifier)))))
+        (generic_type))
+      (parameter
+        (identifier)
+        (generic_type)))
+    (generic_type)
+    (binary_expression
+      (identifier)
+      (add_operator)
+      (identifier))))
 
 ==================================
 Function declaration with defaults
 ==================================
 
-def product: (int, int) -> int = (a, b = 10) => a * b
+def product = (a: int, b: int = 10) -> int => a * b
 
 ---
 
 (program
   (function_definition
-    (function_signature
-      (identifier)
-      (function_type
-        (parameter_type_list
-          (parameter_type
-            (signed_integer_type))
-          (parameter_type
-            (signed_integer_type)))
-        (signed_integer_type)))
-    (function_clause
-      (parameter_list
-        (parameter
-          (identifier))
-        (parameter
-          (identifier)
-          (default_value
-            (integer_literal
-              (decimal_int)))))
-      (binary_expression
+    (identifier)
+    (parameter_list
+      (parameter
         (identifier)
-        (mul_operator)
-        (identifier)))))
+        (signed_integer_type))
+      (parameter
+        (identifier)
+        (signed_integer_type)
+        (default_value
+          (integer_literal
+            (decimal_int)))))
+    (signed_integer_type)
+    (binary_expression
+      (identifier)
+      (mul_operator)
+      (identifier))))
 
 =====================================
 Function with patterns for parameters
 =====================================
 
-def foo: (string, int, Point, []string, SomeTuple) -> Void =
-(bar, 42, { x, y }, [one, two, three, ...rest], (alpha, beta)) => {
+def foo = ({ x, y }: Point, [one, two, three, ...rest]: []string, (alpha, beta): SomeTuple) -> void => {
   // do stuff
 }
 
@@ -149,56 +293,38 @@ def foo: (string, int, Point, []string, SomeTuple) -> Void =
 
 (program
   (function_definition
-    (function_signature
-      (identifier)
-      (function_type
-        (parameter_type_list
-          (parameter_type
-            (string_type))
-          (parameter_type
-            (signed_integer_type))
-          (parameter_type
-            (user_defined_type_name))
-          (parameter_type
-            (array_type
-              (string_type)))
-          (parameter_type
-            (user_defined_type_name)))
-        (void_type)))
-    (function_clause
-      (parameter_list
-        (parameter
+    (identifier)
+    (parameter_list
+      (parameter
+        (struct_pattern
+          (struct_field_pattern
+            (identifier))
+          (struct_field_pattern
+            (identifier)))
+        (user_defined_type_name))
+      (parameter
+        (array_pattern
+          (identifier)
+          (identifier)
+          (identifier)
+          (rest_pattern
+            (identifier)))
+        (array_type
+          (string_type)))
+      (parameter
+        (tuple_pattern
+          (identifier)
           (identifier))
-        (parameter
-          (literal_pattern
-            (integer_literal
-              (decimal_int))))
-        (parameter
-          (struct_pattern
-            (struct_field_pattern
-              (identifier))
-            (struct_field_pattern
-              (identifier))))
-        (parameter
-          (array_pattern
-            (identifier)
-            (identifier)
-            (identifier)
-            (rest_pattern
-              (identifier))))
-        (parameter
-          (tuple_pattern
-            (identifier)
-            (identifier))))
-      (block
-        (comment)))))
+        (user_defined_type_name)))
+    (generic_type)
+    (block
+      (comment))))
 
 =====================
 Higher order function
 =====================
 
-def map<t,u>: ([]t, (t) -> u) -> []u =
-(array, func) => {
+def map<t,u> = (array: []t, func: (t) -> u) -> []u => {
   //  new_array = []
   //  for item in array {
   //    new_array.push(func(item))
@@ -210,42 +336,36 @@ def map<t,u>: ([]t, (t) -> u) -> []u =
 
 (program
   (function_definition
-    (function_signature
-      (identifier)
-      (generic_parameters
-        (generic_type)
-        (generic_type))
-      (function_type
-        (parameter_type_list
-          (parameter_type
-            (array_type
-              (generic_type)))
-          (parameter_type
-            (function_type
-              (parameter_type_list
-                (parameter_type
-                  (generic_type)))
-              (generic_type))))
+    (identifier)
+    (generic_parameters
+      (generic_type)
+      (generic_type))
+    (parameter_list
+      (parameter
+        (identifier)
         (array_type
+          (generic_type)))
+      (parameter
+        (identifier)
+        (function_type
+          (parameter_type_list
+            (parameter_type
+              (generic_type)))
           (generic_type))))
-    (function_clause
-      (parameter_list
-        (parameter
-          (identifier))
-        (parameter
-          (identifier)))
-      (block
-        (comment)
-        (comment)
-        (comment)
-        (comment)
-        (comment)))))
+    (array_type
+      (generic_type))
+    (block
+      (comment)
+      (comment)
+      (comment)
+      (comment)
+      (comment))))
 
 ========================================
 Function with multiple function patterns
 ========================================
 
-def fib: (int) -> int = {
+def fib = (n: int) -> int {
   (0) => 0,
   (1) => 1,
   (n) => fib(n-2) + fib(n-1),
@@ -255,34 +375,30 @@ def fib: (int) -> int = {
 
 (program
   (function_definition
-    (function_signature
-      (identifier)
-      (function_type
-        (parameter_type_list
-          (parameter_type
-            (signed_integer_type)))
+    (identifier)
+    (parameter_list
+      (parameter
+        (identifier)
         (signed_integer_type)))
+    (signed_integer_type)
     (function_clause_list
       (function_clause
-        (parameter_list
-          (parameter
-            (literal_pattern
-              (integer_literal
-                (decimal_int)))))
+        (pattern_parameter_list
+          (literal_pattern
+            (integer_literal
+              (decimal_int))))
         (integer_literal
           (decimal_int)))
       (function_clause
-        (parameter_list
-          (parameter
-            (literal_pattern
-              (integer_literal
-                (decimal_int)))))
+        (pattern_parameter_list
+          (literal_pattern
+            (integer_literal
+              (decimal_int))))
         (integer_literal
           (decimal_int)))
       (function_clause
-        (parameter_list
-          (parameter
-            (identifier)))
+        (pattern_parameter_list
+          (identifier))
         (binary_expression
           (call_expression
             (identifier)
@@ -308,7 +424,7 @@ def fib: (int) -> int = {
 Function with multiple function patterns and guard
 ==================================================
 
-def fib: (int) -> int = {
+def fib = (n: int) -> int {
   (n) if n < 2 => n,
   (n) => fib(n-2) + fib(n-1),
 }
@@ -317,18 +433,16 @@ def fib: (int) -> int = {
 
 (program
   (function_definition
-    (function_signature
-      (identifier)
-      (function_type
-        (parameter_type_list
-          (parameter_type
-            (signed_integer_type)))
+    (identifier)
+    (parameter_list
+      (parameter
+        (identifier)
         (signed_integer_type)))
+    (signed_integer_type)
     (function_clause_list
       (function_clause
-        (parameter_list
-          (parameter
-            (identifier)))
+        (pattern_parameter_list
+          (identifier))
         (guard
           (boolean_expr
             (identifier)
@@ -337,9 +451,8 @@ def fib: (int) -> int = {
               (decimal_int))))
         (identifier))
       (function_clause
-        (parameter_list
-          (parameter
-            (identifier)))
+        (pattern_parameter_list
+          (identifier))
         (binary_expression
           (call_expression
             (identifier)
@@ -365,8 +478,7 @@ def fib: (int) -> int = {
 Function type parameter modifiers
 =================================
 
-def render: (ref Scene) -> Void =
-(scene) => {
+def render = (scene: ref Scene) -> void => {
   // render the scene
 }
 
@@ -374,27 +486,21 @@ def render: (ref Scene) -> Void =
 
 (program
   (function_definition
-    (function_signature
-      (identifier)
-      (function_type
-        (parameter_type_list
-          (parameter_type
-            (modifier)
-            (user_defined_type_name)))
-        (void_type)))
-    (function_clause
-      (parameter_list
-        (parameter
-          (identifier)))
-      (block
-        (comment)))))
+    (identifier)
+    (parameter_list
+      (parameter
+        (identifier)
+        (type_modifier)
+        (user_defined_type_name)))
+    (generic_type)
+    (block
+      (comment))))
 
 =============================
 Function type return modifier
 =============================
 
-def open_file: (string) -> mut File =
-(path) => {
+def open_file = (path: string) -> mut File => {
   // do some stuff
   return file
 }
@@ -403,22 +509,17 @@ def open_file: (string) -> mut File =
 
 (program
   (function_definition
-    (function_signature
-      (identifier)
-      (function_type
-        (parameter_type_list
-          (parameter_type
-            (string_type)))
-        (modifier)
-        (user_defined_type_name)))
-    (function_clause
-      (parameter_list
-        (parameter
-          (identifier)))
-      (block
-        (comment)
-        (return_statement
-          (identifier))))))
+    (identifier)
+    (parameter_list
+      (parameter
+        (identifier)
+        (string_type)))
+    (type_modifier)
+    (user_defined_type_name)
+    (block
+      (comment)
+      (return_statement
+        (identifier)))))
 
 ===================================
 Function without body is an error
@@ -429,101 +530,21 @@ def foo
 
 ---
 
-(program
-  (ERROR
-    (function_signature
-      (identifier))))
-
 =============================================
-Missing comma in parameters types is an error
+Missing comma in parameters is an error
 :error
 =============================================
 
-def foo: (int int) -> int {
-  (x, y) => x * y
-}
+def foo = (x: int y: int) -> int => x * y
 
 ---
 
-(program
-  (function_definition
-    (function_signature
-      (identifier)
-      (function_type
-        (parameter_type_list
-          (signed_integer_type))
-        (ERROR)
-        (signed_integer_type)))
-    (function_clause
-      (parameter_list
-        (parameter
-          (identifier))
-        (parameter
-          (identifier)))
-      (multiplication
-        (identifier)
-        (identifier)))))
-
-============================================
-Missing comma in parameter names is an error
-:error
-============================================
-
-def foo: (int, int) -> int {
-  (x y) => x * y
-}
-
----
-
-(program
-  (function_definition
-    (function_signature
-      (identifier)
-      (function_type
-        (parameter_type_list
-          (signed_integer_type)
-          (signed_integer_type))
-        (signed_integer_type)))
-    (function_clause
-      (parameter_list
-        (parameter
-          (identifier))
-        (ERROR
-          (UNEXPECTED 'y')))
-      (multiplication
-        (identifier)
-        (identifier)))))
 
 ===================================
 Unclosed generic params is an error
 :error
 ===================================
 
-def sum<n: (n, n) -> n = (a, b) => a + b
+def sum<n = (a: n, b: n) -> n => a + b
 
 ---
-
-(program
-  (function_definition
-    (function_signature
-      (identifier)
-      (generic_parameters
-        (generic_type)
-        (MISSING ">"))
-      (function_type
-        (parameter_type_list
-          (parameter_type
-            (generic_type))
-          (parameter_type
-            (generic_type)))
-        (generic_type)))
-    (function_clause
-      (parameter_list
-        (parameter
-          (identifier))
-        (parameter
-          (identifier)))
-      (binary_expression
-        (identifier)
-        (add_operator)
-        (identifier)))))

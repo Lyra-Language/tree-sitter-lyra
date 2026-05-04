@@ -2,65 +2,67 @@
 Recursive Fibonacci
 ===================
 
-def fib: (int) -> int =
-(x) => {
-  if x == 0 then 0
-  else if x == 1 then 1
-  else fib(x - 1) + fib(x - 2) end
+def fib = (x: int) -> int => {
+  if x == 0 { 0 }
+  else if x == 1 { 1 }
+  else { fib(x - 1) + fib(x - 2) }
 }
 
 ---
 
 (program
   (function_definition
-    (function_signature
-      (identifier)
-      (function_type
-        (parameter_type_list
-          (parameter_type
-            (signed_integer_type)))
+    (identifier)
+    (parameter_list
+      (parameter
+        (identifier)
         (signed_integer_type)))
-    (function_clause
-      (parameter_list
-        (parameter
-          (identifier)))
-      (block
-        (expression_statement
-          (if_then_expr
-            (if_condition
-              (boolean_expr
-                (identifier)
-                (equals_operator)
-                (integer_literal
-                  (decimal_int))))
-            (integer_literal
-              (decimal_int))
-            (if_then_expr
+    (signed_integer_type)
+    (struct_literal
+      (struct_body
+        (struct_shorthand
+          (field_value
+            (if_block_expr
               (if_condition
                 (boolean_expr
                   (identifier)
                   (equals_operator)
                   (integer_literal
                     (decimal_int))))
-              (integer_literal
-                (decimal_int))
-              (binary_expression
-                (call_expression
-                  (identifier)
-                  (argument_list
-                    (value
-                      (binary_expression
+              (block
+                (expression_statement
+                  (integer_literal
+                    (decimal_int))))
+              (if_block_expr
+                (if_condition
+                  (boolean_expr
+                    (identifier)
+                    (equals_operator)
+                    (integer_literal
+                      (decimal_int))))
+                (block
+                  (expression_statement
+                    (integer_literal
+                      (decimal_int))))
+                (block
+                  (expression_statement
+                    (binary_expression
+                      (call_expression
                         (identifier)
-                        (sub_operator)
-                        (integer_literal
-                          (decimal_int))))))
-                (add_operator)
-                (call_expression
-                  (identifier)
-                  (argument_list
-                    (value
-                      (binary_expression
+                        (argument_list
+                          (value
+                            (binary_expression
+                              (identifier)
+                              (sub_operator)
+                              (integer_literal
+                                (decimal_int))))))
+                      (add_operator)
+                      (call_expression
                         (identifier)
-                        (sub_operator)
-                        (integer_literal
-                          (decimal_int))))))))))))))
+                        (argument_list
+                          (value
+                            (binary_expression
+                              (identifier)
+                              (sub_operator)
+                              (integer_literal
+                                (decimal_int)))))))))))))))))

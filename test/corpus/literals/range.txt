@@ -40,7 +40,7 @@ Simple Range w/ int literals, equals
 Simple Range w/ step
 ====================
 
-0..=10,2
+0..=10:2
 
 ---
 

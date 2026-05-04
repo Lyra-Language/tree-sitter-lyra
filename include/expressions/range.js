@@ -8,7 +8,7 @@ module.exports = {
       '..',
       field('end_operator', alias($.range_end_operator, $.range_end_operator)),
       field('end', alias($.expression, $.range_end)),
-      optional(seq(',', field('step', alias($.expression, $.range_step))))
+      optional(seq(':', field('step', alias($.expression, $.range_step))))
     )
   ),
 

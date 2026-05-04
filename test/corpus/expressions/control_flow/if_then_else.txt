@@ -68,73 +68,28 @@ if x == 3 {
 If one-liner in an assignment
 =============================
 
-let foo = if x == 0 then "zero" else "not zero" end
+let foo = if x == 0 { "zero" } else { "not zero" }
 
 ---
 
 (program
   (declaration
     (identifier)
-    (if_then_expr
+    (if_block_expr
       (if_condition
         (boolean_expr
           (identifier)
           (equals_operator)
           (integer_literal
             (decimal_int))))
-      (string_literal
-        (string_content))
-      (string_literal
-        (string_content)))))
-
-=========================
-If/Then on multiple lines
-=========================
-
-if x == 0 then
-  println("Zero!")
-else if x < 0 then
-  println("Negative!")
-else
-  println("Positive!")
-end
-
----
-
-(program
-  (expression_statement
-    (if_then_expr
-      (if_condition
-        (boolean_expr
-          (identifier)
-          (equals_operator)
-          (integer_literal
-            (decimal_int))))
-      (call_expression
-        (identifier)
-        (argument_list
-          (value
-            (string_literal
-              (string_content)))))
-      (if_then_expr
-        (if_condition
-          (boolean_expr
-            (identifier)
-            (less_than_operator)
-            (integer_literal
-              (decimal_int))))
-        (call_expression
-          (identifier)
-          (argument_list
-            (value
-              (string_literal
-                (string_content)))))
-        (call_expression
-          (identifier)
-          (argument_list
-            (value
-              (string_literal
-                (string_content)))))))))
+      (block
+        (expression_statement
+          (string_literal
+            (string_content))))
+      (block
+        (expression_statement
+          (string_literal
+            (string_content)))))))
 
 =====================
 Nested If Expressions

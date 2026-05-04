@@ -18,6 +18,8 @@ module.exports = {
   _generators: ($) => commaSep1($.generator),
   generator: ($) =>
     seq(
+      field("identifier", $.identifier),
+      'in',
       field(
         "value",
         choice(
@@ -27,8 +29,6 @@ module.exports = {
           $.identifier,
         ),
       ),
-      "->",
-      field("identifier", $.identifier),
     ),
 
   _guards: ($) => field("guards", commaSep1($.comprehension_guard)),

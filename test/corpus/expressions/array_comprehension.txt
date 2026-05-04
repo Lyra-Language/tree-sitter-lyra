@@ -2,7 +2,7 @@
 Basic array comprehension
 =========================
 
-let squares = [ 1..=5 -> x | x * x ]
+let squares = [ x in 1..=5 | x * x ]
 // squares == [1, 4, 9, 16, 25]
 
 ---
@@ -12,6 +12,7 @@ let squares = [ 1..=5 -> x | x * x ]
     (identifier)
     (array_comp_expr
       (generator
+        (identifier)
         (range_expression
           (range_start
             (integer_literal
@@ -19,8 +20,7 @@ let squares = [ 1..=5 -> x | x * x ]
           (range_end_operator)
           (range_end
             (integer_literal
-              (decimal_int))))
-        (identifier))
+              (decimal_int)))))
       (result_expression
         (binary_expression
           (identifier)
@@ -32,7 +32,7 @@ let squares = [ 1..=5 -> x | x * x ]
 Basic array comprehension with guard
 ====================================
 
-let even_squares = [ 1..=10 -> x | even(x) | x * x ]
+let even_squares = [ x in 1..=10 | even(x) | x * x ]
 // even_squares == [4, 16, 36, 64, 100]
 
 ---
@@ -42,6 +42,7 @@ let even_squares = [ 1..=10 -> x | even(x) | x * x ]
     (identifier)
     (array_comp_expr
       (generator
+        (identifier)
         (range_expression
           (range_start
             (integer_literal
@@ -49,8 +50,7 @@ let even_squares = [ 1..=10 -> x | even(x) | x * x ]
           (range_end_operator)
           (range_end
             (integer_literal
-              (decimal_int))))
-        (identifier))
+              (decimal_int)))))
       (comprehension_guard
         (call_expression
           (identifier)
@@ -68,7 +68,7 @@ let even_squares = [ 1..=10 -> x | even(x) | x * x ]
 Array comprehension with multiple generators and multiple guards
 ================================================================
 
-let foo = [ 1..=5 -> x, 1..=5 -> y | odd(x), even(y) | (x, y, x * y) ]
+let foo = [ x in 1..=5, y in 1..=5 | odd(x), even(y) | (x, y, x * y) ]
 // foo == [(1, 2, 2), (1, 4, 4), (3, 2, 6), (3, 4, 12), (5, 2, 10), (5, 4, 20)]
 
 ---
@@ -78,6 +78,7 @@ let foo = [ 1..=5 -> x, 1..=5 -> y | odd(x), even(y) | (x, y, x * y) ]
     (identifier)
     (array_comp_expr
       (generator
+        (identifier)
         (range_expression
           (range_start
             (integer_literal
@@ -85,9 +86,9 @@ let foo = [ 1..=5 -> x, 1..=5 -> y | odd(x), even(y) | (x, y, x * y) ]
           (range_end_operator)
           (range_end
             (integer_literal
-              (decimal_int))))
-        (identifier))
+              (decimal_int)))))
       (generator
+        (identifier)
         (range_expression
           (range_start
             (integer_literal
@@ -95,8 +96,7 @@ let foo = [ 1..=5 -> x, 1..=5 -> y | odd(x), even(y) | (x, y, x * y) ]
           (range_end_operator)
           (range_end
             (integer_literal
-              (decimal_int))))
-        (identifier))
+              (decimal_int)))))
       (comprehension_guard
         (call_expression
           (identifier)
@@ -126,7 +126,7 @@ let foo = [ 1..=5 -> x, 1..=5 -> y | odd(x), even(y) | (x, y, x * y) ]
 Array Comprehension with an array literal
 =========================================
 
-let squares = [ [1, 2, 3] -> x | x * x ]
+let squares = [ x in [1, 2, 3] | x * x ]
 // squares == [1, 4, 9]
 
 ---
@@ -136,14 +136,14 @@ let squares = [ [1, 2, 3] -> x | x * x ]
     (identifier)
     (array_comp_expr
       (generator
+        (identifier)
         (array_literal
           (integer_literal
             (decimal_int))
           (integer_literal
             (decimal_int))
           (integer_literal
-            (decimal_int)))
-        (identifier))
+            (decimal_int))))
       (result_expression
         (binary_expression
           (identifier)
@@ -155,7 +155,7 @@ let squares = [ [1, 2, 3] -> x | x * x ]
 Array Comprehension with a string literal
 =========================================
 
-let char_codes = [ "Hello" -> c | ord(c) ]
+let char_codes = [ c in "Hello" | ord(c) ]
 // char_codes == [72, 101, 108, 108, 111]
 
 ---
@@ -165,9 +165,9 @@ let char_codes = [ "Hello" -> c | ord(c) ]
     (identifier)
     (array_comp_expr
       (generator
+        (identifier)
         (string_literal
-          (string_content))
-        (identifier))
+          (string_content)))
       (result_expression
         (call_expression
           (identifier)
@@ -180,7 +180,7 @@ let char_codes = [ "Hello" -> c | ord(c) ]
 Array Comprehension with an identier
 ====================================
 
-let squares = [ one_to_five -> x | x * x ]
+let squares = [ x in one_to_five | x * x ]
 // squares == [1, 4, 9, 16, 25]
 
 ---

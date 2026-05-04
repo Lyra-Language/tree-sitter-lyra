@@ -4,43 +4,42 @@ module.exports = {
   function_definition: ($) =>
     seq(
       optional($.visibility),
-      field("signature", $.function_signature),
-      "=",
-      choice(
-        field("function_clause", $.function_clause),
-        field("function_clause_list", $.function_clause_list),
-      ),
-    ),
-
-  function_signature: ($) =>
-    seq(
       optional(field("is_pure", "pure")),
       optional(field("is_async", "async")),
       "def",
       field("name", $.identifier),
       optional(field("generic_parameters", $.generic_parameters)),
-      optional(seq(":", field("function_type", $.function_type))),
+      "=",
+      field("parameters", $.parameter_list),
+      field("return_type", seq("->", optional($.type_modifier), $.type)),
+      choice(
+        seq("=>", field("body", $.expression)),
+        field("function_clauses", $.function_clause_list),
+      ),
     ),
+
+  parameter_list: ($) => seq("(", commaSep($.parameter), ")"),
+  
+  function_clause_list: ($) => seq("{", commaSep1($.function_clause), "}"),
 
   function_clause: ($) =>
     seq(
-      field("parameters", $.parameter_list),
+      field("parameters", $.pattern_parameter_list),
       optional(field("guard", $.guard)),
       "=>",
-      field("body", choice($.expression, $.block)),
+      field("body", $.expression),
     ),
 
-  lambda_expression: ($) => $.function_clause,
-
-  function_clause_list: ($) => seq("{", commaSep1($.function_clause), "}"),
-
-  parameter_list: ($) => seq("(", commaSep($.parameter), ")"),
+  pattern_parameter_list: ($) => seq("(", commaSep($.pattern), ")"),
 
   parameter: ($) =>
     field(
       "parameter",
       seq(
         field("pattern", $.pattern),
+        ':',
+        optional($.type_modifier),
+        field("type", $.type),
         optional(field("default_value", $.default_value)),
       ),
     ),
