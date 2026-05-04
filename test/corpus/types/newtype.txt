@@ -2,29 +2,29 @@
 Basic Type without constraints (alias)
 ======================================
 
-type Turn = float
+newtype Turn = float
 
 ---
 
 (program
   (type_declaration
-    (constrained_type
-      (constrained_type_name)
+    (newtype
+      (newtype_name)
       (float_type))))
 
 =======================
 Type with literal union
 =======================
 
-type CSSColorName = string where values("red", "green", "blue", "rebeccapurple", "aliceblue")
-type Status = int16 where values(200, 404, 500)
+newtype CSSColorName = string where values("red", "green", "blue", "rebeccapurple", "aliceblue")
+newtype Status = int16 where values(200, 404, 500)
 
 ---
 
 (program
   (type_declaration
-    (constrained_type
-      (constrained_type_name)
+    (newtype
+      (newtype_name)
       (string_type)
       (constraints
         (literal_union_constraint
@@ -44,8 +44,8 @@ type Status = int16 where values(200, 404, 500)
             (string_literal
               (string_content)))))))
   (type_declaration
-    (constrained_type
-      (constrained_type_name)
+    (newtype
+      (newtype_name)
       (generic_type)
       (constraints
         (literal_union_constraint
@@ -63,16 +63,16 @@ type Status = int16 where values(200, 404, 500)
 Type with range constraints
 =================================
 
-type Angle = float where range(0..<360), precision(6, round_up)
-type Radian = f64 where range(0..=2*PI), precision(2, round_trunc)
-type Alpha = f32 where range(0..=1)
+newtype Angle = float where range(0..<360), precision(6, round_up)
+newtype Radian = f64 where range(0..=2*PI), precision(2, round_trunc)
+newtype Alpha = f32 where range(0..=1)
 
 ---
 
 (program
   (type_declaration
-    (constrained_type
-      (constrained_type_name)
+    (newtype
+      (newtype_name)
       (float_type)
       (constraints
         (range_constraint
@@ -90,8 +90,8 @@ type Alpha = f32 where range(0..=1)
           (rounding_mode
             (up_rounding_mode))))))
   (type_declaration
-    (constrained_type
-      (constrained_type_name)
+    (newtype
+      (newtype_name)
       (float_type)
       (constraints
         (range_constraint
@@ -114,8 +114,8 @@ type Alpha = f32 where range(0..=1)
           (rounding_mode
             (truncate_rounding_mode))))))
   (type_declaration
-    (constrained_type
-      (constrained_type_name)
+    (newtype
+      (newtype_name)
       (float_type)
       (constraints
         (range_constraint
@@ -131,14 +131,14 @@ type Alpha = f32 where range(0..=1)
 Type with pattern constraint
 ==================================
 
-type HexStr = string where pattern(r/^#(?:[0-9a-fA-F]{3}){1,2}$/)
+newtype HexStr = string where pattern(r/^#(?:[0-9a-fA-F]{3}){1,2}$/)
 
 ---
 
 (program
   (type_declaration
-    (constrained_type
-      (constrained_type_name)
+    (newtype
+      (newtype_name)
       (string_type)
       (constraints
         (pattern_constraint
@@ -149,11 +149,11 @@ Type with step constraint
 =========================
 
 // Only multiples of 0.25 (for currency with quarter precision)
-type Quarter = float where range(0..=100), step(0.25)
+newtype Quarter = float where range(0..=100), step(0.25)
 // Valid: 0, 0.25, 0.5, 0.75, 1.0, 1.25, ...
 
 // Degrees in 15° increments
-type CompassHeading = int where range(0..<360), step(15)
+newtype CompassHeading = int where range(0..<360), step(15)
 // Valid: 0, 15, 30, 45, ..., 345
 
 ---
@@ -161,8 +161,8 @@ type CompassHeading = int where range(0..<360), step(15)
 (program
   (comment)
   (type_declaration
-    (constrained_type
-      (constrained_type_name)
+    (newtype
+      (newtype_name)
       (float_type)
       (constraints
         (range_constraint
@@ -179,8 +179,8 @@ type CompassHeading = int where range(0..<360), step(15)
   (comment)
   (comment)
   (type_declaration
-    (constrained_type
-      (constrained_type_name)
+    (newtype
+      (newtype_name)
       (signed_integer_type)
       (constraints
         (range_constraint
@@ -202,14 +202,14 @@ Type without right side is an error
 :error
 ===================================
 
-type Foo =
+newtype Foo =
 
 ---
 
 (program
   (type_declaration
-    (constrained_type
-      (constrained_type_name)
+    (newtype
+      (newtype_name)
       (user_defined_type_name
         (MISSING "user_defined_type_name_token1")))))
 
@@ -218,14 +218,14 @@ Type without a constraint after "where" is an error
 :error
 ===================================================
 
-type Foo = float where
+newtype Foo = float where
 
 ---
 
 (program
   (type_declaration
-    (constrained_type
-      (constrained_type_name)
+    (newtype
+      (newtype_name)
       (float_type)))
   (ERROR))
 
@@ -233,14 +233,14 @@ type Foo = float where
 Type with unclosed range is an error
 ====================================
 
-type Alpha = f32 where range(0..=1
+newtype Alpha = f32 where range(0..=1
 
 ---
 
 (program
   (type_declaration
-    (constrained_type
-      (constrained_type_name)
+    (newtype
+      (newtype_name)
       (float_type)
       (constraints
         (range_constraint

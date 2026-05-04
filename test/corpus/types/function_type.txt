@@ -25,13 +25,13 @@ let f: (int) -> string = (x) => "ok"
 Type alias with function type
 =============================
 
-type Callback = () -> int
+newtype Callback = () -> int
 
 ---
 
 (program
   (type_declaration
-    (constrained_type
-      (constrained_type_name)
+    (newtype
+      (newtype_name)
       (function_type
         (signed_integer_type)))))
