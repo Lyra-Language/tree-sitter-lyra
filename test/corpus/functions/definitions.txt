@@ -165,29 +165,6 @@ pure def fib = (n: int) -> int {
                   (integer_literal
                     (decimal_int)))))))))))
 
-===========================
-Pure keyword in wrong order
-===========================
-
-async pure def compute = (n: int) -> int => n * 2
-
----
-
-(program
-  (function_definition
-    (ERROR)
-    (identifier)
-    (parameter_list
-      (parameter
-        (identifier)
-        (signed_integer_type)))
-    (signed_integer_type)
-    (binary_expression
-      (identifier)
-      (mul_operator)
-      (integer_literal
-        (decimal_int)))))
-
 ==============================================================
 Basic Function declaration without parameters with return type
 ==============================================================
@@ -252,6 +229,37 @@ def sum<n> = (a: n, b: n) -> n => a + b
     (binary_expression
       (identifier)
       (add_operator)
+      (identifier))))
+
+===================================================================
+Basic Function declaration with generic parameters with constraints
+===================================================================
+
+def compare<n> = (a: n, b: n) -> n where n: Ord => a <=> b
+
+---
+
+(program
+  (function_definition
+    (identifier)
+    (generic_parameters
+      (generic_type))
+    (parameter_list
+      (parameter
+        (identifier)
+        (generic_type))
+      (parameter
+        (identifier)
+        (generic_type)))
+    (generic_type)
+    (generic_parameter_constraints
+      (generic_parameter_constraint
+        (generic_type)
+        (generic_bounds
+          (trait_name))))
+      (boolean_expr
+      (identifier)
+      (spaceship_operator)
       (identifier))))
 
 ==================================
@@ -548,3 +556,27 @@ Unclosed generic params is an error
 def sum<n = (a: n, b: n) -> n => a + b
 
 ---
+
+===========================
+Pure keyword in wrong order
+:error
+===========================
+
+async pure def compute = (n: int) -> int => n * 2
+
+---
+
+(program
+  (function_definition
+    (ERROR)
+    (identifier)
+    (parameter_list
+      (parameter
+        (identifier)
+        (signed_integer_type)))
+    (signed_integer_type)
+    (binary_expression
+      (identifier)
+      (mul_operator)
+      (integer_literal
+        (decimal_int)))))

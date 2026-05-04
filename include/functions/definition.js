@@ -12,6 +12,15 @@ module.exports = {
       "=",
       field("parameters", $.parameter_list),
       field("return_type", seq("->", optional($.type_modifier), $.type)),
+      optional(
+        seq(
+          "where",
+          field(
+            "generic_parameter_constraints",
+            $.generic_parameter_constraints,
+          ),
+        ),
+      ),
       choice(
         seq("=>", field("body", $.expression)),
         field("function_clauses", $.function_clause_list),

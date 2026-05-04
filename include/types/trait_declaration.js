@@ -8,13 +8,13 @@ module.exports = {
       "trait",
       field("name", alias($.user_defined_type_name, $.trait_name)),
       optional(field("generic_parameters", $.generic_parameters)),
-      optional(seq(":", field("trait_bounds", $.trait_bounds))),
+      optional(seq(":", field("trait_bounds", alias($.generic_bounds, $.trait_bounds)))),
       optional(
         seq(
           "where",
           field(
-            "trait_generic_parameter_constraints",
-            $.trait_generic_parameter_constraints,
+            "generic_parameter_constraints",
+            $.generic_parameter_constraints,
           ),
         ),
       ),
@@ -23,24 +23,24 @@ module.exports = {
       "}",
     ),
 
-  trait_bounds: ($) =>
+  generic_bounds: ($) =>
     seq(
       alias($.user_defined_type_name, $.trait_name),
       repeat(seq("+", alias($.user_defined_type_name, $.trait_name))),
     ),
 
-  trait_generic_parameter_constraints: ($) =>
+  generic_parameter_constraints: ($) =>
     seq(
-      $.trait_generic_parameter_constraint,
-      repeat(seq(",", $.trait_generic_parameter_constraint)),
+      $.generic_parameter_constraint,
+      repeat(seq(",", $.generic_parameter_constraint)),
       optional(","),
     ),
 
-  trait_generic_parameter_constraint: ($) =>
+  generic_parameter_constraint: ($) =>
     seq(
       field("generic_type", $.generic_type),
       ":",
-      field("trait_bounds", $.trait_bounds),
+      field("generic_bounds", $.generic_bounds),
     ),
 
   trait_methods: ($) => commaSep1($.trait_method),

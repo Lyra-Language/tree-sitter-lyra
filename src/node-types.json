@@ -1032,6 +1032,10 @@
           {
             "type": "or",
             "named": true
+          },
+          {
+            "type": "spaceship_operator",
+            "named": true
           }
         ]
       },
@@ -2217,6 +2221,10 @@
           {
             "type": "or",
             "named": true
+          },
+          {
+            "type": "spaceship_operator",
+            "named": true
           }
         ]
       },
@@ -2573,6 +2581,16 @@
           }
         ]
       },
+      "generic_parameter_constraints": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "generic_parameter_constraints",
+            "named": true
+          }
+        ]
+      },
       "generic_parameters": {
         "multiple": false,
         "required": false,
@@ -2737,6 +2755,62 @@
       "types": [
         {
           "type": "type",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "generic_bounds",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "trait_name",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "generic_parameter_constraint",
+    "named": true,
+    "fields": {
+      "generic_bounds": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "generic_bounds",
+            "named": true
+          }
+        ]
+      },
+      "generic_type": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "generic_type",
+            "named": true
+          }
+        ]
+      }
+    }
+  },
+  {
+    "type": "generic_parameter_constraints",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "generic_parameter_constraint",
           "named": true
         }
       ]
@@ -2964,12 +3038,12 @@
           }
         ]
       },
-      "trait_bounds": {
+      "trait_impl_bounds": {
         "multiple": false,
         "required": true,
         "types": [
           {
-            "type": "trait_bounds",
+            "type": "generic_bounds",
             "named": true
           }
         ]
@@ -4491,6 +4565,11 @@
     "fields": {}
   },
   {
+    "type": "spaceship_operator",
+    "named": true,
+    "fields": {}
+  },
+  {
     "type": "spread_expr",
     "named": true,
     "fields": {},
@@ -4909,6 +4988,16 @@
     "type": "trait_declaration",
     "named": true,
     "fields": {
+      "generic_parameter_constraints": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "generic_parameter_constraints",
+            "named": true
+          }
+        ]
+      },
       "generic_parameters": {
         "multiple": false,
         "required": false,
@@ -4949,16 +5038,6 @@
           }
         ]
       },
-      "trait_generic_parameter_constraints": {
-        "multiple": false,
-        "required": false,
-        "types": [
-          {
-            "type": "trait_generic_parameter_constraints",
-            "named": true
-          }
-        ]
-      },
       "visibility": {
         "multiple": false,
         "required": false,
@@ -4969,47 +5048,6 @@
           }
         ]
       }
-    }
-  },
-  {
-    "type": "trait_generic_parameter_constraint",
-    "named": true,
-    "fields": {
-      "generic_type": {
-        "multiple": false,
-        "required": true,
-        "types": [
-          {
-            "type": "generic_type",
-            "named": true
-          }
-        ]
-      },
-      "trait_bounds": {
-        "multiple": false,
-        "required": true,
-        "types": [
-          {
-            "type": "trait_bounds",
-            "named": true
-          }
-        ]
-      }
-    }
-  },
-  {
-    "type": "trait_generic_parameter_constraints",
-    "named": true,
-    "fields": {},
-    "children": {
-      "multiple": true,
-      "required": true,
-      "types": [
-        {
-          "type": "trait_generic_parameter_constraint",
-          "named": true
-        }
-      ]
     }
   },
   {

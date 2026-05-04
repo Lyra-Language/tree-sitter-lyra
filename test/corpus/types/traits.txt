@@ -835,10 +835,10 @@ trait Bounded<t>: Show + Eq where t: Ord {
     (trait_bounds
       (trait_name)
       (trait_name))
-    (trait_generic_parameter_constraints
-      (trait_generic_parameter_constraint
+    (generic_parameter_constraints
+      (generic_parameter_constraint
         (generic_type)
-        (trait_bounds
+        (generic_bounds
           (trait_name))))
     (trait_methods
       (trait_method
@@ -865,15 +865,15 @@ trait PairOps<a, b> where a: Show + Eq, b: Ord, {
     (generic_parameters
       (generic_type)
       (generic_type))
-    (trait_generic_parameter_constraints
-      (trait_generic_parameter_constraint
+    (generic_parameter_constraints
+      (generic_parameter_constraint
         (generic_type)
-        (trait_bounds
+        (generic_bounds
           (trait_name)
           (trait_name)))
-      (trait_generic_parameter_constraint
+      (generic_parameter_constraint
         (generic_type)
-        (trait_bounds
+        (generic_bounds
           (trait_name))))
     (trait_methods
       (trait_method
@@ -921,7 +921,7 @@ impl Render<t> for []t where t: Render, {
     (impl_constraints
       (impl_constraint
         (generic_type)
-        (trait_bounds
+        (generic_bounds
           (trait_name))))
     (impl_methods
       (trait_method_implementation

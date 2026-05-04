@@ -81,6 +81,7 @@ const PREC = {
   RANGE_PATTERN: 25,
   NULL_COALESCE: 25,
 
+  COMPARISON: 29, // `<=>` spaceship operator, needs to bind tighter than binary operators
   // Boolean operators, lowest to highest binding. Anything here should
   // bind tighter than assignment/statement level but looser than
   // comparisons / arithmetic.

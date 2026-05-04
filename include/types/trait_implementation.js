@@ -28,7 +28,7 @@ module.exports = {
         choice($.generic_type, alias($.identifier, $.generic_type)),
       ),
       ":",
-      field("trait_bounds", $.trait_bounds),
+      field("trait_impl_bounds", $.generic_bounds),
     ),
 
   impl_methods: ($) => commaSep1($.trait_method_implementation),

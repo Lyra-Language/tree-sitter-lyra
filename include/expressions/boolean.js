@@ -6,6 +6,7 @@ module.exports = {
     prec.left(PREC.RELATIONAL, seq(
       field('left', $._math_operand),
       field('operator', choice(
+        $.spaceship_operator,
         $.greater_than_operator,
         $.less_than_operator,
         $.greater_than_or_equal_operator,
@@ -28,6 +29,7 @@ module.exports = {
   not_equals_operator: $ => '!=',
 
   _relational_operator: $ => choice(
+    $.spaceship_operator,
     $.greater_than_operator,
     $.less_than_operator,
     $.greater_than_or_equal_operator,
@@ -37,8 +39,9 @@ module.exports = {
   less_than_operator: $ => '<',
   greater_than_or_equal_operator: $ => '>=',
   less_than_or_equal_operator: $ => '<=',
+  spaceship_operator: $ => '<=>',
 
-  and: $ => token('&&'),
-  or: $ => token('||'),
-  not: $ => token('!'),
+  and: $ => '&&',
+  or: $ => '||',
+  not: $ => '!',
 }

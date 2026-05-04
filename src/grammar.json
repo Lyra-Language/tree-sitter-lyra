@@ -1539,6 +1539,10 @@
                     "members": [
                       {
                         "type": "SYMBOL",
+                        "name": "spaceship_operator"
+                      },
+                      {
+                        "type": "SYMBOL",
                         "name": "greater_than_operator"
                       },
                       {
@@ -1704,6 +1708,10 @@
       "members": [
         {
           "type": "SYMBOL",
+          "name": "spaceship_operator"
+        },
+        {
+          "type": "SYMBOL",
           "name": "greater_than_operator"
         },
         {
@@ -1736,26 +1744,21 @@
       "type": "STRING",
       "value": "<="
     },
+    "spaceship_operator": {
+      "type": "STRING",
+      "value": "<=>"
+    },
     "and": {
-      "type": "TOKEN",
-      "content": {
-        "type": "STRING",
-        "value": "&&"
-      }
+      "type": "STRING",
+      "value": "&&"
     },
     "or": {
-      "type": "TOKEN",
-      "content": {
-        "type": "STRING",
-        "value": "||"
-      }
+      "type": "STRING",
+      "value": "||"
     },
     "not": {
-      "type": "TOKEN",
-      "content": {
-        "type": "STRING",
-        "value": "!"
-      }
+      "type": "STRING",
+      "value": "!"
     },
     "_math_expr": {
       "type": "CHOICE",
@@ -4553,8 +4556,13 @@
                   "type": "FIELD",
                   "name": "trait_bounds",
                   "content": {
-                    "type": "SYMBOL",
-                    "name": "trait_bounds"
+                    "type": "ALIAS",
+                    "content": {
+                      "type": "SYMBOL",
+                      "name": "generic_bounds"
+                    },
+                    "named": true,
+                    "value": "trait_bounds"
                   }
                 }
               ]
@@ -4576,10 +4584,10 @@
                 },
                 {
                   "type": "FIELD",
-                  "name": "trait_generic_parameter_constraints",
+                  "name": "generic_parameter_constraints",
                   "content": {
                     "type": "SYMBOL",
-                    "name": "trait_generic_parameter_constraints"
+                    "name": "generic_parameter_constraints"
                   }
                 }
               ]
@@ -4607,7 +4615,7 @@
         }
       ]
     },
-    "trait_bounds": {
+    "generic_bounds": {
       "type": "SEQ",
       "members": [
         {
@@ -4642,12 +4650,12 @@
         }
       ]
     },
-    "trait_generic_parameter_constraints": {
+    "generic_parameter_constraints": {
       "type": "SEQ",
       "members": [
         {
           "type": "SYMBOL",
-          "name": "trait_generic_parameter_constraint"
+          "name": "generic_parameter_constraint"
         },
         {
           "type": "REPEAT",
@@ -4660,7 +4668,7 @@
               },
               {
                 "type": "SYMBOL",
-                "name": "trait_generic_parameter_constraint"
+                "name": "generic_parameter_constraint"
               }
             ]
           }
@@ -4679,7 +4687,7 @@
         }
       ]
     },
-    "trait_generic_parameter_constraint": {
+    "generic_parameter_constraint": {
       "type": "SEQ",
       "members": [
         {
@@ -4696,10 +4704,10 @@
         },
         {
           "type": "FIELD",
-          "name": "trait_bounds",
+          "name": "generic_bounds",
           "content": {
             "type": "SYMBOL",
-            "name": "trait_bounds"
+            "name": "generic_bounds"
           }
         }
       ]
@@ -5249,10 +5257,10 @@
         },
         {
           "type": "FIELD",
-          "name": "trait_bounds",
+          "name": "trait_impl_bounds",
           "content": {
             "type": "SYMBOL",
-            "name": "trait_bounds"
+            "name": "generic_bounds"
           }
         }
       ]
@@ -6085,6 +6093,31 @@
               }
             ]
           }
+        },
+        {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "SEQ",
+              "members": [
+                {
+                  "type": "STRING",
+                  "value": "where"
+                },
+                {
+                  "type": "FIELD",
+                  "name": "generic_parameter_constraints",
+                  "content": {
+                    "type": "SYMBOL",
+                    "name": "generic_parameter_constraints"
+                  }
+                }
+              ]
+            },
+            {
+              "type": "BLANK"
+            }
+          ]
         },
         {
           "type": "CHOICE",
