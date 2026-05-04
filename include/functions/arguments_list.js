@@ -31,7 +31,7 @@ module.exports = {
   named_argument: ($) =>
     seq(
       field("name", alias($.identifier, $.argument_name)),
-      "=",
+      ":",
       $._argument_value,
     ),
 

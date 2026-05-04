@@ -2,7 +2,7 @@
 Basic Function call with named arguments
 ========================================
 
-let result = sum(a=1, b=2)
+let result = sum(a: 1, b: 2)
 
 ---
 
@@ -28,7 +28,7 @@ Basic Function call with partial application
 ============================================
 
 let add_one = sum(1, _)
-let result = add_one(b=2)
+let result = add_one(b: 2)
 // result == 3
 
 ---
