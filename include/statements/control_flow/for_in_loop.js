@@ -1,12 +1,12 @@
 const { PREC } = require("../../prec");
 
 module.exports = {
-  // for item, idx in 0..10 { println("item: #{item}, idx: #{idx}") }
-  // for item, idx in [1, 2, 3] { println("item: #{item}, idx: #{idx}") }
-  // for key, value in {a: 1, b: 2} { println("key: #{key}, value: #{value}") }
-  // for item in (1, 2, 3) { println("item: #{item}") }
-  // for item in get_array() { println("item: #{item}") }
-  // for key, value in some_struct { println("key: #{key}, value: #{value}") }
+  // for item, idx in 0..10 { println("item: ${item}, idx: ${idx}") }
+  // for item, idx in [1, 2, 3] { println("item: ${item}, idx: ${idx}") }
+  // for key, value in {a: 1, b: 2} { println("key: ${key}, value: ${value}") }
+  // for item in (1, 2, 3) { println("item: ${item}") }
+  // for item in get_array() { println("item: ${item}") }
+  // for key, value in some_struct { println("key: ${key}, value: ${value}") }
   for_in_loop: $ => seq(
     optional(seq(alias($.identifier, $.label), ':')),
     'for',

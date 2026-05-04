@@ -15,7 +15,7 @@ enum TokenType {
 // Context type for the stack
 typedef enum {
   CTX_STRING,        // Inside a string literal
-  CTX_INTERPOLATION, // Inside an interpolation #{...}
+  CTX_INTERPOLATION, // Inside an interpolation ${...}
 } ContextType;
 
 // Stack entry
@@ -251,8 +251,8 @@ bool tree_sitter_lyra_external_scanner_scan(void *payload, TSLexer *lexer, const
       return true;
     }
 
-    // Check for interpolation start: #{
-    if (valid_symbols[INTERPOLATION_START] && lexer->lookahead == '#') {
+    // Check for interpolation start: ${
+    if (valid_symbols[INTERPOLATION_START] && lexer->lookahead == '$') {
       lexer->advance(lexer, false);
       if (lexer->lookahead == '{') {
         lexer->advance(lexer, false);
@@ -276,12 +276,12 @@ bool tree_sitter_lyra_external_scanner_scan(void *payload, TSLexer *lexer, const
           break;
         }
         
-        if (lexer->lookahead == '#') {
+        if (lexer->lookahead == '$') {
           // Check if this is the start of interpolation
           lexer->mark_end(lexer);
           lexer->advance(lexer, false);
           if (lexer->lookahead == '{') {
-            // This is interpolation, stop before the #
+            // This is interpolation, stop before the $
             if (has_content) {
               lexer->result_symbol = STRING_CONTENT;
               return true;

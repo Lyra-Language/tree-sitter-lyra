@@ -54,7 +54,7 @@ const PATH = `C:\Users\name\n.txt`
 Raw String Literal does not interpolate values
 ==============================================
 
-const TEMPLATE = `hello #{name}`
+const TEMPLATE = `hello ${name}`
 
 ---
 

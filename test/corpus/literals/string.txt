@@ -16,7 +16,7 @@ let greeting = "Hello, World!"
 String Literal with interpolation
 =================================
 
-let greeting = "Hello, #{name}"
+let greeting = "Hello, ${name}"
 
 ---
 
@@ -32,7 +32,7 @@ let greeting = "Hello, #{name}"
 String Literal with a complex interpolation expression
 ======================================================
 
-let greeting = "Hello, #{employee.get_name()}!"
+let greeting = "Hello, ${employee.get_name()}!"
 
 ---
 
@@ -53,7 +53,7 @@ let greeting = "Hello, #{employee.get_name()}!"
 String Literal with escaped hash char
 =====================================
 
-"Phone \#: #{phone_num}"
+"Phone \#: ${phone_num}"
 
 ---
 
@@ -68,7 +68,7 @@ String Literal with escaped hash char
 String Literal with nested interpolation
 ========================================
 
-let greeting = "Hello, #{if is_male { "Mr. #{last_name}" } else { "Mrs. #{last_name}" }}!"
+let greeting = "Hello, ${if is_male { "Mr. ${last_name}" } else { "Mrs. ${last_name}" }}!"
 
 ---
 
@@ -115,7 +115,7 @@ String interpolation with missing closing bracket is an error
 :error
 =============================================================
 
-"Phone \#: #{phone_num"
+"Phone #: ${phone_num"
 
 ---
 

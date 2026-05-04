@@ -156,6 +156,9 @@ pub def greet = (name: string) -> string => "Hello, ${name}!"
         (string_type)))
     (string_type)
     (string_literal
+      (string_content)
+      (string_interpolation
+        (identifier))
       (string_content))))
 
 =============

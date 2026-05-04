@@ -461,7 +461,7 @@
             "name": "_interpolation_start"
           },
           "named": false,
-          "value": "#{"
+          "value": "${"
         },
         {
           "type": "SYMBOL",

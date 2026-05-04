@@ -1,5 +1,5 @@
 module.exports = {
-  // for i = 0; i < 10; i++ { println("i: #{i}") }
+  // for i = 0; i < 10; i++ { println("i: ${i}") }
   for_loop: $ => seq(
     optional(seq(alias($.identifier, $.label), ':')),
     'for',

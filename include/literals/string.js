@@ -12,7 +12,7 @@ module.exports = {
 
   string_interpolation: ($) =>
     seq(
-      alias($._interpolation_start, "#{"),
+      alias($._interpolation_start, "${"),
       $.expression,
       alias($._interpolation_end, "}"),
     ),

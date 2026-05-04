@@ -318,7 +318,7 @@ If Destructuring Expression
 ===========================
 
 if let Some num = get_num() {
-  println("We got the number: #{num}")
+  println("We got the number: ${num}")
 }
 
 ---
@@ -349,7 +349,7 @@ If Else Destructuring Expression
 ================================
 
 if let Some num = get_num() {
-  println("We got the number: #{num}")
+  println("We got the number: ${num}")
 } else {
   println("Darn, we didn't get the number!")
 }
@@ -392,7 +392,7 @@ Let Else Destructuring Expression
 let Some num = get_num() else {
   println("Darn, we didn't get the number!")
 }
-println("We got the number: #{num}")
+println("We got the number: ${num}")
 
 ---
 

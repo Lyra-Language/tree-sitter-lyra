@@ -105,7 +105,7 @@ if x == 0 {
   if y == 0 {
     println("On Horizontal Axis")
   } else {
-    println("At #{x},#{y}")
+    println("At ${x},${y}")
   }
 }
 
