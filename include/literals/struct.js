@@ -27,7 +27,10 @@ module.exports = {
       "}",
     ),
 
-  struct_shorthand: ($) => commaSep1($._field_value),
+  // Requires 2+ values so a single `{ expr }` always resolves to a block,
+  // not an anonymous struct. Named fields (`{ x: v }`) handle the 1-field case.
+  struct_shorthand: ($) =>
+    seq($._field_value, repeat1(seq(",", $._field_value)), optional(",")),
 
   struct_field: ($) =>
     seq(

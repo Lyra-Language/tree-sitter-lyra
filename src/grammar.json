@@ -603,7 +603,7 @@
           "name": "_field_value"
         },
         {
-          "type": "REPEAT",
+          "type": "REPEAT1",
           "content": {
             "type": "SEQ",
             "members": [
@@ -7609,10 +7609,6 @@
     [
       "_primary_expression",
       "data_pattern"
-    ],
-    [
-      "_field_value",
-      "expression_statement"
     ],
     [
       "parameter_type",

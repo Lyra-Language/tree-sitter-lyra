@@ -1,7 +1,6 @@
 ## To-Dos
 - partial application syntax e.g. add(_, 5)
 - Tail-call optimization guarantee (use "rec" keyword or @tailrec annotation)
-- Compile-time evaluation (Zig-style "comptime" blocks or "const fn" for)
 - Function/inline annotations:
 @inline fn dot(a: Vec3, b: Vec3) -> f32 { ... }
 @noinline fn loadLevel(...) { ... }
@@ -22,6 +21,7 @@
 - Coroutines/fibers (with "gen" and "yield" keywords)
 - Function composition operator >> so f >> g is the same as x => g(f(x))
 - Trait default method implementations
+- Compile-time evaluation11
 
 ### 03/15/25
 - await expression tests

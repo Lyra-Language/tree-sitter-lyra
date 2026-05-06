@@ -49,7 +49,6 @@ module.exports = grammar({
     [$.data_constructor_expression, $._primary_expression],
     [$.data_constructor_expression, $._primary_expression, $.data_pattern],
     [$._primary_expression, $.data_pattern],
-    [$._field_value, $.expression_statement],
     [$.parameter_type, $.tuple_type_element],
     // A postfix form (identifier, call, member access, …) can appear on
     // its own as an `expression` or as the left operand of a math /
