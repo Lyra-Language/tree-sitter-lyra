@@ -26,6 +26,7 @@ module.exports = {
       $.array_comp_expr,
       $.spread_expr,
       $.null_coalescing_expression,
+      $.compose_expression,
       // Note: user_defined_type_name is accessed via _postfix_expression -> _primary_expression
     ),
 
@@ -69,6 +70,20 @@ module.exports = {
     ),
 
   spread_expr: ($) => prec.right(PREC.SPREAD, seq("...", $.identifier)),
+
+  // Function composition: f >> g produces a function that applies f then g
+  // Right-associative so `f >> g >> h` means `f >> (g >> h)`
+  compose_expression: ($) =>
+    prec.right(
+      PREC.COMPOSE,
+      seq(
+        field("left", $.expression),
+        field("operator", $.compose_operator),
+        field("right", $.expression),
+      ),
+    ),
+
+  compose_operator: ($) => ">>",
 
   ...control_flow,
   ...boolean,

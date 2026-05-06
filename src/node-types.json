@@ -44,6 +44,10 @@
         "named": true
       },
       {
+        "type": "compose_expression",
+        "named": true
+      },
+      {
         "type": "compound_assignment",
         "named": true
       },
@@ -1275,6 +1279,47 @@
     "type": "comment",
     "named": true,
     "extra": true,
+    "fields": {}
+  },
+  {
+    "type": "compose_expression",
+    "named": true,
+    "fields": {
+      "left": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "expression",
+            "named": true
+          }
+        ]
+      },
+      "operator": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "compose_operator",
+            "named": true
+          }
+        ]
+      },
+      "right": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "expression",
+            "named": true
+          }
+        ]
+      }
+    }
+  },
+  {
+    "type": "compose_operator",
+    "named": true,
     "fields": {}
   },
   {

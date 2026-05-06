@@ -1151,6 +1151,10 @@
         {
           "type": "SYMBOL",
           "name": "null_coalescing_expression"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "compose_expression"
         }
       ]
     },
@@ -1348,6 +1352,43 @@
           }
         ]
       }
+    },
+    "compose_expression": {
+      "type": "PREC_RIGHT",
+      "value": 50,
+      "content": {
+        "type": "SEQ",
+        "members": [
+          {
+            "type": "FIELD",
+            "name": "left",
+            "content": {
+              "type": "SYMBOL",
+              "name": "expression"
+            }
+          },
+          {
+            "type": "FIELD",
+            "name": "operator",
+            "content": {
+              "type": "SYMBOL",
+              "name": "compose_operator"
+            }
+          },
+          {
+            "type": "FIELD",
+            "name": "right",
+            "content": {
+              "type": "SYMBOL",
+              "name": "expression"
+            }
+          }
+        ]
+      }
+    },
+    "compose_operator": {
+      "type": "STRING",
+      "value": ">>"
     },
     "if_block_expr": {
       "type": "PREC_RIGHT",

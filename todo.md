@@ -1,7 +1,6 @@
 ## To-Dos
 - partial application syntax e.g. add(_, 5)
 - Tail-call optimization guarantee (use "rec" keyword or @tailrec annotation)
-- Function composition operator >> so f >> g is the same as x => g(f(x))
 - Trait default method implementations
 - Compile-time evaluation (Zig-style "comptime" blocks or "const fn" for)
 - Function/inline annotations:
@@ -22,6 +21,7 @@
 - simplified function syntax (got rid of the "def" keyword, all functions are essentially lambdas)
 - packed/aligned struct attributes e.g. @packed struct InputEvent { ... } or @align(16) struct Vec4 { ... }
 - Coroutines/fibers (with "gen" and "yield" keywords)
+- Function composition operator >> so f >> g is the same as x => g(f(x))
 
 ### 03/15/25
 - await expression tests

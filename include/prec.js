@@ -112,6 +112,11 @@ const PREC = {
   AWAIT: 250,
   YIELD_FROM: 251,
 
+  // Function composition — between logical ops and equality so operands
+  // are fully-formed expressions (calls, lambdas, identifiers) and chained
+  // composition `f >> g >> h` is right-associative without needing parens.
+  COMPOSE: 50,
+
   // Postfix operators (call, member access, index, try, optional
   // member/index). All share one level so chains stay left-associative.
   POSTFIX: 300,
