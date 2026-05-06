@@ -82,6 +82,8 @@ module.exports = grammar({
       "weak",
       "with",
       "pure",
+      "gen",
+      "yield",
     ],
   },
 

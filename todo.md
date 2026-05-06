@@ -1,7 +1,4 @@
 ## To-Dos
-- Coroutines/fibers (with "gen" and "yield" keywords)
-- packed/aligned struct attributes @packed struct InputEvent { ... }
-@align(16) struct Vec4 { ... }
 - partial application syntax e.g. add(_, 5)
 - Tail-call optimization guarantee (use "rec" keyword or @tailrec annotation)
 - Function composition operator >> so f >> g is the same as x => g(f(x))
@@ -23,6 +20,8 @@
 
 ### 05/06/25
 - simplified function syntax (got rid of the "def" keyword, all functions are essentially lambdas)
+- packed/aligned struct attributes e.g. @packed struct InputEvent { ... } or @align(16) struct Vec4 { ... }
+- Coroutines/fibers (with "gen" and "yield" keywords)
 
 ### 03/15/25
 - await expression tests

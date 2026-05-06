@@ -110,6 +110,7 @@ const PREC = {
   MATCH_EXPR: 201,
 
   AWAIT: 250,
+  YIELD_FROM: 251,
 
   // Postfix operators (call, member access, index, try, optional
   // member/index). All share one level so chains stay left-associative.

@@ -146,6 +146,14 @@
       {
         "type": "user_defined_type_name",
         "named": true
+      },
+      {
+        "type": "yield_expression",
+        "named": true
+      },
+      {
+        "type": "yield_from_expression",
+        "named": true
       }
     ]
   },
@@ -3240,6 +3248,16 @@
           }
         ]
       },
+      "is_gen": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "gen_modifier",
+            "named": true
+          }
+        ]
+      },
       "is_pure": {
         "multiple": false,
         "required": false,
@@ -5668,6 +5686,38 @@
     }
   },
   {
+    "type": "yield_expression",
+    "named": true,
+    "fields": {
+      "value": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "expression",
+            "named": true
+          }
+        ]
+      }
+    }
+  },
+  {
+    "type": "yield_from_expression",
+    "named": true,
+    "fields": {
+      "generator": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "expression",
+            "named": true
+          }
+        ]
+      }
+    }
+  },
+  {
     "type": "!",
     "named": false
   },
@@ -5952,6 +6002,14 @@
     "named": true
   },
   {
+    "type": "from",
+    "named": false
+  },
+  {
+    "type": "gen_modifier",
+    "named": true
+  },
+  {
     "type": "heap",
     "named": false
   },
@@ -6165,6 +6223,10 @@
   },
   {
     "type": "with",
+    "named": false
+  },
+  {
+    "type": "yield",
     "named": false
   },
   {

@@ -12,6 +12,8 @@ module.exports = {
     choice(
       $.block,
       $.await_expression,
+      $.yield_expression,
+      $.yield_from_expression,
       $._literal,
       $.data_constructor_expression,
       $._postfix_expression,
@@ -32,6 +34,15 @@ module.exports = {
   // Await expression for async operations
   await_expression: ($) =>
     prec.right(PREC.AWAIT, seq("await", field("operand", $.expression))),
+
+  // Yield expression for generator functions
+  yield_expression: ($) =>
+    prec.right(PREC.AWAIT, seq("yield", field("value", $.expression))),
+
+  // Yield-from for delegating to a sub-generator
+  // Higher precedence than yield_expression to win over "yield (from-as-identifier)"
+  yield_from_expression: ($) =>
+    prec.right(PREC.YIELD_FROM, seq("yield", "from", field("generator", $.expression))),
 
   identifier: ($) => token(prec(PREC.IDENTIFIER_TOKEN, /[a-z][a-zA-Z0-9_]*/)),
   const_identifier: ($) => /[A-Z][A-Z0-9_]*/,

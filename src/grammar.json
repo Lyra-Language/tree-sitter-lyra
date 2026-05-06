@@ -1098,6 +1098,14 @@
         },
         {
           "type": "SYMBOL",
+          "name": "yield_expression"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "yield_from_expression"
+        },
+        {
+          "type": "SYMBOL",
           "name": "_literal"
         },
         {
@@ -1183,6 +1191,52 @@
           {
             "type": "FIELD",
             "name": "operand",
+            "content": {
+              "type": "SYMBOL",
+              "name": "expression"
+            }
+          }
+        ]
+      }
+    },
+    "yield_expression": {
+      "type": "PREC_RIGHT",
+      "value": 250,
+      "content": {
+        "type": "SEQ",
+        "members": [
+          {
+            "type": "STRING",
+            "value": "yield"
+          },
+          {
+            "type": "FIELD",
+            "name": "value",
+            "content": {
+              "type": "SYMBOL",
+              "name": "expression"
+            }
+          }
+        ]
+      }
+    },
+    "yield_from_expression": {
+      "type": "PREC_RIGHT",
+      "value": 251,
+      "content": {
+        "type": "SEQ",
+        "members": [
+          {
+            "type": "STRING",
+            "value": "yield"
+          },
+          {
+            "type": "STRING",
+            "value": "from"
+          },
+          {
+            "type": "FIELD",
+            "name": "generator",
             "content": {
               "type": "SYMBOL",
               "name": "expression"
@@ -2755,6 +2809,22 @@
           ]
         },
         {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "FIELD",
+              "name": "is_gen",
+              "content": {
+                "type": "SYMBOL",
+                "name": "gen_modifier"
+              }
+            },
+            {
+              "type": "BLANK"
+            }
+          ]
+        },
+        {
           "type": "FIELD",
           "name": "parameters",
           "content": {
@@ -2838,6 +2908,10 @@
     "async_modifier": {
       "type": "STRING",
       "value": "async"
+    },
+    "gen_modifier": {
+      "type": "STRING",
+      "value": "gen"
     },
     "parameter_list": {
       "type": "SEQ",
@@ -7599,6 +7673,14 @@
       {
         "type": "STRING",
         "value": "pure"
+      },
+      {
+        "type": "STRING",
+        "value": "gen"
+      },
+      {
+        "type": "STRING",
+        "value": "yield"
       }
     ]
   }

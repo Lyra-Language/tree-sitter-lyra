@@ -1,0 +1,124 @@
+=============================
+Yield from sub-generator
+=============================
+
+let behavior = gen (enemy: Enemy) -> Gen<Command> => {
+  yield from patrol(enemy.path)
+  yield from attack(enemy.target)
+}
+
+---
+
+(program
+  (declaration
+    (identifier)
+    (lambda_expr
+      (gen_modifier)
+      (parameter_list
+        (parameter
+          (identifier)
+          (user_defined_type_name)))
+      (parameterized_type
+        (user_defined_type_name)
+        (user_defined_type_name))
+      (block
+        (expression_statement
+          (yield_from_expression
+            (call_expression
+              (identifier)
+              (argument_list
+                (value
+                  (member_expression
+                    (identifier)
+                    (identifier)))))))
+        (expression_statement
+          (yield_from_expression
+            (call_expression
+              (identifier)
+              (argument_list
+                (value
+                  (member_expression
+                    (identifier)
+                    (identifier)))))))))))
+
+====================================
+Yield and yield from in same function
+====================================
+
+let mixed = gen () -> Gen<i32> => {
+  yield 1
+  yield from range(2, 5)
+  yield 6
+}
+
+---
+
+(program
+  (declaration
+    (identifier)
+    (lambda_expr
+      (gen_modifier)
+      (parameter_list)
+      (parameterized_type
+        (user_defined_type_name)
+        (signed_integer_type))
+      (block
+        (expression_statement
+          (yield_expression
+            (integer_literal
+              (decimal_int))))
+        (expression_statement
+          (yield_from_expression
+            (call_expression
+              (identifier)
+              (argument_list
+                (value
+                  (integer_literal
+                    (decimal_int)))
+                (value
+                  (integer_literal
+                    (decimal_int)))))))
+        (expression_statement
+          (yield_expression
+            (integer_literal
+              (decimal_int))))))))
+
+====================================
+Yield from with pipeline composition
+====================================
+
+let pipeline = gen (items: []Item) -> Gen<Result> => {
+  yield from filter(items)
+  yield from transform(items)
+}
+
+---
+
+(program
+  (declaration
+    (identifier)
+    (lambda_expr
+      (gen_modifier)
+      (parameter_list
+        (parameter
+          (identifier)
+          (array_type
+            (user_defined_type_name))))
+      (parameterized_type
+        (user_defined_type_name)
+        (user_defined_type_name))
+      (block
+        (expression_statement
+          (yield_from_expression
+            (call_expression
+              (identifier)
+              (argument_list
+                (value
+                  (identifier))))))
+        (expression_statement
+          (yield_from_expression
+            (call_expression
+              (identifier)
+              (argument_list
+                (value
+                  (identifier))))))))))

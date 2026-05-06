@@ -1,0 +1,151 @@
+=====================================
+Basic generator with yield
+=====================================
+
+let counter = gen (start: i32) -> Gen<i32> => {
+  var i = start
+  for {
+    yield i
+    i += 1
+  }
+}
+
+---
+
+(program
+  (declaration
+    (identifier)
+    (lambda_expr
+      (gen_modifier)
+      (parameter_list
+        (parameter
+          (identifier)
+          (signed_integer_type)))
+      (parameterized_type
+        (user_defined_type_name)
+        (signed_integer_type))
+      (block
+        (declaration
+          (identifier)
+          (identifier))
+        (for_loop
+          (for_body
+            (expression_statement
+              (yield_expression
+                (identifier)))
+            (expression_statement
+              (compound_assignment
+                (identifier)
+                (add_assign_operator)
+                (integer_literal
+                  (decimal_int))))))))))
+
+===================================
+Async generator
+===================================
+
+let stream = async gen (url: string) -> Gen<Packet> => {
+  let data = await fetch(url)
+  yield data
+}
+
+---
+
+(program
+  (declaration
+    (identifier)
+    (lambda_expr
+      (async_modifier)
+      (gen_modifier)
+      (parameter_list
+        (parameter
+          (identifier)
+          (string_type)))
+      (parameterized_type
+        (user_defined_type_name)
+        (user_defined_type_name))
+      (block
+        (declaration
+          (identifier)
+          (await_expression
+            (call_expression
+              (identifier)
+              (argument_list
+                (value
+                  (identifier))))))
+        (expression_statement
+          (yield_expression
+            (identifier)))))))
+
+===================================
+Pure generator (frame suspension)
+===================================
+
+let frames = pure gen () -> Gen<Void> => {
+  for {
+    yield ()
+  }
+}
+
+---
+
+(program
+  (declaration
+    (identifier)
+    (lambda_expr
+      (pure_modifier)
+      (gen_modifier)
+      (parameter_list)
+      (parameterized_type
+        (user_defined_type_name)
+        (void_type))
+      (block
+        (for_loop
+          (for_body
+            (expression_statement
+              (yield_expression
+                (tuple_literal)))))))))
+
+===================================
+Generator yielding data constructors
+===================================
+
+let ai = gen (enemy: Enemy) -> Gen<Action> => {
+  yield Action(Patrol)
+  yield Action(Alert)
+  yield Action(Attack)
+}
+
+---
+
+(program
+  (declaration
+    (identifier)
+    (lambda_expr
+      (gen_modifier)
+      (parameter_list
+        (parameter
+          (identifier)
+          (user_defined_type_name)))
+      (parameterized_type
+        (user_defined_type_name)
+        (user_defined_type_name))
+      (block
+        (expression_statement
+          (yield_expression
+            (tuple_literal
+              (tuple_name)
+              (tuple_value
+                (user_defined_type_name)))))
+        (expression_statement
+          (yield_expression
+            (tuple_literal
+              (tuple_name)
+              (tuple_value
+                (user_defined_type_name)))))
+        (expression_statement
+          (yield_expression
+            (tuple_literal
+              (tuple_name)
+              (tuple_value
+                (user_defined_type_name)))))))))
