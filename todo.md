@@ -1,6 +1,21 @@
 ## To-Dos
-- "unsafe" blocks / raw pointers and pointer arithmetic
+- Coroutines/fibers (with "gen" and "yield" keywords)
+- packed/aligned struct attributes @packed struct InputEvent { ... }
+@align(16) struct Vec4 { ... }
+- partial application syntax? e.g. add(_, 5)
+- Tail-call optimization guarantee? (use "rec" keyword or @tailrec annotation)
+- Function composition operator >> so f >> g is the same as x => g(f(x))
+- Trait default method implementations
+- Compile-time evaluation (Zig-style "comptime" blocks or "const fn" for)
+- Function/inline annotations:
+@inline fn dot(a: Vec3, b: Vec3) -> f32 { ... }
+@noinline fn loadLevel(...) { ... }
 - unchecked indexing in release or behind a flag
+- Record update syntax - { existingPLayer | health: newHealth } for immutable update of structs
+- "unsafe" blocks / raw pointers and pointer arithmetic
+- @volatile memory access for memory-mapped I/O on consoles
+- Fixed-point numeric type for deterministic physics/networking sims. e.g. fixed<16,16>
+- "where" bindings in expressions
 - doc comments
 - pipe operator?
 
