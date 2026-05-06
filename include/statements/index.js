@@ -16,7 +16,6 @@ module.exports = {
       $.return_statement,
       $.break_statement,
       $.continue_statement,
-      $.function_definition,
       $.destructuring_declaration,
       $.destructuring_if_declaration,
       $.destructuring_else_declaration,

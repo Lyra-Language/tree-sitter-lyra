@@ -34,7 +34,7 @@ impl Show for string {
       (trait_method_implementation
         (method_name
           (identifier))
-        (function_clause
+        (method_clause
           (pattern_parameter_list
             (identifier))
           (call_expression
@@ -49,7 +49,7 @@ impl Show for string {
       (trait_method_implementation
         (method_name
           (identifier))
-        (function_clause
+        (method_clause
           (pattern_parameter_list
             (identifier))
           (identifier))))))
@@ -95,7 +95,7 @@ impl Converter<int, string> for IntFormatter {
       (trait_method_implementation
         (method_name
               (identifier))
-        (function_clause
+        (method_clause
           (pattern_parameter_list
             (identifier))
           (call_expression
@@ -111,8 +111,8 @@ impl Converter<int, string> for IntFormatter {
     (impl_methods
       (trait_method_implementation
         (method_name
-              (identifier))
-        (function_clause
+          (identifier))
+        (method_clause
           (pattern_parameter_list
             (identifier))
           (call_expression
@@ -161,7 +161,7 @@ impl Functor for Maybe {
                 (generic_parameters
                   (generic_type))))
             (parameter_type
-              (function_type
+              (lambda_type
                 (parameter_type_list
                   (parameter_type
                     (generic_type)))
@@ -178,7 +178,7 @@ impl Functor for Maybe {
       (trait_method_implementation
         (method_name
           (identifier))
-        (function_clause
+        (method_clause
           (pattern_parameter_list
             (identifier)
             (identifier))
@@ -216,7 +216,7 @@ impl Functor for Maybe {
       (trait_method_implementation
         (method_name
           (identifier))
-        (function_clause
+        (method_clause
           (pattern_parameter_list
             (identifier)
             (identifier))
@@ -274,7 +274,7 @@ let inverted: Point = -my_point // uses the overloaded prefix -
         (method_name
           (unary_operator
             (prefix_operator)))
-        (function_clause
+        (method_clause
           (pattern_parameter_list
             (identifier))
           (struct_literal
@@ -362,7 +362,7 @@ impl Eq<t> for []t {
           (trait_method_implementation
             (method_name
               (binary_operator))
-            (function_clause
+             (method_clause
               (pattern_parameter_list
                 (identifier)
                 (identifier))
@@ -420,7 +420,7 @@ impl Eq<t> for []t {
           (trait_method_implementation
             (method_name
               (binary_operator))
-            (function_clause
+            (method_clause
               (pattern_parameter_list
                 (identifier)
                 (identifier))
@@ -465,7 +465,7 @@ impl Mappable<Array, string> for StringArrayMapper {
               (generic_type
                 (generic_type_parameter)))
             (parameter_type
-              (function_type
+              (lambda_type
                 (parameter_type_list
                   (parameter_type
                     (generic_type)))
@@ -481,7 +481,7 @@ impl Mappable<Array, string> for StringArrayMapper {
       (trait_method_implementation
         (method_name
           (identifier))
-        (function_clause
+        (method_clause
           (pattern_parameter_list
             (identifier)
             (identifier))
@@ -501,7 +501,7 @@ impl Mappable<Array, string> for StringArrayMapper {
       (trait_method_implementation
         (method_name
           (identifier))
-        (function_clause
+        (method_clause
           (pattern_parameter_list
             (identifier)
             (identifier))
@@ -548,7 +548,7 @@ impl Applicable<(int, int) -> int> for BinaryOp {
           (signed_integer_type)))))
   (trait_implementation
     (trait_name)
-    (function_type
+    (lambda_type
       (parameter_type_list
         (parameter_type
           (signed_integer_type)))
@@ -558,7 +558,7 @@ impl Applicable<(int, int) -> int> for BinaryOp {
       (trait_method_implementation
         (method_name
           (identifier))
-        (function_clause
+        (method_clause
           (pattern_parameter_list
             (identifier)
             (identifier))
@@ -569,7 +569,7 @@ impl Applicable<(int, int) -> int> for BinaryOp {
                 (identifier))))))))
   (trait_implementation
     (trait_name)
-    (function_type
+    (lambda_type
       (parameter_type_list
         (parameter_type
           (signed_integer_type))
@@ -581,7 +581,7 @@ impl Applicable<(int, int) -> int> for BinaryOp {
       (trait_method_implementation
         (method_name
           (identifier))
-        (function_clause
+        (method_clause
           (pattern_parameter_list
             (identifier)
             (identifier))
@@ -669,7 +669,7 @@ impl Collection<Array, string> for StringList {
       (trait_method_implementation
         (method_name
           (identifier))
-        (function_clause
+        (method_clause
           (pattern_parameter_list
             (identifier)
             (identifier))
@@ -680,7 +680,7 @@ impl Collection<Array, string> for StringList {
       (trait_method_implementation
         (method_name
           (identifier))
-        (function_clause
+        (method_clause
           (pattern_parameter_list
             (identifier)
             (identifier))
@@ -690,9 +690,10 @@ impl Collection<Array, string> for StringList {
               (value
                 (identifier))
               (value
-                (lambda_expression
-                  (pattern_parameter_list
-                    (identifier))
+                (lambda_expr
+                  (parameter_list
+                    (parameter
+                      (identifier)))
                   (boolean_expr
                     (identifier)
                     (not_equals_operator)
@@ -700,7 +701,7 @@ impl Collection<Array, string> for StringList {
       (trait_method_implementation
         (method_name
           (identifier))
-        (function_clause
+        (method_clause
           (pattern_parameter_list
             (identifier)
             (identifier))
@@ -710,9 +711,10 @@ impl Collection<Array, string> for StringList {
               (value
                 (identifier))
               (value
-                (lambda_expression
-                  (pattern_parameter_list
-                    (identifier))
+                (lambda_expr
+                  (parameter_list
+                    (parameter
+                      (identifier)))
                   (boolean_expr
                     (identifier)
                     (equals_operator)
@@ -720,7 +722,7 @@ impl Collection<Array, string> for StringList {
       (trait_method_implementation
         (method_name
           (identifier))
-        (function_clause
+        (method_clause
           (pattern_parameter_list
             (identifier))
           (call_expression
@@ -728,206 +730,3 @@ impl Collection<Array, string> for StringList {
               (identifier)
               (identifier))
             (argument_list)))))))
-
-===================================================
-Trait Implementation for Primitive and Custom Types
-===================================================
-
-trait Default {
-  default: () -> Self
-}
-
-impl Default for int {
-  default = () => 0
-}
-
-impl Default for string {
-  default = () => ""
-}
-
-impl Default for []t {
-  default = () => []
-}
-
-impl Default for Person {
-  default = () => Person { name: "", age: 0 }
-}
-
----
-
-(program
-  (trait_declaration
-    (trait_name)
-    (trait_methods
-      (trait_method
-        (identifier)
-        (trait_method_signature
-          (self_type)))))
-  (trait_implementation
-    (trait_name)
-    (signed_integer_type)
-    (impl_methods
-      (trait_method_implementation
-        (method_name
-          (identifier))
-        (function_clause
-          (pattern_parameter_list)
-          (integer_literal
-            (decimal_int))))))
-  (trait_implementation
-    (trait_name)
-    (string_type)
-    (impl_methods
-      (trait_method_implementation
-        (method_name
-          (identifier))
-        (function_clause
-          (pattern_parameter_list)
-          (string_literal)))))
-  (trait_implementation
-    (trait_name)
-    (array_type
-      (generic_type))
-    (impl_methods
-      (trait_method_implementation
-        (method_name
-              (identifier))
-        (function_clause
-          (pattern_parameter_list)
-          (array_literal)))))
-  (trait_implementation
-    (trait_name)
-    (user_defined_type_name)
-    (impl_methods
-      (trait_method_implementation
-        (method_name
-          (identifier))
-        (function_clause
-          (pattern_parameter_list)
-          (struct_literal
-            (struct_name)
-            (struct_body
-              (struct_field
-                (field_name)
-                (field_value
-                  (string_literal)))
-              (struct_field
-                (field_name)
-                (field_value
-                  (integer_literal
-                    (decimal_int)))))))))))
-
-====================================================
-Trait Declaration with Self and Generic Constraints
-====================================================
-
-trait Bounded<t>: Show + Eq where t: Ord {
-  id: (t) -> t
-}
-
----
-
-(program
-  (trait_declaration
-    (trait_name)
-    (generic_parameters
-      (generic_type))
-    (trait_bounds
-      (trait_name)
-      (trait_name))
-    (generic_parameter_constraints
-      (generic_parameter_constraint
-        (generic_type)
-        (generic_bounds
-          (trait_name))))
-    (trait_methods
-      (trait_method
-        (identifier)
-        (trait_method_signature
-          (parameter_type_list
-            (parameter_type
-              (generic_type)))
-          (generic_type))))))
-
-=====================================================
-Trait Declaration with Multiple Generic Constraints
-=====================================================
-
-trait PairOps<a, b> where a: Show + Eq, b: Ord, {
-  first: (a, b) -> a
-}
-
----
-
-(program
-  (trait_declaration
-    (trait_name)
-    (generic_parameters
-      (generic_type)
-      (generic_type))
-    (generic_parameter_constraints
-      (generic_parameter_constraint
-        (generic_type)
-        (generic_bounds
-          (trait_name)
-          (trait_name)))
-      (generic_parameter_constraint
-        (generic_type)
-        (generic_bounds
-          (trait_name))))
-    (trait_methods
-      (trait_method
-        (identifier)
-        (trait_method_signature
-          (parameter_type_list
-            (parameter_type
-              (generic_type))
-            (parameter_type
-              (generic_type)))
-          (generic_type))))))
-
-=======================================================
-Trait Implementation with Generic Where Constraints
-=======================================================
-
-trait Render<t> {
-  render: (t) -> string
-}
-
-impl Render<t> for []t where t: Render, {
-  render = (items) => ""
-}
-
----
-
-(program
-  (trait_declaration
-    (trait_name)
-    (generic_parameters
-      (generic_type))
-    (trait_methods
-      (trait_method
-        (identifier)
-        (trait_method_signature
-          (parameter_type_list
-            (parameter_type
-              (generic_type)))
-          (string_type)))))
-  (trait_implementation
-    (trait_name)
-    (generic_type)
-    (array_type
-      (generic_type))
-    (impl_constraints
-      (impl_constraint
-        (generic_type)
-        (generic_bounds
-          (trait_name))))
-    (impl_methods
-      (trait_method_implementation
-        (method_name
-          (identifier))
-        (function_clause
-          (pattern_parameter_list
-            (identifier))
-          (string_literal))))))

@@ -2,9 +2,9 @@ const { commaSep1 } = require("../helpers");
 const { PREC } = require("../prec");
 
 module.exports = {
-  function_type: ($) =>
+  lambda_type: ($) =>
     prec(
-      PREC.FUNCTION_TYPE,
+      PREC.LAMBDA_TYPE,
       seq(
         "(",
         optional(field("parameter_types", $.parameter_type_list)),

@@ -13,7 +13,7 @@ const numbers = require("./include/literals/numbers");
 const expressions = require("./include/expressions/");
 const types = require("./include/types/");
 const statements = require("./include/statements");
-const functions = require("./include/functions/");
+const functions = require("./include/expressions/functions");
 const comments = require("./include/comments");
 const destructuring = require("./include/destructuring/destructuring");
 const patterns = require("./include/patterns");
@@ -66,7 +66,6 @@ module.exports = grammar({
       "let",
       "var",
       "const",
-      "def",
       "true",
       "false",
       "import",

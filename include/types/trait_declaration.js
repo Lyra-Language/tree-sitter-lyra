@@ -49,7 +49,7 @@ module.exports = {
     seq(
       field("name", choice($.identifier, $.unary_operator, $.binary_operator)),
       ":",
-      field("signature", alias($.function_type, $.trait_method_signature)),
+      field("signature", alias($.lambda_type, $.trait_method_signature)),
     ),
 
   unary_operator: ($) =>

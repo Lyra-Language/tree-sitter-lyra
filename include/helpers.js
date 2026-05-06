@@ -4,3 +4,11 @@ export function commaSep1(rule) {
 export function commaSep(rule) {
   return optional(commaSep1(rule));
 }
+
+export function parameterList(parameterRule) {
+  return seq(
+    "(",
+    optional(seq(parameterRule, repeat(seq(",", parameterRule)), optional(","))),
+    ")"
+  );
+}

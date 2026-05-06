@@ -1,4 +1,5 @@
-const { commaSep1 } = require("../helpers");
+const { parameter } = require("../expressions/functions/lambda");
+const { commaSep1, parameterList } = require("../helpers");
 const { PREC } = require("../prec");
 
 module.exports = {
@@ -37,7 +38,7 @@ module.exports = {
     seq(
       field("method_name", $.method_name),
       "=",
-      field("function_clause", $.function_clause),
+      field("method_clause", alias($.lambda_clause, $.method_clause)),
     ),
 
   method_name: ($) => choice($.identifier, $.unary_operator, $.binary_operator),

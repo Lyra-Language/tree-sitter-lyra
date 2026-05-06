@@ -14,6 +14,16 @@ module.exports = {
     optional($.visibility),
     field('keyword', choice('let', 'var')),
     field('name', $.identifier),
+    optional(field("generic_parameters", $.generic_parameters)),
+    optional(
+      seq(
+        "where",
+        field(
+          "generic_parameter_constraints",
+          $.generic_parameter_constraints,
+        ),
+      ),
+    ),
     optional(field('type_annotation', $.type_annotation)),
     optional(seq('=', field('value', $.expression))),
   )),

@@ -43,7 +43,7 @@ module.exports = {
     $.user_defined_type_name,
     $.array_type,
     $.generic_type,
-    $.function_type,
+    $.lambda_type,
   ),
 
   // Allocated type - wraps any type with an allocation modifier

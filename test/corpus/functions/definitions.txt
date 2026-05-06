@@ -2,115 +2,124 @@
 Basic Function declaration without parameters
 =============================================
 
-def foo = () -> void => {
+let foo = () -> void => {
   // do stuff
 }
 
 ---
 
 (program
-  (function_definition
+  (declaration
     (identifier)
-    (parameter_list)
-    (generic_type)
-    (block
-      (comment))))
+    (lambda_expr
+      (parameter_list)
+      (generic_type)
+      (block
+        (comment)))))
 
 =============================================
 Basic Function declaration with visibility
 =============================================
 
-pub def foo = () -> void => {
+pub let foo = () -> void => {
   // do stuff
 }
 
 ---
 
 (program
-  (function_definition
+  (declaration
     (visibility)
     (identifier)
-    (parameter_list)
-    (generic_type)
-    (block
-      (comment))))
+    (lambda_expr
+      (parameter_list)
+      (generic_type)
+      (block
+        (comment)))))
 
 ================================
 Pure function declaration
 ================================
 
-pure def add = (a: int, b: int) -> int => a + b
+let add = pure (a: int, b: int) -> int => a + b
 
 ---
 
 (program
-  (function_definition
+  (declaration
     (identifier)
-    (parameter_list
-      (parameter
+    (lambda_expr
+      (pure_modifier)
+      (parameter_list
+        (parameter
+          (identifier)
+          (signed_integer_type))
+        (parameter
+          (identifier)
+          (signed_integer_type)))
+      (signed_integer_type)
+      (binary_expression
         (identifier)
-        (signed_integer_type))
-      (parameter
-        (identifier)
-        (signed_integer_type)))
-    (signed_integer_type)
-    (binary_expression
-      (identifier)
-      (add_operator)
-      (identifier))))
+        (add_operator)
+        (identifier)))))
 
 ================================
 Public pure function
 ================================
 
-pub pure def multiply = (a: int, b: int) -> int => a * b
+pub let multiply = pure (a: int, b: int) -> int => a * b
 
 ---
 
 (program
-  (function_definition
+  (declaration
     (visibility)
     (identifier)
-    (parameter_list
-      (parameter
+    (lambda_expr
+      (pure_modifier)
+      (parameter_list
+        (parameter
+          (identifier)
+          (signed_integer_type))
+        (parameter
+          (identifier)
+          (signed_integer_type)))
+      (signed_integer_type)
+      (binary_expression
         (identifier)
-        (signed_integer_type))
-      (parameter
-        (identifier)
-        (signed_integer_type)))
-    (signed_integer_type)
-    (binary_expression
-      (identifier)
-      (mul_operator)
-      (identifier))))
+        (mul_operator)
+        (identifier)))))
 
 ================================
 Pure async function
 ================================
 
-pure async def compute = (n: int) -> int => n * 2
+let compute = pure async (n: int) -> int => n * 2
 
 ---
 
 (program
-  (function_definition
+  (declaration
     (identifier)
-    (parameter_list
-      (parameter
+    (lambda_expr
+      (pure_modifier)
+      (async_modifier)
+      (parameter_list
+        (parameter
+          (identifier)
+          (signed_integer_type)))
+      (signed_integer_type)
+      (binary_expression
         (identifier)
-        (signed_integer_type)))
-    (signed_integer_type)
-    (binary_expression
-      (identifier)
-      (mul_operator)
-      (integer_literal
-        (decimal_int)))))
+        (mul_operator)
+        (integer_literal
+          (decimal_int))))))
 
 ================================
 Pure with pattern matching
 ================================
 
-pure def fib = (n: int) -> int {
+let fib = pure (n: int) -> int {
   (0) => 0,
   (1) => 1,
   (n) => fib(n-1) + fib(n-2),
@@ -119,220 +128,228 @@ pure def fib = (n: int) -> int {
 ---
 
 (program
-  (function_definition
+  (declaration
     (identifier)
-    (parameter_list
-      (parameter
-        (identifier)
-        (signed_integer_type)))
-    (signed_integer_type)
-    (function_clause_list
-      (function_clause
-        (pattern_parameter_list
-          (literal_pattern
-            (integer_literal
-              (decimal_int))))
-        (integer_literal
-          (decimal_int)))
-      (function_clause
-        (pattern_parameter_list
-          (literal_pattern
-            (integer_literal
-              (decimal_int))))
-        (integer_literal
-          (decimal_int)))
-      (function_clause
-        (pattern_parameter_list
-          (identifier))
-        (binary_expression
-          (call_expression
-            (identifier)
-            (argument_list
-              (value
-                (binary_expression
-                  (identifier)
-                  (sub_operator)
-                  (integer_literal
-                    (decimal_int))))))
-          (add_operator)
-          (call_expression
-            (identifier)
-            (argument_list
-              (value
-                (binary_expression
-                  (identifier)
-                  (sub_operator)
-                  (integer_literal
-                    (decimal_int)))))))))))
+    (lambda_expr
+      (pure_modifier)
+      (parameter_list
+        (parameter
+          (identifier)
+          (signed_integer_type)))
+      (signed_integer_type)
+      (lambda_clause_list
+        (lambda_clause
+          (pattern_parameter_list
+            (literal_pattern
+              (integer_literal
+                (decimal_int))))
+          (integer_literal
+            (decimal_int)))
+        (lambda_clause
+          (pattern_parameter_list
+            (literal_pattern
+              (integer_literal
+                (decimal_int))))
+          (integer_literal
+            (decimal_int)))
+        (lambda_clause
+          (pattern_parameter_list
+            (identifier))
+          (binary_expression
+            (call_expression
+              (identifier)
+              (argument_list
+                (value
+                  (binary_expression
+                    (identifier)
+                    (sub_operator)
+                    (integer_literal
+                      (decimal_int))))))
+            (add_operator)
+            (call_expression
+              (identifier)
+              (argument_list
+                (value
+                  (binary_expression
+                    (identifier)
+                    (sub_operator)
+                    (integer_literal
+                      (decimal_int))))))))))))
 
 ==============================================================
 Basic Function declaration without parameters with return type
 ==============================================================
 
-def foo = () -> int => 42
+let foo = () -> int => 42
 
 ---
 
 (program
-  (function_definition
+  (declaration
     (identifier)
-    (parameter_list)
-    (signed_integer_type)
-    (integer_literal
-      (decimal_int))))
+    (lambda_expr
+      (parameter_list)
+      (signed_integer_type)
+      (integer_literal
+        (decimal_int)))))
 
 ==========================================
 Basic Function declaration with parameters
 ==========================================
 
-def sum = (a: int, b: int) -> int => a + b
+let sum = (a: int, b: int) -> int => a + b
 
 ---
 
 (program
-  (function_definition
+  (declaration
     (identifier)
-    (parameter_list
-      (parameter
+    (lambda_expr
+      (parameter_list
+        (parameter
+          (identifier)
+          (signed_integer_type))
+        (parameter
+          (identifier)
+          (signed_integer_type)))
+      (signed_integer_type)
+      (binary_expression
         (identifier)
-        (signed_integer_type))
-      (parameter
-        (identifier)
-        (signed_integer_type)))
-    (signed_integer_type)
-    (binary_expression
-      (identifier)
-      (add_operator)
-      (identifier))))
+        (add_operator)
+        (identifier)))))
 
 ==================================================
 Basic Function declaration with generic parameters
 ==================================================
 
-def sum<n> = (a: n, b: n) -> n => a + b
+let sum<n> = (a: n, b: n) -> n => a + b
 
 ---
 
 (program
-  (function_definition
+  (declaration
     (identifier)
     (generic_parameters
       (generic_type))
-    (parameter_list
-      (parameter
+    (lambda_expr
+      (parameter_list
+        (parameter
+          (identifier)
+          (generic_type))
+        (parameter
+          (identifier)
+          (generic_type)))
+      (generic_type)
+      (binary_expression
         (identifier)
-        (generic_type))
-      (parameter
-        (identifier)
-        (generic_type)))
-    (generic_type)
-    (binary_expression
-      (identifier)
-      (add_operator)
-      (identifier))))
+        (add_operator)
+        (identifier)))))
 
 ===================================================================
 Basic Function declaration with generic parameters with constraints
 ===================================================================
 
-def compare<n> = (a: n, b: n) -> n where n: Ord => a <=> b
+let compare<n> where n: Ord = (a: n, b: n) -> n => a <=> b
 
 ---
 
 (program
-  (function_definition
+  (declaration
     (identifier)
     (generic_parameters
       (generic_type))
-    (parameter_list
-      (parameter
-        (identifier)
-        (generic_type))
-      (parameter
-        (identifier)
-        (generic_type)))
-    (generic_type)
     (generic_parameter_constraints
       (generic_parameter_constraint
         (generic_type)
         (generic_bounds
           (trait_name))))
+    (lambda_expr
+      (parameter_list
+        (parameter
+          (identifier)
+          (generic_type))
+        (parameter
+          (identifier)
+          (generic_type)))
+      (generic_type)
       (boolean_expr
-      (identifier)
-      (spaceship_operator)
-      (identifier))))
+        (identifier)
+        (spaceship_operator)
+        (identifier)))))
 
 ==================================
 Function declaration with defaults
 ==================================
 
-def product = (a: int, b: int = 10) -> int => a * b
+let product = (a: int, b: int = 10) -> int => a * b
 
 ---
 
 (program
-  (function_definition
+  (declaration
     (identifier)
-    (parameter_list
-      (parameter
+    (lambda_expr
+      (parameter_list
+        (parameter
+          (identifier)
+          (signed_integer_type))
+        (parameter
+          (identifier)
+          (signed_integer_type)
+          (default_value
+            (integer_literal
+              (decimal_int)))))
+      (signed_integer_type)
+      (binary_expression
         (identifier)
-        (signed_integer_type))
-      (parameter
-        (identifier)
-        (signed_integer_type)
-        (default_value
-          (integer_literal
-            (decimal_int)))))
-    (signed_integer_type)
-    (binary_expression
-      (identifier)
-      (mul_operator)
-      (identifier))))
+        (mul_operator)
+        (identifier)))))
 
 =====================================
 Function with patterns for parameters
 =====================================
 
-def foo = ({ x, y }: Point, [one, two, three, ...rest]: []string, (alpha, beta): SomeTuple) -> void => {
+let foo = ({ x, y }: Point, [one, two, three, ...rest]: []string, (alpha, beta): SomeTuple) -> void => {
   // do stuff
 }
 
 ---
 
 (program
-  (function_definition
+  (declaration
     (identifier)
-    (parameter_list
-      (parameter
-        (struct_pattern
-          (struct_field_pattern
+    (lambda_expr
+      (parameter_list
+        (parameter
+          (struct_pattern
+            (struct_field_pattern
+              (identifier))
+            (struct_field_pattern
+              (identifier)))
+          (user_defined_type_name))
+        (parameter
+          (array_pattern
+            (identifier)
+            (identifier)
+            (identifier)
+            (rest_pattern
+              (identifier)))
+          (array_type
+            (string_type)))
+        (parameter
+          (tuple_pattern
+            (identifier)
             (identifier))
-          (struct_field_pattern
-            (identifier)))
-        (user_defined_type_name))
-      (parameter
-        (array_pattern
-          (identifier)
-          (identifier)
-          (identifier)
-          (rest_pattern
-            (identifier)))
-        (array_type
-          (string_type)))
-      (parameter
-        (tuple_pattern
-          (identifier)
-          (identifier))
-        (user_defined_type_name)))
-    (generic_type)
-    (block
-      (comment))))
+          (user_defined_type_name)))
+      (generic_type)
+      (block
+        (comment)))))
 
 =====================
 Higher order function
 =====================
 
-def map<t,u> = (array: []t, func: (t) -> u) -> []u => {
+let map<t,u> = (array: []t, func: (t) -> u) -> []u => {
   //  new_array = []
   //  for item in array {
   //    new_array.push(func(item))
@@ -343,37 +360,38 @@ def map<t,u> = (array: []t, func: (t) -> u) -> []u => {
 ---
 
 (program
-  (function_definition
+  (declaration
     (identifier)
     (generic_parameters
       (generic_type)
       (generic_type))
-    (parameter_list
-      (parameter
-        (identifier)
-        (array_type
-          (generic_type)))
-      (parameter
-        (identifier)
-        (function_type
-          (parameter_type_list
-            (parameter_type
-              (generic_type)))
-          (generic_type))))
-    (array_type
-      (generic_type))
-    (block
-      (comment)
-      (comment)
-      (comment)
-      (comment)
-      (comment))))
+    (lambda_expr
+      (parameter_list
+        (parameter
+          (identifier)
+          (array_type
+            (generic_type)))
+        (parameter
+          (identifier)
+          (lambda_type
+            (parameter_type_list
+              (parameter_type
+                (generic_type)))
+            (generic_type))))
+      (array_type
+        (generic_type))
+      (block
+        (comment)
+        (comment)
+        (comment)
+        (comment)
+        (comment)))))
 
 ========================================
 Function with multiple function patterns
 ========================================
 
-def fib = (n: int) -> int {
+let fib = pure (n: int) -> int {
   (0) => 0,
   (1) => 1,
   (n) => fib(n-2) + fib(n-1),
@@ -382,57 +400,59 @@ def fib = (n: int) -> int {
 ---
 
 (program
-  (function_definition
+  (declaration
     (identifier)
-    (parameter_list
-      (parameter
-        (identifier)
-        (signed_integer_type)))
-    (signed_integer_type)
-    (function_clause_list
-      (function_clause
-        (pattern_parameter_list
-          (literal_pattern
-            (integer_literal
-              (decimal_int))))
-        (integer_literal
-          (decimal_int)))
-      (function_clause
-        (pattern_parameter_list
-          (literal_pattern
-            (integer_literal
-              (decimal_int))))
-        (integer_literal
-          (decimal_int)))
-      (function_clause
-        (pattern_parameter_list
-          (identifier))
-        (binary_expression
-          (call_expression
-            (identifier)
-            (argument_list
-              (value
-                (binary_expression
-                  (identifier)
-                  (sub_operator)
-                  (integer_literal
-                    (decimal_int))))))
-          (add_operator)
-          (call_expression
-            (identifier)
-            (argument_list
-              (value
-                (binary_expression
-                  (identifier)
-                  (sub_operator)
-                  (integer_literal
-                    (decimal_int)))))))))))
+    (lambda_expr
+      (pure_modifier)
+      (parameter_list
+        (parameter
+          (identifier)
+          (signed_integer_type)))
+      (signed_integer_type)
+      (lambda_clause_list
+        (lambda_clause
+          (pattern_parameter_list
+            (literal_pattern
+              (integer_literal
+                (decimal_int))))
+          (integer_literal
+            (decimal_int)))
+        (lambda_clause
+          (pattern_parameter_list
+            (literal_pattern
+              (integer_literal
+                (decimal_int))))
+          (integer_literal
+            (decimal_int)))
+        (lambda_clause
+          (pattern_parameter_list
+            (identifier))
+          (binary_expression
+            (call_expression
+              (identifier)
+              (argument_list
+                (value
+                  (binary_expression
+                    (identifier)
+                    (sub_operator)
+                    (integer_literal
+                      (decimal_int))))))
+            (add_operator)
+            (call_expression
+              (identifier)
+              (argument_list
+                (value
+                  (binary_expression
+                    (identifier)
+                    (sub_operator)
+                    (integer_literal
+                      (decimal_int))))))))))))
 
 ==================================================
 Function with multiple function patterns and guard
 ==================================================
 
-def fib = (n: int) -> int {
+let fib = pure (n: int) -> int {
   (n) if n < 2 => n,
   (n) => fib(n-2) + fib(n-1),
 }
@@ -440,75 +460,78 @@ def fib = (n: int) -> int {
 ---
 
 (program
-  (function_definition
+  (declaration
     (identifier)
-    (parameter_list
-      (parameter
-        (identifier)
-        (signed_integer_type)))
-    (signed_integer_type)
-    (function_clause_list
-      (function_clause
-        (pattern_parameter_list
+    (lambda_expr
+      (pure_modifier)
+      (parameter_list
+        (parameter
+          (identifier)
+          (signed_integer_type)))
+      (signed_integer_type)
+      (lambda_clause_list
+        (lambda_clause
+          (pattern_parameter_list
+            (identifier))
+          (guard
+            (boolean_expr
+              (identifier)
+              (less_than_operator)
+              (integer_literal
+                (decimal_int))))
           (identifier))
-        (guard
-          (boolean_expr
-            (identifier)
-            (less_than_operator)
-            (integer_literal
-              (decimal_int))))
-        (identifier))
-      (function_clause
-        (pattern_parameter_list
-          (identifier))
-        (binary_expression
-          (call_expression
-            (identifier)
-            (argument_list
-              (value
-                (binary_expression
-                  (identifier)
-                  (sub_operator)
-                  (integer_literal
-                    (decimal_int))))))
-          (add_operator)
-          (call_expression
-            (identifier)
-            (argument_list
-              (value
-                (binary_expression
-                  (identifier)
-                  (sub_operator)
-                  (integer_literal
-                    (decimal_int)))))))))))
+        (lambda_clause
+          (pattern_parameter_list
+            (identifier))
+          (binary_expression
+            (call_expression
+              (identifier)
+              (argument_list
+                (value
+                  (binary_expression
+                    (identifier)
+                    (sub_operator)
+                    (integer_literal
+                      (decimal_int))))))
+            (add_operator)
+            (call_expression
+              (identifier)
+              (argument_list
+                (value
+                  (binary_expression
+                    (identifier)
+                    (sub_operator)
+                    (integer_literal
+                      (decimal_int))))))))))))
 
 =================================
 Function type parameter modifiers
 =================================
 
-def render = (scene: ref Scene) -> void => {
+let render = (scene: ref Scene) -> void => {
   // render the scene
 }
 
 ---
 
 (program
-  (function_definition
+  (declaration
     (identifier)
-    (parameter_list
-      (parameter
-        (identifier)
-        (type_modifier)
-        (user_defined_type_name)))
-    (generic_type)
-    (block
-      (comment))))
+    (lambda_expr
+      (parameter_list
+        (parameter
+          (identifier)
+          (type_modifier)
+          (user_defined_type_name)))
+      (generic_type)
+      (block
+        (comment)))))
 
 =============================
 Function type return modifier
 =============================
 
-def open_file = (path: string) -> mut File => {
+let open_file = (path: string) -> mut File => {
   // do some stuff
   return file
 }
@@ -516,36 +539,40 @@ def open_file = (path: string) -> mut File => {
 ---
 
 (program
-  (function_definition
+  (declaration
     (identifier)
-    (parameter_list
-      (parameter
-        (identifier)
-        (string_type)))
-    (type_modifier)
-    (user_defined_type_name)
-    (block
-      (comment)
-      (return_statement
-        (identifier)))))
+    (lambda_expr
+      (parameter_list
+        (parameter
+          (identifier)
+          (string_type)))
+      (type_modifier)
+      (user_defined_type_name)
+      (block
+        (comment)
+        (return_statement
+          (identifier))))))
 
 ===================================
 Function without body is an error
 :error
 ===================================
 
-def foo
+let foo = () =>
 
 ---
+
+
 
 =============================================
 Missing comma in parameters is an error
 :error
 =============================================
 
-def foo = (x: int y: int) -> int => x * y
+let foo = (x: int y: int) -> int => x * y
 
 ---
+
 
 
 ===================================
@@ -553,30 +580,19 @@ Unclosed generic params is an error
 :error
 ===================================
 
-def sum<n = (a: n, b: n) -> n => a + b
+let sum<n = (a: n, b: n) -> n => a + b
 
 ---
+
+
 
 ===========================
 Pure keyword in wrong order
 :error
 ===========================
 
-async pure def compute = (n: int) -> int => n * 2
+let compute = async pure (n: int) -> int => n * 2
 
 ---
 
-(program
-  (function_definition
-    (ERROR)
-    (identifier)
-    (parameter_list
-      (parameter
-        (identifier)
-        (signed_integer_type)))
-    (signed_integer_type)
-    (binary_expression
-      (identifier)
-      (mul_operator)
-      (integer_literal
-        (decimal_int)))))
+

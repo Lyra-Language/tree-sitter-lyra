@@ -47,7 +47,7 @@ const PREC = {
 
   // Type constructors that need to beat `user_defined_type_name` alone.
   ARRAY_TYPE: 3,
-  FUNCTION_TYPE: 3,
+  LAMBDA_TYPE: 3,
 
   // Type modifiers (`weak T`, `stack T`) and the struct-literal's name.
   WEAK_TYPE: 4,

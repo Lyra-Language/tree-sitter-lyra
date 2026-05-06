@@ -4,6 +4,7 @@ const array_comp_expr = require("./array_comprehension");
 const math = require("./math");
 const range = require("./range");
 const postfix = require("./postfix");
+const functions = require("./functions");
 const { PREC } = require("../prec");
 
 module.exports = {
@@ -19,7 +20,7 @@ module.exports = {
       $.range_expression,
       $.if_block_expr,
       $.match_expr,
-      $.lambda_expression,
+      $.lambda_expr,
       $.array_comp_expr,
       $.spread_expr,
       $.null_coalescing_expression,
@@ -64,4 +65,5 @@ module.exports = {
   ...range,
   ...array_comp_expr,
   ...postfix,
+  ...functions,
 };

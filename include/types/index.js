@@ -1,7 +1,7 @@
 const allocation = require("./allocation");
 const newtype = require("./newtype");
 const data_type = require("./data_type");
-const function_type = require("./function_type");
+const lambda_type = require("./lambda_type");
 const generic_type = require("./generic_type");
 const number_types = require("./number_types");
 const struct_type = require("./struct_type");
@@ -30,7 +30,7 @@ module.exports = {
         $.user_defined_type_name,
         $.array_type,
         $.generic_type,
-        $.function_type,
+        $.lambda_type,
         $.allocated_type,
         $.weak_type,
         $.anonymous_tuple_type,
@@ -65,7 +65,7 @@ module.exports = {
   ...allocation,
   ...newtype,
   ...data_type,
-  ...function_type,
+  ...lambda_type,
   ...generic_type,
   ...number_types,
   ...struct_type,

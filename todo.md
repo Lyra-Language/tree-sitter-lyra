@@ -6,6 +6,9 @@
 
 ## Completed
 
+### 05/06/25
+- simplified function syntax (got rid of the "def" keyword, all functions are essentially lambdas)
+
 ### 03/15/25
 - await expression tests
 - tests for func type param modifiers (ref, mut, own)

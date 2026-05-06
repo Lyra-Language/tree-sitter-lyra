@@ -2,7 +2,6 @@
 "return" @keyword
 "if" @keyword
 "else" @keyword
-"def" @keyword.function
 "(" @punctuation.bracket
 ")" @punctuation.bracket
 "[" @punctuation.bracket

@@ -142,24 +142,25 @@ import math.{ sin, cos, PI }
 Public Function Definition
 ==========================
 
-pub def greet = (name: string) -> string => "Hello, ${name}!"
+pub let greet = (name: string) -> string => "Hello, ${name}!"
 
 ---
 
 (program
-  (function_definition
+  (declaration
     (visibility)
     (identifier)
-    (parameter_list
-      (parameter
-        (identifier)
-        (string_type)))
-    (string_type)
-    (string_literal
-      (string_content)
-      (string_interpolation
-        (identifier))
-      (string_content))))
+    (lambda_expr
+      (parameter_list
+        (parameter
+          (identifier)
+          (string_type)))
+      (string_type)
+      (string_literal
+        (string_content)
+        (string_interpolation
+          (identifier))
+        (string_content)))))
 
 =============
 Public Struct
@@ -200,12 +201,12 @@ pub struct Config {
   path: string
 }
 
-pub def loadConfig = (path: string) -> Config => {
+pub let loadConfig = (path: string) -> Config => {
   let contents = io.readFile(path)
   parse(contents)
 }
 
-let helper = () => 42
+let helper = () -> void => 42
 
 ---
 
@@ -240,33 +241,35 @@ let helper = () => 42
           (field_name)
           (field_type
             (string_type))))))
-  (function_definition
+  (declaration
     (visibility)
     (identifier)
-    (parameter_list
-      (parameter
-        (identifier)
-        (string_type)))
-    (user_defined_type_name)
-    (block
-      (declaration
-        (identifier)
-        (call_expression
-          (member_expression
-            (identifier)
-            (identifier))
-          (argument_list
-            (value
-              (identifier)))))
-      (expression_statement
-        (call_expression
+    (lambda_expr
+      (parameter_list
+        (parameter
           (identifier)
-          (argument_list
-            (value
-              (identifier)))))))
+          (string_type)))
+      (user_defined_type_name)
+      (block
+        (declaration
+          (identifier)
+          (call_expression
+            (member_expression
+              (identifier)
+              (identifier))
+            (argument_list
+              (value
+                (identifier)))))
+        (expression_statement
+          (call_expression
+            (identifier)
+            (argument_list
+              (value
+                (identifier))))))))
   (declaration
     (identifier)
-    (lambda_expression
-      (pattern_parameter_list)
+    (lambda_expr
+      (parameter_list)
+      (generic_type)
       (integer_literal
         (decimal_int)))))

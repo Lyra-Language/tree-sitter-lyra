@@ -2,57 +2,55 @@
 Simple Lambda Function
 ======================
 
-let sum: (int, int) -> int = (a, b) => a + b
+(a: int, b: int) -> int => a + b
 
 ---
 
 (program
-  (declaration
-    (identifier)
-    (type_annotation
-      (function_type
-        (parameter_type_list
-          (parameter_type
+    (expression_statement
+    (lambda_expr
+        (parameter_list
+        (parameter
+            (identifier)
             (signed_integer_type))
-          (parameter_type
+        (parameter
+            (identifier)
             (signed_integer_type)))
-        (signed_integer_type)))
-    (lambda_expression
-      (pattern_parameter_list
-        (identifier)
-        (identifier))
-      (binary_expression
-        (identifier)
-        (add_operator)
-        (identifier)))))
+        (signed_integer_type)
+        (binary_expression
+            (identifier)
+            (add_operator)
+            (identifier)))))
 
 ==============================
 Function that returns a lambda
 ==============================
 
-def make_sum_fn = (a: int) -> (int) -> int => (b) => a + b
+let make_sum_fn = (a: int) -> (int) -> int => (b) => a + b
 
 ---
 
 (program
-  (function_definition
-    name: (identifier)
-    parameters: (parameter_list
-      (parameter
-        pattern: (identifier)
-        type: (signed_integer_type)))
-    return_type: (function_type
-      parameter_types: (parameter_type_list
-        (parameter_type
-          type: (signed_integer_type)))
-      return_type: (signed_integer_type))
-    body: (lambda_expression
-      (pattern_parameter_list
-        (identifier))
-      body: (binary_expression
-        left: (identifier)
-        operator: (add_operator)
-        right: (identifier)))))
+    (declaration
+    (identifier)
+    (lambda_expr
+        (parameter_list
+        (parameter
+            (identifier)
+            (signed_integer_type)))
+        (lambda_type
+        (parameter_type_list
+            (parameter_type
+            (signed_integer_type)))
+        (signed_integer_type))
+        (lambda_expr
+            (parameter_list
+                (parameter
+                    (identifier)))
+                (binary_expression
+                    (identifier)
+                    (add_operator)
+                    (identifier))))))
 
 ==============================
 Function that accepts a lambda
@@ -63,28 +61,29 @@ let doubled = map::<int, int>([1, 2, 3], (x) => 2 * x)
 ---
 
 (program
-  (declaration
+    (declaration
     (identifier)
     (call_expression
-      (identifier)
-      (generic_arguments
+        (identifier)
+        (generic_arguments
         (signed_integer_type)
         (signed_integer_type))
-      (argument_list
+        (argument_list
         (value
-          (array_literal
+            (array_literal
             (integer_literal
-              (decimal_int))
-            (integer_literal
-              (decimal_int))
-            (integer_literal
-              (decimal_int))))
-        (value
-          (lambda_expression
-            (pattern_parameter_list
-              (identifier))
-            (binary_expression
-              (integer_literal
                 (decimal_int))
-              (mul_operator)
-              (identifier))))))))
+            (integer_literal
+                (decimal_int))
+            (integer_literal
+                (decimal_int))))
+        (value
+            (lambda_expr
+            (parameter_list
+                (parameter
+                (identifier)))
+            (binary_expression
+                (integer_literal
+                (decimal_int))
+                (mul_operator)
+                (identifier))))))))
