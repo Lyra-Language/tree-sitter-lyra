@@ -37,6 +37,50 @@ pub let foo = () -> void => {
       (block
         (comment)))))
 
+==============
+Async function
+==============
+
+let fetchJSON = async (url: string, options: FetchOptions) -> Response => {
+  let resp = await fetch(url, options)
+  return JSON.parse(resp)
+}
+
+---
+
+(program
+  (declaration
+    (identifier)
+    (lambda_expr
+      (async_modifier)
+      (parameter_list
+        (parameter
+          (identifier)
+          (string_type))
+        (parameter
+          (identifier)
+          (user_defined_type_name)))
+      (user_defined_type_name)
+      (block
+        (declaration
+          (identifier)
+          (await_expression
+            (call_expression
+              (identifier)
+              (argument_list
+                (value
+                  (identifier))
+                (value
+                  (identifier))))))
+        (return_statement
+          (call_expression
+            (member_expression
+              (const_identifier)
+              (identifier))
+            (argument_list
+              (value
+                (identifier)))))))))
+
 ================================
 Pure function declaration
 ================================
@@ -387,9 +431,9 @@ let map<t,u> = (array: []t, func: (t) -> u) -> []u => {
         (comment)
         (comment)))))
 
-========================================
-Function with multiple function patterns
-========================================
+==================================================
+Recursive Function with multiple function patterns
+==================================================
 
 let fib = pure (n: int) -> int {
   (0) => 0,

@@ -22,6 +22,28 @@ Simple Lambda Function
             (add_operator)
             (identifier)))))
 
+============================================================
+Lambda with no return type annotation (inferred return type)
+============================================================
+
+let double = (x: int) => x * 2
+
+---
+
+(program
+    (declaration
+    (identifier)
+    (lambda_expr
+        (parameter_list
+        (parameter
+            (identifier)
+            (signed_integer_type)))
+        (binary_expression
+        (identifier)
+        (mul_operator)
+        (integer_literal
+            (decimal_int))))))
+
 ==============================
 Function that returns a lambda
 ==============================
