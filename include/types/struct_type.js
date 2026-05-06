@@ -3,6 +3,7 @@ const { commaSep1 } = require("../helpers");
 module.exports = {
   struct_type: ($) =>
     seq(
+      optional(field("attributes", $.attribute_list)),
       optional($.visibility),
       optional(field("allocation", $.allocation_modifier)),
       "struct",

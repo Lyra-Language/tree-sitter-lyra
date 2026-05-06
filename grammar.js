@@ -17,6 +17,7 @@ const functions = require("./include/expressions/functions");
 const comments = require("./include/comments");
 const destructuring = require("./include/destructuring/destructuring");
 const patterns = require("./include/patterns");
+const attributes = require("./include/attributes");
 
 module.exports = grammar({
   name: "lyra",
@@ -105,5 +106,6 @@ module.exports = grammar({
     ...comments,
     ...destructuring,
     ...patterns,
+    ...attributes,
   },
 });

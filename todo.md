@@ -2,8 +2,8 @@
 - Coroutines/fibers (with "gen" and "yield" keywords)
 - packed/aligned struct attributes @packed struct InputEvent { ... }
 @align(16) struct Vec4 { ... }
-- partial application syntax? e.g. add(_, 5)
-- Tail-call optimization guarantee? (use "rec" keyword or @tailrec annotation)
+- partial application syntax e.g. add(_, 5)
+- Tail-call optimization guarantee (use "rec" keyword or @tailrec annotation)
 - Function composition operator >> so f >> g is the same as x => g(f(x))
 - Trait default method implementations
 - Compile-time evaluation (Zig-style "comptime" blocks or "const fn" for)

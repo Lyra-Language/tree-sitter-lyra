@@ -144,3 +144,121 @@ struct Point {}
     (user_defined_type_name)))
 
 ====================
+Packed struct attribute
+====================
+
+@packed struct InputEvent { event_type: u8, data: u32 }
+
+---
+
+(program
+  (type_declaration
+    (struct_type
+      (attribute_list
+        (attribute
+          (identifier)))
+      (struct_name)
+      (struct_type_body
+        (struct_member
+          (field_name)
+          (field_type
+            (unsigned_integer_type)))
+        (struct_member
+          (field_name)
+          (field_type
+            (unsigned_integer_type)))))))
+
+==========================
+Align struct attribute
+==========================
+
+@align(16) struct Vec4 { x: f32, y: f32, z: f32, w: f32 }
+
+---
+
+(program
+  (type_declaration
+    (struct_type
+      (attribute_list
+        (attribute
+          (identifier)
+          (integer_literal
+            (decimal_int))))
+      (struct_name)
+      (struct_type_body
+        (struct_member
+          (field_name)
+          (field_type
+            (float_type)))
+        (struct_member
+          (field_name)
+          (field_type
+            (float_type)))
+        (struct_member
+          (field_name)
+          (field_type
+            (float_type)))
+        (struct_member
+          (field_name)
+          (field_type
+            (float_type)))))))
+
+===================================
+Multiple struct attributes
+===================================
+
+@packed @align(8) struct PacketHeader { version: u8, length: u16 }
+
+---
+
+(program
+  (type_declaration
+    (struct_type
+      (attribute_list
+        (attribute
+          (identifier))
+        (attribute
+          (identifier)
+          (integer_literal
+            (decimal_int))))
+      (struct_name)
+      (struct_type_body
+        (struct_member
+          (field_name)
+          (field_type
+            (unsigned_integer_type)))
+        (struct_member
+          (field_name)
+          (field_type
+            (unsigned_integer_type)))))))
+
+===========================================
+Struct attributes with visibility and allocation
+===========================================
+
+@packed pub stack struct GpuVertex { x: f32, y: f32, z: f32 }
+
+---
+
+(program
+  (type_declaration
+    (struct_type
+      (attribute_list
+        (attribute
+          (identifier)))
+      (visibility)
+      (allocation_modifier)
+      (struct_name)
+      (struct_type_body
+        (struct_member
+          (field_name)
+          (field_type
+            (float_type)))
+        (struct_member
+          (field_name)
+          (field_type
+            (float_type)))
+        (struct_member
+          (field_name)
+          (field_type
+            (float_type)))))))
