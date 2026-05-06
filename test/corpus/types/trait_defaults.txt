@@ -1,0 +1,119 @@
+=======================================
+Trait with default method implementation
+=======================================
+
+trait Show {
+  show: (Self) -> string = (self) => int_to_string(self)
+}
+
+---
+
+(program
+  (trait_declaration
+    (trait_name)
+    (trait_methods
+      (trait_method
+        (identifier)
+        (trait_method_signature
+          (parameter_type_list
+            (parameter_type
+              (self_type)))
+          (string_type))
+        (default_method_implementation
+          (default_method_clause
+            (pattern_parameter_list
+              (identifier))
+            (call_expression
+              (identifier)
+              (argument_list
+                (value
+                  (identifier))))))))))
+
+==============================================
+Trait with mixed required and default methods
+==============================================
+
+trait Printable {
+  to_string: (Self) -> string,
+  print: (Self) -> Void = (self) => log(self.to_string())
+}
+
+---
+
+(program
+  (trait_declaration
+    (trait_name)
+    (trait_methods
+      (trait_method
+        (identifier)
+        (trait_method_signature
+          (parameter_type_list
+            (parameter_type
+              (self_type)))
+          (string_type)))
+      (trait_method
+        (identifier)
+        (trait_method_signature
+          (parameter_type_list
+            (parameter_type
+              (self_type)))
+          (void_type))
+        (default_method_implementation
+          (default_method_clause
+            (pattern_parameter_list
+              (identifier))
+            (call_expression
+              (identifier)
+              (argument_list
+                (value
+                  (call_expression
+                    (member_expression
+                      (identifier)
+                      (identifier))
+                    (argument_list)))))))))))
+
+=========================================
+Trait default with block body
+=========================================
+
+trait Describable {
+  describe: (Self) -> string = (self) => {
+    let s = self.name()
+    concat("Item: ", s)
+  }
+}
+
+---
+
+(program
+  (trait_declaration
+    (trait_name)
+    (trait_methods
+      (trait_method
+        (identifier)
+        (trait_method_signature
+          (parameter_type_list
+            (parameter_type
+              (self_type)))
+          (string_type))
+        (default_method_implementation
+          (default_method_clause
+            (pattern_parameter_list
+              (identifier))
+            (block
+              (declaration
+                (identifier)
+                (call_expression
+                  (member_expression
+                    (identifier)
+                    (identifier))
+                  (argument_list)))
+              (expression_statement
+                (call_expression
+                  (identifier)
+                  (argument_list
+                    (value
+                      (string_literal
+                        (string_content)))
+                    (value
+                      (identifier))))))))))))

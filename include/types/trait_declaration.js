@@ -50,7 +50,11 @@ module.exports = {
       field("name", choice($.identifier, $.unary_operator, $.binary_operator)),
       ":",
       field("signature", alias($.lambda_type, $.trait_method_signature)),
+      optional(field("default", $.default_method_implementation)),
     ),
+
+  default_method_implementation: ($) =>
+    seq("=", field("body", alias($.lambda_clause, $.default_method_clause))),
 
   unary_operator: ($) =>
     prec(PREC.OPERATOR_OVERLOAD, seq("(", choice($.prefix_operator, $.suffix_operator), ")")),
