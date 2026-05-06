@@ -1,0 +1,144 @@
+============================================
+Basic rec lambda with block body
+============================================
+
+let factorial = rec (n: i32, acc: i32) -> i32 => if n <= 1 { acc } else { factorial(n - 1, n * acc) }
+
+---
+
+(program
+  (declaration
+    (identifier)
+    (lambda_expr
+      (rec_modifier)
+      (parameter_list
+        (parameter
+          (identifier)
+          (signed_integer_type))
+        (parameter
+          (identifier)
+          (signed_integer_type)))
+      (signed_integer_type)
+      (if_block_expr
+        (if_condition
+          (boolean_expr
+            (identifier)
+            (less_than_or_equal_operator)
+            (integer_literal
+              (decimal_int))))
+        (block
+          (expression_statement
+            (identifier)))
+        (block
+          (expression_statement
+            (call_expression
+              (identifier)
+              (argument_list
+                (value
+                  (binary_expression
+                    (identifier)
+                    (sub_operator)
+                    (integer_literal
+                      (decimal_int))))
+                (value
+                  (binary_expression
+                    (identifier)
+                    (mul_operator)
+                    (identifier)))))))))))
+
+============================================
+pure rec lambda
+============================================
+
+let count = async rec (n: i32) -> i32 => if n == 0 { 0 } else { count(n - 1) }
+
+---
+
+(program
+  (declaration
+    (identifier)
+    (lambda_expr
+      (async_modifier)
+      (rec_modifier)
+      (parameter_list
+        (parameter
+          (identifier)
+          (signed_integer_type)))
+      (signed_integer_type)
+      (if_block_expr
+        (if_condition
+          (boolean_expr
+            (identifier)
+            (equals_operator)
+            (integer_literal
+              (decimal_int))))
+        (block
+          (expression_statement
+            (integer_literal
+              (decimal_int))))
+        (block
+          (expression_statement
+            (call_expression
+              (identifier)
+              (argument_list
+                (value
+                  (binary_expression
+                    (identifier)
+                    (sub_operator)
+                    (integer_literal
+                      (decimal_int))))))))))))
+
+============================================
+rec with multi-clause lambda syntax
+============================================
+
+let fib = rec (n: i32, a: i32, b: i32) -> i32 { (0, a, _) => a, (n, a, b) => fib(n - 1, b, a + b) }
+
+---
+
+(program
+  (declaration
+    (identifier)
+    (lambda_expr
+      (rec_modifier)
+      (parameter_list
+        (parameter
+          (identifier)
+          (signed_integer_type))
+        (parameter
+          (identifier)
+          (signed_integer_type))
+        (parameter
+          (identifier)
+          (signed_integer_type)))
+      (signed_integer_type)
+      (lambda_clause_list
+        (lambda_clause
+          (pattern_parameter_list
+            (literal_pattern
+              (integer_literal
+                (decimal_int)))
+            (identifier)
+            (wildcard_pattern))
+          (identifier))
+        (lambda_clause
+          (pattern_parameter_list
+            (identifier)
+            (identifier)
+            (identifier))
+          (call_expression
+            (identifier)
+            (argument_list
+              (value
+                (binary_expression
+                  (identifier)
+                  (sub_operator)
+                  (integer_literal
+                    (decimal_int))))
+              (value
+                (identifier))
+              (value
+                (binary_expression
+                  (identifier)
+                  (add_operator)
+                  (identifier))))))))))

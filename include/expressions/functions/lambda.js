@@ -6,6 +6,7 @@ module.exports = {
       optional(field("is_pure", $.pure_modifier)),
       optional(field("is_async", $.async_modifier)),
       optional(field("is_gen", $.gen_modifier)),
+      optional(field("is_rec", $.rec_modifier)),
       field("parameters", $.parameter_list),
       optional(field("return_type", seq("->", optional($.type_modifier), $.type))),
       choice(
@@ -17,6 +18,7 @@ module.exports = {
   pure_modifier: ($) => "pure",
   async_modifier: ($) => "async",
   gen_modifier: ($) => "gen",
+  rec_modifier: ($) => "rec",
 
   parameter_list: ($) => parameterList($.parameter),
 

@@ -83,6 +83,7 @@ module.exports = grammar({
       "pure",
       "gen",
       "yield",
+      "rec",
     ],
   },
 

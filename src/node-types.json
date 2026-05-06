@@ -3365,6 +3365,16 @@
           }
         ]
       },
+      "is_rec": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "rec_modifier",
+            "named": true
+          }
+        ]
+      },
       "lambda_clauses": {
         "multiple": false,
         "required": false,
@@ -6223,6 +6233,10 @@
   {
     "type": "range",
     "named": false
+  },
+  {
+    "type": "rec_modifier",
+    "named": true
   },
   {
     "type": "ref",

@@ -2866,6 +2866,22 @@
           ]
         },
         {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "FIELD",
+              "name": "is_rec",
+              "content": {
+                "type": "SYMBOL",
+                "name": "rec_modifier"
+              }
+            },
+            {
+              "type": "BLANK"
+            }
+          ]
+        },
+        {
           "type": "FIELD",
           "name": "parameters",
           "content": {
@@ -2953,6 +2969,10 @@
     "gen_modifier": {
       "type": "STRING",
       "value": "gen"
+    },
+    "rec_modifier": {
+      "type": "STRING",
+      "value": "rec"
     },
     "parameter_list": {
       "type": "SEQ",
@@ -7756,6 +7776,10 @@
       {
         "type": "STRING",
         "value": "yield"
+      },
+      {
+        "type": "STRING",
+        "value": "rec"
       }
     ]
   }
