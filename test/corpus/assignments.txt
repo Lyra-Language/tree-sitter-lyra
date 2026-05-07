@@ -144,6 +144,21 @@ PI = 3.141592
     (integer_literal
       (decimal_int))))
 
+==================================
+Const without all-caps is an error
+:error
+==================================
+
+const Pi = 3.141592
+
+---
+
+(program
+  (const_declaration
+    (const_identifier)
+    (ERROR)
+    (float_literal)))
+
 ===================================
 Multiple equal signs is an error
 :error
