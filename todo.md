@@ -1,9 +1,4 @@
 ## To-Dos
-- Function/inline annotations:
-@inline fn dot(a: Vec3, b: Vec3) -> f32 { ... }
-@noinline fn loadLevel(...) { ... }
-- unchecked indexing in release or behind a flag
-- Record update syntax - { existingPLayer | health: newHealth } for immutable update of structs
 - "unsafe" blocks / raw pointers and pointer arithmetic
 - @volatile memory access for memory-mapped I/O on consoles
 - Fixed-point numeric type for deterministic physics/networking sims. e.g. fixed<16,16>
@@ -13,7 +8,13 @@
 
 ## Completed
 
-### 05/06/25
+### 05/07/26
+- Record update syntax { base | field: value } for immutable struct updates
+- Function/inline annotations:
+@inline fn dot(a: Vec3, b: Vec3) -> f32 { ... }
+@noinline fn loadLevel(...) { ... }
+
+### 05/06/26
 - simplified function syntax (got rid of the "def" keyword, all functions are essentially lambdas)
 - packed/aligned struct attributes e.g. @packed struct InputEvent { ... } or @align(16) struct Vec4 { ... }
 - Coroutines/fibers (with "gen" and "yield" keywords)
@@ -22,7 +23,7 @@
 - Compile-time evaluation
 - Tail-call optimization guarantee (use "rec" keyword or @tailrec annotation)
 
-### 03/15/25
+### 03/15/26
 - await expression tests
 - tests for func type param modifiers (ref, mut, own)
 - allow ref and mut modifiers for return types

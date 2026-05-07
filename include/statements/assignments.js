@@ -1,6 +1,7 @@
 module.exports = {
   const_declaration: $ => prec.left(
     seq(
+      optional($.attribute_list),
       optional($.visibility),
       field('keyword', 'const'),
       field('name', $.const_identifier),
@@ -11,6 +12,7 @@ module.exports = {
   ),
 
   declaration: $ => prec.left(seq(
+    optional($.attribute_list),
     optional($.visibility),
     field('keyword', choice('let', 'var')),
     field('name', $.identifier),

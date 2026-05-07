@@ -23,8 +23,15 @@ module.exports = {
   struct_body: ($) =>
     seq(
       "{",
-      choice($.struct_shorthand, commaSep1($.struct_field)),
+      choice($.struct_update, $.struct_shorthand, commaSep1($.struct_field)),
       "}",
+    ),
+
+  struct_update: ($) =>
+    seq(
+      field("base", alias($.expression, $.struct_base)),
+      "|",
+      commaSep1($.struct_field),
     ),
 
   // Requires 2+ values so a single `{ expr }` always resolves to a block,

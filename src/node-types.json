@@ -1559,9 +1559,13 @@
       }
     },
     "children": {
-      "multiple": false,
+      "multiple": true,
       "required": false,
       "types": [
+        {
+          "type": "attribute_list",
+          "named": true
+        },
         {
           "type": "visibility",
           "named": true
@@ -1929,9 +1933,13 @@
       }
     },
     "children": {
-      "multiple": false,
+      "multiple": true,
       "required": false,
       "types": [
+        {
+          "type": "attribute_list",
+          "named": true
+        },
         {
           "type": "visibility",
           "named": true
@@ -2663,9 +2671,13 @@
       }
     },
     "children": {
-      "multiple": false,
+      "multiple": true,
       "required": false,
       "types": [
+        {
+          "type": "attribute_list",
+          "named": true
+        },
         {
           "type": "visibility",
           "named": true
@@ -4814,6 +4826,10 @@
         {
           "type": "struct_shorthand",
           "named": true
+        },
+        {
+          "type": "struct_update",
+          "named": true
         }
       ]
     }
@@ -5124,6 +5140,32 @@
       "types": [
         {
           "type": "struct_member",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "struct_update",
+    "named": true,
+    "fields": {
+      "base": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "struct_base",
+            "named": true
+          }
+        ]
+      }
+    },
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "struct_field",
           "named": true
         }
       ]

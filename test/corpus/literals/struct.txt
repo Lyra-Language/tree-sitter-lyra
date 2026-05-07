@@ -247,3 +247,84 @@ let foo = { bar: "baz", blah 23 }
         (ERROR
           (identifier)
           (UNEXPECTED '2'))))))
+======================================
+Record update - single field
+======================================
+
+{ existingPlayer | health: newHealth }
+
+---
+
+(program
+  (expression_statement
+    (struct_literal
+      (struct_body
+        (struct_update
+          (struct_base
+            (identifier))
+          (struct_field
+            (field_name)
+            (field_value
+              (identifier))))))))
+
+======================================
+Record update - multiple fields
+======================================
+
+Player { existingPlayer | health: newHealth, stamina: 100 }
+
+---
+
+(program
+  (expression_statement
+    (struct_literal
+      (struct_name)
+      (struct_body
+        (struct_update
+          (struct_base
+            (identifier))
+          (struct_field
+            (field_name)
+            (field_value
+              (identifier)))
+          (struct_field
+            (field_name)
+            (field_value
+              (integer_literal
+                (decimal_int)))))))))
+
+======================================
+Record update - expression fields
+======================================
+
+let p = { player | health: player.health - 10, x: player.x + dx }
+
+---
+
+(program
+  (declaration
+    (identifier)
+    (struct_literal
+      (struct_body
+        (struct_update
+          (struct_base
+            (identifier))
+          (struct_field
+            (field_name)
+            (field_value
+              (binary_expression
+                (member_expression
+                  (identifier)
+                  (identifier))
+                (sub_operator)
+                (integer_literal
+                  (decimal_int)))))
+          (struct_field
+            (field_name)
+            (field_value
+              (binary_expression
+                (member_expression
+                  (identifier)
+                  (identifier))
+                (add_operator)
+                (identifier)))))))))
