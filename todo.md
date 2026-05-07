@@ -1,12 +1,12 @@
 ## To-Dos
 - @volatile memory access for memory-mapped I/O on consoles
-- doc comments
 - pipe operator?
 
 ## Completed
 
 ### 05/07/26
 - given bindings in expressions: `expr given { let x = ... }` (top-down readable local bindings)
+- doc comments (`///`) as named AST nodes distinct from regular `//` comments
 - unsafe blocks, raw pointer types (*T, *mut T), deref (*ptr), address-of (&expr, &mut expr), deref assignment (*ptr = val)
 - Fixed-point numeric type fixed<I,F> for deterministic physics/networking sims
 - Record update syntax { base | field: value } for immutable struct updates

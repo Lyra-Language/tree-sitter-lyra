@@ -6486,6 +6486,11 @@
     "named": true
   },
   {
+    "type": "doc_comment",
+    "named": true,
+    "extra": true
+  },
+  {
     "type": "down_rounding_mode",
     "named": true
   },

@@ -47,3 +47,72 @@ some more text */ to fill up the lines */ let x = 42
     (identifier)
     (integer_literal
       (decimal_int))))
+
+=====================================
+Doc comment on declaration
+=====================================
+
+/// Adds two numbers together
+let add = (a: i32, b: i32) -> i32 => a + b
+
+---
+
+(program
+  (doc_comment)
+  (declaration
+    (identifier)
+    (lambda_expr
+      (parameter_list
+        (parameter
+          (identifier)
+          (signed_integer_type))
+        (parameter
+          (identifier)
+          (signed_integer_type)))
+      (signed_integer_type)
+      (binary_expression
+        (identifier)
+        (add_operator)
+        (identifier)))))
+
+=====================================
+Doc comment on struct and field
+=====================================
+
+/// The player character
+struct Player {
+  /// Current health points
+  health: i32,
+}
+
+---
+
+(program
+  (doc_comment)
+  (type_declaration
+    (struct_type
+      (struct_name)
+      (struct_type_body
+        (doc_comment)
+        (struct_member
+          (field_name)
+          (field_type
+            (signed_integer_type)))))))
+
+=====================================
+Doc comment and regular comment coexist
+=====================================
+
+// regular comment
+/// doc comment
+let x = 1
+
+---
+
+(program
+  (comment)
+  (doc_comment)
+  (declaration
+    (identifier)
+    (integer_literal
+      (decimal_int))))
