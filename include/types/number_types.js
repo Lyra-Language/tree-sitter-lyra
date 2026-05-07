@@ -3,4 +3,12 @@ module.exports = {
   signed_integer_type: $ => choice('int', 'i8', 'i16', 'i32', 'i64'),
   unsigned_integer_type: $ => choice('uint', 'u8', 'u16', 'u32', 'u64'),
   float_type: $ => choice('float', 'f16', 'f32', 'f64'),
+  fixed_point_type: $ => seq(
+    'fixed',
+    '<',
+    field('integer_bits', $.integer_literal),
+    ',',
+    field('fractional_bits', $.integer_literal),
+    '>',
+  ),
 }

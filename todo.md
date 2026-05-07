@@ -1,7 +1,6 @@
 ## To-Dos
 - "unsafe" blocks / raw pointers and pointer arithmetic
 - @volatile memory access for memory-mapped I/O on consoles
-- Fixed-point numeric type for deterministic physics/networking sims. e.g. fixed<16,16>
 - "where" bindings in expressions
 - doc comments
 - pipe operator?
@@ -9,6 +8,7 @@
 ## Completed
 
 ### 05/07/26
+- Fixed-point numeric type fixed<I,F> for deterministic physics/networking sims
 - Record update syntax { base | field: value } for immutable struct updates
 - Function/inline annotations:
 @inline fn dot(a: Vec3, b: Vec3) -> f32 { ... }

@@ -54,7 +54,7 @@ module.exports = {
     ),
 
   _primitive_type: ($) =>
-    choice($._integer_type, $.float_type, $.string_type, $.boolean_type),
+    choice($._integer_type, $.float_type, $.fixed_point_type, $.string_type, $.boolean_type),
 
   string_type: ($) => "string",
 

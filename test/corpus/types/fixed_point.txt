@@ -1,0 +1,86 @@
+=====================================
+Fixed-point type in variable declaration
+=====================================
+
+let x: fixed<16,16> = 0
+
+---
+
+(program
+  (declaration
+    (identifier)
+    (type_annotation
+      (fixed_point_type
+        (integer_literal
+          (decimal_int))
+        (integer_literal
+          (decimal_int))))
+    (integer_literal
+      (decimal_int))))
+
+=====================================
+Fixed-point type in struct fields
+=====================================
+
+struct Physics { position: fixed<16,16>, velocity: fixed<16,16> }
+
+---
+
+(program
+  (type_declaration
+    (struct_type
+      (struct_name)
+      (struct_type_body
+        (struct_member
+          (field_name)
+          (field_type
+            (fixed_point_type
+              (integer_literal
+                (decimal_int))
+              (integer_literal
+                (decimal_int)))))
+        (struct_member
+          (field_name)
+          (field_type
+            (fixed_point_type
+              (integer_literal
+                (decimal_int))
+              (integer_literal
+                (decimal_int)))))))))
+
+=====================================
+Fixed-point type as function parameter
+=====================================
+
+let add = (a: fixed<8,24>, b: fixed<8,24>) -> fixed<8,24> => a + b
+
+---
+
+(program
+  (declaration
+    (identifier)
+    (lambda_expr
+      (parameter_list
+        (parameter
+          (identifier)
+          (fixed_point_type
+            (integer_literal
+              (decimal_int))
+            (integer_literal
+              (decimal_int))))
+        (parameter
+          (identifier)
+          (fixed_point_type
+            (integer_literal
+              (decimal_int))
+            (integer_literal
+              (decimal_int)))))
+      (fixed_point_type
+        (integer_literal
+          (decimal_int))
+        (integer_literal
+          (decimal_int)))
+      (binary_expression
+        (identifier)
+        (add_operator)
+        (identifier)))))

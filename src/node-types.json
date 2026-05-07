@@ -290,6 +290,10 @@
         "named": true
       },
       {
+        "type": "fixed_point_type",
+        "named": true
+      },
+      {
         "type": "float_type",
         "named": true
       },
@@ -383,6 +387,10 @@
           },
           {
             "type": "boolean_type",
+            "named": true
+          },
+          {
+            "type": "fixed_point_type",
             "named": true
           },
           {
@@ -646,6 +654,10 @@
           },
           {
             "type": "boolean_type",
+            "named": true
+          },
+          {
+            "type": "fixed_point_type",
             "named": true
           },
           {
@@ -2211,6 +2223,32 @@
           "named": true
         }
       ]
+    }
+  },
+  {
+    "type": "fixed_point_type",
+    "named": true,
+    "fields": {
+      "fractional_bits": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "integer_literal",
+            "named": true
+          }
+        ]
+      },
+      "integer_bits": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "integer_literal",
+            "named": true
+          }
+        ]
+      }
     }
   },
   {
@@ -5764,6 +5802,10 @@
             "named": true
           },
           {
+            "type": "fixed_point_type",
+            "named": true
+          },
+          {
             "type": "float_type",
             "named": true
           },
@@ -6143,6 +6185,10 @@
   {
     "type": "field_name",
     "named": true
+  },
+  {
+    "type": "fixed",
+    "named": false
   },
   {
     "type": "float",

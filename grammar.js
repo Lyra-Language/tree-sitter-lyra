@@ -84,6 +84,7 @@ module.exports = grammar({
       "gen",
       "yield",
       "rec",
+      "fixed",
     ],
   },
 

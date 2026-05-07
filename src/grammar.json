@@ -3750,6 +3750,10 @@
         },
         {
           "type": "SYMBOL",
+          "name": "fixed_point_type"
+        },
+        {
+          "type": "SYMBOL",
           "name": "string_type"
         },
         {
@@ -4953,6 +4957,43 @@
         {
           "type": "STRING",
           "value": "f64"
+        }
+      ]
+    },
+    "fixed_point_type": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "fixed"
+        },
+        {
+          "type": "STRING",
+          "value": "<"
+        },
+        {
+          "type": "FIELD",
+          "name": "integer_bits",
+          "content": {
+            "type": "SYMBOL",
+            "name": "integer_literal"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": ","
+        },
+        {
+          "type": "FIELD",
+          "name": "fractional_bits",
+          "content": {
+            "type": "SYMBOL",
+            "name": "integer_literal"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": ">"
         }
       ]
     },
@@ -7867,6 +7908,10 @@
       {
         "type": "STRING",
         "value": "rec"
+      },
+      {
+        "type": "STRING",
+        "value": "fixed"
       }
     ]
   }
