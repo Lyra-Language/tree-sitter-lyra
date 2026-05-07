@@ -30,6 +30,7 @@ module.exports = {
       $.null_coalescing_expression,
       $.compose_expression,
       $.address_of_expression,
+      $.given_expression,
       // Note: user_defined_type_name is accessed via _postfix_expression -> _primary_expression
     ),
 
@@ -87,6 +88,16 @@ module.exports = {
     ),
 
   compose_operator: ($) => ">>",
+
+  given_expression: ($) =>
+    prec.right(PREC.GIVEN, seq(
+      field("body", $.expression),
+      "given",
+      field("bindings", $.given_bindings),
+    )),
+
+  given_bindings: ($) =>
+    seq("{", repeat1(choice($.declaration, $.const_declaration)), "}"),
 
   ...control_flow,
   ...boolean,

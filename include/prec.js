@@ -42,6 +42,7 @@ const PREC = {
   // operand.
   BLOCK: 2,
   TYPE: 2,
+  GIVEN: 3, // lower than all operators so `a + b given { ... }` = `(a + b) given { ... }`
   TUPLE_NAME: 2,
   ARRAY_COMP: 2,
 

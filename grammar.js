@@ -85,6 +85,7 @@ module.exports = grammar({
       "rec",
       "fixed",
       "unsafe",
+      "given",
     ],
   },
 

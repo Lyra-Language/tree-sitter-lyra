@@ -1226,6 +1226,10 @@
         {
           "type": "SYMBOL",
           "name": "address_of_expression"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "given_expression"
         }
       ]
     },
@@ -1460,6 +1464,64 @@
     "compose_operator": {
       "type": "STRING",
       "value": ">>"
+    },
+    "given_expression": {
+      "type": "PREC_RIGHT",
+      "value": 3,
+      "content": {
+        "type": "SEQ",
+        "members": [
+          {
+            "type": "FIELD",
+            "name": "body",
+            "content": {
+              "type": "SYMBOL",
+              "name": "expression"
+            }
+          },
+          {
+            "type": "STRING",
+            "value": "given"
+          },
+          {
+            "type": "FIELD",
+            "name": "bindings",
+            "content": {
+              "type": "SYMBOL",
+              "name": "given_bindings"
+            }
+          }
+        ]
+      }
+    },
+    "given_bindings": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "{"
+        },
+        {
+          "type": "REPEAT1",
+          "content": {
+            "type": "CHOICE",
+            "members": [
+              {
+                "type": "SYMBOL",
+                "name": "declaration"
+              },
+              {
+                "type": "SYMBOL",
+                "name": "const_declaration"
+              }
+            ]
+          }
+        },
+        {
+          "type": "STRING",
+          "value": "}"
+        }
+      ]
     },
     "if_block_expr": {
       "type": "PREC_RIGHT",
@@ -8065,6 +8127,10 @@
       {
         "type": "STRING",
         "value": "unsafe"
+      },
+      {
+        "type": "STRING",
+        "value": "given"
       }
     ]
   }
