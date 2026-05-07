@@ -1,18 +1,20 @@
 /**
- * Allocation modifiers for controlling stack vs heap allocation
- * 
+ * Allocation modifiers for controlling stack vs shared allocation
+ *
  * Usage:
- *   - On type declarations: `stack struct Vec3 { ... }`, `heap data Tree<t> = ...`
- *   - On type annotations: `let pos: stack Vec3 = ...`, `let boxed: heap Vec3 = ...`
- *   - On array types: `stack [16]f32` (fixed-size), `heap [f32]` (dynamic)
+ *   - On type declarations: `stack struct Vec3 { ... }`, `shared data Tree<t> = ...`
+ *   - On type annotations: `let pos: stack Vec3 = ...`, `let node: shared Node = ...`
+ *   - On array types: `stack [16]f32` (fixed-size stack array)
  *   - Weak references: `weak Parent` (for breaking cycles in shared types)
+ *
+ * Raw heap allocation is unsafe — use unsafe { } blocks with raw pointers instead.
  */
 
 const { PREC } = require("../prec");
 
 module.exports = {
-  // Allocation modifier - stack or heap
-  allocation_modifier: $ => choice('stack', 'heap', 'shared'),
+  // Allocation modifier - stack or shared (ref-counted)
+  allocation_modifier: $ => choice('stack', 'shared'),
 
   // Weak reference type - for breaking cycles in shared types
   // Usage: `parent: weak Parent`, `prev: weak Maybe<Node>`

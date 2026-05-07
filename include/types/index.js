@@ -34,8 +34,12 @@ module.exports = {
         $.allocated_type,
         $.weak_type,
         $.anonymous_tuple_type,
+        $.raw_pointer_type,
       ),
     ),
+
+  raw_pointer_type: ($) =>
+    seq("^", optional(field("is_mut", "mut")), field("pointee", $.type)),
 
   user_defined_type_name: ($) => /[A-Z][a-zA-Z0-9]*/,
 

@@ -29,32 +29,6 @@ stack struct Vec3 {
           (field_type
             (float_type)))))))
 
-===============
-Heap struct type
-===============
-
-heap struct Player {
-  name: string,
-  health: int,
-}
-
----
-
-(program
-  (type_declaration
-    (struct_type
-      (allocation_modifier)
-      (struct_name)
-      (struct_type_body
-        (struct_member
-          (field_name)
-          (field_type
-            (string_type)))
-        (struct_member
-          (field_name)
-          (field_type
-            (signed_integer_type)))))))
-
 ==============
 Stack data type
 ==============
@@ -76,37 +50,6 @@ stack data Direction = North | South | East | West
         (data_type_constructor_name))
       (data_type_constructor
         (data_type_constructor_name)))))
-
-=============
-Heap data type
-=============
-
-heap data List<t> = Nil | Cons { head: t, tail: List<t> }
-
----
-
-(program
-  (type_declaration
-    (data_type
-      (allocation_modifier)
-      (data_type_name)
-      (generic_parameters
-        (generic_type))
-      (data_type_constructor
-        (data_type_constructor_name))
-      (data_type_constructor
-        (data_type_constructor_name)
-        (struct_type_body
-          (struct_member
-            (field_name)
-            (field_type
-              (generic_type)))
-          (struct_member
-            (field_name)
-            (field_type
-              (parameterized_type
-                (user_defined_type_name)
-                (generic_type)))))))))
 
 ======================
 Fixed-size array type
@@ -182,58 +125,15 @@ let items: []int = [1, 2, 3]
       (integer_literal
         (decimal_int)))))
 
-================================
-Dynamic array with heap modifier
-================================
-
-let particles: heap []Particle = []
-
----
-
-(program
-  (declaration
-    (identifier)
-    (type_annotation
-      (allocated_type
-        (allocation_modifier)
-        (array_type
-          (user_defined_type_name))))
-    (array_literal)))
-
 ============================
 Allocated type in annotation
 ============================
 
 let pos: stack Vec3 = Vec3 { x: 0, y: 0, z: 0 }
-let boxed: heap Vec3 = Vec3 { x: 1, y: 2, z: 3 }
 
 ---
 
 (program
-  (declaration
-    (identifier)
-    (type_annotation
-      (allocated_type
-        (allocation_modifier)
-        (user_defined_type_name)))
-    (struct_literal
-      (struct_name)
-      (struct_body
-        (struct_field
-          (field_name)
-          (field_value
-            (integer_literal
-              (decimal_int))))
-        (struct_field
-          (field_name)
-          (field_value
-            (integer_literal
-              (decimal_int))))
-        (struct_field
-          (field_name)
-          (field_value
-            (integer_literal
-              (decimal_int)))))))
   (declaration
     (identifier)
     (type_annotation
@@ -316,39 +216,4 @@ pub stack struct Transform<t> {
           (field_type
             (generic_type)))))))
 
-=====================================
-Heap field inside stack struct
-=====================================
-
-stack struct Entity {
-  id: u64,
-  name: heap string,
-  components: heap []Component,
-}
-
----
-
-(program
-  (type_declaration
-    (struct_type
-      (allocation_modifier)
-      (struct_name)
-      (struct_type_body
-        (struct_member
-          (field_name)
-          (field_type
-            (unsigned_integer_type)))
-        (struct_member
-          (field_name)
-          (field_type
-            (allocated_type
-              (allocation_modifier)
-              (string_type))))
-        (struct_member
-          (field_name)
-          (field_type
-            (allocated_type
-              (allocation_modifier)
-              (array_type
-                (user_defined_type_name)))))))))
 

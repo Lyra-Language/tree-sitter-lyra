@@ -32,6 +32,8 @@ module.exports = {
 
   var_reassignment: $ => seq($.identifier, '=', field('value', $.expression)),
 
+  deref_assignment: $ => seq(field('target', $.deref_expression), '=', field('value', $.expression)),
+
   var_destructuring_reassignment: $ => seq(
     field('pattern', $.destructuring_pattern),
     '=',

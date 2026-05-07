@@ -5,12 +5,14 @@ const math = require("./math");
 const range = require("./range");
 const postfix = require("./postfix");
 const functions = require("./functions");
+const unsafe = require("./unsafe");
 const { PREC } = require("../prec");
 
 module.exports = {
   expression: ($) =>
     choice(
       $.block,
+      $.unsafe_block,
       $.await_expression,
       $.yield_expression,
       $.yield_from_expression,
@@ -27,6 +29,7 @@ module.exports = {
       $.spread_expr,
       $.null_coalescing_expression,
       $.compose_expression,
+      $.address_of_expression,
       // Note: user_defined_type_name is accessed via _postfix_expression -> _primary_expression
     ),
 
@@ -92,4 +95,5 @@ module.exports = {
   ...array_comp_expr,
   ...postfix,
   ...functions,
+  ...unsafe,
 };

@@ -76,7 +76,6 @@ module.exports = grammar({
       "await",
       "Self",
       "stack",
-      "heap",
       "shared",
       "weak",
       "with",
@@ -85,6 +84,7 @@ module.exports = grammar({
       "yield",
       "rec",
       "fixed",
+      "unsafe",
     ],
   },
 

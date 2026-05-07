@@ -1157,6 +1157,10 @@
         },
         {
           "type": "SYMBOL",
+          "name": "unsafe_block"
+        },
+        {
+          "type": "SYMBOL",
           "name": "await_expression"
         },
         {
@@ -1218,6 +1222,10 @@
         {
           "type": "SYMBOL",
           "name": "compose_expression"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "address_of_expression"
         }
       ]
     },
@@ -2170,6 +2178,10 @@
         {
           "type": "SYMBOL",
           "name": "_math_expr"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "address_of_expression"
         }
       ]
     },
@@ -2648,6 +2660,10 @@
         },
         {
           "type": "SYMBOL",
+          "name": "deref_expression"
+        },
+        {
+          "type": "SYMBOL",
           "name": "_primary_expression"
         }
       ]
@@ -2873,6 +2889,27 @@
           {
             "type": "STRING",
             "value": "?"
+          }
+        ]
+      }
+    },
+    "deref_expression": {
+      "type": "PREC_LEFT",
+      "value": 300,
+      "content": {
+        "type": "SEQ",
+        "members": [
+          {
+            "type": "FIELD",
+            "name": "operand",
+            "content": {
+              "type": "SYMBOL",
+              "name": "_postfix_expression"
+            }
+          },
+          {
+            "type": "STRING",
+            "value": "^"
           }
         ]
       }
@@ -3525,6 +3562,60 @@
         }
       ]
     },
+    "unsafe_block": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "unsafe"
+        },
+        {
+          "type": "FIELD",
+          "name": "body",
+          "content": {
+            "type": "SYMBOL",
+            "name": "block"
+          }
+        }
+      ]
+    },
+    "address_of_expression": {
+      "type": "PREC_RIGHT",
+      "value": 140,
+      "content": {
+        "type": "SEQ",
+        "members": [
+          {
+            "type": "STRING",
+            "value": "&"
+          },
+          {
+            "type": "CHOICE",
+            "members": [
+              {
+                "type": "FIELD",
+                "name": "is_mut",
+                "content": {
+                  "type": "STRING",
+                  "value": "mut"
+                }
+              },
+              {
+                "type": "BLANK"
+              }
+            ]
+          },
+          {
+            "type": "FIELD",
+            "name": "operand",
+            "content": {
+              "type": "SYMBOL",
+              "name": "expression"
+            }
+          }
+        ]
+      }
+    },
     "type_annotation": {
       "type": "SEQ",
       "members": [
@@ -3629,9 +3720,46 @@
           {
             "type": "SYMBOL",
             "name": "anonymous_tuple_type"
+          },
+          {
+            "type": "SYMBOL",
+            "name": "raw_pointer_type"
           }
         ]
       }
+    },
+    "raw_pointer_type": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "^"
+        },
+        {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "FIELD",
+              "name": "is_mut",
+              "content": {
+                "type": "STRING",
+                "value": "mut"
+              }
+            },
+            {
+              "type": "BLANK"
+            }
+          ]
+        },
+        {
+          "type": "FIELD",
+          "name": "pointee",
+          "content": {
+            "type": "SYMBOL",
+            "name": "type"
+          }
+        }
+      ]
     },
     "user_defined_type_name": {
       "type": "PATTERN",
@@ -3789,10 +3917,6 @@
         {
           "type": "STRING",
           "value": "stack"
-        },
-        {
-          "type": "STRING",
-          "value": "heap"
         },
         {
           "type": "STRING",
@@ -6279,6 +6403,10 @@
         },
         {
           "type": "SYMBOL",
+          "name": "deref_assignment"
+        },
+        {
+          "type": "SYMBOL",
           "name": "return_statement"
         },
         {
@@ -6612,6 +6740,31 @@
         {
           "type": "SYMBOL",
           "name": "identifier"
+        },
+        {
+          "type": "STRING",
+          "value": "="
+        },
+        {
+          "type": "FIELD",
+          "name": "value",
+          "content": {
+            "type": "SYMBOL",
+            "name": "expression"
+          }
+        }
+      ]
+    },
+    "deref_assignment": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "FIELD",
+          "name": "target",
+          "content": {
+            "type": "SYMBOL",
+            "name": "deref_expression"
+          }
         },
         {
           "type": "STRING",
@@ -7879,10 +8032,6 @@
       },
       {
         "type": "STRING",
-        "value": "heap"
-      },
-      {
-        "type": "STRING",
         "value": "shared"
       },
       {
@@ -7912,6 +8061,10 @@
       {
         "type": "STRING",
         "value": "fixed"
+      },
+      {
+        "type": "STRING",
+        "value": "unsafe"
       }
     ]
   }

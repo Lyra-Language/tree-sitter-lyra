@@ -13,6 +13,7 @@ module.exports = {
       $.const_declaration,
       $.declaration,
       $.var_reassignment,
+      $.deref_assignment,
       $.return_statement,
       $.break_statement,
       $.continue_statement,

@@ -121,7 +121,7 @@ module.exports = {
   // while `prec.left` / `prec.right` on the containing rule resolves the
   // associativity / precedence for chained operators.
   _math_operand: ($) =>
-    choice($._number_literal, $._postfix_expression, $._math_expr),
+    choice($._number_literal, $._postfix_expression, $._math_expr, $.address_of_expression),
 
   // ---------------------------------------------------------------------
   // Constraint arithmetic — used inside type-level constraint expressions

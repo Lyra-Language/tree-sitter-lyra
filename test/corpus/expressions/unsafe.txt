@@ -1,0 +1,179 @@
+=====================================
+Immutable raw pointer type
+=====================================
+
+let x: ^i32 = 0
+
+---
+
+(program
+  (declaration
+    (identifier)
+    (type_annotation
+      (raw_pointer_type
+        (signed_integer_type)))
+    (integer_literal
+      (decimal_int))))
+
+=====================================
+Mutable raw pointer type
+=====================================
+
+let x: ^mut i32 = 0
+
+---
+
+(program
+  (declaration
+    (identifier)
+    (type_annotation
+      (raw_pointer_type
+        (signed_integer_type)))
+    (integer_literal
+      (decimal_int))))
+
+=====================================
+Pointer-to-pointer type
+=====================================
+
+let x: ^^i32 = 0
+
+---
+
+(program
+  (declaration
+    (identifier)
+    (type_annotation
+      (raw_pointer_type
+        (raw_pointer_type
+          (signed_integer_type))))
+    (integer_literal
+      (decimal_int))))
+
+=====================================
+Postfix dereference expression
+=====================================
+
+let val = ptr^
+
+---
+
+(program
+  (declaration
+    (identifier)
+    (deref_expression
+      (identifier))))
+
+=====================================
+Dereference then member access
+=====================================
+
+let v = ptr^.field
+
+---
+
+(program
+  (declaration
+    (identifier)
+    (member_expression
+      (deref_expression
+        (identifier))
+      (identifier))))
+
+=====================================
+Address-of expression
+=====================================
+
+let p = &mut x
+
+---
+
+(program
+  (declaration
+    (identifier)
+    (address_of_expression
+      (identifier))))
+
+=====================================
+Chained dereference and member access
+=====================================
+
+let v = node^.next^.value
+
+---
+
+(program
+  (declaration
+    (identifier)
+    (member_expression
+      (deref_expression
+        (member_expression
+          (deref_expression
+            (identifier))
+          (identifier)))
+      (identifier))))
+
+=====================================
+Unsafe block - write through pointer
+=====================================
+
+unsafe {
+  ptr^ = 42
+}
+
+---
+
+(program
+  (expression_statement
+    (unsafe_block
+      (block
+        (deref_assignment
+          (deref_expression
+            (identifier))
+          (integer_literal
+            (decimal_int)))))))
+
+=====================================
+Unsafe block as expression
+=====================================
+
+let result = unsafe {
+  let val = ptr^
+  val + 1
+}
+
+---
+
+(program
+  (declaration
+    (identifier)
+    (unsafe_block
+      (block
+        (declaration
+          (identifier)
+          (deref_expression
+            (identifier)))
+        (expression_statement
+          (binary_expression
+            (identifier)
+            (add_operator)
+            (integer_literal
+              (decimal_int))))))))
+
+=====================================
+Pointer arithmetic
+=====================================
+
+let sum = a^ + b^
+
+---
+
+(program
+  (declaration
+    (identifier)
+    (binary_expression
+      (deref_expression
+        (identifier))
+      (add_operator)
+      (deref_expression
+        (identifier)))))

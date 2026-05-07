@@ -9,6 +9,7 @@ module.exports = {
     $.index_expression,
     $.optional_index_expression,
     $.try_expression,
+    $.deref_expression,
     $._primary_expression,
   ),
 
@@ -59,5 +60,10 @@ module.exports = {
   try_expression: $ => prec.left(PREC.POSTFIX, seq(
     field('operand', $._postfix_expression),
     '?'
+  )),
+
+  deref_expression: $ => prec.left(PREC.POSTFIX, seq(
+    field('operand', $._postfix_expression),
+    '^'
   )),
 }

@@ -1,5 +1,4 @@
 ## To-Dos
-- "unsafe" blocks / raw pointers and pointer arithmetic
 - @volatile memory access for memory-mapped I/O on consoles
 - "where" bindings in expressions
 - doc comments
@@ -8,6 +7,7 @@
 ## Completed
 
 ### 05/07/26
+- unsafe blocks, raw pointer types (*T, *mut T), deref (*ptr), address-of (&expr, &mut expr), deref assignment (*ptr = val)
 - Fixed-point numeric type fixed<I,F> for deterministic physics/networking sims
 - Record update syntax { base | field: value } for immutable struct updates
 - Function/inline annotations:
