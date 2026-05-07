@@ -1,6 +1,4 @@
 ## To-Dos
-- @volatile memory access for memory-mapped I/O on consoles
-- pipe operator?
 
 ## Completed
 
