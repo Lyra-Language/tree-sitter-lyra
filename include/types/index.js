@@ -1,5 +1,5 @@
 const allocation = require("./allocation");
-const newtype = require("./newtype");
+const constrained_type = require("./constrained_type");
 const data_type = require("./data_type");
 const lambda_type = require("./lambda_type");
 const generic_type = require("./generic_type");
@@ -17,7 +17,7 @@ module.exports = {
   return_type_annotation: ($) => seq("->", field("type", $.type)),
 
   type_declaration: ($) =>
-    choice($.struct_type, $.data_type, $.named_tuple_type, $.newtype),
+    choice($.struct_type, $.data_type, $.named_tuple_type, $.constrained_type),
 
   type: ($) =>
     prec(
@@ -67,7 +67,7 @@ module.exports = {
   default_field_value: ($) => seq("=", $.expression),
 
   ...allocation,
-  ...newtype,
+  ...constrained_type,
   ...data_type,
   ...lambda_type,
   ...generic_type,

@@ -3749,7 +3749,7 @@
         },
         {
           "type": "SYMBOL",
-          "name": "newtype"
+          "name": "constrained_type"
         }
       ]
     },
@@ -4139,7 +4139,7 @@
         ]
       }
     },
-    "newtype": {
+    "constrained_type": {
       "type": "SEQ",
       "members": [
         {
@@ -4168,7 +4168,7 @@
               "name": "user_defined_type_name"
             },
             "named": true,
-            "value": "newtype_name"
+            "value": "constrained_type_name"
           }
         },
         {

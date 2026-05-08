@@ -8,7 +8,7 @@ newtype Callback = () -> int
 
 (program
   (type_declaration
-    (newtype
-      (newtype_name)
+    (constrained_type
+      (constrained_type_name)
       (lambda_type
         (signed_integer_type)))))
