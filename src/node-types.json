@@ -1416,11 +1416,6 @@
     }
   },
   {
-    "type": "compose_operator",
-    "named": true,
-    "fields": {}
-  },
-  {
     "type": "compound_assignment",
     "named": true,
     "fields": {
@@ -3678,6 +3673,16 @@
         "types": [
           {
             "type": "rec_modifier",
+            "named": true
+          }
+        ]
+      },
+      "is_unsafe": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "unsafe_modifier",
             "named": true
           }
         ]
@@ -6081,6 +6086,11 @@
     }
   },
   {
+    "type": "unsafe_modifier",
+    "named": true,
+    "fields": {}
+  },
+  {
     "type": "unsigned_integer_type",
     "named": true,
     "fields": {}
@@ -6463,6 +6473,10 @@
   },
   {
     "type": "char_literal",
+    "named": true
+  },
+  {
+    "type": "compose_operator",
     "named": true
   },
   {

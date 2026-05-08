@@ -87,7 +87,7 @@ module.exports = {
       ),
     ),
 
-  compose_operator: ($) => ">>",
+  compose_operator: ($) => "->>",
 
   given_expression: ($) =>
     prec.right(PREC.GIVEN, seq(

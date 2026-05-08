@@ -2,7 +2,7 @@
 Basic function composition
 ===========================
 
-let transform = negate >> double
+let transform = negate ->> double
 
 ---
 
@@ -18,7 +18,7 @@ let transform = negate >> double
 Right-associative chained composition
 ======================================
 
-let pipeline = parse >> validate >> serialize
+let pipeline = parse ->> validate ->> serialize
 
 ---
 
@@ -37,7 +37,7 @@ let pipeline = parse >> validate >> serialize
 Composition with partially applied functions
 ===========================================
 
-let f = add(1) >> mul(2)
+let f = add(1) ->> mul(2)
 
 ---
 

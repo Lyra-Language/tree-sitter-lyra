@@ -110,6 +110,110 @@ pi = 3.141592
     (identifier)
     (float_literal)))
 
+==============================
+Attribute on let declaration
+==============================
+
+@inline
+let dot = (a: Vec3, b: Vec3) -> f32 => a.x * b.x
+
+---
+
+(program
+  (declaration
+    (attribute_list
+      (attribute
+        (identifier)))
+    (identifier)
+    (lambda_expr
+      (parameter_list
+        (parameter
+          (identifier)
+          (user_defined_type_name))
+        (parameter
+          (identifier)
+          (user_defined_type_name)))
+      (float_type)
+      (binary_expression
+        (member_expression
+          (identifier)
+          (identifier))
+        (mul_operator)
+        (member_expression
+          (identifier)
+          (identifier))))))
+
+==============================
+Attribute on var declaration
+==============================
+
+@noinline
+var counter: i32 = 0
+
+---
+
+(program
+  (declaration
+    (attribute_list
+      (attribute
+        (identifier)))
+    (identifier)
+    (type_annotation
+      (signed_integer_type))
+    (integer_literal
+      (decimal_int))))
+
+==============================
+Attribute on const declaration
+==============================
+
+@inline
+const MAX_SPEED: f32 = 100
+
+---
+
+(program
+  (const_declaration
+    (attribute_list
+      (attribute
+        (identifier)))
+    (const_identifier)
+    (type_annotation
+      (float_type))
+    (integer_literal
+      (decimal_int))))
+
+======================================
+Attribute with value on let declaration
+======================================
+
+@align(16)
+let matrix: stack [4]f32 = [0.0, 0.0, 0.0, 0.0]
+
+---
+
+(program
+  (declaration
+    (attribute_list
+      (attribute
+        (identifier)
+        (integer_literal
+          (decimal_int))))
+    (identifier)
+    (type_annotation
+      (allocated_type
+        (allocation_modifier)
+        (array_type
+          (array_size
+            (integer_literal
+              (decimal_int)))
+          (float_type))))
+    (array_literal
+      (float_literal)
+      (float_literal)
+      (float_literal)
+      (float_literal))))
+
 ===================================
 Assignment without value is an error
 :error

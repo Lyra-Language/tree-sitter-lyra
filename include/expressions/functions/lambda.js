@@ -1,8 +1,10 @@
 const { commaSep, commaSep1, parameterList } = require("../../helpers");
+const unsafe = require("../unsafe");
 
 module.exports = {
   lambda_expr: ($) =>
     seq(
+      optional(field("is_unsafe", $.unsafe_modifier)),
       optional(field("is_pure", $.pure_modifier)),
       optional(field("is_async", $.async_modifier)),
       optional(field("is_gen", $.gen_modifier)),
@@ -15,6 +17,7 @@ module.exports = {
       ),
     ),
 
+  unsafe_modifier: ($) => "unsafe",
   pure_modifier: ($) => "pure",
   async_modifier: ($) => "async",
   gen_modifier: ($) => "gen",

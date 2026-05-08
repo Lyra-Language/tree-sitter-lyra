@@ -1463,7 +1463,7 @@
     },
     "compose_operator": {
       "type": "STRING",
-      "value": ">>"
+      "value": "->>"
     },
     "given_expression": {
       "type": "PREC_RIGHT",
@@ -2984,6 +2984,22 @@
           "members": [
             {
               "type": "FIELD",
+              "name": "is_unsafe",
+              "content": {
+                "type": "SYMBOL",
+                "name": "unsafe_modifier"
+              }
+            },
+            {
+              "type": "BLANK"
+            }
+          ]
+        },
+        {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "FIELD",
               "name": "is_pure",
               "content": {
                 "type": "SYMBOL",
@@ -3119,6 +3135,10 @@
           ]
         }
       ]
+    },
+    "unsafe_modifier": {
+      "type": "STRING",
+      "value": "unsafe"
     },
     "pure_modifier": {
       "type": "STRING",
@@ -8155,6 +8175,18 @@
       {
         "type": "STRING",
         "value": "given"
+      },
+      {
+        "type": "STRING",
+        "value": "mut"
+      },
+      {
+        "type": "STRING",
+        "value": "ref"
+      },
+      {
+        "type": "STRING",
+        "value": "own"
       }
     ]
   }
