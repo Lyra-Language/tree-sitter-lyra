@@ -9,7 +9,7 @@ let transform = negate ->> double
 (program
   (declaration
     (identifier)
-    (compose_expression
+    (compose_expr
       (identifier)
       (compose_operator)
       (identifier))))
@@ -25,10 +25,10 @@ let pipeline = parse ->> validate ->> serialize
 (program
   (declaration
     (identifier)
-    (compose_expression
+    (compose_expr
       (identifier)
       (compose_operator)
-      (compose_expression
+      (compose_expr
         (identifier)
         (compose_operator)
         (identifier)))))
@@ -44,15 +44,15 @@ let f = add(1) ->> mul(2)
 (program
   (declaration
     (identifier)
-    (compose_expression
-      (call_expression
+    (compose_expr
+      (call_expr
         (identifier)
         (argument_list
           (value
             (integer_literal
               (decimal_int)))))
       (compose_operator)
-      (call_expression
+      (call_expr
         (identifier)
         (argument_list
           (value

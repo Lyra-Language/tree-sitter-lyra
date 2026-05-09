@@ -166,7 +166,7 @@ Not Operator with parenthesized expression
   (expression_statement
     (boolean_expr
       (not)
-      (parenthesized_expression
+      (parenthesized_expr
         (boolean_expr
           (identifier)
           (equals_operator)

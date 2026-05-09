@@ -13,57 +13,57 @@ module.exports = {
     choice(
       $.block,
       $.unsafe_block,
-      $.await_expression,
-      $.yield_expression,
-      $.yield_from_expression,
+      $.await_expr,
+      $.yield_expr,
+      $.yield_from_expr,
       $._literal,
-      $.data_constructor_expression,
-      $._postfix_expression,
+      $.data_constructor_expr,
+      $._postfix_expr,
       $._math_expr,
       $.boolean_expr,
-      $.range_expression,
+      $.range_expr,
       $.if_block_expr,
       $.match_expr,
       $.lambda_expr,
       $.array_comp_expr,
       $.spread_expr,
-      $.null_coalescing_expression,
-      $.compose_expression,
-      $.address_of_expression,
-      $.given_expression,
+      $.null_coalescing_expr,
+      $.compose_expr,
+      $.address_of_expr,
+      $.given_expr,
       // Note: user_defined_type_name is accessed via _postfix_expression -> _primary_expression
     ),
 
   block: ($) => prec.left(PREC.BLOCK, seq("{", repeat($.statement), "}")),
 
   // Await expression for async operations
-  await_expression: ($) =>
+  await_expr: ($) =>
     prec.right(PREC.AWAIT, seq("await", field("operand", $.expression))),
 
   // Yield expression for generator functions
-  yield_expression: ($) =>
+  yield_expr: ($) =>
     prec.right(PREC.AWAIT, seq("yield", field("value", $.expression))),
 
   // Yield-from for delegating to a sub-generator
-  // Higher precedence than yield_expression to win over "yield (from-as-identifier)"
-  yield_from_expression: ($) =>
+  // Higher precedence than yield_expr to win over "yield (from-as-identifier)"
+  yield_from_expr: ($) =>
     prec.right(PREC.YIELD_FROM, seq("yield", "from", field("generator", $.expression))),
 
   identifier: ($) => token(prec(PREC.IDENTIFIER_TOKEN, /[a-z][a-zA-Z0-9_]*/)),
   const_identifier: ($) => /[A-Z][A-Z0-9_]*/,
 
   // Grouping
-  parenthesized_expression: ($) => seq("(", $.expression, ")"),
+  parenthesized_expr: ($) => seq("(", $.expression, ")"),
 
   // Data constructor application (single argument, no parens): Some fn(x), None
-  data_constructor_expression: ($) =>
+  data_constructor_expr: ($) =>
     seq(
       field("constructor", alias($.user_defined_type_name, $.data_type_name)),
       field("value", $.expression),
     ),
 
   // Null coalescing - provide default value for Maybe<T>
-  null_coalescing_expression: ($) =>
+  null_coalescing_expr: ($) =>
     prec.right(
       PREC.NULL_COALESCE,
       seq(
@@ -77,7 +77,7 @@ module.exports = {
 
   // Function composition: f >> g produces a function that applies f then g
   // Right-associative so `f >> g >> h` means `f >> (g >> h)`
-  compose_expression: ($) =>
+  compose_expr: ($) =>
     prec.right(
       PREC.COMPOSE,
       seq(
@@ -89,7 +89,7 @@ module.exports = {
 
   compose_operator: ($) => "->>",
 
-  given_expression: ($) =>
+  given_expr: ($) =>
     prec.right(PREC.GIVEN, seq(
       field("body", $.expression),
       "given",

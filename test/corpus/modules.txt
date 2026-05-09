@@ -253,15 +253,15 @@ let helper = () -> void => 42
       (block
         (declaration
           (identifier)
-          (call_expression
-            (member_expression
+          (call_expr
+            (member_expr
               (identifier)
               (identifier))
             (argument_list
               (value
                 (identifier)))))
         (expression_statement
-          (call_expression
+          (call_expr
             (identifier)
             (argument_list
               (value

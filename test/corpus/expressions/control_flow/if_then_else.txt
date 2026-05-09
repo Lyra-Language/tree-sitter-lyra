@@ -19,7 +19,7 @@ if x == 3 {
             (decimal_int))))
       (block
         (expression_statement
-          (call_expression
+          (call_expr
             (identifier)
             (argument_list
               (value
@@ -49,7 +49,7 @@ if x == 3 {
             (decimal_int))))
       (block
         (expression_statement
-          (call_expression
+          (call_expr
             (identifier)
             (argument_list
               (value
@@ -57,7 +57,7 @@ if x == 3 {
                   (string_content)))))))
       (block
         (expression_statement
-          (call_expression
+          (call_expr
             (identifier)
             (argument_list
               (value
@@ -131,7 +131,7 @@ if x == 0 {
                   (decimal_int))))
             (block
               (expression_statement
-                (call_expression
+                (call_expr
                   (identifier)
                   (argument_list
                     (value
@@ -139,7 +139,7 @@ if x == 0 {
                         (string_content)))))))
             (block
               (expression_statement
-                (call_expression
+                (call_expr
                   (identifier)
                   (argument_list
                     (value
@@ -156,7 +156,7 @@ if x == 0 {
                   (decimal_int))))
             (block
               (expression_statement
-                (call_expression
+                (call_expr
                   (identifier)
                   (argument_list
                     (value
@@ -164,7 +164,7 @@ if x == 0 {
                         (string_content)))))))
             (block
               (expression_statement
-                (call_expression
+                (call_expr
                   (identifier)
                   (argument_list
                     (value
@@ -201,12 +201,12 @@ if x == 3 {
             (decimal_int))))
       (block
         (expression_statement
-          (call_expression
+          (call_expr
             (identifier)
             (argument_list)))
         (declaration
           (identifier)
-          (call_expression
+          (call_expr
             (identifier)
             (argument_list)))
         (expression_statement
@@ -215,7 +215,7 @@ if x == 3 {
               (identifier))
             (block
               (expression_statement
-                (call_expression
+                (call_expr
                   (identifier)
                   (argument_list
                     (value

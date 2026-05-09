@@ -4,7 +4,7 @@
     "named": true,
     "subtypes": [
       {
-        "type": "address_of_expression",
+        "type": "address_of_expr",
         "named": true
       },
       {
@@ -20,11 +20,11 @@
         "named": true
       },
       {
-        "type": "await_expression",
+        "type": "await_expr",
         "named": true
       },
       {
-        "type": "binary_expression",
+        "type": "binary_expr",
         "named": true
       },
       {
@@ -40,7 +40,7 @@
         "named": true
       },
       {
-        "type": "call_expression",
+        "type": "call_expr",
         "named": true
       },
       {
@@ -48,7 +48,7 @@
         "named": true
       },
       {
-        "type": "compose_expression",
+        "type": "compose_expr",
         "named": true
       },
       {
@@ -60,11 +60,11 @@
         "named": true
       },
       {
-        "type": "data_constructor_expression",
+        "type": "data_constructor_expr",
         "named": true
       },
       {
-        "type": "deref_expression",
+        "type": "deref_expr",
         "named": true
       },
       {
@@ -72,7 +72,7 @@
         "named": true
       },
       {
-        "type": "given_expression",
+        "type": "given_expr",
         "named": true
       },
       {
@@ -88,7 +88,7 @@
         "named": true
       },
       {
-        "type": "index_expression",
+        "type": "index_expr",
         "named": true
       },
       {
@@ -104,7 +104,7 @@
         "named": true
       },
       {
-        "type": "member_expression",
+        "type": "member_expr",
         "named": true
       },
       {
@@ -112,23 +112,23 @@
         "named": true
       },
       {
-        "type": "null_coalescing_expression",
+        "type": "null_coalescing_expr",
         "named": true
       },
       {
-        "type": "optional_index_expression",
+        "type": "optional_index_expr",
         "named": true
       },
       {
-        "type": "optional_member_expression",
+        "type": "optional_member_expr",
         "named": true
       },
       {
-        "type": "parenthesized_expression",
+        "type": "parenthesized_expr",
         "named": true
       },
       {
-        "type": "range_expression",
+        "type": "range_expr",
         "named": true
       },
       {
@@ -152,7 +152,7 @@
         "named": true
       },
       {
-        "type": "try_expression",
+        "type": "try_expr",
         "named": true
       },
       {
@@ -168,11 +168,11 @@
         "named": true
       },
       {
-        "type": "yield_expression",
+        "type": "yield_expr",
         "named": true
       },
       {
-        "type": "yield_from_expression",
+        "type": "yield_from_expr",
         "named": true
       }
     ]
@@ -369,7 +369,7 @@
     "fields": {}
   },
   {
-    "type": "address_of_expression",
+    "type": "address_of_expr",
     "named": true,
     "fields": {
       "is_mut": {
@@ -562,12 +562,12 @@
           }
         ]
       },
-      "result_expression": {
+      "result_expr": {
         "multiple": false,
         "required": true,
         "types": [
           {
-            "type": "result_expression",
+            "type": "result_expr",
             "named": true
           }
         ]
@@ -810,7 +810,7 @@
     }
   },
   {
-    "type": "await_expression",
+    "type": "await_expr",
     "named": true,
     "fields": {
       "operand": {
@@ -826,7 +826,7 @@
     }
   },
   {
-    "type": "binary_expression",
+    "type": "binary_expr",
     "named": true,
     "fields": {
       "left": {
@@ -834,15 +834,15 @@
         "required": true,
         "types": [
           {
-            "type": "address_of_expression",
+            "type": "address_of_expr",
             "named": true
           },
           {
-            "type": "binary_expression",
+            "type": "binary_expr",
             "named": true
           },
           {
-            "type": "call_expression",
+            "type": "call_expr",
             "named": true
           },
           {
@@ -854,7 +854,7 @@
             "named": true
           },
           {
-            "type": "deref_expression",
+            "type": "deref_expr",
             "named": true
           },
           {
@@ -870,7 +870,7 @@
             "named": true
           },
           {
-            "type": "index_expression",
+            "type": "index_expr",
             "named": true
           },
           {
@@ -878,7 +878,7 @@
             "named": true
           },
           {
-            "type": "member_expression",
+            "type": "member_expr",
             "named": true
           },
           {
@@ -886,19 +886,19 @@
             "named": true
           },
           {
-            "type": "optional_index_expression",
+            "type": "optional_index_expr",
             "named": true
           },
           {
-            "type": "optional_member_expression",
+            "type": "optional_member_expr",
             "named": true
           },
           {
-            "type": "parenthesized_expression",
+            "type": "parenthesized_expr",
             "named": true
           },
           {
-            "type": "try_expression",
+            "type": "try_expr",
             "named": true
           },
           {
@@ -934,15 +934,15 @@
         "required": true,
         "types": [
           {
-            "type": "address_of_expression",
+            "type": "address_of_expr",
             "named": true
           },
           {
-            "type": "binary_expression",
+            "type": "binary_expr",
             "named": true
           },
           {
-            "type": "call_expression",
+            "type": "call_expr",
             "named": true
           },
           {
@@ -954,7 +954,7 @@
             "named": true
           },
           {
-            "type": "deref_expression",
+            "type": "deref_expr",
             "named": true
           },
           {
@@ -970,7 +970,7 @@
             "named": true
           },
           {
-            "type": "index_expression",
+            "type": "index_expr",
             "named": true
           },
           {
@@ -978,7 +978,7 @@
             "named": true
           },
           {
-            "type": "member_expression",
+            "type": "member_expr",
             "named": true
           },
           {
@@ -986,19 +986,19 @@
             "named": true
           },
           {
-            "type": "optional_index_expression",
+            "type": "optional_index_expr",
             "named": true
           },
           {
-            "type": "optional_member_expression",
+            "type": "optional_member_expr",
             "named": true
           },
           {
-            "type": "parenthesized_expression",
+            "type": "parenthesized_expr",
             "named": true
           },
           {
-            "type": "try_expression",
+            "type": "try_expr",
             "named": true
           },
           {
@@ -1063,11 +1063,11 @@
         "required": false,
         "types": [
           {
-            "type": "address_of_expression",
+            "type": "address_of_expr",
             "named": true
           },
           {
-            "type": "binary_expression",
+            "type": "binary_expr",
             "named": true
           },
           {
@@ -1075,7 +1075,7 @@
             "named": true
           },
           {
-            "type": "call_expression",
+            "type": "call_expr",
             "named": true
           },
           {
@@ -1087,7 +1087,7 @@
             "named": true
           },
           {
-            "type": "deref_expression",
+            "type": "deref_expr",
             "named": true
           },
           {
@@ -1103,7 +1103,7 @@
             "named": true
           },
           {
-            "type": "index_expression",
+            "type": "index_expr",
             "named": true
           },
           {
@@ -1111,7 +1111,7 @@
             "named": true
           },
           {
-            "type": "member_expression",
+            "type": "member_expr",
             "named": true
           },
           {
@@ -1119,19 +1119,19 @@
             "named": true
           },
           {
-            "type": "optional_index_expression",
+            "type": "optional_index_expr",
             "named": true
           },
           {
-            "type": "optional_member_expression",
+            "type": "optional_member_expr",
             "named": true
           },
           {
-            "type": "parenthesized_expression",
+            "type": "parenthesized_expr",
             "named": true
           },
           {
-            "type": "try_expression",
+            "type": "try_expr",
             "named": true
           },
           {
@@ -1187,11 +1187,11 @@
         "required": false,
         "types": [
           {
-            "type": "address_of_expression",
+            "type": "address_of_expr",
             "named": true
           },
           {
-            "type": "binary_expression",
+            "type": "binary_expr",
             "named": true
           },
           {
@@ -1199,7 +1199,7 @@
             "named": true
           },
           {
-            "type": "call_expression",
+            "type": "call_expr",
             "named": true
           },
           {
@@ -1211,7 +1211,7 @@
             "named": true
           },
           {
-            "type": "deref_expression",
+            "type": "deref_expr",
             "named": true
           },
           {
@@ -1227,7 +1227,7 @@
             "named": true
           },
           {
-            "type": "index_expression",
+            "type": "index_expr",
             "named": true
           },
           {
@@ -1235,7 +1235,7 @@
             "named": true
           },
           {
-            "type": "member_expression",
+            "type": "member_expr",
             "named": true
           },
           {
@@ -1243,19 +1243,19 @@
             "named": true
           },
           {
-            "type": "optional_index_expression",
+            "type": "optional_index_expr",
             "named": true
           },
           {
-            "type": "optional_member_expression",
+            "type": "optional_member_expr",
             "named": true
           },
           {
-            "type": "parenthesized_expression",
+            "type": "parenthesized_expr",
             "named": true
           },
           {
-            "type": "try_expression",
+            "type": "try_expr",
             "named": true
           },
           {
@@ -1298,7 +1298,7 @@
     }
   },
   {
-    "type": "call_expression",
+    "type": "call_expr",
     "named": true,
     "fields": {
       "arguments": {
@@ -1316,7 +1316,7 @@
         "required": true,
         "types": [
           {
-            "type": "call_expression",
+            "type": "call_expr",
             "named": true
           },
           {
@@ -1324,7 +1324,7 @@
             "named": true
           },
           {
-            "type": "deref_expression",
+            "type": "deref_expr",
             "named": true
           },
           {
@@ -1332,27 +1332,27 @@
             "named": true
           },
           {
-            "type": "index_expression",
+            "type": "index_expr",
             "named": true
           },
           {
-            "type": "member_expression",
+            "type": "member_expr",
             "named": true
           },
           {
-            "type": "optional_index_expression",
+            "type": "optional_index_expr",
             "named": true
           },
           {
-            "type": "optional_member_expression",
+            "type": "optional_member_expr",
             "named": true
           },
           {
-            "type": "parenthesized_expression",
+            "type": "parenthesized_expr",
             "named": true
           },
           {
-            "type": "try_expression",
+            "type": "try_expr",
             "named": true
           },
           {
@@ -1380,7 +1380,7 @@
     "fields": {}
   },
   {
-    "type": "compose_expression",
+    "type": "compose_expr",
     "named": true,
     "fields": {
       "left": {
@@ -1424,15 +1424,15 @@
         "required": true,
         "types": [
           {
-            "type": "address_of_expression",
+            "type": "address_of_expr",
             "named": true
           },
           {
-            "type": "binary_expression",
+            "type": "binary_expr",
             "named": true
           },
           {
-            "type": "call_expression",
+            "type": "call_expr",
             "named": true
           },
           {
@@ -1444,7 +1444,7 @@
             "named": true
           },
           {
-            "type": "deref_expression",
+            "type": "deref_expr",
             "named": true
           },
           {
@@ -1460,7 +1460,7 @@
             "named": true
           },
           {
-            "type": "index_expression",
+            "type": "index_expr",
             "named": true
           },
           {
@@ -1468,7 +1468,7 @@
             "named": true
           },
           {
-            "type": "member_expression",
+            "type": "member_expr",
             "named": true
           },
           {
@@ -1476,19 +1476,19 @@
             "named": true
           },
           {
-            "type": "optional_index_expression",
+            "type": "optional_index_expr",
             "named": true
           },
           {
-            "type": "optional_member_expression",
+            "type": "optional_member_expr",
             "named": true
           },
           {
-            "type": "parenthesized_expression",
+            "type": "parenthesized_expr",
             "named": true
           },
           {
-            "type": "try_expression",
+            "type": "try_expr",
             "named": true
           },
           {
@@ -1524,15 +1524,15 @@
         "required": true,
         "types": [
           {
-            "type": "address_of_expression",
+            "type": "address_of_expr",
             "named": true
           },
           {
-            "type": "binary_expression",
+            "type": "binary_expr",
             "named": true
           },
           {
-            "type": "call_expression",
+            "type": "call_expr",
             "named": true
           },
           {
@@ -1544,7 +1544,7 @@
             "named": true
           },
           {
-            "type": "deref_expression",
+            "type": "deref_expr",
             "named": true
           },
           {
@@ -1560,7 +1560,7 @@
             "named": true
           },
           {
-            "type": "index_expression",
+            "type": "index_expr",
             "named": true
           },
           {
@@ -1568,7 +1568,7 @@
             "named": true
           },
           {
-            "type": "member_expression",
+            "type": "member_expr",
             "named": true
           },
           {
@@ -1576,19 +1576,19 @@
             "named": true
           },
           {
-            "type": "optional_index_expression",
+            "type": "optional_index_expr",
             "named": true
           },
           {
-            "type": "optional_member_expression",
+            "type": "optional_member_expr",
             "named": true
           },
           {
-            "type": "parenthesized_expression",
+            "type": "parenthesized_expr",
             "named": true
           },
           {
-            "type": "try_expression",
+            "type": "try_expr",
             "named": true
           },
           {
@@ -1612,7 +1612,7 @@
           "named": true
         },
         {
-          "type": "call_expression",
+          "type": "call_expr",
           "named": true
         },
         {
@@ -1734,7 +1734,7 @@
     "fields": {}
   },
   {
-    "type": "constraint_binary_expression",
+    "type": "constraint_binary_expr",
     "named": true,
     "fields": {
       "left": {
@@ -1794,7 +1794,7 @@
           "named": true
         },
         {
-          "type": "constraint_binary_expression",
+          "type": "constraint_binary_expr",
           "named": true
         },
         {
@@ -1879,7 +1879,7 @@
     "fields": {}
   },
   {
-    "type": "data_constructor_expression",
+    "type": "data_constructor_expr",
     "named": true,
     "fields": {
       "constructor": {
@@ -2199,7 +2199,7 @@
         "required": true,
         "types": [
           {
-            "type": "deref_expression",
+            "type": "deref_expr",
             "named": true
           }
         ]
@@ -2217,7 +2217,7 @@
     }
   },
   {
-    "type": "deref_expression",
+    "type": "deref_expr",
     "named": true,
     "fields": {
       "operand": {
@@ -2225,7 +2225,7 @@
         "required": true,
         "types": [
           {
-            "type": "call_expression",
+            "type": "call_expr",
             "named": true
           },
           {
@@ -2233,7 +2233,7 @@
             "named": true
           },
           {
-            "type": "deref_expression",
+            "type": "deref_expr",
             "named": true
           },
           {
@@ -2241,27 +2241,27 @@
             "named": true
           },
           {
-            "type": "index_expression",
+            "type": "index_expr",
             "named": true
           },
           {
-            "type": "member_expression",
+            "type": "member_expr",
             "named": true
           },
           {
-            "type": "optional_index_expression",
+            "type": "optional_index_expr",
             "named": true
           },
           {
-            "type": "optional_member_expression",
+            "type": "optional_member_expr",
             "named": true
           },
           {
-            "type": "parenthesized_expression",
+            "type": "parenthesized_expr",
             "named": true
           },
           {
-            "type": "try_expression",
+            "type": "try_expr",
             "named": true
           },
           {
@@ -2563,11 +2563,11 @@
         "required": false,
         "types": [
           {
-            "type": "address_of_expression",
+            "type": "address_of_expr",
             "named": true
           },
           {
-            "type": "binary_expression",
+            "type": "binary_expr",
             "named": true
           },
           {
@@ -2575,7 +2575,7 @@
             "named": true
           },
           {
-            "type": "call_expression",
+            "type": "call_expr",
             "named": true
           },
           {
@@ -2587,7 +2587,7 @@
             "named": true
           },
           {
-            "type": "deref_expression",
+            "type": "deref_expr",
             "named": true
           },
           {
@@ -2603,7 +2603,7 @@
             "named": true
           },
           {
-            "type": "index_expression",
+            "type": "index_expr",
             "named": true
           },
           {
@@ -2611,7 +2611,7 @@
             "named": true
           },
           {
-            "type": "member_expression",
+            "type": "member_expr",
             "named": true
           },
           {
@@ -2619,19 +2619,19 @@
             "named": true
           },
           {
-            "type": "optional_index_expression",
+            "type": "optional_index_expr",
             "named": true
           },
           {
-            "type": "optional_member_expression",
+            "type": "optional_member_expr",
             "named": true
           },
           {
-            "type": "parenthesized_expression",
+            "type": "parenthesized_expr",
             "named": true
           },
           {
-            "type": "try_expression",
+            "type": "try_expr",
             "named": true
           },
           {
@@ -2687,11 +2687,11 @@
         "required": false,
         "types": [
           {
-            "type": "address_of_expression",
+            "type": "address_of_expr",
             "named": true
           },
           {
-            "type": "binary_expression",
+            "type": "binary_expr",
             "named": true
           },
           {
@@ -2699,7 +2699,7 @@
             "named": true
           },
           {
-            "type": "call_expression",
+            "type": "call_expr",
             "named": true
           },
           {
@@ -2711,7 +2711,7 @@
             "named": true
           },
           {
-            "type": "deref_expression",
+            "type": "deref_expr",
             "named": true
           },
           {
@@ -2727,7 +2727,7 @@
             "named": true
           },
           {
-            "type": "index_expression",
+            "type": "index_expr",
             "named": true
           },
           {
@@ -2735,7 +2735,7 @@
             "named": true
           },
           {
-            "type": "member_expression",
+            "type": "member_expr",
             "named": true
           },
           {
@@ -2743,19 +2743,19 @@
             "named": true
           },
           {
-            "type": "optional_index_expression",
+            "type": "optional_index_expr",
             "named": true
           },
           {
-            "type": "optional_member_expression",
+            "type": "optional_member_expr",
             "named": true
           },
           {
-            "type": "parenthesized_expression",
+            "type": "parenthesized_expr",
             "named": true
           },
           {
-            "type": "try_expression",
+            "type": "try_expr",
             "named": true
           },
           {
@@ -2804,7 +2804,7 @@
           "named": true
         },
         {
-          "type": "call_expression",
+          "type": "call_expr",
           "named": true
         },
         {
@@ -2812,7 +2812,7 @@
           "named": true
         },
         {
-          "type": "deref_expression",
+          "type": "deref_expr",
           "named": true
         },
         {
@@ -2828,31 +2828,31 @@
           "named": true
         },
         {
-          "type": "index_expression",
+          "type": "index_expr",
           "named": true
         },
         {
-          "type": "member_expression",
+          "type": "member_expr",
           "named": true
         },
         {
-          "type": "optional_index_expression",
+          "type": "optional_index_expr",
           "named": true
         },
         {
-          "type": "optional_member_expression",
+          "type": "optional_member_expr",
           "named": true
         },
         {
-          "type": "parenthesized_expression",
+          "type": "parenthesized_expr",
           "named": true
         },
         {
-          "type": "range_expression",
+          "type": "range_expr",
           "named": true
         },
         {
-          "type": "try_expression",
+          "type": "try_expr",
           "named": true
         },
         {
@@ -3023,7 +3023,7 @@
             "named": true
           },
           {
-            "type": "range_expression",
+            "type": "range_expr",
             "named": true
           },
           {
@@ -3170,7 +3170,7 @@
     }
   },
   {
-    "type": "given_expression",
+    "type": "given_expr",
     "named": true,
     "fields": {
       "bindings": {
@@ -3214,7 +3214,7 @@
       "required": true,
       "types": [
         {
-          "type": "binary_expression",
+          "type": "binary_expr",
           "named": true
         },
         {
@@ -3316,7 +3316,7 @@
           "named": true
         },
         {
-          "type": "call_expression",
+          "type": "call_expr",
           "named": true
         },
         {
@@ -3324,7 +3324,7 @@
           "named": true
         },
         {
-          "type": "deref_expression",
+          "type": "deref_expr",
           "named": true
         },
         {
@@ -3332,27 +3332,27 @@
           "named": true
         },
         {
-          "type": "index_expression",
+          "type": "index_expr",
           "named": true
         },
         {
-          "type": "member_expression",
+          "type": "member_expr",
           "named": true
         },
         {
-          "type": "optional_index_expression",
+          "type": "optional_index_expr",
           "named": true
         },
         {
-          "type": "optional_member_expression",
+          "type": "optional_member_expr",
           "named": true
         },
         {
-          "type": "parenthesized_expression",
+          "type": "parenthesized_expr",
           "named": true
         },
         {
-          "type": "try_expression",
+          "type": "try_expr",
           "named": true
         },
         {
@@ -3531,7 +3531,7 @@
     }
   },
   {
-    "type": "index_expression",
+    "type": "index_expr",
     "named": true,
     "fields": {
       "index": {
@@ -3549,7 +3549,7 @@
         "required": true,
         "types": [
           {
-            "type": "call_expression",
+            "type": "call_expr",
             "named": true
           },
           {
@@ -3557,7 +3557,7 @@
             "named": true
           },
           {
-            "type": "deref_expression",
+            "type": "deref_expr",
             "named": true
           },
           {
@@ -3565,27 +3565,27 @@
             "named": true
           },
           {
-            "type": "index_expression",
+            "type": "index_expr",
             "named": true
           },
           {
-            "type": "member_expression",
+            "type": "member_expr",
             "named": true
           },
           {
-            "type": "optional_index_expression",
+            "type": "optional_index_expr",
             "named": true
           },
           {
-            "type": "optional_member_expression",
+            "type": "optional_member_expr",
             "named": true
           },
           {
-            "type": "parenthesized_expression",
+            "type": "parenthesized_expr",
             "named": true
           },
           {
-            "type": "try_expression",
+            "type": "try_expr",
             "named": true
           },
           {
@@ -3962,7 +3962,7 @@
     }
   },
   {
-    "type": "member_expression",
+    "type": "member_expr",
     "named": true,
     "fields": {
       "object": {
@@ -3970,7 +3970,7 @@
         "required": true,
         "types": [
           {
-            "type": "call_expression",
+            "type": "call_expr",
             "named": true
           },
           {
@@ -3978,7 +3978,7 @@
             "named": true
           },
           {
-            "type": "deref_expression",
+            "type": "deref_expr",
             "named": true
           },
           {
@@ -3986,27 +3986,27 @@
             "named": true
           },
           {
-            "type": "index_expression",
+            "type": "index_expr",
             "named": true
           },
           {
-            "type": "member_expression",
+            "type": "member_expr",
             "named": true
           },
           {
-            "type": "optional_index_expression",
+            "type": "optional_index_expr",
             "named": true
           },
           {
-            "type": "optional_member_expression",
+            "type": "optional_member_expr",
             "named": true
           },
           {
-            "type": "parenthesized_expression",
+            "type": "parenthesized_expr",
             "named": true
           },
           {
-            "type": "try_expression",
+            "type": "try_expr",
             "named": true
           },
           {
@@ -4227,15 +4227,15 @@
         "required": true,
         "types": [
           {
-            "type": "address_of_expression",
+            "type": "address_of_expr",
             "named": true
           },
           {
-            "type": "binary_expression",
+            "type": "binary_expr",
             "named": true
           },
           {
-            "type": "call_expression",
+            "type": "call_expr",
             "named": true
           },
           {
@@ -4247,7 +4247,7 @@
             "named": true
           },
           {
-            "type": "deref_expression",
+            "type": "deref_expr",
             "named": true
           },
           {
@@ -4263,7 +4263,7 @@
             "named": true
           },
           {
-            "type": "index_expression",
+            "type": "index_expr",
             "named": true
           },
           {
@@ -4271,7 +4271,7 @@
             "named": true
           },
           {
-            "type": "member_expression",
+            "type": "member_expr",
             "named": true
           },
           {
@@ -4279,19 +4279,19 @@
             "named": true
           },
           {
-            "type": "optional_index_expression",
+            "type": "optional_index_expr",
             "named": true
           },
           {
-            "type": "optional_member_expression",
+            "type": "optional_member_expr",
             "named": true
           },
           {
-            "type": "parenthesized_expression",
+            "type": "parenthesized_expr",
             "named": true
           },
           {
-            "type": "try_expression",
+            "type": "try_expr",
             "named": true
           },
           {
@@ -4323,7 +4323,7 @@
     "fields": {}
   },
   {
-    "type": "null_coalescing_expression",
+    "type": "null_coalescing_expr",
     "named": true,
     "fields": {
       "default": {
@@ -4364,7 +4364,7 @@
     }
   },
   {
-    "type": "optional_index_expression",
+    "type": "optional_index_expr",
     "named": true,
     "fields": {
       "index": {
@@ -4382,7 +4382,7 @@
         "required": true,
         "types": [
           {
-            "type": "call_expression",
+            "type": "call_expr",
             "named": true
           },
           {
@@ -4390,7 +4390,7 @@
             "named": true
           },
           {
-            "type": "deref_expression",
+            "type": "deref_expr",
             "named": true
           },
           {
@@ -4398,27 +4398,27 @@
             "named": true
           },
           {
-            "type": "index_expression",
+            "type": "index_expr",
             "named": true
           },
           {
-            "type": "member_expression",
+            "type": "member_expr",
             "named": true
           },
           {
-            "type": "optional_index_expression",
+            "type": "optional_index_expr",
             "named": true
           },
           {
-            "type": "optional_member_expression",
+            "type": "optional_member_expr",
             "named": true
           },
           {
-            "type": "parenthesized_expression",
+            "type": "parenthesized_expr",
             "named": true
           },
           {
-            "type": "try_expression",
+            "type": "try_expr",
             "named": true
           },
           {
@@ -4430,7 +4430,7 @@
     }
   },
   {
-    "type": "optional_member_expression",
+    "type": "optional_member_expr",
     "named": true,
     "fields": {
       "object": {
@@ -4438,7 +4438,7 @@
         "required": true,
         "types": [
           {
-            "type": "call_expression",
+            "type": "call_expr",
             "named": true
           },
           {
@@ -4446,7 +4446,7 @@
             "named": true
           },
           {
-            "type": "deref_expression",
+            "type": "deref_expr",
             "named": true
           },
           {
@@ -4454,27 +4454,27 @@
             "named": true
           },
           {
-            "type": "index_expression",
+            "type": "index_expr",
             "named": true
           },
           {
-            "type": "member_expression",
+            "type": "member_expr",
             "named": true
           },
           {
-            "type": "optional_index_expression",
+            "type": "optional_index_expr",
             "named": true
           },
           {
-            "type": "optional_member_expression",
+            "type": "optional_member_expr",
             "named": true
           },
           {
-            "type": "parenthesized_expression",
+            "type": "parenthesized_expr",
             "named": true
           },
           {
-            "type": "try_expression",
+            "type": "try_expr",
             "named": true
           },
           {
@@ -4645,7 +4645,7 @@
     }
   },
   {
-    "type": "parenthesized_expression",
+    "type": "parenthesized_expr",
     "named": true,
     "fields": {},
     "children": {
@@ -4791,7 +4791,7 @@
     "fields": {}
   },
   {
-    "type": "range_expression",
+    "type": "range_expr",
     "named": true,
     "fields": {
       "end": {
@@ -4928,7 +4928,7 @@
     }
   },
   {
-    "type": "result_expression",
+    "type": "result_expr",
     "named": true,
     "fields": {},
     "children": {
@@ -4936,7 +4936,7 @@
       "required": true,
       "types": [
         {
-          "type": "address_of_expression",
+          "type": "address_of_expr",
           "named": true
         },
         {
@@ -4944,11 +4944,11 @@
           "named": true
         },
         {
-          "type": "binary_expression",
+          "type": "binary_expr",
           "named": true
         },
         {
-          "type": "call_expression",
+          "type": "call_expr",
           "named": true
         },
         {
@@ -4960,7 +4960,7 @@
           "named": true
         },
         {
-          "type": "deref_expression",
+          "type": "deref_expr",
           "named": true
         },
         {
@@ -4976,7 +4976,7 @@
           "named": true
         },
         {
-          "type": "index_expression",
+          "type": "index_expr",
           "named": true
         },
         {
@@ -4984,7 +4984,7 @@
           "named": true
         },
         {
-          "type": "member_expression",
+          "type": "member_expr",
           "named": true
         },
         {
@@ -4992,15 +4992,15 @@
           "named": true
         },
         {
-          "type": "optional_index_expression",
+          "type": "optional_index_expr",
           "named": true
         },
         {
-          "type": "optional_member_expression",
+          "type": "optional_member_expr",
           "named": true
         },
         {
-          "type": "parenthesized_expression",
+          "type": "parenthesized_expr",
           "named": true
         },
         {
@@ -5008,7 +5008,7 @@
           "named": true
         },
         {
-          "type": "try_expression",
+          "type": "try_expr",
           "named": true
         },
         {
@@ -5811,7 +5811,7 @@
     "fields": {}
   },
   {
-    "type": "try_expression",
+    "type": "try_expr",
     "named": true,
     "fields": {
       "operand": {
@@ -5819,7 +5819,7 @@
         "required": true,
         "types": [
           {
-            "type": "call_expression",
+            "type": "call_expr",
             "named": true
           },
           {
@@ -5827,7 +5827,7 @@
             "named": true
           },
           {
-            "type": "deref_expression",
+            "type": "deref_expr",
             "named": true
           },
           {
@@ -5835,27 +5835,27 @@
             "named": true
           },
           {
-            "type": "index_expression",
+            "type": "index_expr",
             "named": true
           },
           {
-            "type": "member_expression",
+            "type": "member_expr",
             "named": true
           },
           {
-            "type": "optional_index_expression",
+            "type": "optional_index_expr",
             "named": true
           },
           {
-            "type": "optional_member_expression",
+            "type": "optional_member_expr",
             "named": true
           },
           {
-            "type": "parenthesized_expression",
+            "type": "parenthesized_expr",
             "named": true
           },
           {
-            "type": "try_expression",
+            "type": "try_expr",
             "named": true
           },
           {
@@ -6228,7 +6228,7 @@
     }
   },
   {
-    "type": "yield_expression",
+    "type": "yield_expr",
     "named": true,
     "fields": {
       "value": {
@@ -6244,7 +6244,7 @@
     }
   },
   {
-    "type": "yield_from_expression",
+    "type": "yield_from_expr",
     "named": true,
     "fields": {
       "generator": {

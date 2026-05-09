@@ -13,6 +13,6 @@ module.exports = {
 
   if_condition: $ => choice(
     $.boolean_expr, 
-    $._postfix_expression,
+    $._postfix_expr,
   ),
 }

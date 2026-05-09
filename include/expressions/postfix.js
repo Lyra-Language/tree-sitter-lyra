@@ -2,47 +2,46 @@ const { PREC } = require("../prec");
 
 module.exports = {
   // Postfix expressions with binary nesting - each operation wraps the previous
-  _postfix_expression: $ => choice(
-    $.call_expression,
-    $.member_expression,
-    $.optional_member_expression,
-    $.index_expression,
-    $.optional_index_expression,
-    $.try_expression,
-    $.deref_expression,
-    $._primary_expression,
+  _postfix_expr: $ => choice(
+    $.call_expr,
+    $.member_expr,
+    $.optional_member_expr,
+    $.index_expr,
+    $.optional_index_expr,
+    $.try_expr,
+    $.deref_expr,
+    $._primary_expr,
   ),
 
-  _primary_expression: $ => choice(
+  _primary_expr: $ => choice(
     $.identifier,
     $.const_identifier,
     $.user_defined_type_name,  // For static method calls like Arena.new()
-    $.parenthesized_expression,
-    // $.lambda_expression, // TODO: add lambda expression
+    $.parenthesized_expr,
   ),
 
-  call_expression: $ => prec.left(PREC.POSTFIX, seq(
-    field('function', $._postfix_expression),
+  call_expr: $ => prec.left(PREC.POSTFIX, seq(
+    field('function', $._postfix_expr),
     optional(field('generic_arguments', $.generic_arguments)),
     field('arguments', $.argument_list)
   )),
 
-  member_expression: $ => prec.left(PREC.POSTFIX, seq(
-    field('object', $._postfix_expression),
+  member_expr: $ => prec.left(PREC.POSTFIX, seq(
+    field('object', $._postfix_expr),
     '.',
     field('property', choice($.identifier, $.const_identifier))
   )),
 
   // Optional member access - safe navigation for Maybe<T>
   // Returns Maybe<T> instead of T, doesn't change control flow
-  optional_member_expression: $ => prec.left(PREC.POSTFIX, seq(
-    field('object', $._postfix_expression),
+  optional_member_expr: $ => prec.left(PREC.POSTFIX, seq(
+    field('object', $._postfix_expr),
     '?.',
     field('property', choice($.identifier, $.const_identifier))
   )),
 
-  index_expression: $ => prec.left(PREC.POSTFIX, seq(
-    field('object', $._postfix_expression),
+  index_expr: $ => prec.left(PREC.POSTFIX, seq(
+    field('object', $._postfix_expr),
     '[',
     field('index', $.expression),
     ']'
@@ -50,20 +49,20 @@ module.exports = {
 
   // Optional index access - safe indexing for Maybe<T> or bounds checking
   // Returns Maybe<T> instead of T
-  optional_index_expression: $ => prec.left(PREC.POSTFIX, seq(
-    field('object', $._postfix_expression),
+  optional_index_expr: $ => prec.left(PREC.POSTFIX, seq(
+    field('object', $._postfix_expr),
     '?[',
     field('index', $.expression),
     ']'
   )),
 
-  try_expression: $ => prec.left(PREC.POSTFIX, seq(
-    field('operand', $._postfix_expression),
+  try_expr: $ => prec.left(PREC.POSTFIX, seq(
+    field('operand', $._postfix_expr),
     '?'
   )),
 
-  deref_expression: $ => prec.left(PREC.POSTFIX, seq(
-    field('operand', $._postfix_expression),
+  deref_expr: $ => prec.left(PREC.POSTFIX, seq(
+    field('operand', $._postfix_expr),
     '^'
   )),
 }

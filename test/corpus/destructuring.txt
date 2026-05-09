@@ -262,7 +262,7 @@ let () = do_something()
     (destructuring_pattern
       (tuple_pattern
         (unit_pattern)))
-    (call_expression
+    (call_expr
       (identifier)
       (argument_list))))
 
@@ -330,12 +330,12 @@ if let Some num = get_num() {
         (data_pattern
           (data_type_name)
           (identifier)))
-      (call_expression
+      (call_expr
         (identifier)
         (argument_list)))
     (block
       (expression_statement
-        (call_expression
+        (call_expr
           (identifier)
           (argument_list
             (value
@@ -363,12 +363,12 @@ if let Some num = get_num() {
         (data_pattern
           (data_type_name)
           (identifier)))
-      (call_expression
+      (call_expr
         (identifier)
         (argument_list)))
     (block
       (expression_statement
-        (call_expression
+        (call_expr
           (identifier)
           (argument_list
             (value
@@ -378,7 +378,7 @@ if let Some num = get_num() {
                   (identifier))))))))
     (block
       (expression_statement
-        (call_expression
+        (call_expr
           (identifier)
           (argument_list
             (value
@@ -403,19 +403,19 @@ println("We got the number: ${num}")
         (data_pattern
           (data_type_name)
           (identifier)))
-      (call_expression
+      (call_expr
         (identifier)
         (argument_list)))
     (block
       (expression_statement
-        (call_expression
+        (call_expr
           (identifier)
           (argument_list
             (value
               (string_literal
                 (string_content))))))))
   (expression_statement
-    (call_expression
+    (call_expr
       (identifier)
       (argument_list
         (value

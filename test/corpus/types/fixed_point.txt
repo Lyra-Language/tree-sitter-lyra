@@ -80,7 +80,7 @@ let add = (a: fixed<8,24>, b: fixed<8,24>) -> fixed<8,24> => a + b
           (decimal_int))
         (integer_literal
           (decimal_int)))
-      (binary_expression
+      (binary_expr
         (identifier)
         (add_operator)
         (identifier)))))

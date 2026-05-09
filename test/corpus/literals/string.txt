@@ -42,8 +42,8 @@ let greeting = "Hello, ${employee.get_name()}!"
     (string_literal
       (string_content)
       (string_interpolation
-        (call_expression
-          (member_expression
+        (call_expr
+          (member_expr
             (identifier)
             (identifier))
           (argument_list)))

@@ -12,7 +12,7 @@ for {
   (for_loop
     (for_body
       (expression_statement
-        (call_expression
+        (call_expr
           (identifier)
           (argument_list
             (value
@@ -44,7 +44,7 @@ for i < 10 {
           (decimal_int))))
     (for_body
       (expression_statement
-        (call_expression
+        (call_expr
           (identifier)
           (argument_list
             (value
@@ -78,7 +78,7 @@ for var i = 0; i < 10 {
           (decimal_int))))
     (for_body
       (expression_statement
-        (call_expression
+        (call_expr
           (identifier)
           (argument_list
             (value
@@ -124,7 +124,7 @@ for i < 10; i += 1 {
             (decimal_int)))))
     (for_body
       (expression_statement
-        (call_expression
+        (call_expr
           (identifier)
           (argument_list
             (value
@@ -163,7 +163,7 @@ for var i = 0; i < 10; i += 1 {
             (decimal_int)))))
     (for_body
       (expression_statement
-        (call_expression
+        (call_expr
           (identifier)
           (argument_list
             (value

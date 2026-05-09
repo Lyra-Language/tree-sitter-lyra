@@ -100,7 +100,7 @@ newtype Alpha = f32 where range(0..=1)
               (decimal_int)))
           (equal_to_comparator)
           (constraint_math_expr
-            (constraint_binary_expression
+            (constraint_binary_expr
               (constraint_math_expr
                 (integer_literal
                   (decimal_int)))

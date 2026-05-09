@@ -13,7 +13,7 @@ let squares = [ x in 1..=5 | x * x ]
     (array_comp_expr
       (generator
         (identifier)
-        (range_expression
+        (range_expr
           (range_start
             (integer_literal
               (decimal_int)))
@@ -21,8 +21,8 @@ let squares = [ x in 1..=5 | x * x ]
           (range_end
             (integer_literal
               (decimal_int)))))
-      (result_expression
-        (binary_expression
+      (result_expr
+        (binary_expr
           (identifier)
           (mul_operator)
           (identifier)))))
@@ -43,7 +43,7 @@ let even_squares = [ x in 1..=10 | even(x) | x * x ]
     (array_comp_expr
       (generator
         (identifier)
-        (range_expression
+        (range_expr
           (range_start
             (integer_literal
               (decimal_int)))
@@ -52,13 +52,13 @@ let even_squares = [ x in 1..=10 | even(x) | x * x ]
             (integer_literal
               (decimal_int)))))
       (comprehension_guard
-        (call_expression
+        (call_expr
           (identifier)
           (argument_list
             (value
               (identifier)))))
-      (result_expression
-        (binary_expression
+      (result_expr
+        (binary_expr
           (identifier)
           (mul_operator)
           (identifier)))))
@@ -79,7 +79,7 @@ let foo = [ x in 1..=5, y in 1..=5 | odd(x), even(y) | (x, y, x * y) ]
     (array_comp_expr
       (generator
         (identifier)
-        (range_expression
+        (range_expr
           (range_start
             (integer_literal
               (decimal_int)))
@@ -89,7 +89,7 @@ let foo = [ x in 1..=5, y in 1..=5 | odd(x), even(y) | (x, y, x * y) ]
               (decimal_int)))))
       (generator
         (identifier)
-        (range_expression
+        (range_expr
           (range_start
             (integer_literal
               (decimal_int)))
@@ -98,25 +98,25 @@ let foo = [ x in 1..=5, y in 1..=5 | odd(x), even(y) | (x, y, x * y) ]
             (integer_literal
               (decimal_int)))))
       (comprehension_guard
-        (call_expression
+        (call_expr
           (identifier)
           (argument_list
             (value
               (identifier)))))
       (comprehension_guard
-        (call_expression
+        (call_expr
           (identifier)
           (argument_list
             (value
               (identifier)))))
-      (result_expression
+      (result_expr
         (tuple_literal
           (tuple_value
             (identifier))
           (tuple_value
             (identifier))
           (tuple_value
-            (binary_expression
+            (binary_expr
               (identifier)
               (mul_operator)
               (identifier)))))))
@@ -144,8 +144,8 @@ let squares = [ x in [1, 2, 3] | x * x ]
             (decimal_int))
           (integer_literal
             (decimal_int))))
-      (result_expression
-        (binary_expression
+      (result_expr
+        (binary_expr
           (identifier)
           (mul_operator)
           (identifier)))))
@@ -168,8 +168,8 @@ let char_codes = [ c in "Hello" | ord(c) ]
         (identifier)
         (string_literal
           (string_content)))
-      (result_expression
-        (call_expression
+      (result_expr
+        (call_expr
           (identifier)
           (argument_list
             (value
@@ -192,8 +192,8 @@ let squares = [ x in one_to_five | x * x ]
       (generator
         (identifier)
         (identifier))
-      (result_expression
-        (binary_expression
+      (result_expr
+        (binary_expr
           (identifier)
           (mul_operator)
           (identifier)))))

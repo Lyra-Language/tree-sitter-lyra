@@ -1,7 +1,7 @@
 const { PREC } = require("../prec");
 
 module.exports = {
-  range_expression: $ => prec.right(
+  range_expr: $ => prec.right(
     PREC.RANGE_EXPR,
     seq(
       field('start', alias($.expression, $.range_start)),

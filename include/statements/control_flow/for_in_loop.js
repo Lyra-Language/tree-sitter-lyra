@@ -19,10 +19,10 @@ module.exports = {
     optional(seq(',', alias($.identifier, $.for_index_or_value))),
     'in',
     choice(
-      $.range_expression,
+      $.range_expr,
       $.array_literal,
       $.tuple_literal,
-      $._postfix_expression,
+      $._postfix_expr,
     )
   )),
 }

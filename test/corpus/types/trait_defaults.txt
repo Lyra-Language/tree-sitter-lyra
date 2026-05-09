@@ -23,7 +23,7 @@ trait Show {
           (default_method_clause
             (pattern_parameter_list
               (identifier))
-            (call_expression
+            (call_expr
               (identifier)
               (argument_list
                 (value
@@ -62,12 +62,12 @@ trait Printable {
           (default_method_clause
             (pattern_parameter_list
               (identifier))
-            (call_expression
+            (call_expr
               (identifier)
               (argument_list
                 (value
-                  (call_expression
-                    (member_expression
+                  (call_expr
+                    (member_expr
                       (identifier)
                       (identifier))
                     (argument_list)))))))))))
@@ -103,13 +103,13 @@ trait Describable {
             (block
               (declaration
                 (identifier)
-                (call_expression
-                  (member_expression
+                (call_expr
+                  (member_expr
                     (identifier)
                     (identifier))
                   (argument_list)))
               (expression_statement
-                (call_expression
+                (call_expr
                   (identifier)
                   (argument_list
                     (value

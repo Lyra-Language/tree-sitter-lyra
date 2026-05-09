@@ -9,7 +9,7 @@ let result = sum(a: 1, b: 2)
 (program
   (declaration
     (identifier)
-    (call_expression
+    (call_expr
       (identifier)
       (argument_list
         (named_argument
@@ -36,7 +36,7 @@ let result = add_one(b: 2)
 (program
   (declaration
     (identifier)
-    (call_expression
+    (call_expr
       (identifier)
       (argument_list
         (value
@@ -45,7 +45,7 @@ let result = add_one(b: 2)
         (wildcard))))
   (declaration
     (identifier)
-    (call_expression
+    (call_expr
       (identifier)
       (argument_list
         (named_argument
@@ -65,7 +65,7 @@ f ()
 
 (program
   (expression_statement
-    (call_expression
+    (call_expr
       (identifier)
       (argument_list))))
 
@@ -79,8 +79,8 @@ ns.f ()
 
 (program
   (expression_statement
-    (call_expression
-      (member_expression
+    (call_expr
+      (member_expr
         (identifier)
         (identifier))
       (argument_list))))

@@ -78,10 +78,10 @@ function arithmeticRules({ binary, unary, operand }) {
 
 module.exports = {
   _math_expr: ($) =>
-    choice($.binary_expression, $.compound_assignment, $.negation, $.group),
+    choice($.binary_expr, $.compound_assignment, $.negation, $.group),
 
   ...arithmeticRules({
-    binary: "binary_expression",
+    binary: "binary_expr",
     unary: "negation",
     operand: ($) => $._math_operand,
   }),
@@ -121,14 +121,14 @@ module.exports = {
   // while `prec.left` / `prec.right` on the containing rule resolves the
   // associativity / precedence for chained operators.
   _math_operand: ($) =>
-    choice($._number_literal, $._postfix_expression, $._math_expr, $.address_of_expression),
+    choice($._number_literal, $._postfix_expr, $._math_expr, $.address_of_expr),
 
   // ---------------------------------------------------------------------
   // Constraint arithmetic — used inside type-level constraint expressions
   // (e.g. `where range(0..=2*PI)` in a constrained type). This is an
   // independent sub-grammar that operates over `identifier` /
   // `const_identifier` / number literals rather than runtime expressions,
-  // so it stays separate from `_math_expr` / `binary_expression` above
+  // so it stays separate from `_math_expr` / `binary_expr` above
   // even though the operator productions are identical. Sharing the
   // productions via `arithmeticRules` guarantees the two sub-grammars
   // cannot drift apart on precedence or associativity.
@@ -137,14 +137,14 @@ module.exports = {
   constraint_math_expr: ($) =>
     choice(
       $._number_literal,
-      $.constraint_binary_expression,
+      $.constraint_binary_expr,
       $.constraint_negation,
       $.identifier,
       $.const_identifier,
     ),
 
   ...arithmeticRules({
-    binary: "constraint_binary_expression",
+    binary: "constraint_binary_expr",
     unary: "constraint_negation",
     operand: ($) => $.constraint_math_expr,
   }),

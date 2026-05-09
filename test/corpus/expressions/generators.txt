@@ -31,7 +31,7 @@ let counter = gen (start: i32) -> Gen<i32> => {
         (for_loop
           (for_body
             (expression_statement
-              (yield_expression
+              (yield_expr
                 (identifier)))
             (expression_statement
               (compound_assignment
@@ -67,14 +67,14 @@ let stream = async gen (url: string) -> Gen<Packet> => {
       (block
         (declaration
           (identifier)
-          (await_expression
-            (call_expression
+          (await_expr
+            (call_expr
               (identifier)
               (argument_list
                 (value
                   (identifier))))))
         (expression_statement
-          (yield_expression
+          (yield_expr
             (identifier)))))))
 
 ===================================
@@ -103,7 +103,7 @@ let frames = pure gen () -> Gen<Void> => {
         (for_loop
           (for_body
             (expression_statement
-              (yield_expression
+              (yield_expr
                 (tuple_literal)))))))))
 
 ===================================
@@ -132,19 +132,19 @@ let ai = gen (enemy: Enemy) -> Gen<Action> => {
         (user_defined_type_name))
       (block
         (expression_statement
-          (yield_expression
+          (yield_expr
             (tuple_literal
               (tuple_name)
               (tuple_value
                 (user_defined_type_name)))))
         (expression_statement
-          (yield_expression
+          (yield_expr
             (tuple_literal
               (tuple_name)
               (tuple_value
                 (user_defined_type_name)))))
         (expression_statement
-          (yield_expression
+          (yield_expr
             (tuple_literal
               (tuple_name)
               (tuple_value

@@ -312,8 +312,8 @@ let p = { player | health: player.health - 10, x: player.x + dx }
           (struct_field
             (field_name)
             (field_value
-              (binary_expression
-                (member_expression
+              (binary_expr
+                (member_expr
                   (identifier)
                   (identifier))
                 (sub_operator)
@@ -322,8 +322,8 @@ let p = { player | health: player.health - 10, x: player.x + dx }
           (struct_field
             (field_name)
             (field_value
-              (binary_expression
-                (member_expression
+              (binary_expr
+                (member_expr
                   (identifier)
                   (identifier))
                 (add_operator)

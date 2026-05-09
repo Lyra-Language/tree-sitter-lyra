@@ -50,8 +50,8 @@ fibs.push(5)
       (integer_literal
         (decimal_int))))
   (expression_statement
-    (call_expression
-      (member_expression
+    (call_expr
+      (member_expr
         (identifier)
         (identifier))
       (argument_list

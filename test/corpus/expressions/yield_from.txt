@@ -23,21 +23,21 @@ let behavior = gen (enemy: Enemy) -> Gen<Command> => {
         (user_defined_type_name))
       (block
         (expression_statement
-          (yield_from_expression
-            (call_expression
+          (yield_from_expr
+            (call_expr
               (identifier)
               (argument_list
                 (value
-                  (member_expression
+                  (member_expr
                     (identifier)
                     (identifier)))))))
         (expression_statement
-          (yield_from_expression
-            (call_expression
+          (yield_from_expr
+            (call_expr
               (identifier)
               (argument_list
                 (value
-                  (member_expression
+                  (member_expr
                     (identifier)
                     (identifier)))))))))))
 
@@ -64,12 +64,12 @@ let mixed = gen () -> Gen<i32> => {
         (signed_integer_type))
       (block
         (expression_statement
-          (yield_expression
+          (yield_expr
             (integer_literal
               (decimal_int))))
         (expression_statement
-          (yield_from_expression
-            (call_expression
+          (yield_from_expr
+            (call_expr
               (identifier)
               (argument_list
                 (value
@@ -79,7 +79,7 @@ let mixed = gen () -> Gen<i32> => {
                   (integer_literal
                     (decimal_int)))))))
         (expression_statement
-          (yield_expression
+          (yield_expr
             (integer_literal
               (decimal_int))))))))
 
@@ -109,15 +109,15 @@ let pipeline = gen (items: []Item) -> Gen<Result> => {
         (user_defined_type_name))
       (block
         (expression_statement
-          (yield_from_expression
-            (call_expression
+          (yield_from_expr
+            (call_expr
               (identifier)
               (argument_list
                 (value
                   (identifier))))))
         (expression_statement
-          (yield_from_expression
-            (call_expression
+          (yield_from_expr
+            (call_expr
               (identifier)
               (argument_list
                 (value

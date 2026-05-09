@@ -42,13 +42,13 @@ module.exports = grammar({
     [
       $.struct_literal,
       $._tuple_name,
-      $.data_constructor_expression,
-      $._primary_expression,
+      $.data_constructor_expr,
+      $._primary_expr,
     ],
     [$.struct_literal, $.struct_literal],
-    [$.data_constructor_expression, $._primary_expression],
-    [$.data_constructor_expression, $._primary_expression, $.data_pattern],
-    [$._primary_expression, $.data_pattern],
+    [$.data_constructor_expr, $._primary_expr],
+    [$.data_constructor_expr, $._primary_expr, $.data_pattern],
+    [$._primary_expr, $.data_pattern],
     [$.parameter_type, $.tuple_type_element],
     // A postfix form (identifier, call, member access, …) can appear on
     // its own as an `expression` or as the left operand of a math /

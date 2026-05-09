@@ -63,13 +63,13 @@ with Arena.new(megabytes(4)) {
 
 (program
   (with_statement
-    (call_expression
-      (member_expression
+    (call_expr
+      (member_expr
         (user_defined_type_name)
         (identifier))
       (argument_list
         (value
-          (call_expression
+          (call_expr
             (identifier)
             (argument_list
               (value
@@ -78,7 +78,7 @@ with Arena.new(megabytes(4)) {
     (block
       (declaration
         (identifier)
-        (call_expression
+        (call_expr
           (identifier)
           (argument_list
             (value
@@ -98,13 +98,13 @@ with frame = Arena.new(megabytes(4)) {
 (program
   (with_statement
     (identifier)
-    (call_expression
-      (member_expression
+    (call_expr
+      (member_expr
         (user_defined_type_name)
         (identifier))
       (argument_list
         (value
-          (call_expression
+          (call_expr
             (identifier)
             (argument_list
               (value
@@ -113,8 +113,8 @@ with frame = Arena.new(megabytes(4)) {
     (block
       (declaration
         (identifier)
-        (call_expression
-          (member_expression
+        (call_expr
+          (member_expr
             (identifier)
             (identifier))
           (argument_list
@@ -135,13 +135,13 @@ with Arena.new(kilobytes(64)) {
 
 (program
   (with_statement
-    (call_expression
-      (member_expression
+    (call_expr
+      (member_expr
         (user_defined_type_name)
         (identifier))
       (argument_list
         (value
-          (call_expression
+          (call_expr
             (identifier)
             (argument_list
               (value
@@ -150,14 +150,14 @@ with Arena.new(kilobytes(64)) {
     (block
       (declaration
         (identifier)
-        (call_expression
+        (call_expr
           (identifier)
           (argument_list
             (value
               (integer_literal
                 (decimal_int))))))
       (expression_statement
-        (call_expression
+        (call_expr
           (identifier)
           (argument_list
             (value
@@ -177,13 +177,13 @@ with level = Arena.new(megabytes(64)) {
 (program
   (with_statement
     (identifier)
-    (call_expression
-      (member_expression
+    (call_expr
+      (member_expr
         (user_defined_type_name)
         (identifier))
       (argument_list
         (value
-          (call_expression
+          (call_expr
             (identifier)
             (argument_list
               (value
@@ -192,7 +192,7 @@ with level = Arena.new(megabytes(64)) {
     (block
       (declaration
         (identifier)
-        (call_expression
+        (call_expr
           (identifier)
           (argument_list
             (value
@@ -200,7 +200,7 @@ with level = Arena.new(megabytes(64)) {
                 (decimal_int))))))
       (declaration
         (identifier)
-        (call_expression
+        (call_expr
           (identifier)
           (argument_list
             (value

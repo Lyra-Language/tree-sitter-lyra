@@ -8,7 +8,7 @@ Simple Range w/ int literals, less than
 
 (program
   (expression_statement
-    (range_expression
+    (range_expr
       (range_start
         (integer_literal
           (decimal_int)))
@@ -27,7 +27,7 @@ Simple Range w/ int literals, equals
 
 (program
   (expression_statement
-    (range_expression
+    (range_expr
       (range_start
         (integer_literal
           (decimal_int)))
@@ -46,7 +46,7 @@ Simple Range w/ step
 
 (program
   (expression_statement
-    (range_expression
+    (range_expr
       (range_start
         (integer_literal
           (decimal_int)))
@@ -68,7 +68,7 @@ start..=end
 
 (program
   (expression_statement
-    (range_expression
+    (range_expr
       (range_start
         (identifier))
       (range_end_operator)
@@ -85,16 +85,16 @@ foo/2..=end-1
 
 (program
   (expression_statement
-    (range_expression
+    (range_expr
       (range_start
-        (binary_expression
+        (binary_expr
           (identifier)
           (div_operator)
           (integer_literal
             (decimal_int))))
       (range_end_operator)
       (range_end
-        (binary_expression
+        (binary_expr
           (identifier)
           (sub_operator)
           (integer_literal

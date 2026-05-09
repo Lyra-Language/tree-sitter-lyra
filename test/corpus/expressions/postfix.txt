@@ -9,7 +9,7 @@ let name = person.name
 (program
   (declaration
     name: (identifier)
-    value: (member_expression
+    value: (member_expr
       object: (identifier)
       property: (identifier))))
 
@@ -24,7 +24,7 @@ let first = array[0]
 (program
   (declaration
     name: (identifier)
-    value: (index_expression
+    value: (index_expr
       object: (identifier)
       index: (integer_literal
         (decimal_int)))))
@@ -40,10 +40,10 @@ let foo = struct.function()[0].property
 (program
   (declaration
     (identifier)
-    (member_expression
-      (index_expression
-        (call_expression
-          (member_expression
+    (member_expr
+      (index_expr
+        (call_expr
+          (member_expr
             (identifier)
             (identifier))
           (argument_list))
@@ -62,8 +62,8 @@ let file = open_file("foo.txt")?
 (program
   (declaration
     (identifier)
-    (try_expression
-      (call_expression
+    (try_expr
+      (call_expr
         (identifier)
         (argument_list
           (value
@@ -81,9 +81,9 @@ let name = get_user(id)?.profile.name
 (program
   (declaration
     (identifier)
-    (member_expression
-      (optional_member_expression
-        (call_expression
+    (member_expr
+      (optional_member_expr
+        (call_expr
           (identifier)
           (argument_list
             (value
@@ -102,12 +102,12 @@ let data = open_file(path)?.read()?.parse()?
 (program
   (declaration
     (identifier)
-    (try_expression
-      (call_expression
-        (optional_member_expression
-          (call_expression
-            (optional_member_expression
-              (call_expression
+    (try_expr
+      (call_expr
+        (optional_member_expr
+          (call_expr
+            (optional_member_expr
+              (call_expr
                 (identifier)
                 (argument_list
                   (value
@@ -128,7 +128,7 @@ let name = player?.name
 (program
   (declaration
     (identifier)
-    (optional_member_expression
+    (optional_member_expr
       (identifier)
       (identifier))))
 
@@ -143,9 +143,9 @@ let damage = player?.weapon?.stats?.damage
 (program
   (declaration
     (identifier)
-    (optional_member_expression
-      (optional_member_expression
-        (optional_member_expression
+    (optional_member_expr
+      (optional_member_expr
+        (optional_member_expr
           (identifier)
           (identifier))
         (identifier))
@@ -162,7 +162,7 @@ let first = items?[0]
 (program
   (declaration
     (identifier)
-    (optional_index_expression
+    (optional_index_expr
       (identifier)
       (integer_literal
         (decimal_int)))))
@@ -178,8 +178,8 @@ let value = matrix?[0]?[1]
 (program
   (declaration
     (identifier)
-    (optional_index_expression
-      (optional_index_expression
+    (optional_index_expr
+      (optional_index_expr
         (identifier)
         (integer_literal
           (decimal_int)))
@@ -197,9 +197,9 @@ let item = player?.inventory?[0]?.name
 (program
   (declaration
     (identifier)
-    (optional_member_expression
-      (optional_index_expression
-        (optional_member_expression
+    (optional_member_expr
+      (optional_index_expr
+        (optional_member_expr
           (identifier)
           (identifier))
         (integer_literal
@@ -217,8 +217,8 @@ let name = player?.name ?? "Unknown"
 (program
   (declaration
     (identifier)
-    (null_coalescing_expression
-      (optional_member_expression
+    (null_coalescing_expr
+      (optional_member_expr
         (identifier)
         (identifier))
       (string_literal
@@ -235,11 +235,11 @@ let value = a ?? b ?? c ?? default_value
 (program
   (declaration
     (identifier)
-    (null_coalescing_expression
+    (null_coalescing_expr
       (identifier)
-      (null_coalescing_expression
+      (null_coalescing_expr
         (identifier)
-        (null_coalescing_expression
+        (null_coalescing_expr
           (identifier)
           (identifier))))))
 
@@ -254,13 +254,13 @@ let health = player?.stats?.health ?? calculate_default_health(level)
 (program
   (declaration
     (identifier)
-    (null_coalescing_expression
-      (optional_member_expression
-        (optional_member_expression
+    (null_coalescing_expr
+      (optional_member_expr
+        (optional_member_expr
           (identifier)
           (identifier))
         (identifier))
-      (call_expression
+      (call_expr
         (identifier)
         (argument_list
           (value

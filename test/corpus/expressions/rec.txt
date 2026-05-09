@@ -31,17 +31,17 @@ let factorial = rec (n: i32, acc: i32) -> i32 => if n <= 1 { acc } else { factor
             (identifier)))
         (block
           (expression_statement
-            (call_expression
+            (call_expr
               (identifier)
               (argument_list
                 (value
-                  (binary_expression
+                  (binary_expr
                     (identifier)
                     (sub_operator)
                     (integer_literal
                       (decimal_int))))
                 (value
-                  (binary_expression
+                  (binary_expr
                     (identifier)
                     (mul_operator)
                     (identifier)))))))))))
@@ -78,11 +78,11 @@ let count = async rec (n: i32) -> i32 => if n == 0 { 0 } else { count(n - 1) }
               (decimal_int))))
         (block
           (expression_statement
-            (call_expression
+            (call_expr
               (identifier)
               (argument_list
                 (value
-                  (binary_expression
+                  (binary_expr
                     (identifier)
                     (sub_operator)
                     (integer_literal
@@ -126,11 +126,11 @@ let fib = rec (n: i32, a: i32, b: i32) -> i32 { (0, a, _) => a, (n, a, b) => fib
             (identifier)
             (identifier)
             (identifier))
-          (call_expression
+          (call_expr
             (identifier)
             (argument_list
               (value
-                (binary_expression
+                (binary_expr
                   (identifier)
                   (sub_operator)
                   (integer_literal
@@ -138,7 +138,7 @@ let fib = rec (n: i32, a: i32, b: i32) -> i32 { (0, a, _) => a, (n, a, b) => fib
               (value
                 (identifier))
               (value
-                (binary_expression
+                (binary_expr
                   (identifier)
                   (add_operator)
                   (identifier))))))))))

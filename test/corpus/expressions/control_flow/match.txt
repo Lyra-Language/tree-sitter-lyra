@@ -150,7 +150,7 @@ Match with range arms
           (range_end_operator)
           (integer_literal
             (decimal_int)))
-        (call_expression
+        (call_expr
           (identifier)
           (argument_list
             (value
@@ -160,7 +160,7 @@ Match with range arms
         (literal_pattern
           (integer_literal
             (decimal_int)))
-        (call_expression
+        (call_expr
           (identifier)
           (argument_list
             (value
@@ -173,7 +173,7 @@ Match with range arms
           (range_end_operator)
           (integer_literal
             (decimal_int)))
-        (call_expression
+        (call_expr
           (identifier)
           (argument_list
             (value
@@ -181,7 +181,7 @@ Match with range arms
                 (string_content))))))
       (match_arm
         (wildcard_pattern)
-        (call_expression
+        (call_expr
           (identifier)
           (argument_list
             (value
@@ -221,7 +221,7 @@ match foo {
               (less_than_operator)
               (integer_literal
                 (decimal_int)))))
-        (call_expression
+        (call_expr
           (identifier)
           (argument_list
             (value
@@ -244,7 +244,7 @@ match foo {
               (less_than_operator)
               (integer_literal
                 (decimal_int)))))
-        (call_expression
+        (call_expr
           (identifier)
           (argument_list
             (value
@@ -253,7 +253,7 @@ match foo {
       (match_arm
         (data_pattern
           (data_type_name))
-        (call_expression
+        (call_expr
           (identifier)
           (argument_list
             (value

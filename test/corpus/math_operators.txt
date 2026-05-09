@@ -8,7 +8,7 @@ Simple Math Operator
 
 (program
   (expression_statement
-    (binary_expression
+    (binary_expr
       (integer_literal
         (decimal_int))
       (add_operator)
@@ -25,11 +25,11 @@ Test Simple Precedence
 
 (program
   (expression_statement
-    (binary_expression
+    (binary_expr
       (integer_literal
         (decimal_int))
       (add_operator)
-      (binary_expression
+      (binary_expr
         (integer_literal
           (decimal_int))
         (mul_operator)
@@ -46,9 +46,9 @@ Test Group Precedence
 
 (program
   (expression_statement
-    (binary_expression
+    (binary_expr
       (group
-        (binary_expression
+        (binary_expr
           (integer_literal
             (decimal_int))
           (add_operator)
@@ -68,10 +68,10 @@ Test Group Precedence with Negation
 
 (program
   (expression_statement
-    (binary_expression
+    (binary_expr
       (negation
         (group
-          (binary_expression
+          (binary_expr
             (integer_literal
               (decimal_int))
             (add_operator)
@@ -91,8 +91,8 @@ a - b - c
 
 (program
   (expression_statement
-    (binary_expression
-      (binary_expression
+    (binary_expr
+      (binary_expr
         (identifier)
         (sub_operator)
         (identifier))
@@ -109,11 +109,11 @@ a + b * c - d
 
 (program
   (expression_statement
-    (binary_expression
-      (binary_expression
+    (binary_expr
+      (binary_expr
         (identifier)
         (add_operator)
-        (binary_expression
+        (binary_expr
           (identifier)
           (mul_operator)
           (identifier)))

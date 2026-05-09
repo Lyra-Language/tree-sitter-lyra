@@ -64,8 +64,8 @@ let fetchJSON = async (url: string, options: FetchOptions) -> Response => {
       (block
         (declaration
           (identifier)
-          (await_expression
-            (call_expression
+          (await_expr
+            (call_expr
               (identifier)
               (argument_list
                 (value
@@ -73,8 +73,8 @@ let fetchJSON = async (url: string, options: FetchOptions) -> Response => {
                 (value
                   (identifier))))))
         (return_statement
-          (call_expression
-            (member_expression
+          (call_expr
+            (member_expr
               (const_identifier)
               (identifier))
             (argument_list
@@ -102,7 +102,7 @@ let add = pure (a: int, b: int) -> int => a + b
           (identifier)
           (signed_integer_type)))
       (signed_integer_type)
-      (binary_expression
+      (binary_expr
         (identifier)
         (add_operator)
         (identifier)))))
@@ -129,7 +129,7 @@ pub let multiply = pure (a: int, b: int) -> int => a * b
           (identifier)
           (signed_integer_type)))
       (signed_integer_type)
-      (binary_expression
+      (binary_expr
         (identifier)
         (mul_operator)
         (identifier)))))
@@ -153,7 +153,7 @@ let compute = pure async (n: int) -> int => n * 2
           (identifier)
           (signed_integer_type)))
       (signed_integer_type)
-      (binary_expression
+      (binary_expr
         (identifier)
         (mul_operator)
         (integer_literal
@@ -199,22 +199,22 @@ let fib = pure (n: int) -> int {
         (lambda_clause
           (pattern_parameter_list
             (identifier))
-          (binary_expression
-            (call_expression
+          (binary_expr
+            (call_expr
               (identifier)
               (argument_list
                 (value
-                  (binary_expression
+                  (binary_expr
                     (identifier)
                     (sub_operator)
                     (integer_literal
                       (decimal_int))))))
             (add_operator)
-            (call_expression
+            (call_expr
               (identifier)
               (argument_list
                 (value
-                  (binary_expression
+                  (binary_expr
                     (identifier)
                     (sub_operator)
                     (integer_literal
@@ -257,7 +257,7 @@ let sum = (a: int, b: int) -> int => a + b
           (identifier)
           (signed_integer_type)))
       (signed_integer_type)
-      (binary_expression
+      (binary_expr
         (identifier)
         (add_operator)
         (identifier)))))
@@ -284,7 +284,7 @@ let sum<n> = (a: n, b: n) -> n => a + b
           (identifier)
           (generic_type)))
       (generic_type)
-      (binary_expression
+      (binary_expr
         (identifier)
         (add_operator)
         (identifier)))))
@@ -344,7 +344,7 @@ let product = (a: int, b: int = 10) -> int => a * b
             (integer_literal
               (decimal_int)))))
       (signed_integer_type)
-      (binary_expression
+      (binary_expr
         (identifier)
         (mul_operator)
         (identifier)))))
@@ -471,22 +471,22 @@ let fib = pure (n: int) -> int {
         (lambda_clause
           (pattern_parameter_list
             (identifier))
-          (binary_expression
-            (call_expression
+          (binary_expr
+            (call_expr
               (identifier)
               (argument_list
                 (value
-                  (binary_expression
+                  (binary_expr
                     (identifier)
                     (sub_operator)
                     (integer_literal
                       (decimal_int))))))
             (add_operator)
-            (call_expression
+            (call_expr
               (identifier)
               (argument_list
                 (value
-                  (binary_expression
+                  (binary_expr
                     (identifier)
                     (sub_operator)
                     (integer_literal
@@ -527,22 +527,22 @@ let fib = pure (n: int) -> int {
         (lambda_clause
           (pattern_parameter_list
             (identifier))
-          (binary_expression
-            (call_expression
+          (binary_expr
+            (call_expr
               (identifier)
               (argument_list
                 (value
-                  (binary_expression
+                  (binary_expr
                     (identifier)
                     (sub_operator)
                     (integer_literal
                       (decimal_int))))))
             (add_operator)
-            (call_expression
+            (call_expr
               (identifier)
               (argument_list
                 (value
-                  (binary_expression
+                  (binary_expr
                     (identifier)
                     (sub_operator)
                     (integer_literal

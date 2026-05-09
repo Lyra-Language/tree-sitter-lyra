@@ -9,8 +9,8 @@ let y = a + b given { let a = 1 }
 (program
   (declaration
     (identifier)
-    (given_expression
-      (binary_expression
+    (given_expr
+      (binary_expr
         (identifier)
         (add_operator)
         (identifier))
@@ -34,25 +34,25 @@ let result = sqrt(a_sq + b_sq) given {
 (program
   (declaration
     (identifier)
-    (given_expression
-      (call_expression
+    (given_expr
+      (call_expr
         (identifier)
         (argument_list
           (value
-            (binary_expression
+            (binary_expr
               (identifier)
               (add_operator)
               (identifier)))))
       (given_bindings
         (declaration
           (identifier)
-          (binary_expression
+          (binary_expr
             (identifier)
             (mul_operator)
             (identifier)))
         (declaration
           (identifier)
-          (binary_expression
+          (binary_expr
             (identifier)
             (mul_operator)
             (identifier)))))))
@@ -68,9 +68,9 @@ let circumference = 2 * PI * r given { const PI = 3.1415 }
 (program
   (declaration
     (identifier)
-    (given_expression
-      (binary_expression
-        (binary_expression
+    (given_expr
+      (binary_expr
+        (binary_expr
           (integer_literal
             (decimal_int))
           (mul_operator)

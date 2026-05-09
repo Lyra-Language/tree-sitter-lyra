@@ -17,7 +17,7 @@ Simple Lambda Function
             (identifier)
             (signed_integer_type)))
         (signed_integer_type)
-        (binary_expression
+        (binary_expr
             (identifier)
             (add_operator)
             (identifier)))))
@@ -38,7 +38,7 @@ let double = (x: int) => x * 2
         (parameter
             (identifier)
             (signed_integer_type)))
-        (binary_expression
+        (binary_expr
         (identifier)
         (mul_operator)
         (integer_literal
@@ -69,7 +69,7 @@ let make_sum_fn = (a: int) -> (int) -> int => (b) => a + b
             (parameter_list
                 (parameter
                     (identifier)))
-                (binary_expression
+                (binary_expr
                     (identifier)
                     (add_operator)
                     (identifier))))))
@@ -85,7 +85,7 @@ let doubled = map::<int, int>([1, 2, 3], (x) => 2 * x)
 (program
     (declaration
     (identifier)
-    (call_expression
+    (call_expr
         (identifier)
         (generic_arguments
         (signed_integer_type)
@@ -104,7 +104,7 @@ let doubled = map::<int, int>([1, 2, 3], (x) => 2 * x)
             (parameter_list
                 (parameter
                 (identifier)))
-            (binary_expression
+            (binary_expr
                 (integer_literal
                 (decimal_int))
                 (mul_operator)

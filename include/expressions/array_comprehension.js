@@ -10,7 +10,7 @@ module.exports = {
         $._generators,
         optional(seq("|", $._guards)),
         "|",
-        field("result_expression", $.result_expression),
+        field("result_expr", $.result_expr),
         "]",
       ),
     ),
@@ -23,7 +23,7 @@ module.exports = {
       field(
         "value",
         choice(
-          $.range_expression,
+          $.range_expr,
           $.array_literal,
           $.string_literal,
           $.identifier,
@@ -33,9 +33,9 @@ module.exports = {
 
   _guards: ($) => field("guards", commaSep1($.comprehension_guard)),
   comprehension_guard: ($) =>
-    choice($.boolean_expr, $.call_expression, $.identifier),
+    choice($.boolean_expr, $.call_expr, $.identifier),
 
-  result_expression: ($) =>
+  result_expr: ($) =>
     choice(
       // `_math_operand` already covers plain identifiers / postfix forms
       // (e.g. `x`, `foo(x).bar`) as well as any nested math expression
