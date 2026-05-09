@@ -75,11 +75,12 @@ let add = (a: fixed<8,24>, b: fixed<8,24>) -> fixed<8,24> => a + b
               (decimal_int))
             (integer_literal
               (decimal_int)))))
-      (fixed_point_type
-        (integer_literal
-          (decimal_int))
-        (integer_literal
-          (decimal_int)))
+      (return_type
+        (fixed_point_type
+          (integer_literal
+            (decimal_int))
+          (integer_literal
+            (decimal_int))))
       (binary_expr
         (identifier)
         (add_operator)

@@ -133,7 +133,8 @@ let dot = (a: Vec3, b: Vec3) -> f32 => a.x * b.x
         (parameter
           (identifier)
           (user_defined_type_name)))
-      (float_type)
+      (return_type
+        (float_type))
       (binary_expr
         (member_expr
           (identifier)

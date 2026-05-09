@@ -18,9 +18,10 @@ let behavior = gen (enemy: Enemy) -> Gen<Command> => {
         (parameter
           (identifier)
           (user_defined_type_name)))
-      (parameterized_type
-        (user_defined_type_name)
-        (user_defined_type_name))
+      (return_type
+        (parameterized_type
+          (user_defined_type_name)
+          (user_defined_type_name)))
       (block
         (expression_statement
           (yield_from_expr
@@ -59,9 +60,10 @@ let mixed = gen () -> Gen<i32> => {
     (lambda_expr
       (gen_modifier)
       (parameter_list)
-      (parameterized_type
-        (user_defined_type_name)
-        (signed_integer_type))
+      (return_type
+        (parameterized_type
+          (user_defined_type_name)
+          (signed_integer_type)))
       (block
         (expression_statement
           (yield_expr
@@ -104,9 +106,10 @@ let pipeline = gen (items: []Item) -> Gen<Result> => {
           (identifier)
           (array_type
             (user_defined_type_name))))
-      (parameterized_type
-        (user_defined_type_name)
-        (user_defined_type_name))
+      (return_type
+        (parameterized_type
+          (user_defined_type_name)
+          (user_defined_type_name)))
       (block
         (expression_statement
           (yield_from_expr

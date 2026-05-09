@@ -69,7 +69,8 @@ let add = (a: i32, b: i32) -> i32 => a + b
         (parameter
           (identifier)
           (signed_integer_type)))
-      (signed_integer_type)
+      (return_type
+        (signed_integer_type))
       (binary_expr
         (identifier)
         (add_operator)

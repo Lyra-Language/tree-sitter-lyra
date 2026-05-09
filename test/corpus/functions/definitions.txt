@@ -2,7 +2,7 @@
 Basic Function declaration without parameters
 =============================================
 
-let foo = () -> void => {
+let foo = () => {
   // do stuff
 }
 
@@ -13,7 +13,6 @@ let foo = () -> void => {
     (identifier)
     (lambda_expr
       (parameter_list)
-      (generic_type)
       (block
         (comment)))))
 
@@ -21,7 +20,7 @@ let foo = () -> void => {
 Basic Function declaration with visibility
 =============================================
 
-pub let foo = () -> void => {
+pub let foo = () => {
   // do stuff
 }
 
@@ -33,7 +32,6 @@ pub let foo = () -> void => {
     (identifier)
     (lambda_expr
       (parameter_list)
-      (generic_type)
       (block
         (comment)))))
 
@@ -60,7 +58,8 @@ let fetchJSON = async (url: string, options: FetchOptions) -> Response => {
         (parameter
           (identifier)
           (user_defined_type_name)))
-      (user_defined_type_name)
+      (return_type
+        (user_defined_type_name))
       (block
         (declaration
           (identifier)
@@ -101,7 +100,8 @@ let add = pure (a: int, b: int) -> int => a + b
         (parameter
           (identifier)
           (signed_integer_type)))
-      (signed_integer_type)
+      (return_type
+        (signed_integer_type))
       (binary_expr
         (identifier)
         (add_operator)
@@ -128,7 +128,8 @@ pub let multiply = pure (a: int, b: int) -> int => a * b
         (parameter
           (identifier)
           (signed_integer_type)))
-      (signed_integer_type)
+      (return_type
+        (signed_integer_type))
       (binary_expr
         (identifier)
         (mul_operator)
@@ -152,7 +153,8 @@ let compute = pure async (n: int) -> int => n * 2
         (parameter
           (identifier)
           (signed_integer_type)))
-      (signed_integer_type)
+      (return_type
+        (signed_integer_type))
       (binary_expr
         (identifier)
         (mul_operator)
@@ -180,7 +182,8 @@ let fib = pure (n: int) -> int {
         (parameter
           (identifier)
           (signed_integer_type)))
-      (signed_integer_type)
+      (return_type
+        (signed_integer_type))
       (lambda_clause_list
         (lambda_clause
           (pattern_parameter_list
@@ -233,7 +236,8 @@ let foo = () -> int => 42
     (identifier)
     (lambda_expr
       (parameter_list)
-      (signed_integer_type)
+      (return_type
+        (signed_integer_type))
       (integer_literal
         (decimal_int)))))
 
@@ -256,7 +260,8 @@ let sum = (a: int, b: int) -> int => a + b
         (parameter
           (identifier)
           (signed_integer_type)))
-      (signed_integer_type)
+      (return_type
+        (signed_integer_type))
       (binary_expr
         (identifier)
         (add_operator)
@@ -283,7 +288,8 @@ let sum<n> = (a: n, b: n) -> n => a + b
         (parameter
           (identifier)
           (generic_type)))
-      (generic_type)
+      (return_type
+        (generic_type))
       (binary_expr
         (identifier)
         (add_operator)
@@ -315,7 +321,8 @@ let compare<n> where n: Ord = (a: n, b: n) -> n => a <=> b
         (parameter
           (identifier)
           (generic_type)))
-      (generic_type)
+      (return_type
+        (generic_type))
       (boolean_expr
         (identifier)
         (spaceship_operator)
@@ -343,7 +350,8 @@ let product = (a: int, b: int = 10) -> int => a * b
           (default_value
             (integer_literal
               (decimal_int)))))
-      (signed_integer_type)
+      (return_type
+        (signed_integer_type))
       (binary_expr
         (identifier)
         (mul_operator)
@@ -385,7 +393,8 @@ let foo = ({ x, y }: Point, [one, two, three, ...rest]: []string, (alpha, beta):
             (identifier)
             (identifier))
           (user_defined_type_name)))
-      (generic_type)
+      (return_type
+        (generic_type))
       (block
         (comment)))))
 
@@ -422,8 +431,9 @@ let map<t,u> = (array: []t, func: (t) -> u) -> []u => {
               (parameter_type
                 (generic_type)))
             (generic_type))))
-      (array_type
-        (generic_type))
+      (return_type
+        (array_type
+          (generic_type)))
       (block
         (comment)
         (comment)
@@ -452,7 +462,8 @@ let fib = pure (n: int) -> int {
         (parameter
           (identifier)
           (signed_integer_type)))
-      (signed_integer_type)
+      (return_type
+        (signed_integer_type))
       (lambda_clause_list
         (lambda_clause
           (pattern_parameter_list
@@ -512,7 +523,8 @@ let fib = pure (n: int) -> int {
         (parameter
           (identifier)
           (signed_integer_type)))
-      (signed_integer_type)
+      (return_type
+        (signed_integer_type))
       (lambda_clause_list
         (lambda_clause
           (pattern_parameter_list
@@ -567,7 +579,8 @@ let render = (scene: ref Scene) -> void => {
           (identifier)
           (type_modifier)
           (user_defined_type_name)))
-      (generic_type)
+      (return_type
+        (generic_type))
       (block
         (comment)))))
 
@@ -590,8 +603,9 @@ let open_file = (path: string) -> mut File => {
         (parameter
           (identifier)
           (string_type)))
-      (type_modifier)
-      (user_defined_type_name)
+      (return_type
+        (type_modifier)
+        (user_defined_type_name))
       (block
         (comment)
         (return_statement

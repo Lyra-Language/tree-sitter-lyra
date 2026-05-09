@@ -18,7 +18,8 @@ let factorial = rec (n: i32, acc: i32) -> i32 => if n <= 1 { acc } else { factor
         (parameter
           (identifier)
           (signed_integer_type)))
-      (signed_integer_type)
+      (return_type
+        (signed_integer_type))
       (if_block_expr
         (if_condition
           (boolean_expr
@@ -64,7 +65,8 @@ let count = async rec (n: i32) -> i32 => if n == 0 { 0 } else { count(n - 1) }
         (parameter
           (identifier)
           (signed_integer_type)))
-      (signed_integer_type)
+      (return_type
+        (signed_integer_type))
       (if_block_expr
         (if_condition
           (boolean_expr
@@ -111,7 +113,8 @@ let fib = rec (n: i32, a: i32, b: i32) -> i32 { (0, a, _) => a, (n, a, b) => fib
         (parameter
           (identifier)
           (signed_integer_type)))
-      (signed_integer_type)
+      (return_type
+        (signed_integer_type))
       (lambda_clause_list
         (lambda_clause
           (pattern_parameter_list

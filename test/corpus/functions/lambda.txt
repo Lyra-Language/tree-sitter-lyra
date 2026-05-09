@@ -16,7 +16,8 @@ Simple Lambda Function
         (parameter
             (identifier)
             (signed_integer_type)))
-        (signed_integer_type)
+        (return_type
+            (signed_integer_type))
         (binary_expr
             (identifier)
             (add_operator)
@@ -60,11 +61,12 @@ let make_sum_fn = (a: int) -> (int) -> int => (b) => a + b
         (parameter
             (identifier)
             (signed_integer_type)))
-        (lambda_type
-        (parameter_type_list
-            (parameter_type
-            (signed_integer_type)))
-        (signed_integer_type))
+        (return_type
+            (lambda_type
+              (parameter_type_list
+                (parameter_type
+                  (signed_integer_type)))
+              (signed_integer_type)))
         (lambda_expr
             (parameter_list
                 (parameter

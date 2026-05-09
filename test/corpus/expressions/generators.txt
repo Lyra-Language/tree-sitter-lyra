@@ -21,9 +21,10 @@ let counter = gen (start: i32) -> Gen<i32> => {
         (parameter
           (identifier)
           (signed_integer_type)))
-      (parameterized_type
-        (user_defined_type_name)
-        (signed_integer_type))
+      (return_type
+        (parameterized_type
+          (user_defined_type_name)
+          (signed_integer_type)))
       (block
         (declaration
           (identifier)
@@ -61,9 +62,10 @@ let stream = async gen (url: string) -> Gen<Packet> => {
         (parameter
           (identifier)
           (string_type)))
-      (parameterized_type
-        (user_defined_type_name)
-        (user_defined_type_name))
+      (return_type
+        (parameterized_type
+          (user_defined_type_name)
+          (user_defined_type_name)))
       (block
         (declaration
           (identifier)
@@ -96,9 +98,10 @@ let frames = pure gen () -> Gen<Void> => {
       (pure_modifier)
       (gen_modifier)
       (parameter_list)
-      (parameterized_type
-        (user_defined_type_name)
-        (void_type))
+      (return_type
+        (parameterized_type
+          (user_defined_type_name)
+          (void_type)))
       (block
         (for_loop
           (for_body
@@ -127,9 +130,10 @@ let ai = gen (enemy: Enemy) -> Gen<Action> => {
         (parameter
           (identifier)
           (user_defined_type_name)))
-      (parameterized_type
-        (user_defined_type_name)
-        (user_defined_type_name))
+      (return_type
+        (parameterized_type
+          (user_defined_type_name)
+          (user_defined_type_name)))
       (block
         (expression_statement
           (yield_expr

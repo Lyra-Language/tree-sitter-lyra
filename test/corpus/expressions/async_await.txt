@@ -20,7 +20,8 @@ let fetch_data<t> = async (url: string) -> t => {
         (parameter
           (identifier)
           (string_type)))
-      (generic_type)
+      (return_type
+        (generic_type))
       (block
         (declaration
           (identifier)

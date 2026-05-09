@@ -10,12 +10,22 @@ module.exports = {
       optional(field("is_gen", $.gen_modifier)),
       optional(field("is_rec", $.rec_modifier)),
       field("parameters", $.parameter_list),
-      optional(field("return_type", seq("->", optional($.type_modifier), $.type))),
+      optional(field("return_type", $.return_type)),
       choice(
         seq("=>", field("body", $.expression)),
         field("lambda_clauses", $.lambda_clause_list),
       ),
     ),
+
+  return_type: ($) =>
+    seq(
+        "->",
+        optional(
+          field("type_modifier", $.type_modifier)
+        ),
+        field("type", $.type)
+      ),
+
 
   unsafe_modifier: ($) => "unsafe",
   pure_modifier: ($) => "pure",
@@ -30,7 +40,13 @@ module.exports = {
       "parameter",
       seq(
         field("pattern", $.pattern),
-        optional(seq(":", optional($.type_modifier), field("type", $.type))),
+        optional(
+          seq(
+            ":",
+            optional(field("type_modifier", $.type_modifier)),
+            field("type", $.type)
+          )
+        ),
         optional(field("default_value", $.default_value)),
       ),
     ),

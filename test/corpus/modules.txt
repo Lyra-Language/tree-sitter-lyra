@@ -155,7 +155,8 @@ pub let greet = (name: string) -> string => "Hello, ${name}!"
         (parameter
           (identifier)
           (string_type)))
-      (string_type)
+      (return_type
+        (string_type))
       (string_literal
         (string_content)
         (string_interpolation
@@ -249,7 +250,8 @@ let helper = () -> void => 42
         (parameter
           (identifier)
           (string_type)))
-      (user_defined_type_name)
+      (return_type
+        (user_defined_type_name))
       (block
         (declaration
           (identifier)
@@ -270,6 +272,7 @@ let helper = () -> void => 42
     (identifier)
     (lambda_expr
       (parameter_list)
-      (generic_type)
+      (return_type
+        (generic_type))
       (integer_literal
         (decimal_int)))))
