@@ -1,0 +1,256 @@
+==========================
+Default string parameter
+==========================
+
+let greet = (name: string, prefix: string = "Hello") -> string => "${prefix} ${name}"
+
+---
+
+(program
+  (declaration
+    (identifier)
+    (lambda_expr
+      (parameter_list
+        (parameter
+          (identifier)
+          (string_type))
+        (parameter
+          (identifier)
+          (string_type)
+          (default_value
+            (string_literal
+              (string_content)))))
+      (return_type
+        (string_type))
+      (string_literal
+        (string_interpolation
+          (identifier))
+        (string_interpolation
+          (identifier))))))
+
+==========================
+Default boolean parameter
+==========================
+
+let log = (msg: string, verbose: bool = false) -> void => {}
+
+---
+
+(program
+  (declaration
+    (identifier)
+    (lambda_expr
+      (parameter_list
+        (parameter
+          (identifier)
+          (string_type))
+        (parameter
+          (identifier)
+          (boolean_type)
+          (default_value
+            (boolean_literal))))
+      (return_type
+        (generic_type))
+      (block))))
+
+=========================
+Default float parameter
+=========================
+
+let scale = (x: float, factor: float = 1.0) -> float => x * factor
+
+---
+
+(program
+  (declaration
+    (identifier)
+    (lambda_expr
+      (parameter_list
+        (parameter
+          (identifier)
+          (float_type))
+        (parameter
+          (identifier)
+          (float_type)
+          (default_value
+            (float_literal))))
+      (return_type
+        (float_type))
+      (binary_expr
+        (identifier)
+        (mul_operator)
+        (identifier)))))
+
+================================
+Multiple parameters with defaults
+================================
+
+let clamp = (value: int, min: int = 0, max: int = 100) -> int => value
+
+---
+
+(program
+  (declaration
+    (identifier)
+    (lambda_expr
+      (parameter_list
+        (parameter
+          (identifier)
+          (signed_integer_type))
+        (parameter
+          (identifier)
+          (signed_integer_type)
+          (default_value
+            (integer_literal
+              (decimal_int))))
+        (parameter
+          (identifier)
+          (signed_integer_type)
+          (default_value
+            (integer_literal
+              (decimal_int)))))
+      (return_type
+        (signed_integer_type))
+      (identifier))))
+
+=====================================
+Default value without type annotation
+=====================================
+
+let add = (x: int, y = 0) -> int => x + y
+
+---
+
+(program
+  (declaration
+    (identifier)
+    (lambda_expr
+      (parameter_list
+        (parameter
+          (identifier)
+          (signed_integer_type))
+        (parameter
+          (identifier)
+          (default_value
+            (integer_literal
+              (decimal_int)))))
+      (return_type
+        (signed_integer_type))
+      (binary_expr
+        (identifier)
+        (add_operator)
+        (identifier)))))
+
+==============================
+Default value as call expression
+==============================
+
+let process = (items: []string, config: Config = get_default_config()) -> void => {}
+
+---
+
+(program
+  (declaration
+    (identifier)
+    (lambda_expr
+      (parameter_list
+        (parameter
+          (identifier)
+          (array_type
+            (string_type)))
+        (parameter
+          (identifier)
+          (user_defined_type_name)
+          (default_value
+            (call_expr
+              (identifier)
+              (argument_list)))))
+      (return_type
+        (generic_type))
+      (block))))
+
+==============================
+Default value as array literal
+==============================
+
+let sum_all = (nums: []int = [0, 1, 2]) -> int => 0
+
+---
+
+(program
+  (declaration
+    (identifier)
+    (lambda_expr
+      (parameter_list
+        (parameter
+          (identifier)
+          (array_type
+            (signed_integer_type))
+          (default_value
+            (array_literal
+              (integer_literal
+                (decimal_int))
+              (integer_literal
+                (decimal_int))
+              (integer_literal
+                (decimal_int))))))
+      (return_type
+        (signed_integer_type))
+      (integer_literal
+        (decimal_int)))))
+
+============================================
+Default parameter value with multiple clauses
+============================================
+
+let factorial = pure rec (n: int, acc: int = 1) -> int {
+  (0, acc) => acc,
+  (n, acc) => factorial(n - 1, acc * n),
+}
+
+---
+
+(program
+  (declaration
+    (identifier)
+    (lambda_expr
+      (pure_modifier)
+      (rec_modifier)
+      (parameter_list
+        (parameter
+          (identifier)
+          (signed_integer_type))
+        (parameter
+          (identifier)
+          (signed_integer_type)
+          (default_value
+            (integer_literal
+              (decimal_int)))))
+      (return_type
+        (signed_integer_type))
+      (lambda_clause_list
+        (lambda_clause
+          (pattern_parameter_list
+            (literal_pattern
+              (integer_literal
+                (decimal_int)))
+            (identifier))
+          (identifier))
+        (lambda_clause
+          (pattern_parameter_list
+            (identifier)
+            (identifier))
+          (call_expr
+            (identifier)
+            (argument_list
+              (value
+                (binary_expr
+                  (identifier)
+                  (sub_operator)
+                  (integer_literal
+                    (decimal_int))))
+              (value
+                (binary_expr
+                  (identifier)
+                  (mul_operator)
+                  (identifier))))))))))

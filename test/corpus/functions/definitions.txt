@@ -328,40 +328,11 @@ let compare<n> where n: Ord = (a: n, b: n) -> n => a <=> b
         (spaceship_operator)
         (identifier)))))
 
-==================================
-Function declaration with defaults
-==================================
-
-let product = (a: int, b: int = 10) -> int => a * b
-
----
-
-(program
-  (declaration
-    (identifier)
-    (lambda_expr
-      (parameter_list
-        (parameter
-          (identifier)
-          (signed_integer_type))
-        (parameter
-          (identifier)
-          (signed_integer_type)
-          (default_value
-            (integer_literal
-              (decimal_int)))))
-      (return_type
-        (signed_integer_type))
-      (binary_expr
-        (identifier)
-        (mul_operator)
-        (identifier)))))
-
 =====================================
 Function with patterns for parameters
 =====================================
 
-let foo = ({ x, y }: Point, [one, two, three, ...rest]: []string, (alpha, beta): SomeTuple) -> void => {
+let foo = ({ x, y }: Point, [one, two, three, ...rest]: []string, (alpha, beta): SomeTuple) -> Void => {
   // do stuff
 }
 
@@ -394,7 +365,7 @@ let foo = ({ x, y }: Point, [one, two, three, ...rest]: []string, (alpha, beta):
             (identifier))
           (user_defined_type_name)))
       (return_type
-        (generic_type))
+        (void_type))
       (block
         (comment)))))
 
@@ -445,7 +416,7 @@ let map<t,u> = (array: []t, func: (t) -> u) -> []u => {
 Recursive Function with multiple function patterns
 ==================================================
 
-let fib = pure (n: int) -> int {
+let fib = pure rec (n: int) -> int {
   (0) => 0,
   (1) => 1,
   (n) => fib(n-2) + fib(n-1),
@@ -458,6 +429,7 @@ let fib = pure (n: int) -> int {
     (identifier)
     (lambda_expr
       (pure_modifier)
+      (rec_modifier)
       (parameter_list
         (parameter
           (identifier)
@@ -564,7 +536,7 @@ let fib = pure (n: int) -> int {
 Function type parameter modifiers
 =================================
 
-let render = (scene: ref Scene) -> void => {
+let render = (scene: ref Scene) -> Void => {
   // render the scene
 }
 
@@ -580,7 +552,7 @@ let render = (scene: ref Scene) -> void => {
           (type_modifier)
           (user_defined_type_name)))
       (return_type
-        (generic_type))
+        (void_type))
       (block
         (comment)))))
 
