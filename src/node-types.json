@@ -920,7 +920,15 @@
             "named": true
           },
           {
+            "type": "mod_operator",
+            "named": true
+          },
+          {
             "type": "mul_operator",
+            "named": true
+          },
+          {
+            "type": "remainder_operator",
             "named": true
           },
           {
@@ -1510,7 +1518,15 @@
             "named": true
           },
           {
+            "type": "mod_assign_operator",
+            "named": true
+          },
+          {
             "type": "mul_assign_operator",
+            "named": true
+          },
+          {
+            "type": "remainder_assign_operator",
             "named": true
           },
           {
@@ -1760,7 +1776,15 @@
             "named": true
           },
           {
+            "type": "mod_operator",
+            "named": true
+          },
+          {
             "type": "mul_operator",
+            "named": true
+          },
+          {
+            "type": "remainder_operator",
             "named": true
           },
           {
@@ -1876,7 +1900,18 @@
   {
     "type": "continue_statement",
     "named": true,
-    "fields": {}
+    "fields": {
+      "label": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "identifier",
+            "named": true
+          }
+        ]
+      }
+    }
   },
   {
     "type": "data_constructor_expr",
@@ -2524,24 +2559,37 @@
   {
     "type": "for_condition",
     "named": true,
-    "fields": {},
-    "children": {
-      "multiple": true,
-      "required": true,
-      "types": [
-        {
-          "type": "for_after_expr",
-          "named": true
-        },
-        {
-          "type": "for_condition_expr",
-          "named": true
-        },
-        {
-          "type": "for_initial_expr",
-          "named": true
-        }
-      ]
+    "fields": {
+      "condition_expr": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "for_condition_expr",
+            "named": true
+          }
+        ]
+      },
+      "initial_expr": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "for_initial_expr",
+            "named": true
+          }
+        ]
+      },
+      "post_expr": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "for_post_expr",
+            "named": true
+          }
+        ]
+      }
     }
   },
   {
@@ -2976,24 +3024,37 @@
   {
     "type": "for_loop",
     "named": true,
-    "fields": {},
-    "children": {
-      "multiple": true,
-      "required": true,
-      "types": [
-        {
-          "type": "for_body",
-          "named": true
-        },
-        {
-          "type": "for_condition",
-          "named": true
-        },
-        {
-          "type": "label",
-          "named": true
-        }
-      ]
+    "fields": {
+      "for_body": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "for_body",
+            "named": true
+          }
+        ]
+      },
+      "for_condition": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "for_condition",
+            "named": true
+          }
+        ]
+      },
+      "label": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "label",
+            "named": true
+          }
+        ]
+      }
     }
   },
   {
@@ -4081,6 +4142,11 @@
         }
       ]
     }
+  },
+  {
+    "type": "mod_operator",
+    "named": true,
+    "fields": {}
   },
   {
     "type": "module_declaration",
@@ -6675,6 +6741,10 @@
     "named": false
   },
   {
+    "type": "mod_assign_operator",
+    "named": true
+  },
+  {
     "type": "module",
     "named": false
   },
@@ -6732,6 +6802,14 @@
   },
   {
     "type": "regex_literal",
+    "named": true
+  },
+  {
+    "type": "remainder_assign_operator",
+    "named": true
+  },
+  {
+    "type": "remainder_operator",
     "named": true
   },
   {

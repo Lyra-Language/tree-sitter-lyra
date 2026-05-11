@@ -99,3 +99,59 @@ for i in 0..=10 {
           (block
             (continue_statement))))
       (comment))))
+
+===================
+Continue with label
+===================
+
+outer: for x in 0..=10 {
+  for y in 0..=10 {
+    if y % 2 == 0 {
+      continue outer
+    }
+  }
+}
+
+---
+
+(program
+  (for_in_loop
+    (label)
+    (for_in_condition
+      (for_variable_or_key)
+      (range_expr
+        (range_start
+          (integer_literal
+            (decimal_int)))
+        (range_end_operator)
+        (range_end
+          (integer_literal
+            (decimal_int)))))
+    (for_in_body
+      (for_in_loop
+        (for_in_condition
+          (for_variable_or_key)
+          (range_expr
+            (range_start
+              (integer_literal
+                (decimal_int)))
+            (range_end_operator)
+            (range_end
+              (integer_literal
+                (decimal_int)))))
+        (for_in_body
+          (expression_statement
+            (if_block_expr
+              (if_condition
+                (boolean_expr
+                  (binary_expr
+                    (identifier)
+                    (mod_operator)
+                    (integer_literal
+                      (decimal_int)))
+                  (equals_operator)
+                  (integer_literal
+                    (decimal_int))))
+              (block
+                (continue_statement
+                  (identifier))))))))))

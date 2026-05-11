@@ -34,7 +34,8 @@ module.exports = {
   break_statement: ($) =>
     prec.right(PREC.JUMP, seq("break", optional(field("label", $.identifier)))),
 
-  continue_statement: ($) => prec.right(PREC.JUMP, "continue"),
+  continue_statement: ($) =>
+    prec.right(PREC.JUMP, seq("continue", optional(field("label", $.identifier)))),
 
   ...assignments,
   ...for_loop,

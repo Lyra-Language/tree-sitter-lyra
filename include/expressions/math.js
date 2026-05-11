@@ -62,7 +62,7 @@ function arithmeticRules({ binary, unary, operand }) {
           PREC.MULTIPLICATIVE,
           seq(
             field("left", operand($)),
-            field("operator", choice($.mul_operator, $.div_operator)),
+            field("operator", choice($.mul_operator, $.div_operator, $.mod_operator, $.remainder_operator)),
             field("right", operand($)),
           ),
         ),
@@ -98,6 +98,8 @@ module.exports = {
             $.sub_assign_operator,
             $.mul_assign_operator,
             $.div_assign_operator,
+            $.mod_assign_operator,
+            $.remainder_assign_operator,
           ),
         ),
         field("right", $._math_operand),
@@ -108,10 +110,15 @@ module.exports = {
   sub_operator: ($) => "-",
   mul_operator: ($) => "*",
   div_operator: ($) => "/",
+  mod_operator: ($) => "%",
+  remainder_operator: ($) => "%%",
   add_assign_operator: ($) => "+=",
   sub_assign_operator: ($) => "-=",
   mul_assign_operator: ($) => "*=",
   div_assign_operator: ($) => "/=",
+  mod_assign_operator: ($) => "%=",
+  remainder_assign_operator: ($) => "%%=",
+
 
   group: ($) => prec(PREC.MATH_GROUP, seq("(", $._math_expr, ")")),
 

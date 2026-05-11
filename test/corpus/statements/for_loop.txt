@@ -116,7 +116,7 @@ for i < 10; i += 1 {
         (less_than_operator)
         (integer_literal
           (decimal_int)))
-      (for_after_expr
+      (for_post_expr
         (compound_assignment
           (identifier)
           (add_assign_operator)
@@ -155,7 +155,7 @@ for var i = 0; i < 10; i += 1 {
         (less_than_operator)
         (integer_literal
           (decimal_int)))
-      (for_after_expr
+      (for_post_expr
         (compound_assignment
           (identifier)
           (add_assign_operator)
