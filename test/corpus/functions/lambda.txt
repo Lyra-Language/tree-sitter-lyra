@@ -71,10 +71,10 @@ let make_sum_fn = (a: int) -> (int) -> int => (b) => a + b
             (parameter_list
                 (parameter
                     (identifier)))
-                (binary_expr
-                    (identifier)
-                    (add_operator)
-                    (identifier))))))
+            (binary_expr
+                (identifier)
+                (add_operator)
+                (identifier))))))
 
 ==============================
 Function that accepts a lambda

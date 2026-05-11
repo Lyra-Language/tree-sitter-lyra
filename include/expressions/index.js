@@ -73,7 +73,7 @@ module.exports = {
       ),
     ),
 
-  spread_expr: ($) => prec.right(PREC.SPREAD, seq("...", $.identifier)),
+  spread_expr: ($) => prec.right(PREC.SPREAD, seq("...", field('spread_name', $.identifier))),
 
   // Function composition: f >> g produces a function that applies f then g
   // Right-associative so `f >> g >> h` means `f >> (g >> h)`

@@ -44,7 +44,7 @@ module.exports = {
           seq(
             ":",
             optional(field("type_modifier", $.type_modifier)),
-            field("type", $.type)
+            optional(field("type", $.type)),
           )
         ),
         optional(field("default_value", $.default_value)),
