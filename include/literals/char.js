@@ -4,7 +4,7 @@ module.exports = {
   char_literal: $ => token(seq(
     "'",
     choice(
-      /[a-zA-Z0-9 !@#$%^&*()\-_=+\[\]{}|;:",.<>?\/`~]/, // printable ASCII (excluding ' and \)
+      /[^'\\]/u, // any single Unicode code point except ' and \
       /\\[abefnrtv\\'"]/,  // simple escape sequences
       /\\o[0-7]{3}/,       // octal (3 digits)
       /\\x[0-9A-Fa-f]{2}/, // hex (2 digits)

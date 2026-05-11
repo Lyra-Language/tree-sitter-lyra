@@ -217,7 +217,8 @@
             "members": [
               {
                 "type": "PATTERN",
-                "value": "[a-zA-Z0-9 !@#$%^&*()\\-_=+\\[\\]{}|;:\",.<>?\\/`~]"
+                "value": "[^'\\\\]",
+                "flags": "u"
               },
               {
                 "type": "PATTERN",
