@@ -298,6 +298,10 @@
         "named": true
       },
       {
+        "type": "anonymous_struct_type",
+        "named": true
+      },
+      {
         "type": "anonymous_tuple_type",
         "named": true
       },
@@ -492,6 +496,21 @@
     "type": "and",
     "named": true,
     "fields": {}
+  },
+  {
+    "type": "anonymous_struct_type",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "struct_member",
+          "named": true
+        }
+      ]
+    }
   },
   {
     "type": "anonymous_tuple_type",
@@ -2011,10 +2030,6 @@
         "multiple": true,
         "required": false,
         "types": [
-          {
-            "type": "struct_type_body",
-            "named": true
-          },
           {
             "type": "type",
             "named": true

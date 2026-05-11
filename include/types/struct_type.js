@@ -22,4 +22,6 @@ module.exports = {
     ),
 
   struct_type_body: ($) => seq("{", commaSep1($.struct_member), "}"),
+
+  anonymous_struct_type: ($) => seq("{", commaSep1($.struct_member), "}"),
 };

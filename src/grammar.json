@@ -3895,6 +3895,10 @@
           {
             "type": "SYMBOL",
             "name": "raw_pointer_type"
+          },
+          {
+            "type": "SYMBOL",
+            "name": "anonymous_struct_type"
           }
         ]
       }
@@ -4784,27 +4788,6 @@
                   }
                 },
                 {
-                  "type": "SYMBOL",
-                  "name": "struct_type_body"
-                }
-              ]
-            }
-          },
-          {
-            "type": "PREC_RIGHT",
-            "value": 10,
-            "content": {
-              "type": "SEQ",
-              "members": [
-                {
-                  "type": "FIELD",
-                  "name": "name",
-                  "content": {
-                    "type": "SYMBOL",
-                    "name": "data_type_constructor_name"
-                  }
-                },
-                {
                   "type": "REPEAT1",
                   "content": {
                     "type": "FIELD",
@@ -5438,6 +5421,56 @@
       ]
     },
     "struct_type_body": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "{"
+        },
+        {
+          "type": "SEQ",
+          "members": [
+            {
+              "type": "SYMBOL",
+              "name": "struct_member"
+            },
+            {
+              "type": "REPEAT",
+              "content": {
+                "type": "SEQ",
+                "members": [
+                  {
+                    "type": "STRING",
+                    "value": ","
+                  },
+                  {
+                    "type": "SYMBOL",
+                    "name": "struct_member"
+                  }
+                ]
+              }
+            },
+            {
+              "type": "CHOICE",
+              "members": [
+                {
+                  "type": "STRING",
+                  "value": ","
+                },
+                {
+                  "type": "BLANK"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "STRING",
+          "value": "}"
+        }
+      ]
+    },
+    "anonymous_struct_type": {
       "type": "SEQ",
       "members": [
         {

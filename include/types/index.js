@@ -35,6 +35,7 @@ module.exports = {
         $.weak_type,
         $.anonymous_tuple_type,
         $.raw_pointer_type,
+        $.anonymous_struct_type,
       ),
     ),
 

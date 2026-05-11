@@ -14,11 +14,6 @@ module.exports = {
   )),
 
   data_type_constructor: $ => field('constructor', choice(
-    // Constructor with struct body - highest priority
-    prec.right(PREC.DATA_CTOR, seq(
-      field('name', $.data_type_constructor_name),
-      $.struct_type_body
-    )),
     // Constructor with type params - high priority
     prec.right(PREC.DATA_CTOR, seq(
       field('name', $.data_type_constructor_name),
