@@ -198,8 +198,10 @@ let matrix: stack [4]f32 = [0.0, 0.0, 0.0, 0.0]
     (attribute_list
       (attribute
         (identifier)
-        (integer_literal
-          (decimal_int))))
+        (attribute_args
+          (integer_literal
+            (decimal_int)))))
+
     (identifier)
     (type_annotation
       (allocated_type

@@ -1,0 +1,110 @@
+============================
+Struct with Single Derive
+============================
+
+@derive(Eq) struct Point { x: f32, y: f32 }
+
+---
+
+(program
+  (type_declaration
+    (struct_type
+      attributes: (attribute_list
+        (attribute
+          name: (identifier)
+          args: (attribute_args
+            value: (user_defined_type_name))))
+      struct_name: (struct_name)
+      (struct_type_body
+        (struct_member
+          field_name: (field_name)
+          field_type: (field_type
+            (float_type)))
+        (struct_member
+          field_name: (field_name)
+          field_type: (field_type
+            (float_type)))))))
+
+================================
+Struct with Multiple Derives
+================================
+
+@derive(Eq, Hash, Show) struct Point { x: f32, y: f32 }
+
+---
+
+(program
+  (type_declaration
+    (struct_type
+      attributes: (attribute_list
+        (attribute
+          name: (identifier)
+          args: (attribute_args
+            value: (user_defined_type_name)
+            value: (user_defined_type_name)
+            value: (user_defined_type_name))))
+      struct_name: (struct_name)
+      (struct_type_body
+        (struct_member
+          field_name: (field_name)
+          field_type: (field_type
+            (float_type)))
+        (struct_member
+          field_name: (field_name)
+          field_type: (field_type
+            (float_type)))))))
+
+=====================================
+Struct with Multiple Attributes
+=====================================
+
+@inline @derive(Eq, Hash) struct Point { x: f32, y: f32 }
+
+---
+
+(program
+  (type_declaration
+    (struct_type
+      attributes: (attribute_list
+        (attribute
+          name: (identifier))
+        (attribute
+          name: (identifier)
+          args: (attribute_args
+            value: (user_defined_type_name)
+            value: (user_defined_type_name))))
+      struct_name: (struct_name)
+      (struct_type_body
+        (struct_member
+          field_name: (field_name)
+          field_type: (field_type
+            (float_type)))
+        (struct_member
+          field_name: (field_name)
+          field_type: (field_type
+            (float_type)))))))
+
+============================
+Data Type with Derives
+============================
+
+@derive(Eq, Show) data Color = Red | Green | Blue
+
+---
+
+(program
+  (type_declaration
+    (data_type
+      attributes: (attribute_list
+        (attribute
+          name: (identifier)
+          args: (attribute_args
+            value: (user_defined_type_name)
+            value: (user_defined_type_name))))
+      (data_type_name)
+      (data_type_constructor
+        name: (data_type_constructor_name))
+      (data_type_constructor
+        name: (data_type_constructor_name))
+      (data_type_constructor
+        name: (data_type_constructor_name)))))

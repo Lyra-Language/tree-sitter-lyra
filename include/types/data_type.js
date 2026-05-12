@@ -2,6 +2,7 @@ const { PREC } = require("../prec");
 
 module.exports = {
   data_type: $ => prec.right(PREC.DATA_TYPE, seq(
+    optional(field("attributes", $.attribute_list)),
     optional($.visibility),
     optional(field('allocation', $.allocation_modifier)),
     'data',
