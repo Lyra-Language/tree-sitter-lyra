@@ -3167,6 +3167,32 @@
     }
   },
   {
+    "type": "generic_parameter",
+    "named": true,
+    "fields": {
+      "bounds": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "generic_bounds",
+            "named": true
+          }
+        ]
+      },
+      "name": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "generic_type",
+            "named": true
+          }
+        ]
+      }
+    }
+  },
+  {
     "type": "generic_parameter_constraint",
     "named": true,
     "fields": {
@@ -3216,7 +3242,7 @@
       "required": true,
       "types": [
         {
-          "type": "generic_type",
+          "type": "generic_parameter",
           "named": true
         }
       ]

@@ -30,9 +30,38 @@ data Maybe<t> = Nil | Some t
     (data_type
       (data_type_name)
       (generic_parameters
-        (generic_type))
+        (generic_parameter
+          (generic_type)))
       (data_type_constructor
         (data_type_constructor_name))
+      (data_type_constructor
+        (data_type_constructor_name)
+        (generic_type)))))
+
+==========================================
+Data type with inline generic param bounds
+==========================================
+
+data Result<ok: Default, err: Display> = Ok ok | Err err
+
+---
+
+(program
+  (type_declaration
+    (data_type
+      (data_type_name)
+      (generic_parameters
+        (generic_parameter
+          (generic_type)
+          (generic_bounds
+            (trait_name)))
+        (generic_parameter
+          (generic_type)
+          (generic_bounds
+            (trait_name))))
+      (data_type_constructor
+        (data_type_constructor_name)
+        (generic_type))
       (data_type_constructor
         (data_type_constructor_name)
         (generic_type)))))
@@ -50,7 +79,8 @@ data Tree<t> = Nil | Leaf t | Node { left: Tree, value: t, right: Tree }
     (data_type
       (data_type_name)
       (generic_parameters
-        (generic_type))
+        (generic_parameter
+          (generic_type)))
       (data_type_constructor
         (data_type_constructor_name))
       (data_type_constructor

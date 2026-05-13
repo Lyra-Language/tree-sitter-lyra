@@ -94,7 +94,10 @@ let count = async rec (n: i32) -> i32 => if n == 0 { 0 } else { count(n - 1) }
 rec with multi-clause lambda syntax
 ============================================
 
-let fib = rec (n: i32, a: i32, b: i32) -> i32 { (0, a, _) => a, (n, a, b) => fib(n - 1, b, a + b) }
+let fib = rec (n: i32, a: i32, b: i32) -> i32 {
+  (0, a, _) => a,
+  (n, a, b) => fib(n - 1, b, a + b)
+}
 
 ---
 

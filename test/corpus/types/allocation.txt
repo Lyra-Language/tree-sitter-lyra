@@ -201,7 +201,8 @@ pub stack struct Transform<t> {
       (allocation_modifier)
       (struct_name)
       (generic_parameters
-        (generic_type))
+        (generic_parameter
+          (generic_type)))
       (struct_type_body
         (struct_member
           (field_name)

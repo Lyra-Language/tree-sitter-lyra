@@ -15,8 +15,16 @@ module.exports = {
       ),
     ),
 
+  generic_parameter: ($) =>
+    prec(PREC.GENERIC_PARAMETERS,
+      seq(
+        field("name", $.generic_type),
+        optional(seq(":", field("bounds", $.generic_bounds))),
+      ),
+    ),
+
   generic_parameters: ($) =>
-    prec.left(PREC.GENERIC_PARAMETERS, seq("<", commaSep1($.generic_type), ">")),
+    prec.left(PREC.GENERIC_PARAMETERS, seq("<", commaSep1($.generic_parameter), ">")),
 
   generic_arguments: ($) => seq("::", "<", commaSep1($.type), ">"),
 };

@@ -69,7 +69,40 @@ struct Point<n> { x: n, y: n }
     (struct_type
       (struct_name)
       (generic_parameters
-        (generic_type))
+        (generic_parameter
+          (generic_type)))
+      (struct_type_body
+        (struct_member
+          (field_name)
+          (field_type
+            (generic_type)))
+        (struct_member
+          (field_name)
+          (field_type
+            (generic_type)))))))
+
+================================================
+Struct Declaration with Inline Generic Bounds
+================================================
+
+struct Pair<a: Display, b: Clone + Debug> { first: a, second: b }
+
+---
+
+(program
+  (type_declaration
+    (struct_type
+      (struct_name)
+      (generic_parameters
+        (generic_parameter
+          (generic_type)
+          (generic_bounds
+            (trait_name)))
+        (generic_parameter
+          (generic_type)
+          (generic_bounds
+            (trait_name)
+            (trait_name))))
       (struct_type_body
         (struct_member
           (field_name)

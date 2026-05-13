@@ -76,8 +76,10 @@ impl Converter<int, string> for IntFormatter {
   (trait_declaration
     (trait_name)
     (generic_parameters
-      (generic_type)
-      (generic_type))
+      (generic_parameter
+        (generic_type))
+      (generic_parameter
+        (generic_type)))
     (trait_methods
       (trait_method
         (identifier)
@@ -159,7 +161,8 @@ impl Functor for Maybe {
             (parameter_type
               (self_type
                 (generic_parameters
-                  (generic_type))))
+                  (generic_parameter
+                    (generic_type)))))
             (parameter_type
               (lambda_type
                 (parameter_type_list
@@ -168,7 +171,8 @@ impl Functor for Maybe {
                 (generic_type))))
           (self_type
             (generic_parameters
-              (generic_type)))))))
+              (generic_parameter
+                (generic_type))))))))
   (trait_implementation
     (trait_name)
     (parameterized_type
@@ -333,7 +337,8 @@ impl Eq<t> for []t {
       (trait_declaration
         (trait_name)
         (generic_parameters
-          (generic_type))
+          (generic_parameter
+            (generic_type)))
         (trait_methods
           (trait_method
             (binary_operator)
@@ -454,9 +459,11 @@ impl Mappable<Array, string> for StringArrayMapper {
   (trait_declaration
     (trait_name)
     (generic_parameters
-      (generic_type)
-      (generic_type))
-    (trait_methods      
+      (generic_parameter
+        (generic_type))
+      (generic_parameter
+        (generic_type)))
+    (trait_methods
       (trait_method
         (identifier)
         (trait_method_signature
@@ -535,7 +542,8 @@ impl Applicable<(int, int) -> int> for BinaryOp {
   (trait_declaration
     (trait_name)
     (generic_parameters
-      (generic_type))
+      (generic_parameter
+        (generic_type)))
     (trait_methods
       (trait_method
         (identifier)
@@ -617,8 +625,10 @@ impl Collection<Array, string> for StringList {
   (trait_declaration
     (trait_name)
     (generic_parameters
-      (generic_type)
-      (generic_type))
+      (generic_parameter
+        (generic_type))
+      (generic_parameter
+        (generic_type)))
     (trait_methods
       (trait_method
         (identifier)

@@ -279,7 +279,8 @@ let sum<n> = (a: n, b: n) -> n => a + b
   (declaration
     (identifier)
     (generic_parameters
-      (generic_type))
+      (generic_parameter
+        (generic_type)))
     (lambda_expr
       (parameter_list
         (parameter
@@ -307,7 +308,8 @@ let compare<n> where n: Ord = (a: n, b: n) -> n => a <=> b
   (declaration
     (identifier)
     (generic_parameters
-      (generic_type))
+      (generic_parameter
+        (generic_type)))
     (generic_parameter_constraints
       (generic_parameter_constraint
         (generic_type)
@@ -387,8 +389,10 @@ let map<t,u> = (array: []t, func: (t) -> u) -> []u => {
   (declaration
     (identifier)
     (generic_parameters
-      (generic_type)
-      (generic_type))
+      (generic_parameter
+        (generic_type))
+      (generic_parameter
+        (generic_type)))
     (lambda_expr
       (parameter_list
         (parameter
