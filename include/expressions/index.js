@@ -6,6 +6,7 @@ const range = require("./range");
 const postfix = require("./postfix");
 const functions = require("./functions");
 const unsafe = require("./unsafe");
+const builtins = require("./builtins");
 const { PREC } = require("../prec");
 
 module.exports = {
@@ -31,6 +32,7 @@ module.exports = {
       $.compose_expr,
       $.address_of_expr,
       $.given_expr,
+      $.sizeof_expr,
       // Note: user_defined_type_name is accessed via _postfix_expression -> _primary_expression
     ),
 
@@ -107,4 +109,5 @@ module.exports = {
   ...postfix,
   ...functions,
   ...unsafe,
+  ...builtins,
 };

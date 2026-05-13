@@ -140,6 +140,10 @@
         "named": true
       },
       {
+        "type": "sizeof_expr",
+        "named": true
+      },
+      {
         "type": "spread_expr",
         "named": true
       },
@@ -5248,6 +5252,22 @@
     "fields": {}
   },
   {
+    "type": "sizeof_expr",
+    "named": true,
+    "fields": {
+      "type": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "type",
+            "named": true
+          }
+        ]
+      }
+    }
+  },
+  {
     "type": "spaceship_operator",
     "named": true,
     "fields": {}
@@ -6600,6 +6620,10 @@
   },
   {
     "type": "@",
+    "named": false
+  },
+  {
+    "type": "@sizeof",
     "named": false
   },
   {
