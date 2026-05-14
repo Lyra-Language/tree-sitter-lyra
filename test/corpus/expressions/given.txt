@@ -87,7 +87,7 @@ Given with destructuring binding
 =========================================
 
 let msg = greet(name) given {
-  let name = get_name() ?? "World"
+  let Some name = get_name() ?? "World"
 }
 
 ---
@@ -103,7 +103,10 @@ let msg = greet(name) given {
             (identifier))))
       (given_bindings
         (declaration
-          (identifier)
+          (destructuring_only_pattern
+            (data_pattern
+              (data_type_name)
+              (identifier)))
           (null_coalescing_expr
             (call_expr
               (identifier)
