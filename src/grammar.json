@@ -1550,6 +1550,10 @@
               {
                 "type": "SYMBOL",
                 "name": "const_declaration"
+              },
+              {
+                "type": "SYMBOL",
+                "name": "destructuring_else_declaration"
               }
             ]
           }

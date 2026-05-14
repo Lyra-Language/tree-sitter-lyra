@@ -103,7 +103,7 @@ module.exports = {
     )),
 
   given_bindings: ($) =>
-    seq("{", repeat1(choice($.declaration, $.const_declaration)), "}"),
+    seq("{", repeat1(choice($.declaration, $.const_declaration, $.destructuring_else_declaration)), "}"),
 
   ...control_flow,
   ...boolean,

@@ -81,3 +81,33 @@ let circumference = 2 * PI * r given { const PI = 3.1415 }
         (const_declaration
           (const_identifier)
           (float_literal))))))
+
+=========================================
+Given with destructuring binding
+=========================================
+
+let msg = greet(name) given {
+  let name = get_name() ?? "World"
+}
+
+---
+
+(program
+  (declaration
+    (identifier)
+    (given_expr
+      (call_expr
+        (identifier)
+        (argument_list
+          (value
+            (identifier))))
+      (given_bindings
+        (declaration
+          (identifier)
+          (null_coalescing_expr
+            (call_expr
+              (identifier)
+              (argument_list))
+            (string_literal
+              (string_content))))))))
+

@@ -3207,6 +3207,10 @@
         {
           "type": "declaration",
           "named": true
+        },
+        {
+          "type": "destructuring_else_declaration",
+          "named": true
         }
       ]
     }
