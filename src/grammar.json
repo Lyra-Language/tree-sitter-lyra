@@ -5554,10 +5554,6 @@
       "members": [
         {
           "type": "STRING",
-          "value": "float"
-        },
-        {
-          "type": "STRING",
           "value": "f16"
         },
         {
