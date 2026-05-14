@@ -1,36 +1,35 @@
 const { PREC } = require("../prec");
 
 module.exports = {
-  // Destructuring-specific rules that extend patterns
+  // Full destructuring pattern (includes identifier; used in if/else-declaration and match)
   destructuring_pattern: $ => prec.right(choice(
     $.array_pattern,
-    $.struct_pattern, 
+    $.struct_pattern,
     $.tuple_pattern,
     $.data_pattern,
-    $.identifier  // simple destructuring: let x = value
+    $.identifier,
   )),
 
-  // Destructuring declarations
-  destructuring_declaration: $ => seq(
-    optional($.visibility),
-    field('keyword', choice('let', 'var')),
-    field('pattern', $.destructuring_pattern),
-    optional(field('type_annotation', $.type_annotation)),
-    '=',
-    field('value', $.expression),
-  ),
+  // Pattern-only binding (excludes bare identifier, which takes the identifier branch
+  // of declaration to avoid ambiguity with function definitions)
+  destructuring_only_pattern: $ => prec.right(choice(
+    $.array_pattern,
+    $.struct_pattern,
+    $.tuple_pattern,
+    $.data_pattern,
+  )),
 
-  // Destructuring declaration with else block
+  // Declaration with else block (for pattern-binding let/var that must match)
   destructuring_else_declaration: $ => prec.right(PREC.DESTRUCTURING_ELSE, seq(
-    field('destructuring_declaration', $.destructuring_declaration),
+    field('declaration', $.declaration),
     'else',
     field('else_block', $.block),
   )),
 
-  // If Destructuring Declaration
+  // If declaration (for pattern-binding let/var used as a condition)
   destructuring_if_declaration: $ => prec.right(PREC.DESTRUCTURING_IF, seq(
     'if',
-    field('destructuring_declaration', $.destructuring_declaration),
+    field('declaration', $.declaration),
     field('then_block', $.block),
     optional(seq(
       'else',

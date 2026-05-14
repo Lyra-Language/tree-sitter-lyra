@@ -8,8 +8,8 @@ let [a, b, c] = [1, 2, 3]
 ---
 
 (program
-  (destructuring_declaration
-    (destructuring_pattern
+  (declaration
+    (destructuring_only_pattern
       (array_pattern
         (identifier)
         (identifier)
@@ -32,9 +32,9 @@ pub let [a, b, c] = [1, 2, 3]
 ---
 
 (program
-  (destructuring_declaration
+  (declaration
     (visibility)
-    (destructuring_pattern
+    (destructuring_only_pattern
       (array_pattern
         (identifier)
         (identifier)
@@ -56,8 +56,8 @@ let [a, ...rest] = [1, 2, 3]
 ---
 
 (program
-  (destructuring_declaration
-    (destructuring_pattern
+  (declaration
+    (destructuring_only_pattern
       (array_pattern
         (identifier)
         (rest_pattern
@@ -81,8 +81,8 @@ let [...first, last] = [1, 2, 3]
 ---
 
 (program
-  (destructuring_declaration
-    (destructuring_pattern
+  (declaration
+    (destructuring_only_pattern
       (array_pattern
         (rest_pattern
           (identifier))
@@ -106,8 +106,8 @@ let [a, b, ...middle, c] = [1, 2, 3, 4, 5]
 ---
 
 (program
-  (destructuring_declaration
-    (destructuring_pattern
+  (declaration
+    (destructuring_only_pattern
       (array_pattern
         (identifier)
         (identifier)
@@ -139,8 +139,8 @@ let { a, b, c } = some_struct
 
 (program
   (comment)
-  (destructuring_declaration
-    (destructuring_pattern
+  (declaration
+    (destructuring_only_pattern
       (struct_pattern
         (struct_field_pattern
           (identifier))
@@ -163,8 +163,8 @@ let { a, ...rest } = some_struct
 
 (program
   (comment)
-  (destructuring_declaration
-    (destructuring_pattern
+  (declaration
+    (destructuring_only_pattern
       (struct_pattern
         (struct_field_pattern
           (identifier))
@@ -186,8 +186,8 @@ let { a: foo, ...rest } = some_struct
 
 (program
   (comment)
-  (destructuring_declaration
-    (destructuring_pattern
+  (declaration
+    (destructuring_only_pattern
       (struct_pattern
         (struct_field_pattern
           (struct_field_rename
@@ -211,8 +211,8 @@ let { a, b, c: [d, e, f] } = some_struct
 
 (program
   (comment)
-  (destructuring_declaration
-    (destructuring_pattern
+  (declaration
+    (destructuring_only_pattern
       (struct_pattern
         (struct_field_pattern
           (identifier))
@@ -240,8 +240,8 @@ let (a, b, c) = some_tuple
 
 (program
   (comment)
-  (destructuring_declaration
-    (destructuring_pattern
+  (declaration
+    (destructuring_only_pattern
       (tuple_pattern
         (identifier)
         (identifier)
@@ -258,8 +258,8 @@ let () = do_something()
 ---
 
 (program
-  (destructuring_declaration
-    (destructuring_pattern
+  (declaration
+    (destructuring_only_pattern
       (tuple_pattern
         (unit_pattern)))
     (call_expr
@@ -278,8 +278,8 @@ let (a, ...rest) = some_tuple
 
 (program
   (comment)
-  (destructuring_declaration
-    (destructuring_pattern
+  (declaration
+    (destructuring_only_pattern
       (tuple_pattern
         (identifier)
         (rest_pattern
@@ -296,8 +296,8 @@ let Node { left: left_tree, value, right: right_tree } = some_node
 ---
 
 (program
-  (destructuring_declaration
-    (destructuring_pattern
+  (declaration
+    (destructuring_only_pattern
       (data_pattern
         (data_type_name)
         (struct_pattern
@@ -325,8 +325,8 @@ if let Some num = get_num() {
 
 (program
   (destructuring_if_declaration
-    (destructuring_declaration
-      (destructuring_pattern
+    (declaration
+      (destructuring_only_pattern
         (data_pattern
           (data_type_name)
           (identifier)))
@@ -358,8 +358,8 @@ if let Some num = get_num() {
 
 (program
   (destructuring_if_declaration
-    (destructuring_declaration
-      (destructuring_pattern
+    (declaration
+      (destructuring_only_pattern
         (data_pattern
           (data_type_name)
           (identifier)))
@@ -398,8 +398,8 @@ println("We got the number: ${num}")
 
 (program
   (destructuring_else_declaration
-    (destructuring_declaration
-      (destructuring_pattern
+    (declaration
+      (destructuring_only_pattern
         (data_pattern
           (data_type_name)
           (identifier)))

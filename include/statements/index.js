@@ -17,7 +17,6 @@ module.exports = {
       $.return_statement,
       $.break_statement,
       $.continue_statement,
-      $.destructuring_declaration,
       $.destructuring_if_declaration,
       $.destructuring_else_declaration,
       $.for_loop,

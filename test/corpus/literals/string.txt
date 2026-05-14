@@ -79,8 +79,7 @@ let greeting = "Hello, ${if is_male { "Mr. ${last_name}" } else { "Mrs. ${last_n
       (string_content)
       (string_interpolation
         (if_block_expr
-          (if_condition
-            (identifier))
+          (identifier)
           (block
             (expression_statement
               (string_literal

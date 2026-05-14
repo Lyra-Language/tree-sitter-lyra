@@ -11,12 +11,11 @@ if x == 3 {
 (program
   (expression_statement
     (if_block_expr
-      (if_condition
-        (boolean_expr
-          (identifier)
-          (equals_operator)
-          (integer_literal
-            (decimal_int))))
+      (boolean_expr
+        (identifier)
+        (equals_operator)
+        (integer_literal
+          (decimal_int)))
       (block
         (expression_statement
           (call_expr
@@ -41,12 +40,11 @@ if x == 3 {
 (program
   (expression_statement
     (if_block_expr
-      (if_condition
-        (boolean_expr
-          (identifier)
-          (equals_operator)
-          (integer_literal
-            (decimal_int))))
+      (boolean_expr
+        (identifier)
+        (equals_operator)
+        (integer_literal
+          (decimal_int)))
       (block
         (expression_statement
           (call_expr
@@ -76,12 +74,11 @@ let foo = if x == 0 { "zero" } else { "not zero" }
   (declaration
     (identifier)
     (if_block_expr
-      (if_condition
-        (boolean_expr
-          (identifier)
-          (equals_operator)
-          (integer_literal
-            (decimal_int))))
+      (boolean_expr
+        (identifier)
+        (equals_operator)
+        (integer_literal
+          (decimal_int)))
       (block
         (expression_statement
           (string_literal
@@ -114,21 +111,19 @@ if x == 0 {
 (program
   (expression_statement
     (if_block_expr
-      (if_condition
-        (boolean_expr
-          (identifier)
-          (equals_operator)
-          (integer_literal
-            (decimal_int))))
+      (boolean_expr
+        (identifier)
+        (equals_operator)
+        (integer_literal
+          (decimal_int)))
       (block
         (expression_statement
           (if_block_expr
-            (if_condition
-              (boolean_expr
-                (identifier)
-                (equals_operator)
-                (integer_literal
-                  (decimal_int))))
+            (boolean_expr
+              (identifier)
+              (equals_operator)
+              (integer_literal
+                (decimal_int)))
             (block
               (expression_statement
                 (call_expr
@@ -148,12 +143,11 @@ if x == 0 {
       (block
         (expression_statement
           (if_block_expr
-            (if_condition
-              (boolean_expr
-                (identifier)
-                (equals_operator)
-                (integer_literal
-                  (decimal_int))))
+            (boolean_expr
+              (identifier)
+              (equals_operator)
+              (integer_literal
+                (decimal_int)))
             (block
               (expression_statement
                 (call_expr
@@ -193,12 +187,11 @@ if x == 3 {
 (program
   (expression_statement
     (if_block_expr
-      (if_condition
-        (boolean_expr
-          (identifier)
-          (equals_operator)
-          (integer_literal
-            (decimal_int))))
+      (boolean_expr
+        (identifier)
+        (equals_operator)
+        (integer_literal
+          (decimal_int)))
       (block
         (expression_statement
           (call_expr
@@ -211,8 +204,7 @@ if x == 3 {
             (argument_list)))
         (expression_statement
           (if_block_expr
-            (if_condition
-              (identifier))
+            (identifier)
             (block
               (expression_statement
                 (call_expr

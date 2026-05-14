@@ -96,7 +96,7 @@ impl Converter<int, string> for IntFormatter {
     (impl_methods
       (trait_method_implementation
         (method_name
-              (identifier))
+          (identifier))
         (method_clause
           (pattern_parameter_list
             (identifier))
@@ -237,10 +237,10 @@ impl Functor for Maybe {
                   (argument_list
                     (value
                       (identifier))))))
-                (match_arm
-                  (data_pattern
-                    (data_type_name))
-                  (user_defined_type_name))))))))
+            (match_arm
+              (data_pattern
+                (data_type_name))
+              (user_defined_type_name))))))))
 
 =====================
 Unary Prefix Operator
@@ -333,109 +333,107 @@ impl Eq<t> for []t {
 
 ---
 
-    (program
-      (trait_declaration
-        (trait_name)
-        (generic_parameters
-          (generic_parameter
-            (generic_type)))
-        (trait_methods
-          (trait_method
-            (binary_operator)
-            (trait_method_signature
-              (parameter_type_list
-                (parameter_type
-                  (generic_type))
-                (parameter_type
-                  (generic_type)))
-              (boolean_type)))
-          (trait_method
-            (binary_operator)
-            (trait_method_signature
-              (parameter_type_list
-                (parameter_type
-                  (generic_type))
-                (parameter_type
-                  (generic_type)))
-              (boolean_type)))))
-      (trait_implementation
-        (trait_name)
-        (generic_type)
-        (array_type
-          (generic_type))
-        (impl_methods
-          (trait_method_implementation
-            (method_name
-              (binary_operator))
-             (method_clause
-              (pattern_parameter_list
-                (identifier)
-                (identifier))
-              (block
-                (expression_statement
-                  (if_block_expr
-                    (if_condition
-                      (boolean_expr
-                        (call_expr
-                          (member_expr
-                            (identifier)
-                            (identifier))
-                          (argument_list))
-                        (not_equals_operator)
-                        (call_expr
-                          (member_expr
-                            (identifier)
-                            (identifier))
-                          (argument_list))))
-                    (block
+(program
+  (trait_declaration
+    (trait_name)
+    (generic_parameters
+      (generic_parameter
+        (generic_type)))
+    (trait_methods
+      (trait_method
+        (binary_operator)
+        (trait_method_signature
+          (parameter_type_list
+            (parameter_type
+              (generic_type))
+            (parameter_type
+              (generic_type)))
+          (boolean_type)))
+      (trait_method
+        (binary_operator)
+        (trait_method_signature
+          (parameter_type_list
+            (parameter_type
+              (generic_type))
+            (parameter_type
+              (generic_type)))
+          (boolean_type)))))
+  (trait_implementation
+    (trait_name)
+    (generic_type)
+    (array_type
+      (generic_type))
+    (impl_methods
+      (trait_method_implementation
+        (method_name
+          (binary_operator))
+        (method_clause
+          (pattern_parameter_list
+            (identifier)
+            (identifier))
+          (block
+            (expression_statement
+              (if_block_expr
+                (boolean_expr
+                  (call_expr
+                    (member_expr
+                      (identifier)
+                      (identifier))
+                    (argument_list))
+                  (not_equals_operator)
+                  (call_expr
+                    (member_expr
+                      (identifier)
+                      (identifier))
+                    (argument_list)))
+                (block
+                  (expression_statement
+                    (boolean_literal)))
+                (block
+                  (for_in_loop
+                    (for_in_condition
+                      (for_variable_or_key)
+                      (range_expr
+                        (range_start
+                          (integer_literal
+                            (decimal_int)))
+                        (range_end_operator)
+                        (range_end
+                          (call_expr
+                            (member_expr
+                              (identifier)
+                              (identifier))
+                            (argument_list)))))
+                    (for_in_body
                       (expression_statement
-                        (boolean_literal)))
-                    (block
-                      (for_in_loop
-                        (for_in_condition
-                          (for_variable_or_key)
-                          (range_expr
-                            (range_start
-                              (integer_literal
-                                (decimal_int)))
-                            (range_end_operator)
-                            (range_end
-                              (call_expr
-                                (member_expr
-                                  (identifier)
-                                  (identifier))
-                                (argument_list)))))
-                        (for_in_body
-                          (expression_statement
-                            (if_block_expr
-                              (if_condition
-                                (boolean_expr
-                                  (index_expr
-                                    (identifier)
-                                    (identifier))
-                                  (not_equals_operator)
-                                  (index_expr
-                                    (identifier)
-                                    (identifier))))
-                              (block
-                                (return_statement
-                                  (boolean_literal)))))))
-                      (expression_statement
-                        (boolean_literal))))))))
-          (trait_method_implementation
-            (method_name
-              (binary_operator))
-            (method_clause
-              (pattern_parameter_list
-                (identifier)
-                (identifier))
+                        (if_block_expr
+                          (boolean_expr
+                            (index_expr
+                              (identifier)
+                              (identifier))
+                            (not_equals_operator)
+                            (index_expr
+                              (identifier)
+                              (identifier)))
+                          (block
+                            (return_statement
+                              (boolean_literal)))))))
+                  (expression_statement
+                    (boolean_literal))))))))
+      (trait_method_implementation
+        (method_name
+          (binary_operator))
+        (method_clause
+          (pattern_parameter_list
+            (identifier)
+            (identifier))
+          (boolean_expr
+            (not)
+            (parenthesized_expr
               (boolean_expr
-                (not)
-                (parenthesized_expr
-                  (boolean_expr
-                    (identifier)
-                    (equals_operator)
-                    (identifier)))))))))
+                (identifier)
+                (equals_operator)
+                (identifier)))))))))
 
 ============================================
 Trait with Complex Nested Generic Arguments

@@ -18,11 +18,6 @@ module.exports = {
     alias($.identifier, $.for_variable_or_key),
     optional(seq(',', alias($.identifier, $.for_index_or_value))),
     'in',
-    choice(
-      $.range_expr,
-      $.array_literal,
-      $.tuple_literal,
-      $._postfix_expr,
-    )
+    $.expression,
   )),
 }

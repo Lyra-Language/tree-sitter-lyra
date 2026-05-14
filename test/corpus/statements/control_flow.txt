@@ -92,10 +92,9 @@ for i in 0..=10 {
     (for_in_body
       (expression_statement
         (if_block_expr
-          (if_condition
-            (call_expr
-              (identifier)
-              (argument_list)))
+          (call_expr
+            (identifier)
+            (argument_list))
           (block
             (continue_statement))))
       (comment))))
@@ -142,16 +141,15 @@ outer: for x in 0..=10 {
         (for_in_body
           (expression_statement
             (if_block_expr
-              (if_condition
-                (boolean_expr
-                  (binary_expr
-                    (identifier)
-                    (mod_operator)
-                    (integer_literal
-                      (decimal_int)))
-                  (equals_operator)
+              (boolean_expr
+                (binary_expr
+                  (identifier)
+                  (mod_operator)
                   (integer_literal
-                    (decimal_int))))
+                    (decimal_int)))
+                (equals_operator)
+                (integer_literal
+                  (decimal_int)))
               (block
                 (continue_statement
                   (identifier))))))))))

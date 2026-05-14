@@ -11,23 +11,36 @@ module.exports = {
     ),
   ),
 
-  declaration: $ => prec.left(seq(
-    optional($.attribute_list),
-    optional($.visibility),
-    field('keyword', choice('let', 'var')),
-    field('name', $.identifier),
-    optional(field("generic_parameters", $.generic_parameters)),
-    optional(
-      seq(
-        "where",
-        field(
-          "generic_parameter_constraints",
-          $.generic_parameter_constraints,
+  declaration: $ => prec.left(choice(
+    // Identifier binding: supports generics, where constraints, optional value
+    seq(
+      optional($.attribute_list),
+      optional($.visibility),
+      field('keyword', choice('let', 'var')),
+      field('name', $.identifier),
+      optional(field("generic_parameters", $.generic_parameters)),
+      optional(
+        seq(
+          "where",
+          field(
+            "generic_parameter_constraints",
+            $.generic_parameter_constraints,
+          ),
         ),
       ),
+      optional(field('type_annotation', $.type_annotation)),
+      optional(seq('=', field('value', $.expression))),
     ),
-    optional(field('type_annotation', $.type_annotation)),
-    optional(seq('=', field('value', $.expression))),
+    // Pattern binding: value is required
+    seq(
+      optional($.attribute_list),
+      optional($.visibility),
+      field('keyword', choice('let', 'var')),
+      field('pattern', $.destructuring_only_pattern),
+      optional(field('type_annotation', $.type_annotation)),
+      '=',
+      field('value', $.expression),
+    ),
   )),
 
   var_reassignment: $ => seq($.identifier, '=', field('value', $.expression)),

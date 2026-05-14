@@ -21,12 +21,11 @@ let factorial = rec (n: i32, acc: i32) -> i32 => if n <= 1 { acc } else { factor
       (return_type
         (signed_integer_type))
       (if_block_expr
-        (if_condition
-          (boolean_expr
-            (identifier)
-            (less_than_or_equal_operator)
-            (integer_literal
-              (decimal_int))))
+        (boolean_expr
+          (identifier)
+          (less_than_or_equal_operator)
+          (integer_literal
+            (decimal_int)))
         (block
           (expression_statement
             (identifier)))
@@ -68,12 +67,11 @@ let count = async rec (n: i32) -> i32 => if n == 0 { 0 } else { count(n - 1) }
       (return_type
         (signed_integer_type))
       (if_block_expr
-        (if_condition
-          (boolean_expr
-            (identifier)
-            (equals_operator)
-            (integer_literal
-              (decimal_int))))
+        (boolean_expr
+          (identifier)
+          (equals_operator)
+          (integer_literal
+            (decimal_int)))
         (block
           (expression_statement
             (integer_literal
