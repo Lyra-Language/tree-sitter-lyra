@@ -9,27 +9,28 @@ for i in 1..=3 {
 ---
 
 (program
-  (for_in_loop
-    (for_in_condition
-      (for_variable_or_key)
-      (range_expr
-        (range_start
-          (integer_literal
-            (decimal_int)))
-        (range_end_operator)
-        (range_end
-          (integer_literal
-            (decimal_int)))))
-    (for_in_body
-      (expression_statement
-        (call_expr
-          (identifier)
-          (argument_list
-            (value
-              (string_literal
-                (string_content)
-                (string_interpolation
-                  (identifier))))))))))
+  (expression_statement
+    (for_in_loop
+      (for_in_condition
+        (for_variable_or_key)
+        (range_expr
+          (range_start
+            (integer_literal
+              (decimal_int)))
+          (range_end_operator)
+          (range_end
+            (integer_literal
+              (decimal_int)))))
+      (for_in_body
+        (expression_statement
+          (call_expr
+            (identifier)
+            (argument_list
+              (value
+                (string_literal
+                  (string_content)
+                  (string_interpolation
+                    (identifier)))))))))))
 
 ======================
 For in loop with array
@@ -42,26 +43,27 @@ for i in [1,2,3] {
 ---
 
 (program
-  (for_in_loop
-    (for_in_condition
-      (for_variable_or_key)
-      (array_literal
-        (integer_literal
-          (decimal_int))
-        (integer_literal
-          (decimal_int))
-        (integer_literal
-          (decimal_int))))
-    (for_in_body
-      (expression_statement
-        (call_expr
-          (identifier)
-          (argument_list
-            (value
-              (string_literal
-                (string_content)
-                (string_interpolation
-                  (identifier))))))))))
+  (expression_statement
+    (for_in_loop
+      (for_in_condition
+        (for_variable_or_key)
+        (array_literal
+          (integer_literal
+            (decimal_int))
+          (integer_literal
+            (decimal_int))
+          (integer_literal
+            (decimal_int))))
+      (for_in_body
+        (expression_statement
+          (call_expr
+            (identifier)
+            (argument_list
+              (value
+                (string_literal
+                  (string_content)
+                  (string_interpolation
+                    (identifier)))))))))))
 
 ======================
 For in loop with tuple
@@ -74,29 +76,30 @@ for i in (1, "2", 3) {
 ---
 
 (program
-  (for_in_loop
-    (for_in_condition
-      (for_variable_or_key)
-      (tuple_literal
-        (tuple_value
-          (integer_literal
-            (decimal_int)))
-        (tuple_value
-          (string_literal
-            (string_content)))
-        (tuple_value
-          (integer_literal
-            (decimal_int)))))
-    (for_in_body
-      (expression_statement
-        (call_expr
-          (identifier)
-          (argument_list
-            (value
-              (string_literal
-                (string_content)
-                (string_interpolation
-                  (identifier))))))))))
+  (expression_statement
+    (for_in_loop
+      (for_in_condition
+        (for_variable_or_key)
+        (tuple_literal
+          (tuple_value
+            (integer_literal
+              (decimal_int)))
+          (tuple_value
+            (string_literal
+              (string_content)))
+          (tuple_value
+            (integer_literal
+              (decimal_int)))))
+      (for_in_body
+        (expression_statement
+          (call_expr
+            (identifier)
+            (argument_list
+              (value
+                (string_literal
+                  (string_content)
+                  (string_interpolation
+                    (identifier)))))))))))
 
 ===========================
 For in loop with identifier
@@ -119,20 +122,21 @@ for i in nums {
         (decimal_int))
       (integer_literal
         (decimal_int))))
-  (for_in_loop
-    (for_in_condition
-      (for_variable_or_key)
-      (identifier))
-    (for_in_body
-      (expression_statement
-        (call_expr
-          (identifier)
-          (argument_list
-            (value
-              (string_literal
-                (string_content)
-                (string_interpolation
-                  (identifier))))))))))
+  (expression_statement
+    (for_in_loop
+      (for_in_condition
+        (for_variable_or_key)
+        (identifier))
+      (for_in_body
+        (expression_statement
+          (call_expr
+            (identifier)
+            (argument_list
+              (value
+                (string_literal
+                  (string_content)
+                  (string_interpolation
+                    (identifier)))))))))))
 
 ===================================
 For in loop with postfix expression
@@ -160,22 +164,23 @@ for i in foo.bar {
                 (decimal_int))
               (integer_literal
                 (decimal_int))))))))
-  (for_in_loop
-    (for_in_condition
-      (for_variable_or_key)
-      (member_expr
-        (identifier)
-        (identifier)))
-    (for_in_body
-      (expression_statement
-        (call_expr
+  (expression_statement
+    (for_in_loop
+      (for_in_condition
+        (for_variable_or_key)
+        (member_expr
           (identifier)
-          (argument_list
-            (value
-              (string_literal
-                (string_content)
-                (string_interpolation
-                  (identifier))))))))))
+          (identifier)))
+      (for_in_body
+        (expression_statement
+          (call_expr
+            (identifier)
+            (argument_list
+              (value
+                (string_literal
+                  (string_content)
+                  (string_interpolation
+                    (identifier)))))))))))
 
 ===========================================
 For in loop without an iterable is an error
@@ -189,7 +194,7 @@ for foo in {
 ---
 
 (program
-  (ERROR)
+  (ERROR))
 
 ===========================================
 For in loop without an item var is an error

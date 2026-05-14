@@ -193,24 +193,25 @@ impl Functor for Maybe {
                 (array_type
                   (generic_type)))
               (array_literal))
-            (for_in_loop
-              (for_in_condition
-                (for_variable_or_key)
-                (for_index_or_value)
-                (identifier))
-              (for_in_body
-                (expression_statement
-                  (call_expr
-                    (member_expr
-                      (identifier)
-                      (identifier))
-                    (argument_list
-                      (value
-                        (call_expr
-                          (identifier)
-                          (argument_list
-                            (value
-                              (identifier))))))))))
+            (expression_statement
+              (for_in_loop
+                (for_in_condition
+                  (for_variable_or_key)
+                  (for_index_or_value)
+                  (identifier))
+                (for_in_body
+                  (expression_statement
+                    (call_expr
+                      (member_expr
+                        (identifier)
+                        (identifier))
+                      (argument_list
+                        (value
+                          (call_expr
+                            (identifier)
+                            (argument_list
+                              (value
+                                (identifier)))))))))))
             (expression_statement
               (identifier)))))))
   (trait_implementation
@@ -390,34 +391,35 @@ impl Eq<t> for []t {
                   (expression_statement
                     (boolean_literal)))
                 (block
-                  (for_in_loop
-                    (for_in_condition
-                      (for_variable_or_key)
-                      (range_expr
-                        (range_start
-                          (integer_literal
-                            (decimal_int)))
-                        (range_end_operator)
-                        (range_end
-                          (call_expr
-                            (member_expr
-                              (identifier)
-                              (identifier))
-                            (argument_list)))))
-                    (for_in_body
-                      (expression_statement
-                        (if_block_expr
-                          (boolean_expr
-                            (index_expr
-                              (identifier)
-                              (identifier))
-                            (not_equals_operator)
-                            (index_expr
-                              (identifier)
-                              (identifier)))
-                          (block
-                            (return_statement
-                              (boolean_literal)))))))
+                  (expression_statement
+                    (for_in_loop
+                      (for_in_condition
+                        (for_variable_or_key)
+                        (range_expr
+                          (range_start
+                            (integer_literal
+                              (decimal_int)))
+                          (range_end_operator)
+                          (range_end
+                            (call_expr
+                              (member_expr
+                                (identifier)
+                                (identifier))
+                              (argument_list)))))
+                      (for_in_body
+                        (expression_statement
+                          (if_block_expr
+                            (boolean_expr
+                              (index_expr
+                                (identifier)
+                                (identifier))
+                              (not_equals_operator)
+                              (index_expr
+                                (identifier)
+                                (identifier)))
+                            (block
+                              (return_statement
+                                (boolean_literal))))))))
                   (expression_statement
                     (boolean_literal))))))))
       (trait_method_implementation

@@ -55,6 +55,12 @@ module.exports = grammar({
     // comparison / compound-assignment operator. Tree-sitter needs the
     // one-symbol look-ahead to decide between the two.
     [$.expression, $._math_operand],
+    // A bare identifier can be either a primary expression or the label
+    // prefix of a labeled for/for-in loop expression.
+    [$._primary_expr, $.for_loop, $.for_in_loop],
+    // for_loop/for_in_loop with and without a label over the same token sequence.
+    [$.for_loop],
+    [$.for_in_loop],
   ],
 
   reserved: {

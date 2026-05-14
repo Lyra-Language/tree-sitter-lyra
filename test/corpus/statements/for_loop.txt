@@ -9,15 +9,16 @@ for {
 ---
 
 (program
-  (for_loop
-    (for_body
-      (expression_statement
-        (call_expr
-          (identifier)
-          (argument_list
-            (value
-              (string_literal
-                (string_content)))))))))
+  (expression_statement
+    (for_loop
+      (for_body
+        (expression_statement
+          (call_expr
+            (identifier)
+            (argument_list
+              (value
+                (string_literal
+                  (string_content))))))))))
 
 =======================
 For loop with condition
@@ -35,23 +36,24 @@ for i < 10 {
     (identifier)
     (integer_literal
       (decimal_int)))
-  (for_loop
-    (for_condition
-      (for_condition_expr
-        (identifier)
-        (less_than_operator)
-        (integer_literal
-          (decimal_int))))
-    (for_body
-      (expression_statement
-        (call_expr
+  (expression_statement
+    (for_loop
+      (for_condition
+        (for_condition_expr
           (identifier)
-          (argument_list
-            (value
-              (string_literal
-                (string_content)
-                (string_interpolation
-                  (identifier))))))))))
+          (less_than_operator)
+          (integer_literal
+            (decimal_int))))
+      (for_body
+        (expression_statement
+          (call_expr
+            (identifier)
+            (argument_list
+              (value
+                (string_literal
+                  (string_content)
+                  (string_interpolation
+                    (identifier)))))))))))
 
 =========================================================
 For loop with initial expression and condition expression
@@ -65,33 +67,34 @@ for var i = 0; i < 10 {
 ---
 
 (program
-  (for_loop
-    (for_condition
-      (for_initial_expr
-        (identifier)
-        (integer_literal
-          (decimal_int)))
-      (for_condition_expr
-        (identifier)
-        (less_than_operator)
-        (integer_literal
-          (decimal_int))))
-    (for_body
-      (expression_statement
-        (call_expr
+  (expression_statement
+    (for_loop
+      (for_condition
+        (for_initial_expr
           (identifier)
-          (argument_list
-            (value
-              (string_literal
-                (string_content)
-                (string_interpolation
-                  (identifier)))))))
-      (expression_statement
-        (compound_assignment
-          (identifier)
-          (add_assign_operator)
           (integer_literal
-            (decimal_int)))))))
+            (decimal_int)))
+        (for_condition_expr
+          (identifier)
+          (less_than_operator)
+          (integer_literal
+            (decimal_int))))
+      (for_body
+        (expression_statement
+          (call_expr
+            (identifier)
+            (argument_list
+              (value
+                (string_literal
+                  (string_content)
+                  (string_interpolation
+                    (identifier)))))))
+        (expression_statement
+          (compound_assignment
+            (identifier)
+            (add_assign_operator)
+            (integer_literal
+              (decimal_int))))))))
 
 =======================================================
 For loop with condition expression and after expression
@@ -109,29 +112,30 @@ for i < 10; i += 1 {
     (identifier)
     (integer_literal
       (decimal_int)))
-  (for_loop
-    (for_condition
-      (for_condition_expr
-        (identifier)
-        (less_than_operator)
-        (integer_literal
-          (decimal_int)))
-      (for_post_expr
-        (compound_assignment
+  (expression_statement
+    (for_loop
+      (for_condition
+        (for_condition_expr
           (identifier)
-          (add_assign_operator)
+          (less_than_operator)
           (integer_literal
-            (decimal_int)))))
-    (for_body
-      (expression_statement
-        (call_expr
-          (identifier)
-          (argument_list
-            (value
-              (string_literal
-                (string_content)
-                (string_interpolation
-                  (identifier))))))))))
+            (decimal_int)))
+        (for_post_expr
+          (compound_assignment
+            (identifier)
+            (add_assign_operator)
+            (integer_literal
+              (decimal_int)))))
+      (for_body
+        (expression_statement
+          (call_expr
+            (identifier)
+            (argument_list
+              (value
+                (string_literal
+                  (string_content)
+                  (string_interpolation
+                    (identifier)))))))))))
 
 ==========================================================================
 For loop with initial expression, boolean expression, and after expression
@@ -144,30 +148,31 @@ for var i = 0; i < 10; i += 1 {
 ---
 
 (program
-  (for_loop
-    (for_condition
-      (for_initial_expr
-        (identifier)
-        (integer_literal
-          (decimal_int)))
-      (for_condition_expr
-        (identifier)
-        (less_than_operator)
-        (integer_literal
-          (decimal_int)))
-      (for_post_expr
-        (compound_assignment
+  (expression_statement
+    (for_loop
+      (for_condition
+        (for_initial_expr
           (identifier)
-          (add_assign_operator)
           (integer_literal
-            (decimal_int)))))
-    (for_body
-      (expression_statement
-        (call_expr
+            (decimal_int)))
+        (for_condition_expr
           (identifier)
-          (argument_list
-            (value
-              (string_literal
-                (string_content)
-                (string_interpolation
-                  (identifier))))))))))
+          (less_than_operator)
+          (integer_literal
+            (decimal_int)))
+        (for_post_expr
+          (compound_assignment
+            (identifier)
+            (add_assign_operator)
+            (integer_literal
+              (decimal_int)))))
+      (for_body
+        (expression_statement
+          (call_expr
+            (identifier)
+            (argument_list
+              (value
+                (string_literal
+                  (string_content)
+                  (string_interpolation
+                    (identifier)))))))))))

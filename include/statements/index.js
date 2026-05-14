@@ -1,6 +1,4 @@
 const assignments = require("./assignments");
-const for_loop = require("./control_flow/for_loop");
-const for_in_loop = require("./control_flow/for_in_loop");
 const arena = require("./arena");
 const { PREC } = require("../prec");
 
@@ -19,8 +17,6 @@ module.exports = {
       $.continue_statement,
       $.destructuring_if_declaration,
       $.destructuring_else_declaration,
-      $.for_loop,
-      $.for_in_loop,
       $.with_statement,
       $.expression_statement,
     ),
@@ -31,13 +27,15 @@ module.exports = {
     prec.right(PREC.JUMP, seq("return", optional(field("value", $.expression)))),
 
   break_statement: ($) =>
-    prec.right(PREC.JUMP, seq("break", optional(field("label", $.identifier)))),
+    prec.right(PREC.JUMP, seq(
+      "break",
+      optional(field("label", $.identifier)),
+      optional(field("value", $.expression)),
+    )),
 
   continue_statement: ($) =>
     prec.right(PREC.JUMP, seq("continue", optional(field("label", $.identifier)))),
 
   ...assignments,
-  ...for_loop,
-  ...for_in_loop,
   ...arena,
 };

@@ -29,17 +29,18 @@ let counter = gen (start: i32) -> Gen<i32> => {
         (declaration
           (identifier)
           (identifier))
-        (for_loop
-          (for_body
-            (expression_statement
-              (yield_expr
-                (identifier)))
-            (expression_statement
-              (compound_assignment
-                (identifier)
-                (add_assign_operator)
-                (integer_literal
-                  (decimal_int))))))))))
+        (expression_statement
+          (for_loop
+            (for_body
+              (expression_statement
+                (yield_expr
+                  (identifier)))
+              (expression_statement
+                (compound_assignment
+                  (identifier)
+                  (add_assign_operator)
+                  (integer_literal
+                    (decimal_int)))))))))))
 
 ===================================
 Async generator
@@ -103,11 +104,12 @@ let frames = pure gen () -> Gen<Void> => {
           (user_defined_type_name)
           (void_type)))
       (block
-        (for_loop
-          (for_body
-            (expression_statement
-              (yield_expr
-                (tuple_literal)))))))))
+        (expression_statement
+          (for_loop
+            (for_body
+              (expression_statement
+                (yield_expr
+                  (tuple_literal))))))))))
 
 ===================================
 Generator yielding data constructors

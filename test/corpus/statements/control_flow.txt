@@ -9,19 +9,20 @@ for i in 0..=10 {
 ---
 
 (program
-  (for_in_loop
-    (for_in_condition
-      (for_variable_or_key)
-      (range_expr
-        (range_start
-          (integer_literal
-            (decimal_int)))
-        (range_end_operator)
-        (range_end
-          (integer_literal
-            (decimal_int)))))
-    (for_in_body
-      (break_statement))))
+  (expression_statement
+    (for_in_loop
+      (for_in_condition
+        (for_variable_or_key)
+        (range_expr
+          (range_start
+            (integer_literal
+              (decimal_int)))
+          (range_end_operator)
+          (range_end
+            (integer_literal
+              (decimal_int)))))
+      (for_in_body
+        (break_statement)))))
 
 ==========================
 Break Statement With Label
@@ -36,33 +37,35 @@ outer: for x in 0..=10 {
 ---
 
 (program
-  (for_in_loop
-    (label)
-    (for_in_condition
-      (for_variable_or_key)
-      (range_expr
-        (range_start
-          (integer_literal
-            (decimal_int)))
-        (range_end_operator)
-        (range_end
-          (integer_literal
-            (decimal_int)))))
-    (for_in_body
-      (for_in_loop
-        (for_in_condition
-          (for_variable_or_key)
-          (range_expr
-            (range_start
-              (integer_literal
-                (decimal_int)))
-            (range_end_operator)
-            (range_end
-              (integer_literal
-                (decimal_int)))))
-        (for_in_body
-          (break_statement
-            (identifier)))))))
+  (expression_statement
+    (for_in_loop
+      (label)
+      (for_in_condition
+        (for_variable_or_key)
+        (range_expr
+          (range_start
+            (integer_literal
+              (decimal_int)))
+          (range_end_operator)
+          (range_end
+            (integer_literal
+              (decimal_int)))))
+      (for_in_body
+        (expression_statement
+          (for_in_loop
+            (for_in_condition
+              (for_variable_or_key)
+              (range_expr
+                (range_start
+                  (integer_literal
+                    (decimal_int)))
+                (range_end_operator)
+                (range_end
+                  (integer_literal
+                    (decimal_int)))))
+            (for_in_body
+              (break_statement
+                (identifier)))))))))
 
 ========
 Continue
@@ -78,26 +81,27 @@ for i in 0..=10 {
 ---
 
 (program
-  (for_in_loop
-    (for_in_condition
-      (for_variable_or_key)
-      (range_expr
-        (range_start
-          (integer_literal
-            (decimal_int)))
-        (range_end_operator)
-        (range_end
-          (integer_literal
-            (decimal_int)))))
-    (for_in_body
-      (expression_statement
-        (if_block_expr
-          (call_expr
-            (identifier)
-            (argument_list))
-          (block
-            (continue_statement))))
-      (comment))))
+  (expression_statement
+    (for_in_loop
+      (for_in_condition
+        (for_variable_or_key)
+        (range_expr
+          (range_start
+            (integer_literal
+              (decimal_int)))
+          (range_end_operator)
+          (range_end
+            (integer_literal
+              (decimal_int)))))
+      (for_in_body
+        (expression_statement
+          (if_block_expr
+            (call_expr
+              (identifier)
+              (argument_list))
+            (block
+              (continue_statement))))
+        (comment)))))
 
 ===================
 Continue with label
@@ -114,42 +118,136 @@ outer: for x in 0..=10 {
 ---
 
 (program
-  (for_in_loop
-    (label)
-    (for_in_condition
-      (for_variable_or_key)
-      (range_expr
-        (range_start
-          (integer_literal
-            (decimal_int)))
-        (range_end_operator)
-        (range_end
-          (integer_literal
-            (decimal_int)))))
-    (for_in_body
-      (for_in_loop
-        (for_in_condition
-          (for_variable_or_key)
-          (range_expr
-            (range_start
-              (integer_literal
-                (decimal_int)))
-            (range_end_operator)
-            (range_end
-              (integer_literal
-                (decimal_int)))))
-        (for_in_body
-          (expression_statement
-            (if_block_expr
-              (boolean_expr
-                (binary_expr
-                  (identifier)
-                  (mod_operator)
+  (expression_statement
+    (for_in_loop
+      (label)
+      (for_in_condition
+        (for_variable_or_key)
+        (range_expr
+          (range_start
+            (integer_literal
+              (decimal_int)))
+          (range_end_operator)
+          (range_end
+            (integer_literal
+              (decimal_int)))))
+      (for_in_body
+        (expression_statement
+          (for_in_loop
+            (for_in_condition
+              (for_variable_or_key)
+              (range_expr
+                (range_start
                   (integer_literal
                     (decimal_int)))
-                (equals_operator)
-                (integer_literal
-                  (decimal_int)))
-              (block
-                (continue_statement
+                (range_end_operator)
+                (range_end
+                  (integer_literal
+                    (decimal_int)))))
+            (for_in_body
+              (expression_statement
+                (if_block_expr
+                  (boolean_expr
+                    (binary_expr
+                      (identifier)
+                      (mod_operator)
+                      (integer_literal
+                        (decimal_int)))
+                    (equals_operator)
+                    (integer_literal
+                      (decimal_int)))
+                  (block
+                    (continue_statement
+                      (identifier))))))))))))
+
+==============================
+Break with a value expression
+==============================
+
+let result = for i in 0..=10 {
+  if i * i > 50 {
+    break i * i
+  }
+}
+
+---
+
+(program
+  (declaration
+    (identifier)
+    (for_in_loop
+      (for_in_condition
+        (for_variable_or_key)
+        (range_expr
+          (range_start
+            (integer_literal
+              (decimal_int)))
+          (range_end_operator)
+          (range_end
+            (integer_literal
+              (decimal_int)))))
+      (for_in_body
+        (expression_statement
+          (if_block_expr
+            (boolean_expr
+              (binary_expr
+                (identifier)
+                (mul_operator)
+                (identifier))
+              (greater_than_operator)
+              (integer_literal
+                (decimal_int)))
+            (block
+              (break_statement
+                (binary_expr
+                  (identifier)
+                  (mul_operator)
+                  (identifier))))))))))
+
+======================================
+Break with a value from labeled loop
+======================================
+
+let result = outer: for i in 0..=10 {
+  for j in 0..=10 {
+    break outer i + j
+  }
+}
+
+---
+
+(program
+  (declaration
+    (identifier)
+    (for_in_loop
+      (label)
+      (for_in_condition
+        (for_variable_or_key)
+        (range_expr
+          (range_start
+            (integer_literal
+              (decimal_int)))
+          (range_end_operator)
+          (range_end
+            (integer_literal
+              (decimal_int)))))
+      (for_in_body
+        (expression_statement
+          (for_in_loop
+            (for_in_condition
+              (for_variable_or_key)
+              (range_expr
+                (range_start
+                  (integer_literal
+                    (decimal_int)))
+                (range_end_operator)
+                (range_end
+                  (integer_literal
+                    (decimal_int)))))
+            (for_in_body
+              (break_statement
+                (identifier)
+                (binary_expr
+                  (identifier)
+                  (add_operator)
                   (identifier))))))))))
