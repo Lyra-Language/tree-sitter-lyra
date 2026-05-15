@@ -5,7 +5,10 @@ module.exports = {
     prec(
       PREC.BOOLEAN_EXPR,
       choice(
-        prec.left(PREC.UNARY, seq($.not, field("expression", $.expression))),
+        prec.left(
+          PREC.UNARY,
+          seq(field("operator", $.not), field("expression", $.expression)),
+        ),
         prec.left(
           PREC.RELATIONAL,
           seq(

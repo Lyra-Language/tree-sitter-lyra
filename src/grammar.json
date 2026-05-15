@@ -1759,8 +1759,12 @@
               "type": "SEQ",
               "members": [
                 {
-                  "type": "SYMBOL",
-                  "name": "not"
+                  "type": "FIELD",
+                  "name": "operator",
+                  "content": {
+                    "type": "SYMBOL",
+                    "name": "not"
+                  }
                 },
                 {
                   "type": "FIELD",
