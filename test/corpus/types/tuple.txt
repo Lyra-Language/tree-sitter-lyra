@@ -40,7 +40,7 @@ let origin = Point2D(0, 0)
 Tuple declaration with visibility
 =================================
 
-pub tuple Point3D(float, float, float)
+pub tuple Point3D(f64, f64, f64)
 
 ---
 
@@ -61,7 +61,7 @@ pub tuple Point3D(float, float, float)
 Tuple declaration with visibility and allocation modifier
 =========================================================
 
-pub stack tuple Point3D(float, float, float)
+pub stack tuple Point3D(f64, f64, f64)
 
 ---
 
@@ -83,7 +83,7 @@ pub stack tuple Point3D(float, float, float)
 Tuple declaration with default params
 =====================================
 
-tuple RGBA(u8, u8, u8, float = 1.0)
+tuple RGBA(u8, u8, u8, f32 = 1.0)
 
 ---
 
@@ -179,7 +179,7 @@ let some_point = Point3D::<f32>(1.43, 4.22, 3.59)
 Tuple declaration with nested tuple
 ===================================
 
-tuple RGBA((u8, u8, u8), float)
+tuple RGBA((u8, u8, u8), f32)
 
 ---
 

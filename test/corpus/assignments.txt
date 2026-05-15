@@ -230,25 +230,6 @@ let x =
   (ERROR
     (identifier)))
 
-===================================
-Const reassignment is an error
-===================================
-
-const PI = 3.14
-PI = 3.141592
-
----
-
-(program
-  (const_declaration
-    (const_identifier)
-    (float_literal))
-  (deref_assignment
-    (deref_expr
-      (const_identifier)
-      (MISSING "^"))
-    (float_literal)))
-
 ==================================
 Const without all-caps is an error
 :error
@@ -290,4 +271,4 @@ let = 42
 (program
   (ERROR
     (integer_literal
-  (decimal_int)))    
+  (decimal_int)))

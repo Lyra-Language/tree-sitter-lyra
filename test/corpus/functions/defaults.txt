@@ -57,7 +57,7 @@ let log = (msg: string, verbose: bool = false) -> void => {}
 Default float parameter
 =========================
 
-let scale = (x: float, factor: float = 1.0) -> float => x * factor
+let scale = (x: f64, factor: f64 = 1.0) -> f64 => x * factor
 
 ---
 

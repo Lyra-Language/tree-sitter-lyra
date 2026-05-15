@@ -2,7 +2,7 @@
 Basic Type without constraints (alias)
 ======================================
 
-newtype Turn = float
+newtype Turn = f32
 
 ---
 
@@ -63,7 +63,7 @@ newtype Status = int16 where values(200, 404, 500)
 Type with range constraints
 =================================
 
-newtype Angle = float where range(0..<360), precision(6, round_up)
+newtype Angle = f64 where range(0..<360), precision(6, round_up)
 newtype Radian = f64 where range(0..=2*PI), precision(2, round_trunc)
 newtype Alpha = f32 where range(0..=1)
 
@@ -149,7 +149,7 @@ Type with step constraint
 =========================
 
 // Only multiples of 0.25 (for currency with quarter precision)
-newtype Quarter = float where range(0..=100), step(0.25)
+newtype Quarter = f32 where range(0..=100), step(0.25)
 // Valid: 0, 0.25, 0.5, 0.75, 1.0, 1.25, ...
 
 // Degrees in 15° increments

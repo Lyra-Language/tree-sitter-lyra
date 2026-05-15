@@ -1110,6 +1110,14 @@
             "named": true
           },
           {
+            "type": "array_literal",
+            "named": true
+          },
+          {
+            "type": "array_repeat_init",
+            "named": true
+          },
+          {
             "type": "binary_expr",
             "named": true
           },
@@ -1118,7 +1126,15 @@
             "named": true
           },
           {
+            "type": "boolean_literal",
+            "named": true
+          },
+          {
             "type": "call_expr",
+            "named": true
+          },
+          {
+            "type": "char_literal",
             "named": true
           },
           {
@@ -1174,7 +1190,27 @@
             "named": true
           },
           {
+            "type": "raw_string_literal",
+            "named": true
+          },
+          {
+            "type": "regex_literal",
+            "named": true
+          },
+          {
+            "type": "string_literal",
+            "named": true
+          },
+          {
+            "type": "struct_literal",
+            "named": true
+          },
+          {
             "type": "try_expr",
+            "named": true
+          },
+          {
+            "type": "tuple_literal",
             "named": true
           },
           {
@@ -1234,6 +1270,14 @@
             "named": true
           },
           {
+            "type": "array_literal",
+            "named": true
+          },
+          {
+            "type": "array_repeat_init",
+            "named": true
+          },
+          {
             "type": "binary_expr",
             "named": true
           },
@@ -1242,7 +1286,15 @@
             "named": true
           },
           {
+            "type": "boolean_literal",
+            "named": true
+          },
+          {
             "type": "call_expr",
+            "named": true
+          },
+          {
+            "type": "char_literal",
             "named": true
           },
           {
@@ -1298,7 +1350,27 @@
             "named": true
           },
           {
+            "type": "raw_string_literal",
+            "named": true
+          },
+          {
+            "type": "regex_literal",
+            "named": true
+          },
+          {
+            "type": "string_literal",
+            "named": true
+          },
+          {
+            "type": "struct_literal",
+            "named": true
+          },
+          {
             "type": "try_expr",
+            "named": true
+          },
+          {
+            "type": "tuple_literal",
             "named": true
           },
           {
@@ -2612,6 +2684,14 @@
             "named": true
           },
           {
+            "type": "array_literal",
+            "named": true
+          },
+          {
+            "type": "array_repeat_init",
+            "named": true
+          },
+          {
             "type": "binary_expr",
             "named": true
           },
@@ -2620,7 +2700,15 @@
             "named": true
           },
           {
+            "type": "boolean_literal",
+            "named": true
+          },
+          {
             "type": "call_expr",
+            "named": true
+          },
+          {
+            "type": "char_literal",
             "named": true
           },
           {
@@ -2676,7 +2764,27 @@
             "named": true
           },
           {
+            "type": "raw_string_literal",
+            "named": true
+          },
+          {
+            "type": "regex_literal",
+            "named": true
+          },
+          {
+            "type": "string_literal",
+            "named": true
+          },
+          {
+            "type": "struct_literal",
+            "named": true
+          },
+          {
             "type": "try_expr",
+            "named": true
+          },
+          {
+            "type": "tuple_literal",
             "named": true
           },
           {
@@ -2736,6 +2844,14 @@
             "named": true
           },
           {
+            "type": "array_literal",
+            "named": true
+          },
+          {
+            "type": "array_repeat_init",
+            "named": true
+          },
+          {
             "type": "binary_expr",
             "named": true
           },
@@ -2744,7 +2860,15 @@
             "named": true
           },
           {
+            "type": "boolean_literal",
+            "named": true
+          },
+          {
             "type": "call_expr",
+            "named": true
+          },
+          {
+            "type": "char_literal",
             "named": true
           },
           {
@@ -2800,7 +2924,27 @@
             "named": true
           },
           {
+            "type": "raw_string_literal",
+            "named": true
+          },
+          {
+            "type": "regex_literal",
+            "named": true
+          },
+          {
+            "type": "string_literal",
+            "named": true
+          },
+          {
+            "type": "struct_literal",
+            "named": true
+          },
+          {
             "type": "try_expr",
+            "named": true
+          },
+          {
+            "type": "tuple_literal",
             "named": true
           },
           {
@@ -6177,6 +6321,10 @@
       "multiple": false,
       "required": true,
       "types": [
+        {
+          "type": "const_identifier",
+          "named": true
+        },
         {
           "type": "identifier",
           "named": true

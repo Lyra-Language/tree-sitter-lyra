@@ -39,12 +39,7 @@ module.exports = grammar({
   inline: ($) => [$._comma],
 
   conflicts: ($) => [
-    [
-      $.struct_literal,
-      $._tuple_name,
-      $.data_constructor_expr,
-      $._primary_expr,
-    ],
+    [$.struct_literal, $._tuple_name, $.data_constructor_expr, $._primary_expr],
     [$.struct_literal, $.struct_literal],
     [$.data_constructor_expr, $._primary_expr],
     [$.data_constructor_expr, $._primary_expr, $.data_pattern],
@@ -55,6 +50,14 @@ module.exports = grammar({
     // comparison / compound-assignment operator. Tree-sitter needs the
     // one-symbol look-ahead to decide between the two.
     [$.expression, $._math_operand],
+    // A literal or postfix form can appear on its own as an `expression`
+    // or as an operand of a boolean && / || operator. Mirrors the
+    // expression/_math_operand conflict above.
+    [$.expression, $._bool_operand],
+    // A postfix form can be a _bool_operand (right side of &&/||) or a
+    // _math_operand (left side of a binary math expression). Tree-sitter
+    // needs a lookahead to decide between the two.
+    [$._bool_operand, $._math_operand],
     // A bare identifier can be either a primary expression or the label
     // prefix of a labeled for/for-in loop expression.
     [$._primary_expr, $.for_loop, $.for_in_loop],

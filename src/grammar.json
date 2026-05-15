@@ -1880,7 +1880,7 @@
                   "name": "left",
                   "content": {
                     "type": "SYMBOL",
-                    "name": "boolean_expr"
+                    "name": "_bool_operand"
                   }
                 },
                 {
@@ -1896,7 +1896,7 @@
                   "name": "right",
                   "content": {
                     "type": "SYMBOL",
-                    "name": "boolean_expr"
+                    "name": "_bool_operand"
                   }
                 }
               ]
@@ -1913,7 +1913,7 @@
                   "name": "left",
                   "content": {
                     "type": "SYMBOL",
-                    "name": "boolean_expr"
+                    "name": "_bool_operand"
                   }
                 },
                 {
@@ -1929,7 +1929,7 @@
                   "name": "right",
                   "content": {
                     "type": "SYMBOL",
-                    "name": "boolean_expr"
+                    "name": "_bool_operand"
                   }
                 }
               ]
@@ -1937,6 +1937,23 @@
           }
         ]
       }
+    },
+    "_bool_operand": {
+      "type": "CHOICE",
+      "members": [
+        {
+          "type": "SYMBOL",
+          "name": "boolean_expr"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "_literal"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "_postfix_expr"
+        }
+      ]
     },
     "_equality_operator": {
       "type": "CHOICE",
@@ -7382,8 +7399,17 @@
       "type": "SEQ",
       "members": [
         {
-          "type": "SYMBOL",
-          "name": "identifier"
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "SYMBOL",
+              "name": "identifier"
+            },
+            {
+              "type": "SYMBOL",
+              "name": "const_identifier"
+            }
+          ]
         },
         {
           "type": "STRING",
@@ -8355,6 +8381,14 @@
     ],
     [
       "expression",
+      "_math_operand"
+    ],
+    [
+      "expression",
+      "_bool_operand"
+    ],
+    [
+      "_bool_operand",
       "_math_operand"
     ],
     [
