@@ -58,6 +58,15 @@ module.exports = grammar({
     // _math_operand (left side of a binary math expression). Tree-sitter
     // needs a lookahead to decide between the two.
     [$._bool_operand, $._math_operand],
+    // A literal or postfix form can appear on its own as an `expression`
+    // or as an operand of a comparison (==, !=, <, >, <=, >=) operator.
+    // Mirrors the expression/_math_operand and expression/_bool_operand
+    // conflicts above.
+    [$.expression, $._comparison_operand],
+    // A comparison operand can also be a math operand or bool operand in
+    // ambiguous positions (e.g. `&x == y` where `x` could be either).
+    [$._comparison_operand, $._math_operand],
+    [$._bool_operand, $._comparison_operand],
     // A bare identifier can be either a primary expression or the label
     // prefix of a labeled for/for-in loop expression.
     [$._primary_expr, $.for_loop, $.for_in_loop],

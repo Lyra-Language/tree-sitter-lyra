@@ -12,7 +12,7 @@ module.exports = {
         prec.left(
           PREC.RELATIONAL,
           seq(
-            field("left", $._math_operand),
+            field("left", $._comparison_operand),
             field(
               "operator",
               choice(
@@ -23,15 +23,15 @@ module.exports = {
                 $.less_than_or_equal_operator,
               ),
             ),
-            field("right", $._math_operand),
+            field("right", $._comparison_operand),
           ),
         ),
         prec.left(
           PREC.EQUALITY,
           seq(
-            field("left", $._math_operand),
+            field("left", $._comparison_operand),
             field("operator", choice($.equals_operator, $.not_equals_operator)),
-            field("right", $._math_operand),
+            field("right", $._comparison_operand),
           ),
         ),
         prec.left(
@@ -58,6 +58,9 @@ module.exports = {
   // them), and postfix expressions (identifiers, calls, member accesses, …)
   // that may resolve to bool at type-check time.
   _bool_operand: ($) => choice($.boolean_expr, $._literal, $._postfix_expr),
+
+  _comparison_operand: ($) =>
+    choice($._literal, $._postfix_expr, $._math_expr, $.address_of_expr),
 
   // Keep these for backwards compatibility if used elsewhere
   _equality_operator: ($) => choice($.equals_operator, $.not_equals_operator),

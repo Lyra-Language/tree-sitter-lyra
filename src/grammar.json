@@ -1788,7 +1788,7 @@
                   "name": "left",
                   "content": {
                     "type": "SYMBOL",
-                    "name": "_math_operand"
+                    "name": "_comparison_operand"
                   }
                 },
                 {
@@ -1825,7 +1825,7 @@
                   "name": "right",
                   "content": {
                     "type": "SYMBOL",
-                    "name": "_math_operand"
+                    "name": "_comparison_operand"
                   }
                 }
               ]
@@ -1842,7 +1842,7 @@
                   "name": "left",
                   "content": {
                     "type": "SYMBOL",
-                    "name": "_math_operand"
+                    "name": "_comparison_operand"
                   }
                 },
                 {
@@ -1867,7 +1867,7 @@
                   "name": "right",
                   "content": {
                     "type": "SYMBOL",
-                    "name": "_math_operand"
+                    "name": "_comparison_operand"
                   }
                 }
               ]
@@ -1956,6 +1956,27 @@
         {
           "type": "SYMBOL",
           "name": "_postfix_expr"
+        }
+      ]
+    },
+    "_comparison_operand": {
+      "type": "CHOICE",
+      "members": [
+        {
+          "type": "SYMBOL",
+          "name": "_literal"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "_postfix_expr"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "_math_expr"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "address_of_expr"
         }
       ]
     },
@@ -8394,6 +8415,18 @@
     [
       "_bool_operand",
       "_math_operand"
+    ],
+    [
+      "expression",
+      "_comparison_operand"
+    ],
+    [
+      "_comparison_operand",
+      "_math_operand"
+    ],
+    [
+      "_bool_operand",
+      "_comparison_operand"
     ],
     [
       "_primary_expr",
