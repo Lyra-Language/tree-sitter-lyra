@@ -96,6 +96,7 @@ const PREC = {
   TRAIT_IMPL: 100,
 
   // Arithmetic.
+  STRING_CONCAT: 110, // `++` operator, same binding power as addition
   ADDITIVE: 110,
   MULTIPLICATIVE: 120,
   MATH_PRIMARY: 130,

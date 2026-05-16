@@ -1210,6 +1210,10 @@
         },
         {
           "type": "SYMBOL",
+          "name": "string_concat_expr"
+        },
+        {
+          "type": "SYMBOL",
           "name": "boolean_expr"
         },
         {
@@ -2258,6 +2262,64 @@
           }
         ]
       }
+    },
+    "string_concat_expr": {
+      "type": "PREC_LEFT",
+      "value": 110,
+      "content": {
+        "type": "SEQ",
+        "members": [
+          {
+            "type": "FIELD",
+            "name": "left",
+            "content": {
+              "type": "SYMBOL",
+              "name": "_string_concat_operand"
+            }
+          },
+          {
+            "type": "FIELD",
+            "name": "operator",
+            "content": {
+              "type": "SYMBOL",
+              "name": "string_concat_operator"
+            }
+          },
+          {
+            "type": "FIELD",
+            "name": "right",
+            "content": {
+              "type": "SYMBOL",
+              "name": "_string_concat_operand"
+            }
+          }
+        ]
+      }
+    },
+    "string_concat_operator": {
+      "type": "STRING",
+      "value": "++"
+    },
+    "_string_concat_operand": {
+      "type": "CHOICE",
+      "members": [
+        {
+          "type": "SYMBOL",
+          "name": "string_literal"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "raw_string_literal"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "_postfix_expr"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "string_concat_expr"
+        }
+      ]
     },
     "add_operator": {
       "type": "STRING",

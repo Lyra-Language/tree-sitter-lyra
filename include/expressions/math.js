@@ -62,7 +62,15 @@ function arithmeticRules({ binary, unary, operand }) {
           PREC.MULTIPLICATIVE,
           seq(
             field("left", operand($)),
-            field("operator", choice($.mul_operator, $.div_operator, $.mod_operator, $.remainder_operator)),
+            field(
+              "operator",
+              choice(
+                $.mul_operator,
+                $.div_operator,
+                $.mod_operator,
+                $.remainder_operator,
+              ),
+            ),
             field("right", operand($)),
           ),
         ),
@@ -106,6 +114,29 @@ module.exports = {
       ),
     ),
 
+  // String concatenation
+  string_concat_expr: ($) =>
+    prec.left(
+      PREC.STRING_CONCAT,
+      seq(
+        field("left", $._string_concat_operand),
+        field("operator", $.string_concat_operator),
+        field("right", $._string_concat_operand),
+      ),
+    ),
+
+  string_concat_operator: ($) => "++",
+
+  // Operand for `++`: string literals, raw strings, postfix expressions
+  // (identifiers, calls, member access, …), and nested concat expressions.
+  _string_concat_operand: ($) =>
+    choice(
+      $.string_literal,
+      $.raw_string_literal,
+      $._postfix_expr,
+      $.string_concat_expr,
+    ),
+
   add_operator: ($) => "+",
   sub_operator: ($) => "-",
   mul_operator: ($) => "*",
@@ -118,7 +149,6 @@ module.exports = {
   div_assign_operator: ($) => "/=",
   mod_assign_operator: ($) => "%=",
   remainder_assign_operator: ($) => "%%=",
-
 
   group: ($) => prec(PREC.MATH_GROUP, seq("(", $._math_expr, ")")),
 

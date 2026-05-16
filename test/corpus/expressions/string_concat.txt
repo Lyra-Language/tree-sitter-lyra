@@ -1,0 +1,88 @@
+================================
+String literals concatenation
+================================
+
+"hello" ++ " world"
+
+---
+
+(program
+  (expression_statement
+    (string_concat_expr
+      left: (string_literal
+        (string_content))
+      operator: (string_concat_operator)
+      right: (string_literal
+        (string_content)))))
+
+======================================
+String variable concatenation
+======================================
+
+greeting ++ name
+
+---
+
+(program
+  (expression_statement
+    (string_concat_expr
+      left: (identifier)
+      operator: (string_concat_operator)
+      right: (identifier))))
+
+============================================
+Left-associative chained concatenation
+============================================
+
+"a" ++ "b" ++ "c"
+
+---
+
+(program
+  (expression_statement
+    (string_concat_expr
+      left: (string_concat_expr
+        left: (string_literal
+          (string_content))
+        operator: (string_concat_operator)
+        right: (string_literal
+          (string_content)))
+      operator: (string_concat_operator)
+      right: (string_literal
+        (string_content)))))
+
+============================================
+String concat with function call operands
+============================================
+
+foo() ++ bar()
+
+---
+
+(program
+  (expression_statement
+    (string_concat_expr
+      left: (call_expr
+        function: (identifier)
+        arguments: (argument_list))
+      operator: (string_concat_operator)
+      right: (call_expr
+        function: (identifier)
+        arguments: (argument_list)))))
+
+========================================
+String concat bound in a let declaration
+========================================
+
+let s = "Hello, " ++ name
+
+---
+
+(program
+  (declaration
+    name: (identifier)
+    value: (string_concat_expr
+      left: (string_literal
+        (string_content))
+      operator: (string_concat_operator)
+      right: (identifier))))

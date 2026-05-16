@@ -23,6 +23,7 @@ module.exports = {
       $.data_constructor_expr,
       $._postfix_expr,
       $._math_expr,
+      $.string_concat_expr,
       $.boolean_expr,
       $.range_expr,
       $.if_block_expr,
@@ -53,7 +54,10 @@ module.exports = {
   // Yield-from for delegating to a sub-generator
   // Higher precedence than yield_expr to win over "yield (from-as-identifier)"
   yield_from_expr: ($) =>
-    prec.right(PREC.YIELD_FROM, seq("yield", "from", field("generator", $.expression))),
+    prec.right(
+      PREC.YIELD_FROM,
+      seq("yield", "from", field("generator", $.expression)),
+    ),
 
   identifier: ($) => token(prec(PREC.IDENTIFIER_TOKEN, /[a-z][a-zA-Z0-9_]*/)),
   const_identifier: ($) => /[A-Z][A-Z0-9_]*/,
@@ -79,7 +83,8 @@ module.exports = {
       ),
     ),
 
-  spread_expr: ($) => prec.right(PREC.SPREAD, seq("...", field('spread_name', $.identifier))),
+  spread_expr: ($) =>
+    prec.right(PREC.SPREAD, seq("...", field("spread_name", $.identifier))),
 
   // Function composition: f >> g produces a function that applies f then g
   // Right-associative so `f >> g >> h` means `f >> (g >> h)`
@@ -96,14 +101,27 @@ module.exports = {
   compose_operator: ($) => "->>",
 
   given_expr: ($) =>
-    prec.right(PREC.GIVEN, seq(
-      field("body", $.expression),
-      "given",
-      field("bindings", $.given_bindings),
-    )),
+    prec.right(
+      PREC.GIVEN,
+      seq(
+        field("body", $.expression),
+        "given",
+        field("bindings", $.given_bindings),
+      ),
+    ),
 
   given_bindings: ($) =>
-    seq("{", repeat1(choice($.declaration, $.const_declaration, $.destructuring_else_declaration)), "}"),
+    seq(
+      "{",
+      repeat1(
+        choice(
+          $.declaration,
+          $.const_declaration,
+          $.destructuring_else_declaration,
+        ),
+      ),
+      "}",
+    ),
 
   ...control_flow,
   ...boolean,
