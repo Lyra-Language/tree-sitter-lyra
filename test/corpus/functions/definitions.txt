@@ -334,7 +334,7 @@ let compare<n> where n: Ord = (a: n, b: n) -> n => a <=> b
 Function with patterns for parameters
 =====================================
 
-let foo = ({ x, y }: Point, [one, two, three, ...rest]: []string, (alpha, beta): SomeTuple) -> Void => {
+let foo = ({ x, y }: Point, [one, two, three, ...rest]: []string, (alpha, beta): SomeTuple) -> void => {
   // do stuff
 }
 
@@ -540,7 +540,7 @@ let fib = pure (n: int) -> int {
 Function type parameter modifiers
 =================================
 
-let render = (scene: ref Scene) -> Void => {
+let render = (scene: ref Scene) -> void => {
   // render the scene
 }
 
@@ -628,5 +628,3 @@ Pure keyword in wrong order
 let compute = async pure (n: int) -> int => n * 2
 
 ---
-
-

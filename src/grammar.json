@@ -4345,7 +4345,7 @@
     },
     "void_type": {
       "type": "STRING",
-      "value": "Void"
+      "value": "void"
     },
     "parameterized_type": {
       "type": "SEQ",
@@ -8663,6 +8663,10 @@
       {
         "type": "STRING",
         "value": "own"
+      },
+      {
+        "type": "STRING",
+        "value": "void"
       }
     ]
   }

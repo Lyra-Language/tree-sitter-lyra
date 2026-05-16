@@ -47,7 +47,7 @@ module.exports = {
   self_type: ($) =>
     seq("Self", optional(field("generic_parameters", $.generic_parameters))),
 
-  void_type: ($) => "Void",
+  void_type: ($) => "void",
 
   // Parameterized types like Maybe<i>, Tree<a>, Self<a>
   parameterized_type: ($) =>
@@ -59,7 +59,13 @@ module.exports = {
     ),
 
   _primitive_type: ($) =>
-    choice($._integer_type, $.float_type, $.fixed_point_type, $.string_type, $.boolean_type),
+    choice(
+      $._integer_type,
+      $.float_type,
+      $.fixed_point_type,
+      $.string_type,
+      $.boolean_type,
+    ),
 
   string_type: ($) => "string",
 

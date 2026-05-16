@@ -107,6 +107,7 @@ module.exports = grammar({
       "mut",
       "ref",
       "own",
+      "void",
     ],
   },
 

@@ -50,7 +50,7 @@ let log = (msg: string, verbose: bool = false) -> void => {}
           (default_value
             (boolean_literal))))
       (return_type
-        (generic_type))
+        (void_type))
       (block))))
 
 =========================
@@ -166,7 +166,7 @@ let process = (items: []string, config: Config = get_default_config()) -> void =
               (identifier)
               (argument_list)))))
       (return_type
-        (generic_type))
+        (void_type))
       (block))))
 
 ==============================

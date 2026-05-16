@@ -273,6 +273,6 @@ let helper = () -> void => 42
     (lambda_expr
       (parameter_list)
       (return_type
-        (generic_type))
+        (void_type))
       (integer_literal
         (decimal_int)))))

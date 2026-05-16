@@ -35,7 +35,7 @@ Trait with mixed required and default methods
 
 trait Printable {
   to_string: (Self) -> string,
-  print: (Self) -> Void = (self) => log(self.to_string())
+  print: (Self) -> void = (self) => log(self.to_string())
 }
 
 ---

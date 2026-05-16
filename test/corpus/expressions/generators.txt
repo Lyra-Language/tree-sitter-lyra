@@ -84,7 +84,7 @@ let stream = async gen (url: string) -> Gen<Packet> => {
 Pure generator (frame suspension)
 ===================================
 
-let frames = pure gen () -> Gen<Void> => {
+let frames = pure gen () -> Gen<void> => {
   for {
     yield ()
   }
