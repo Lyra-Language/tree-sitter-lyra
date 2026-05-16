@@ -100,7 +100,7 @@ module.exports = grammar({
       "pure",
       "gen",
       "yield",
-      "rec",
+
       "fixed",
       "unsafe",
       "given",
