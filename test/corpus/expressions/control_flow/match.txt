@@ -98,33 +98,36 @@ let foo = match bar {
         (literal_pattern
           (string_literal
             (string_content)))
-        (struct_literal
+        (anonymous_struct_literal
           (struct_body
-            (struct_field
-              (field_name)
-              (field_value
-                (string_literal
-                  (string_content)))))))
+            (struct_fields
+              (struct_field
+                (field_name)
+                (field_value
+                  (string_literal
+                    (string_content))))))))
       (match_arm
         (literal_pattern
           (string_literal
             (string_content)))
-        (struct_literal
+        (anonymous_struct_literal
           (struct_body
-            (struct_field
-              (field_name)
-              (field_value
-                (string_literal
-                  (string_content)))))))
+            (struct_fields
+              (struct_field
+                (field_name)
+                (field_value
+                  (string_literal
+                    (string_content))))))))
       (match_arm
         (wildcard_pattern)
-        (struct_literal
+        (anonymous_struct_literal
           (struct_body
-            (struct_field
-              (field_name)
-              (field_value
-                (string_literal
-                  (string_content))))))))))
+            (struct_fields
+              (struct_field
+                (field_name)
+                (field_value
+                  (string_literal
+                    (string_content)))))))))))
 
 =====================
 Match with range arms

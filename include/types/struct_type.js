@@ -18,7 +18,7 @@ module.exports = {
       field("field_name", alias($.identifier, $.field_name)),
       ":",
       field("field_type", alias($.type, $.field_type)),
-      optional($.default_field_value),
+      optional(field("default_value", $.default_field_value)),
     ),
 
   struct_type_body: ($) => seq("{", commaSep1($.struct_member), "}"),

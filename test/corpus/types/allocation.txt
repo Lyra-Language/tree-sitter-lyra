@@ -140,24 +140,25 @@ let pos: stack Vec3 = Vec3 { x: 0, y: 0, z: 0 }
       (allocated_type
         (allocation_modifier)
         (user_defined_type_name)))
-    (struct_literal
+    (named_struct_literal
       (struct_name)
       (struct_body
-        (struct_field
-          (field_name)
-          (field_value
-            (integer_literal
-              (decimal_int))))
-        (struct_field
-          (field_name)
-          (field_value
-            (integer_literal
-              (decimal_int))))
-        (struct_field
-          (field_name)
-          (field_value
-            (integer_literal
-              (decimal_int))))))))
+        (struct_fields
+          (struct_field
+            (field_name)
+            (field_value
+              (integer_literal
+                (decimal_int))))
+          (struct_field
+            (field_name)
+            (field_value
+              (integer_literal
+                (decimal_int))))
+          (struct_field
+            (field_name)
+            (field_value
+              (integer_literal
+                (decimal_int)))))))))
 
 ===========================================
 Fixed-size array with const size expression
@@ -216,5 +217,3 @@ pub stack struct Transform<t> {
           (field_name)
           (field_type
             (generic_type)))))))
-
-

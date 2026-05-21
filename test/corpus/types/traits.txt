@@ -282,30 +282,31 @@ let inverted: Point = -my_point // uses the overloaded prefix -
         (method_clause
           (pattern_parameter_list
             (identifier))
-          (struct_literal
+          (named_struct_literal
             (struct_name)
             (struct_body
-              (struct_field
-                (field_name)
-                (field_value
-                  (negation
-                    (member_expr
-                      (identifier)
-                      (identifier)))))
-              (struct_field
-                (field_name)
-                (field_value
-                  (negation
-                    (member_expr
-                      (identifier)
-                      (identifier)))))))))))
-  (declaration
-    (identifier)
-    (type_annotation
-      (user_defined_type_name))
-    (negation
-      (identifier)))
-  (comment))
+              (struct_fields
+                (struct_field
+                  (field_name)
+                  (field_value
+                    (negation
+                      (member_expr
+                        (identifier)
+                        (identifier)))))
+                (struct_field
+                  (field_name)
+                  (field_value
+                    (negation
+                      (member_expr
+                        (identifier)
+                        (identifier))))))))))))
+      (declaration
+        (identifier)
+        (type_annotation
+          (user_defined_type_name))
+        (negation
+          (identifier)))
+      (comment))
 
 ================================================================
 Generic Trait Implemented for Generic Type with binary operators

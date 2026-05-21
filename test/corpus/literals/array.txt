@@ -69,24 +69,25 @@ let points = [Vec3 { x: 0, y: 0, z: 0 }; 100]
   (declaration
     (identifier)
     (array_repeat_init
-      (struct_literal
+      (named_struct_literal
         (struct_name)
         (struct_body
-          (struct_field
-            (field_name)
-            (field_value
-              (integer_literal
-                (decimal_int))))
-          (struct_field
-            (field_name)
-            (field_value
-              (integer_literal
-                (decimal_int))))
-          (struct_field
-            (field_name)
-            (field_value
-              (integer_literal
-                (decimal_int))))))
+          (struct_fields
+            (struct_field
+              (field_name)
+              (field_value
+                (integer_literal
+                  (decimal_int))))
+            (struct_field
+              (field_name)
+              (field_value
+                (integer_literal
+                  (decimal_int))))
+            (struct_field
+              (field_name)
+              (field_value
+                (integer_literal
+                  (decimal_int)))))))
       (array_repeat_count
         (integer_literal
           (decimal_int))))))
@@ -149,4 +150,4 @@ let arr = [1, 2, 3
         (decimal_int))
       (integer_literal
         (decimal_int))
-      (MISSING "]"))))))            
+      (MISSING "]"))))))

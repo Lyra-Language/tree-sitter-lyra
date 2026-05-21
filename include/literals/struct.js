@@ -2,23 +2,18 @@ const { commaSep1 } = require("../helpers");
 const { PREC } = require("../prec");
 
 module.exports = {
-  struct_literal: ($) =>
+  named_struct_literal: ($) =>
     prec.left(
       PREC.STRUCT_LITERAL,
       seq(
-        optional(
-          prec(
-            PREC.STRUCT_NAME,
-            field(
-              "struct_name",
-              alias($.user_defined_type_name, $.struct_name),
-            ),
-          ),
-        ),
+        field("struct_name", alias($.user_defined_type_name, $.struct_name)),
         optional(field("generic_arguments", $.generic_arguments)),
         field("struct_body", $.struct_body),
       ),
     ),
+
+  anonymous_struct_literal: ($) =>
+    prec.left(PREC.STRUCT_LITERAL, field("struct_body", $.struct_body)),
 
   struct_body: ($) =>
     seq(
@@ -26,7 +21,7 @@ module.exports = {
       choice(
         field("struct_update", $.struct_update),
         field("struct_shorthand", $.struct_shorthand),
-        field("struct_fields", commaSep1($.struct_field))
+        field("struct_fields", $.struct_fields),
       ),
       "}",
     ),
@@ -42,6 +37,8 @@ module.exports = {
   // not an anonymous struct. Named fields (`{ x: v }`) handle the 1-field case.
   struct_shorthand: ($) =>
     seq($._field_value, repeat1(seq(",", $._field_value)), optional(",")),
+
+  struct_fields: ($) => commaSep1($.struct_field),
 
   struct_field: ($) =>
     seq(

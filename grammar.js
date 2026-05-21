@@ -39,8 +39,8 @@ module.exports = grammar({
   inline: ($) => [$._comma],
 
   conflicts: ($) => [
-    [$.struct_literal, $._tuple_name, $.data_constructor_expr, $._primary_expr],
-    [$.struct_literal, $.struct_literal],
+    [$.named_struct_literal, $._tuple_name, $._primary_expr],
+    [$.named_struct_literal, $.anonymous_struct_literal],
     [$.data_constructor_expr, $._primary_expr],
     [$.data_constructor_expr, $._primary_expr, $.data_pattern],
     [$._primary_expr, $.data_pattern],

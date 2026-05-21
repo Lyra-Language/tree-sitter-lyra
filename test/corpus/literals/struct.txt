@@ -9,18 +9,19 @@ let foo = { bar: "baz", blah: 23 }
 (program
   (declaration
     (identifier)
-    (struct_literal
+    (anonymous_struct_literal
       (struct_body
-        (struct_field
-          (field_name)
-          (field_value
-            (string_literal
-              (string_content))))
-        (struct_field
-          (field_name)
-          (field_value
-            (integer_literal
-              (decimal_int))))))))
+        (struct_fields
+          (struct_field
+            (field_name)
+            (field_value
+              (string_literal
+                (string_content))))
+          (struct_field
+            (field_name)
+            (field_value
+              (integer_literal
+                (decimal_int)))))))))
 
 ==============================
 Struct Instance
@@ -36,17 +37,18 @@ let origin = Point {
 (program
   (declaration
     (identifier)
-    (struct_literal
+    (named_struct_literal
       (struct_name)
       (struct_body
-        (struct_field
-          (field_name)
-          (field_value
-            (float_literal)))
-        (struct_field
-          (field_name)
-          (field_value
-            (float_literal)))))))        
+        (struct_fields
+          (struct_field
+            (field_name)
+            (field_value
+              (float_literal)))
+          (struct_field
+            (field_name)
+            (field_value
+              (float_literal))))))))
 
 =========================
 Struct Instance Shorthand
@@ -59,14 +61,14 @@ let origin = Point { 0.0, 0.0 }
 (program
   (declaration
     (identifier)
-    (struct_literal
+    (named_struct_literal
       (struct_name)
       (struct_body
         (struct_shorthand
           (field_value
             (float_literal))
           (field_value
-            (float_literal)))))))       
+            (float_literal)))))))
 
 ===================================
 Struct Instance with Generic Args
@@ -80,36 +82,38 @@ let float_point = Point::<f64> { x: 1.23, y: 4.56 }
 (program
   (declaration
     (identifier)
-    (struct_literal
+    (named_struct_literal
       (struct_name)
       (generic_arguments
         (signed_integer_type))
       (struct_body
-        (struct_field
-          (field_name)
-          (field_value
-            (integer_literal
-              (decimal_int))))
-        (struct_field
-          (field_name)
-          (field_value
-            (integer_literal
-              (decimal_int)))))))
+        (struct_fields
+          (struct_field
+            (field_name)
+            (field_value
+              (integer_literal
+                (decimal_int))))
+          (struct_field
+            (field_name)
+            (field_value
+              (integer_literal
+                (decimal_int))))))))
   (declaration
     (identifier)
-    (struct_literal
+    (named_struct_literal
       (struct_name)
       (generic_arguments
         (float_type))
       (struct_body
-        (struct_field
-          (field_name)
-          (field_value
-            (float_literal)))
-        (struct_field
-          (field_name)
-          (field_value
-            (float_literal)))))))
+        (struct_fields
+          (struct_field
+            (field_name)
+            (field_value
+              (float_literal)))
+          (struct_field
+            (field_name)
+            (field_value
+              (float_literal))))))))
 
 ======================================
 Anonymous struct field value is spread
@@ -122,13 +126,14 @@ let opts = { verbose: ...flags }
 (program
   (declaration
     (identifier)
-    (struct_literal
+    (anonymous_struct_literal
       (struct_body
-        (struct_field
-          (field_name)
-          (field_value
-            (spread_expr
-              (identifier))))))))
+        (struct_fields
+          (struct_field
+            (field_name)
+            (field_value
+              (spread_expr
+                (identifier)))))))))
 
 =============================================
 Named struct fields with spread expressions
@@ -141,19 +146,20 @@ let p = Point { x: ...xs, y: ...ys }
 (program
   (declaration
     (identifier)
-    (struct_literal
+    (named_struct_literal
       (struct_name)
       (struct_body
-        (struct_field
-          (field_name)
-          (field_value
-            (spread_expr
-              (identifier))))
-        (struct_field
-          (field_name)
-          (field_value
-            (spread_expr
-              (identifier))))))))
+        (struct_fields
+          (struct_field
+            (field_name)
+            (field_value
+              (spread_expr
+                (identifier))))
+          (struct_field
+            (field_name)
+            (field_value
+              (spread_expr
+                (identifier)))))))))
 
 ==================================================
 Named struct shorthand with multiple spread values
@@ -166,7 +172,7 @@ let merged = Point { ...base, ...extra }
 (program
   (declaration
     (identifier)
-    (struct_literal
+    (named_struct_literal
       (struct_name)
       (struct_body
         (struct_shorthand
@@ -188,16 +194,17 @@ let p = Point::<i32> { x: ...xs }
 (program
   (declaration
     (identifier)
-    (struct_literal
+    (named_struct_literal
       (struct_name)
       (generic_arguments
         (signed_integer_type))
       (struct_body
-        (struct_field
-          (field_name)
-          (field_value
-            (spread_expr
-              (identifier))))))))
+        (struct_fields
+          (struct_field
+            (field_name)
+            (field_value
+              (spread_expr
+                (identifier)))))))))
 
 ======================================
 Record update - single field
@@ -209,7 +216,7 @@ Player { existingPlayer | health: newHealth }
 
 (program
   (expression_statement
-    (struct_literal
+    (named_struct_literal
       (struct_name)
       (struct_body
         (struct_update
@@ -229,7 +236,7 @@ Player { existingPlayer | health: newHealth, stamina: 100 }
 
 (program
   (expression_statement
-    (struct_literal
+    (named_struct_literal
       (struct_name)
       (struct_body
         (struct_update
@@ -255,7 +262,7 @@ let p = { player | health: player.health - 10, x: player.x + dx }
 (program
   (declaration
     (identifier)
-    (struct_literal
+    (anonymous_struct_literal
       (struct_body
         (struct_update
           (identifier)

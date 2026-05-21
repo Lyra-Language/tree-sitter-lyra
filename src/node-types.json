@@ -8,6 +8,10 @@
         "named": true
       },
       {
+        "type": "anonymous_struct_literal",
+        "named": true
+      },
+      {
         "type": "array_comp_expr",
         "named": true
       },
@@ -116,6 +120,10 @@
         "named": true
       },
       {
+        "type": "named_struct_literal",
+        "named": true
+      },
+      {
         "type": "negation",
         "named": true
       },
@@ -161,10 +169,6 @@
       },
       {
         "type": "string_literal",
-        "named": true
-      },
-      {
-        "type": "struct_literal",
         "named": true
       },
       {
@@ -500,6 +504,22 @@
     "type": "and",
     "named": true,
     "fields": {}
+  },
+  {
+    "type": "anonymous_struct_literal",
+    "named": true,
+    "fields": {
+      "struct_body": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "struct_body",
+            "named": true
+          }
+        ]
+      }
+    }
   },
   {
     "type": "anonymous_struct_type",
@@ -1114,6 +1134,10 @@
             "named": true
           },
           {
+            "type": "anonymous_struct_literal",
+            "named": true
+          },
+          {
             "type": "array_literal",
             "named": true
           },
@@ -1178,6 +1202,10 @@
             "named": true
           },
           {
+            "type": "named_struct_literal",
+            "named": true
+          },
+          {
             "type": "negation",
             "named": true
           },
@@ -1203,10 +1231,6 @@
           },
           {
             "type": "string_literal",
-            "named": true
-          },
-          {
-            "type": "struct_literal",
             "named": true
           },
           {
@@ -1278,6 +1302,10 @@
             "named": true
           },
           {
+            "type": "anonymous_struct_literal",
+            "named": true
+          },
+          {
             "type": "array_literal",
             "named": true
           },
@@ -1342,6 +1370,10 @@
             "named": true
           },
           {
+            "type": "named_struct_literal",
+            "named": true
+          },
+          {
             "type": "negation",
             "named": true
           },
@@ -1367,10 +1399,6 @@
           },
           {
             "type": "string_literal",
-            "named": true
-          },
-          {
-            "type": "struct_literal",
             "named": true
           },
           {
@@ -2682,6 +2710,10 @@
             "named": true
           },
           {
+            "type": "anonymous_struct_literal",
+            "named": true
+          },
+          {
             "type": "array_literal",
             "named": true
           },
@@ -2746,6 +2778,10 @@
             "named": true
           },
           {
+            "type": "named_struct_literal",
+            "named": true
+          },
+          {
             "type": "negation",
             "named": true
           },
@@ -2771,10 +2807,6 @@
           },
           {
             "type": "string_literal",
-            "named": true
-          },
-          {
-            "type": "struct_literal",
             "named": true
           },
           {
@@ -2846,6 +2878,10 @@
             "named": true
           },
           {
+            "type": "anonymous_struct_literal",
+            "named": true
+          },
+          {
             "type": "array_literal",
             "named": true
           },
@@ -2910,6 +2946,10 @@
             "named": true
           },
           {
+            "type": "named_struct_literal",
+            "named": true
+          },
+          {
             "type": "negation",
             "named": true
           },
@@ -2935,10 +2975,6 @@
           },
           {
             "type": "string_literal",
-            "named": true
-          },
-          {
-            "type": "struct_literal",
             "named": true
           },
           {
@@ -4283,6 +4319,42 @@
     }
   },
   {
+    "type": "named_struct_literal",
+    "named": true,
+    "fields": {
+      "generic_arguments": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "generic_arguments",
+            "named": true
+          }
+        ]
+      },
+      "struct_body": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "struct_body",
+            "named": true
+          }
+        ]
+      },
+      "struct_name": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "struct_name",
+            "named": true
+          }
+        ]
+      }
+    }
+  },
+  {
     "type": "named_tuple_type",
     "named": true,
     "fields": {
@@ -5066,6 +5138,10 @@
           "named": true
         },
         {
+          "type": "anonymous_struct_literal",
+          "named": true
+        },
+        {
           "type": "array_literal",
           "named": true
         },
@@ -5114,6 +5190,10 @@
           "named": true
         },
         {
+          "type": "named_struct_literal",
+          "named": true
+        },
+        {
           "type": "negation",
           "named": true
         },
@@ -5127,10 +5207,6 @@
         },
         {
           "type": "parenthesized_expr",
-          "named": true
-        },
-        {
-          "type": "struct_literal",
           "named": true
         },
         {
@@ -5484,15 +5560,11 @@
     "named": true,
     "fields": {
       "struct_fields": {
-        "multiple": true,
+        "multiple": false,
         "required": false,
         "types": [
           {
-            "type": ",",
-            "named": false
-          },
-          {
-            "type": "struct_field",
+            "type": "struct_fields",
             "named": true
           }
         ]
@@ -5644,45 +5716,34 @@
     }
   },
   {
-    "type": "struct_literal",
+    "type": "struct_fields",
     "named": true,
-    "fields": {
-      "generic_arguments": {
-        "multiple": false,
-        "required": false,
-        "types": [
-          {
-            "type": "generic_arguments",
-            "named": true
-          }
-        ]
-      },
-      "struct_body": {
-        "multiple": false,
-        "required": true,
-        "types": [
-          {
-            "type": "struct_body",
-            "named": true
-          }
-        ]
-      },
-      "struct_name": {
-        "multiple": false,
-        "required": false,
-        "types": [
-          {
-            "type": "struct_name",
-            "named": true
-          }
-        ]
-      }
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "struct_field",
+          "named": true
+        }
+      ]
     }
   },
   {
     "type": "struct_member",
     "named": true,
     "fields": {
+      "default_value": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "default_field_value",
+            "named": true
+          }
+        ]
+      },
       "field_name": {
         "multiple": false,
         "required": true,
@@ -5713,16 +5774,6 @@
           }
         ]
       }
-    },
-    "children": {
-      "multiple": false,
-      "required": false,
-      "types": [
-        {
-          "type": "default_field_value",
-          "named": true
-        }
-      ]
     }
   },
   {

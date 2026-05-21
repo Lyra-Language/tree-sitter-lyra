@@ -43,7 +43,7 @@ const PREC = {
   BLOCK: 2,
   TYPE: 2,
   GIVEN: 3, // lower than all operators so `a + b given { ... }` = `(a + b) given { ... }`
-  TUPLE_NAME: 2,
+  TUPLE_NAME: 10, // Must match STRUCT_LITERAL so named-tuple vs named-struct is a GLR conflict, not resolved by precedence
   ARRAY_COMP: 2,
 
   // Type constructors that need to beat `user_defined_type_name` alone.

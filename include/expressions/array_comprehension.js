@@ -19,21 +19,15 @@ module.exports = {
   generator: ($) =>
     seq(
       field("identifier", $.identifier),
-      'in',
+      "in",
       field(
         "value",
-        choice(
-          $.range_expr,
-          $.array_literal,
-          $.string_literal,
-          $.identifier,
-        ),
+        choice($.range_expr, $.array_literal, $.string_literal, $.identifier),
       ),
     ),
 
   _guards: ($) => field("guards", commaSep1($.comprehension_guard)),
-  comprehension_guard: ($) =>
-    choice($.boolean_expr, $.call_expr, $.identifier),
+  comprehension_guard: ($) => choice($.boolean_expr, $.call_expr, $.identifier),
 
   result_expr: ($) =>
     choice(
@@ -42,7 +36,8 @@ module.exports = {
       // (e.g. `x * 2`), so we don't need a separate `$.identifier` branch.
       $._math_operand,
       $.tuple_literal,
-      $.struct_literal,
+      $.named_struct_literal,
+      $.anonymous_struct_literal,
       $.array_literal,
     ),
 };
