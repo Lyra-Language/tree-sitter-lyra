@@ -2593,13 +2593,8 @@
             "type": "FIELD",
             "name": "end_operator",
             "content": {
-              "type": "ALIAS",
-              "content": {
-                "type": "SYMBOL",
-                "name": "range_end_operator"
-              },
-              "named": true,
-              "value": "range_end_operator"
+              "type": "SYMBOL",
+              "name": "range_end_operator"
             }
           },
           {
