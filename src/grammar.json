@@ -406,8 +406,15 @@
       ]
     },
     "regex_literal": {
-      "type": "PATTERN",
-      "value": "r\\/[^\\/\\\\]*(?:\\\\.[^\\/\\\\]*)*\\/"
+      "type": "TOKEN",
+      "content": {
+        "type": "PREC",
+        "value": 1,
+        "content": {
+          "type": "PATTERN",
+          "value": "r\\/[^\\/\\\\]*(?:\\\\.[^\\/\\\\]*)*\\/"
+        }
+      }
     },
     "string_literal": {
       "type": "SEQ",
@@ -7825,6 +7832,10 @@
           },
           {
             "type": "SYMBOL",
+            "name": "regex_pattern"
+          },
+          {
+            "type": "SYMBOL",
             "name": "range_pattern"
           },
           {
@@ -7849,6 +7860,10 @@
           }
         ]
       }
+    },
+    "regex_pattern": {
+      "type": "SYMBOL",
+      "name": "regex_literal"
     },
     "array_pattern": {
       "type": "SEQ",

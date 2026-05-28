@@ -9,6 +9,7 @@ module.exports = {
       choice(
         $.identifier, // simple binding: x
         $.literal_pattern, // literal matching: 42, "hello"
+        $.regex_pattern, // regex matching: r/[0-9]+/
         $.range_pattern, // range matching: 0..=9, 10..99
         $.array_pattern, // array destructuring: [a, b, ...rest]
         $.struct_pattern, // struct destructuring: {name, age}
@@ -17,6 +18,9 @@ module.exports = {
         $.wildcard_pattern, // wildcard: _
       ),
     ),
+
+  // Regex pattern (for string match arms): r/PATTERN/
+  regex_pattern: ($) => $.regex_literal,
 
   // Array patterns (shared between destructuring and pattern matching)
   array_pattern: ($) => seq("[", commaSep1($._pattern_element), "]"),
@@ -37,7 +41,10 @@ module.exports = {
 
   // Nested pattern form: { oldName: Some(x) } or { oldName: (a, b) }
   struct_field_with_pattern: ($) =>
-    prec(PREC.STRUCT_FIELD_WITH_PATTERN, seq(field("name", $.identifier), ":", field("pattern", $.pattern))),
+    prec(
+      PREC.STRUCT_FIELD_WITH_PATTERN,
+      seq(field("name", $.identifier), ":", field("pattern", $.pattern)),
+    ),
 
   // Pattern fields (shared)
   struct_field_pattern: ($) =>
