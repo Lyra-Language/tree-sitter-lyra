@@ -57,6 +57,7 @@ const PREC = {
 
   // Pattern choice and bare data constructors.
   PATTERN: 5,
+  BINDING_PATTERN: 6, // name @ inner — higher than PATTERN so it wins over bare identifier
   DATA_CTOR_BARE: 5, // `None` with no payload
 
   // Composite literals / patterns and `if` / `boolean_expr` wrappers. Need

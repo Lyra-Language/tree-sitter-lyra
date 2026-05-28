@@ -7,6 +7,7 @@ module.exports = {
     prec.left(
       PREC.PATTERN,
       choice(
+        $.binding_pattern, // binding: name @ inner
         $.identifier, // simple binding: x
         $.literal_pattern, // literal matching: 42, "hello"
         $.regex_pattern, // regex matching: r/[0-9]+/
@@ -119,4 +120,13 @@ module.exports = {
 
   // Rest pattern
   rest_pattern: ($) => seq("...", field("identifier", $.identifier)),
+
+  // Binding pattern: name @ inner_pattern
+  // Binds the matched value to `name` while also matching `inner_pattern`.
+  // Example: `all @ [head, ...tail]` — `all` is the entire array, `head`/`tail` are destructured.
+  binding_pattern: ($) =>
+    prec.left(
+      PREC.BINDING_PATTERN,
+      seq(field("name", $.identifier), "@", field("pattern", $.pattern)),
+    ),
 };

@@ -206,6 +206,10 @@
         "named": true
       },
       {
+        "type": "binding_pattern",
+        "named": true
+      },
+      {
         "type": "data_pattern",
         "named": true
       },
@@ -1099,6 +1103,32 @@
     "type": "binary_operator",
     "named": true,
     "fields": {}
+  },
+  {
+    "type": "binding_pattern",
+    "named": true,
+    "fields": {
+      "name": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "identifier",
+            "named": true
+          }
+        ]
+      },
+      "pattern": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "pattern",
+            "named": true
+          }
+        ]
+      }
+    }
   },
   {
     "type": "block",
@@ -2542,6 +2572,10 @@
       "types": [
         {
           "type": "array_pattern",
+          "named": true
+        },
+        {
+          "type": "binding_pattern",
           "named": true
         },
         {
