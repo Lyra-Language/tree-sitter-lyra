@@ -37,9 +37,9 @@ let bar = match foo {
         (string_literal
           (string_content))))))
 
-=================
-Match with blocks
-=================
+=======================
+Match with block bodies
+=======================
 
 match foo {
   [a] => {
@@ -76,6 +76,118 @@ match foo {
         (wildcard_pattern)
         (block
           (comment))))))
+
+=========================
+Match array with literals
+=========================
+
+match foo {
+  [1, b] => {
+    fmt.Println("first element is 1")
+  },
+  [a, 2] => {
+    fmt.Println("second element is 2")
+  },
+  [a, b] => {
+    fmt.Println("length is 2. First element is not 1, second element is not 2")
+  },
+  [a, b, c] => {
+    fmt.Println("length is 3. ditto")
+  },
+  _ => {
+    fmt.Println("any length. ditto")
+  },
+}
+
+---
+
+(program
+  (expression_statement
+    (match_expr
+      (identifier)
+      (match_arm
+        (array_pattern
+          (literal_pattern
+            (integer_literal
+              (decimal_int)))
+          (identifier))
+        (block
+          (expression_statement
+            (member_expr
+              (identifier)
+              (const_identifier)))
+          (expression_statement
+            (call_expr
+              (identifier)
+              (argument_list
+                (value
+                  (string_literal
+                    (string_content))))))))
+      (match_arm
+        (array_pattern
+          (identifier)
+          (literal_pattern
+            (integer_literal
+              (decimal_int))))
+        (block
+          (expression_statement
+            (member_expr
+              (identifier)
+              (const_identifier)))
+          (expression_statement
+            (call_expr
+              (identifier)
+              (argument_list
+                (value
+                  (string_literal
+                    (string_content))))))))
+      (match_arm
+        (array_pattern
+          (identifier)
+          (identifier))
+        (block
+          (expression_statement
+            (member_expr
+              (identifier)
+              (const_identifier)))
+          (expression_statement
+            (call_expr
+              (identifier)
+              (argument_list
+                (value
+                  (string_literal
+                    (string_content))))))))
+      (match_arm
+        (array_pattern
+          (identifier)
+          (identifier)
+          (identifier))
+        (block
+          (expression_statement
+            (member_expr
+              (identifier)
+              (const_identifier)))
+          (expression_statement
+            (call_expr
+              (identifier)
+              (argument_list
+                (value
+                  (string_literal
+                    (string_content))))))))
+      (match_arm
+        (wildcard_pattern)
+        (block
+          (expression_statement
+            (member_expr
+              (identifier)
+              (const_identifier)))
+          (expression_statement
+            (call_expr
+              (identifier)
+              (argument_list
+                (value
+                  (string_literal
+                    (string_content)))))))))))
 
 ===================================
 Match with struct literals returned
