@@ -1,3 +1,5 @@
+const { PREC } = require("../../prec");
+
 module.exports = {
   argument_list: ($) =>
     seq(
@@ -38,6 +40,6 @@ module.exports = {
   _argument_value: ($) =>
     choice(
       field("value", alias($.expression, $.value)),
-      field("wildcard", alias("_", $.wildcard)), // for partial application
+      field("wildcard", alias(token(prec(PREC.PARTIAL_WILDCARD_TOKEN, "_")), $.wildcard)), // for partial application
     ),
 };

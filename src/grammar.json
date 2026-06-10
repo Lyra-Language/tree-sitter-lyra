@@ -294,7 +294,7 @@
         "type": "TOKEN",
         "content": {
           "type": "PATTERN",
-          "value": "[0-9_]+"
+          "value": "[0-9][0-9_]*"
         }
       }
     },
@@ -1383,7 +1383,7 @@
         "value": -1,
         "content": {
           "type": "PATTERN",
-          "value": "[a-z][a-zA-Z0-9_]*"
+          "value": "(_[a-zA-Z0-9_]+|[a-z][a-zA-Z0-9_]*)"
         }
       }
     },
@@ -3845,8 +3845,15 @@
           "content": {
             "type": "ALIAS",
             "content": {
-              "type": "STRING",
-              "value": "_"
+              "type": "TOKEN",
+              "content": {
+                "type": "PREC",
+                "value": -2,
+                "content": {
+                  "type": "STRING",
+                  "value": "_"
+                }
+              }
             },
             "named": true,
             "value": "wildcard"

@@ -18,7 +18,8 @@ const PREC = {
   // tree-sitter's `token(prec(...))`) and don't compose with rule-level
   // precedences.
   // ---------------------------------------------------------------------
-  IDENTIFIER_TOKEN: -1, // lower than every reserved keyword
+  IDENTIFIER_TOKEN: -1, // lower than every reserved keyword and float/int tokens
+  PARTIAL_WILDCARD_TOKEN: -2, // lower than IDENTIFIER_TOKEN so _foo in arg list is parsed as identifier, not wildcard
   FLOAT_LITERAL_TOKEN: 1, // float beats decimal_int on shared prefix
   DECIMAL_INT_TOKEN: 2,
 

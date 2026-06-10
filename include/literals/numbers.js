@@ -6,7 +6,7 @@ module.exports = {
   integer_literal: ($) =>
     choice($.decimal_int, $.octal_int, $.hexadecimal_int, $.binary_int),
 
-  decimal_int: ($) => prec(PREC.DECIMAL_INT_TOKEN, token(/[0-9_]+/)),
+  decimal_int: ($) => prec(PREC.DECIMAL_INT_TOKEN, token(/[0-9][0-9_]*/)),
 
   binary_int: ($) => seq($.binary_prefix, token.immediate(/[01_]+/)),
   binary_prefix: ($) => "0b",

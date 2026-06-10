@@ -59,7 +59,7 @@ module.exports = {
       seq("yield", "from", field("generator", $.expression)),
     ),
 
-  identifier: ($) => token(prec(PREC.IDENTIFIER_TOKEN, /[a-z][a-zA-Z0-9_]*/)),
+  identifier: ($) => token(prec(PREC.IDENTIFIER_TOKEN, /(_[a-zA-Z0-9_]+|[a-z][a-zA-Z0-9_]*)/)),
   const_identifier: ($) => /[A-Z][A-Z0-9_]*/,
 
   // Grouping
