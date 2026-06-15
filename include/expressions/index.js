@@ -20,6 +20,7 @@ module.exports = {
       $.yield_expr,
       $.yield_from_expr,
       $._literal,
+      $._number_literal, // direct, not via _literal — see note in literals/index.js
       $.data_constructor_expr,
       $._postfix_expr,
       $._math_expr,

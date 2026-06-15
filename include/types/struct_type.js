@@ -14,7 +14,12 @@ module.exports = {
 
   struct_member: ($) =>
     seq(
-      optional(field("var_keyword", "var")),
+      // Struct fields are mutable by default (a field follows the mutability of
+      // the binding that holds the struct). A `readonly` marker freezes the
+      // field: it is writable once at construction, then immutable forever, even
+      // through a `var`/`let mut` instance — for declaring invariants (an `id`,
+      // a `kind` tag).
+      optional(field("frozen", "readonly")),
       field("field_name", alias($.identifier, $.field_name)),
       ":",
       field("field_type", alias($.type, $.field_type)),

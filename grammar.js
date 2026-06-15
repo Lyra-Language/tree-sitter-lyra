@@ -50,6 +50,15 @@ module.exports = grammar({
     // comparison / compound-assignment operator. Tree-sitter needs the
     // one-symbol look-ahead to decide between the two.
     [$.expression, $._math_operand],
+    // A bare number literal now reaches `expression` directly (not via the
+    // precedence-wrapped `_literal` — see note in literals/index.js). Routing
+    // numbers around the wrapper is what fixes `0 - 200` parsing as `0` plus a
+    // dangling `negation(-200)`: it lets the `expression/_math_operand`
+    // conflict above resolve the literal-left case toward subtraction, exactly
+    // as it already does for identifier/postfix operands. The direct route
+    // also means a bare number could be a complete `expression` or a pattern
+    // (e.g. inside `(`/match contexts), so that conflict must be declared too.
+    [$.expression, $.literal_pattern],
     // A literal or postfix form can appear on its own as an `expression`
     // or as an operand of a boolean && / || operator. Mirrors the
     // expression/_math_operand conflict above.
@@ -84,6 +93,7 @@ module.exports = grammar({
       "let",
       "var",
       "const",
+      "readonly",
       "true",
       "false",
       "import",

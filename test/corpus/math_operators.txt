@@ -154,3 +154,34 @@ z /= 2
       (div_assign_operator)
       (integer_literal
         (decimal_int)))))
+
+====================
+Subtraction with literal left operand
+====================
+
+let a = 0 - 200
+let b = 5 - 3 - 1
+
+---
+
+(program
+  (declaration
+    name: (identifier)
+    value: (binary_expr
+      left: (integer_literal
+        (decimal_int))
+      operator: (sub_operator)
+      right: (integer_literal
+        (decimal_int))))
+  (declaration
+    name: (identifier)
+    value: (binary_expr
+      left: (binary_expr
+        left: (integer_literal
+          (decimal_int))
+        operator: (sub_operator)
+        right: (integer_literal
+          (decimal_int)))
+      operator: (sub_operator)
+      right: (integer_literal
+        (decimal_int)))))

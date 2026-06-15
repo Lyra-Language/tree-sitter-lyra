@@ -14,7 +14,7 @@ module.exports = {
         field("type", $.type),
         optional(seq("where", field("constraints", $.impl_constraints))),
         "{",
-        field("methods", $.impl_methods),
+        optional(field("methods", $.impl_methods)),
         "}",
       ),
     ),

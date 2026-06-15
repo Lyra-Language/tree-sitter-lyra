@@ -57,10 +57,17 @@ module.exports = {
   // any literal (catches non-bool literals so the type-checker can report
   // them), and postfix expressions (identifiers, calls, member accesses, …)
   // that may resolve to bool at type-check time.
-  _bool_operand: ($) => choice($.boolean_expr, $._literal, $._postfix_expr),
+  _bool_operand: ($) =>
+    choice($.boolean_expr, $._literal, $._number_literal, $._postfix_expr),
 
   _comparison_operand: ($) =>
-    choice($._literal, $._postfix_expr, $._math_expr, $.address_of_expr),
+    choice(
+      $._literal,
+      $._number_literal,
+      $._postfix_expr,
+      $._math_expr,
+      $.address_of_expr,
+    ),
 
   // Keep these for backwards compatibility if used elsewhere
   _equality_operator: ($) => choice($.equals_operator, $.not_equals_operator),

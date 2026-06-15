@@ -272,3 +272,69 @@ let = 42
   (ERROR
     (integer_literal
   (decimal_int)))
+
+==========================================
+Let mut binding (frozen name, mutable interior)
+==========================================
+
+let mut p = foo()
+
+---
+
+(program
+  (declaration
+    name: (identifier)
+    value: (call_expr
+      function: (identifier)
+      arguments: (argument_list))))
+
+==========================================
+Member assignment (interior mutation)
+==========================================
+
+p.x = 5
+
+---
+
+(program
+  (member_assignment
+    target: (member_expr
+      object: (identifier)
+      property: (identifier))
+    value: (integer_literal
+      (decimal_int))))
+
+==========================================
+Index assignment (interior mutation)
+==========================================
+
+xs[0] = 9
+
+---
+
+(program
+  (index_assignment
+    target: (index_expr
+      object: (identifier)
+      index: (integer_literal
+        (decimal_int)))
+    value: (integer_literal
+      (decimal_int))))
+
+==========================================
+Nested path assignment (index then member)
+==========================================
+
+grid[i].y = 9
+
+---
+
+(program
+  (member_assignment
+    target: (member_expr
+      object: (index_expr
+        object: (identifier)
+        index: (identifier))
+      property: (identifier))
+    value: (integer_literal
+      (decimal_int))))

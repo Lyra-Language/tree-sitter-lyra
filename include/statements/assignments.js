@@ -20,6 +20,7 @@ module.exports = {
           optional($.attribute_list),
           optional($.visibility),
           field("keyword", choice("let", "var")),
+          optional(field("mutability", "mut")),
           field("name", $.identifier),
           optional(field("generic_parameters", $.generic_parameters)),
           optional(
@@ -39,6 +40,7 @@ module.exports = {
           optional($.attribute_list),
           optional($.visibility),
           field("keyword", choice("let", "var")),
+          optional(field("mutability", "mut")),
           field("pattern", $.destructuring_only_pattern),
           optional(field("type_annotation", $.type_annotation)),
           "=",
@@ -56,6 +58,16 @@ module.exports = {
 
   deref_assignment: ($) =>
     seq(field("target", $.deref_expr), "=", field("value", $.expression)),
+
+  // Interior mutation of an aggregate through a member or index path:
+  //   p.x = v        arr[i] = v        grid[i].y = v
+  // The typechecker enforces that the root binding permits interior mutation
+  // (a `var` or a `let mut`); a plain `let` is deeply immutable.
+  member_assignment: ($) =>
+    seq(field("target", $.member_expr), "=", field("value", $.expression)),
+
+  index_assignment: ($) =>
+    seq(field("target", $.index_expr), "=", field("value", $.expression)),
 
   var_destructuring_reassignment: ($) =>
     seq(

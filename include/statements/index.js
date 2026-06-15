@@ -12,6 +12,8 @@ module.exports = {
       $.declaration,
       $.var_reassignment,
       $.deref_assignment,
+      $.member_assignment,
+      $.index_assignment,
       $.return_statement,
       $.break_statement,
       $.continue_statement,

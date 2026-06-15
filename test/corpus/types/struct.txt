@@ -114,13 +114,13 @@ struct Pair<a: Display, b: Clone + Debug> { first: a, second: b }
             (generic_type)))))))
 
 ==========================
-Struct with mutable fields
+Struct with readonly fields
 ==========================
 
 struct Person {
   name: string,
-  var age: i8,
-  var title: string,
+  readonly age: i8,
+  readonly title: string,
 }
 
 ---
