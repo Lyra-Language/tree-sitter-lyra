@@ -289,6 +289,20 @@ let mut p = foo()
       arguments: (argument_list))))
 
 ==========================================
+Mut-prefixed name is not carved into the mut keyword
+==========================================
+
+var mutable = 2
+
+---
+
+(program
+  (declaration
+    name: (identifier)
+    value: (integer_literal
+      (decimal_int))))
+
+==========================================
 Member assignment (interior mutation)
 ==========================================
 

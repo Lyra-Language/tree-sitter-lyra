@@ -1,3 +1,14 @@
+const { PREC } = require("../prec");
+
+// The `mut` in `let mut`/`var mut` sits at IDENTIFIER_TOKEN precedence (not the
+// default 0 of a bare keyword) so it ties with `identifier` rather than
+// out-ranking it. tree-sitter compares lexical precedence before match length,
+// so the default keyword `mut` beat the longer name in `var mutable`, lexing it
+// as `var mut able`. At equal precedence the tie resolves by (1) longest match
+// — `mutable` wins — then (2) string-beats-regexp — an exact `mut` still wins
+// over the identifier regexp, so `var mut x` keeps its mutability modifier.
+const mutModifier = token(prec(PREC.IDENTIFIER_TOKEN, "mut"));
+
 module.exports = {
   const_declaration: ($) =>
     prec.left(
@@ -20,7 +31,7 @@ module.exports = {
           optional($.attribute_list),
           optional($.visibility),
           field("keyword", choice("let", "var")),
-          optional(field("mutability", "mut")),
+          optional(field("mutability", mutModifier)),
           field("name", $.identifier),
           optional(field("generic_parameters", $.generic_parameters)),
           optional(
@@ -40,7 +51,7 @@ module.exports = {
           optional($.attribute_list),
           optional($.visibility),
           field("keyword", choice("let", "var")),
-          optional(field("mutability", "mut")),
+          optional(field("mutability", mutModifier)),
           field("pattern", $.destructuring_only_pattern),
           optional(field("type_annotation", $.type_annotation)),
           "=",

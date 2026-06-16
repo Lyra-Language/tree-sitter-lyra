@@ -7439,8 +7439,15 @@
                     "type": "FIELD",
                     "name": "mutability",
                     "content": {
-                      "type": "STRING",
-                      "value": "mut"
+                      "type": "TOKEN",
+                      "content": {
+                        "type": "PREC",
+                        "value": -1,
+                        "content": {
+                          "type": "STRING",
+                          "value": "mut"
+                        }
+                      }
                     }
                   },
                   {
@@ -7591,8 +7598,15 @@
                     "type": "FIELD",
                     "name": "mutability",
                     "content": {
-                      "type": "STRING",
-                      "value": "mut"
+                      "type": "TOKEN",
+                      "content": {
+                        "type": "PREC",
+                        "value": -1,
+                        "content": {
+                          "type": "STRING",
+                          "value": "mut"
+                        }
+                      }
                     }
                   },
                   {
