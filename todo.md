@@ -3,7 +3,7 @@
 ## Completed
 
 ### 06/16/26
-- Bugfix: keyword-carving fixes
+- Bugfix: keyword carving — keywords were lexed out of longer identifiers (`mutable`→`mut`+`able`, `letter`→`let`+`ter`). Fixed by raising `IDENTIFIER_TOKEN` -1→0 (ties keywords; length + string-beats-regexp then resolve correctly), plus float-exponent `[eE]` precedence and a data-ctor payload alias for bare lowercase params (`Some t`).
 
 ### 05/07/26
 - given bindings in expressions: `expr given { let x = ... }` (top-down readable local bindings)
