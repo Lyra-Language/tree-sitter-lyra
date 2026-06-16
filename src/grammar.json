@@ -1429,10 +1429,96 @@
           "name": "value",
           "content": {
             "type": "SYMBOL",
-            "name": "expression"
+            "name": "_constructor_value"
           }
         }
       ]
+    },
+    "_constructor_value": {
+      "type": "CHOICE",
+      "members": [
+        {
+          "type": "SYMBOL",
+          "name": "_constructor_literal"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "_number_literal"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "data_constructor_expr"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "_postfix_expr"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "negation"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "group"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "address_of_expr"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "sizeof_expr"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "array_comp_expr"
+        }
+      ]
+    },
+    "_constructor_literal": {
+      "type": "PREC_RIGHT",
+      "value": 1,
+      "content": {
+        "type": "CHOICE",
+        "members": [
+          {
+            "type": "SYMBOL",
+            "name": "array_literal"
+          },
+          {
+            "type": "SYMBOL",
+            "name": "array_repeat_init"
+          },
+          {
+            "type": "SYMBOL",
+            "name": "boolean_literal"
+          },
+          {
+            "type": "SYMBOL",
+            "name": "char_literal"
+          },
+          {
+            "type": "SYMBOL",
+            "name": "regex_literal"
+          },
+          {
+            "type": "SYMBOL",
+            "name": "string_literal"
+          },
+          {
+            "type": "SYMBOL",
+            "name": "raw_string_literal"
+          },
+          {
+            "type": "SYMBOL",
+            "name": "named_struct_literal"
+          },
+          {
+            "type": "SYMBOL",
+            "name": "tuple_literal"
+          }
+        ]
+      }
     },
     "null_coalescing_expr": {
       "type": "PREC_RIGHT",
@@ -8632,6 +8718,10 @@
     [
       "_primary_expr",
       "data_pattern"
+    ],
+    [
+      "_constructor_value",
+      "literal_pattern"
     ],
     [
       "parameter_type",

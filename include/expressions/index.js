@@ -67,10 +67,59 @@ module.exports = {
   parenthesized_expr: ($) => seq("(", $.expression, ")"),
 
   // Data constructor application (single argument, no parens): Some fn(x), None
+  // The argument is a *value* (`_constructor_value`), NOT the full `expression`
+  // set: control-flow / block / statement-initiating expressions (`match`, `if`,
+  // `{…}`, lambdas, loops, `await`/`yield`, `given`, `unsafe {…}`) are excluded.
+  // Without statement terminators a nullary constructor would otherwise greedily
+  // swallow the following statement — `let c = None\nmatch c {…}` parsed as
+  // `None(match …)`. Restricting the argument keeps that `match` a separate
+  // statement; an intentional control-flow argument must be parenthesized:
+  // `Some (if c { a } else { b })`.
   data_constructor_expr: ($) =>
     seq(
       field("constructor", alias($.user_defined_type_name, $.data_type_name)),
-      field("value", $.expression),
+      field("value", $._constructor_value),
+    ),
+
+  // The subset of `expression` usable as a bare data-constructor argument:
+  // atomic / primary value forms only. Excludes (a) control-flow / block /
+  // statement forms (so a nullary constructor can't swallow the next statement —
+  // see data_constructor_expr) and (b) binary-operator expressions, which makes
+  // application bind TIGHTER than binary ops — `Some 42 ?? d` is `(Some 42) ?? d`
+  // and `Some a + b` is `(Some a) + b`, matching ML-style function application.
+  // `negation`/`group` are kept so `Err -1` and `Some (a + b)` still work.
+  _constructor_value: ($) =>
+    choice(
+      $._constructor_literal,
+      $._number_literal,
+      $.data_constructor_expr,
+      $._postfix_expr,
+      $.negation,
+      $.group,
+      $.address_of_expr,
+      $.sizeof_expr,
+      $.array_comp_expr,
+    ),
+
+  // Literal forms valid as a constructor argument: the same set as `_literal`
+  // (and the same `prec.right(PREC.LITERAL)` wrapper, which lets composite
+  // literals beat the corresponding pattern rules) MINUS `anonymous_struct_literal`
+  // — a bare `{ … }` argument would otherwise shadow `named_struct_literal`
+  // (`Point { x: 1 }` parsing as `Point({x: 1})` instead of a struct literal).
+  _constructor_literal: ($) =>
+    prec.right(
+      PREC.LITERAL,
+      choice(
+        $.array_literal,
+        $.array_repeat_init,
+        $.boolean_literal,
+        $.char_literal,
+        $.regex_literal,
+        $.string_literal,
+        $.raw_string_literal,
+        $.named_struct_literal,
+        $.tuple_literal,
+      ),
     ),
 
   // Null coalescing - provide default value for Maybe<T>

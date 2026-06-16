@@ -1,0 +1,83 @@
+==================================================
+Nullary constructor does not swallow the next statement
+==================================================
+
+let c = None
+match c {
+  Some x => 1,
+  None => 0,
+}
+
+---
+
+(program
+  (declaration
+    name: (identifier)
+    value: (user_defined_type_name))
+  (expression_statement
+    (match_expr
+      value: (identifier)
+      (match_arm
+        pattern: (data_pattern
+          name: (data_type_name)
+          pattern: (identifier))
+        body: (integer_literal
+          (decimal_int)))
+      (match_arm
+        pattern: (data_pattern
+          name: (data_type_name))
+        body: (integer_literal
+          (decimal_int))))))
+
+==================================================
+Constructor application with a literal argument
+==================================================
+
+let x = Some 42
+
+---
+
+(program
+  (declaration
+    name: (identifier)
+    value: (data_constructor_expr
+      constructor: (data_type_name)
+      value: (integer_literal
+        (decimal_int)))))
+
+==================================================
+Constructor application with a call argument
+==================================================
+
+let x = Some foo(y)
+
+---
+
+(program
+  (declaration
+    name: (identifier)
+    value: (data_constructor_expr
+      constructor: (data_type_name)
+      value: (call_expr
+        function: (identifier)
+        arguments: (argument_list
+          value: (value
+            (identifier)))))))
+
+==================================================
+Constructor application binds tighter than binary operators
+==================================================
+
+let x = Some 1 ?? d
+
+---
+
+(program
+  (declaration
+    name: (identifier)
+    value: (null_coalescing_expr
+      optional: (data_constructor_expr
+        constructor: (data_type_name)
+        value: (integer_literal
+          (decimal_int)))
+      default: (identifier))))

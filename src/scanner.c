@@ -12,6 +12,7 @@ enum TokenType {
   RAW_STRING_LITERAL,
 };
 
+
 // Context type for the stack
 typedef enum {
   CTX_STRING,        // Inside a string literal
@@ -229,6 +230,7 @@ bool tree_sitter_lyra_external_scanner_scan(void *payload, TSLexer *lexer, const
       return true;
     }
   }
+
 
   // Handle raw string literal. Only valid outside of regular string content,
   // since inside a "..." string, '#' may start an interpolation.

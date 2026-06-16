@@ -44,6 +44,10 @@ module.exports = grammar({
     [$.data_constructor_expr, $._primary_expr],
     [$.data_constructor_expr, $._primary_expr, $.data_pattern],
     [$._primary_expr, $.data_pattern],
+    // `_constructor_value` (a data-constructor argument) overlaps the atomic
+    // part of `expression`, so it inherits the same number-literal-vs-pattern
+    // ambiguity that `[$.expression, $.literal_pattern]` resolves below.
+    [$._constructor_value, $.literal_pattern],
     [$.parameter_type, $.tuple_type_element],
     // A postfix form (identifier, call, member access, …) can appear on
     // its own as an `expression` or as the left operand of a math /

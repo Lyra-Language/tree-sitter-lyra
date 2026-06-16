@@ -2117,7 +2117,115 @@
         "required": true,
         "types": [
           {
-            "type": "expression",
+            "type": "address_of_expr",
+            "named": true
+          },
+          {
+            "type": "array_comp_expr",
+            "named": true
+          },
+          {
+            "type": "array_literal",
+            "named": true
+          },
+          {
+            "type": "array_repeat_init",
+            "named": true
+          },
+          {
+            "type": "boolean_literal",
+            "named": true
+          },
+          {
+            "type": "call_expr",
+            "named": true
+          },
+          {
+            "type": "char_literal",
+            "named": true
+          },
+          {
+            "type": "const_identifier",
+            "named": true
+          },
+          {
+            "type": "data_constructor_expr",
+            "named": true
+          },
+          {
+            "type": "deref_expr",
+            "named": true
+          },
+          {
+            "type": "float_literal",
+            "named": true
+          },
+          {
+            "type": "group",
+            "named": true
+          },
+          {
+            "type": "identifier",
+            "named": true
+          },
+          {
+            "type": "index_expr",
+            "named": true
+          },
+          {
+            "type": "integer_literal",
+            "named": true
+          },
+          {
+            "type": "member_expr",
+            "named": true
+          },
+          {
+            "type": "named_struct_literal",
+            "named": true
+          },
+          {
+            "type": "negation",
+            "named": true
+          },
+          {
+            "type": "optional_index_expr",
+            "named": true
+          },
+          {
+            "type": "optional_member_expr",
+            "named": true
+          },
+          {
+            "type": "parenthesized_expr",
+            "named": true
+          },
+          {
+            "type": "raw_string_literal",
+            "named": true
+          },
+          {
+            "type": "regex_literal",
+            "named": true
+          },
+          {
+            "type": "sizeof_expr",
+            "named": true
+          },
+          {
+            "type": "string_literal",
+            "named": true
+          },
+          {
+            "type": "try_expr",
+            "named": true
+          },
+          {
+            "type": "tuple_literal",
+            "named": true
+          },
+          {
+            "type": "user_defined_type_name",
             "named": true
           }
         ]
