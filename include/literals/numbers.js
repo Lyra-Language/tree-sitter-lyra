@@ -24,6 +24,12 @@ module.exports = {
       seq(token(/[0-9_]+\.[0-9_]+/), optional($.float_exponent)),
     ),
 
+  // The leading `e`/`E` sits above IDENTIFIER_TOKEN so the exponent of
+  // `0.03e2` is not lexed as a trailing identifier `e2` (both match `e…` at
+  // equal length; precedence breaks the tie toward the exponent).
   float_exponent: ($) =>
-    seq(token.immediate(/[eE]/), token.immediate(/[+-]?[0-9_]+/)),
+    seq(
+      token.immediate(prec(PREC.FLOAT_LITERAL_TOKEN, /[eE]/)),
+      token.immediate(/[+-]?[0-9_]+/),
+    ),
 };

@@ -388,8 +388,12 @@
         {
           "type": "IMMEDIATE_TOKEN",
           "content": {
-            "type": "PATTERN",
-            "value": "[eE]"
+            "type": "PREC",
+            "value": 1,
+            "content": {
+              "type": "PATTERN",
+              "value": "[eE]"
+            }
           }
         },
         {
@@ -1380,7 +1384,7 @@
       "type": "TOKEN",
       "content": {
         "type": "PREC",
-        "value": -1,
+        "value": 0,
         "content": {
           "type": "PATTERN",
           "value": "(_[a-zA-Z0-9_]+|[a-z][a-zA-Z0-9_]*)"
@@ -5303,7 +5307,7 @@
                     "name": "param",
                     "content": {
                       "type": "SYMBOL",
-                      "name": "type"
+                      "name": "_data_constructor_param"
                     }
                   }
                 }
@@ -5324,6 +5328,24 @@
           }
         ]
       }
+    },
+    "_data_constructor_param": {
+      "type": "CHOICE",
+      "members": [
+        {
+          "type": "SYMBOL",
+          "name": "type"
+        },
+        {
+          "type": "ALIAS",
+          "content": {
+            "type": "SYMBOL",
+            "name": "identifier"
+          },
+          "named": true,
+          "value": "generic_type"
+        }
+      ]
     },
     "data_type_constructor_name": {
       "type": "PATTERN",
@@ -7442,7 +7464,7 @@
                       "type": "TOKEN",
                       "content": {
                         "type": "PREC",
-                        "value": -1,
+                        "value": 0,
                         "content": {
                           "type": "STRING",
                           "value": "mut"
@@ -7601,7 +7623,7 @@
                       "type": "TOKEN",
                       "content": {
                         "type": "PREC",
-                        "value": -1,
+                        "value": 0,
                         "content": {
                           "type": "STRING",
                           "value": "mut"

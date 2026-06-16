@@ -303,6 +303,34 @@ var mutable = 2
       (decimal_int))))
 
 ==========================================
+Keyword-prefixed declaration name is not carved
+==========================================
+
+let iffy = 3
+
+---
+
+(program
+  (declaration
+    name: (identifier)
+    value: (integer_literal
+      (decimal_int))))
+
+==========================================
+Keyword-prefixed reassignment name is not carved
+==========================================
+
+letter = 1
+
+---
+
+(program
+  (var_reassignment
+    (identifier)
+    value: (integer_literal
+      (decimal_int))))
+
+==========================================
 Member assignment (interior mutation)
 ==========================================
 

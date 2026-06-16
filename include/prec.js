@@ -18,7 +18,16 @@ const PREC = {
   // tree-sitter's `token(prec(...))`) and don't compose with rule-level
   // precedences.
   // ---------------------------------------------------------------------
-  IDENTIFIER_TOKEN: -1, // lower than every reserved keyword and float/int tokens
+  // Identifier ties with keyword string tokens at 0 (it used to be -1, below
+  // them). tree-sitter weighs lexical precedence before match length, so a
+  // negative identifier let a shorter keyword win and get carved out of a
+  // longer name (`letter` → `let`+`ter`, `mutable` → `mut`+`able`). At equal
+  // precedence the contest resolves by (1) longest match — so `letter` beats
+  // `let` — then (2) string-beats-regexp — so an exact keyword still beats the
+  // identifier regexp, and so do the string number-type names (`i32`). The one
+  // residue is the two *regexp* tokens `identifier` vs `generic_type` tying;
+  // that is handled in the data-constructor payload (see data_type.js).
+  IDENTIFIER_TOKEN: 0,
   PARTIAL_WILDCARD_TOKEN: -2, // lower than IDENTIFIER_TOKEN so _foo in arg list is parsed as identifier, not wildcard
   FLOAT_LITERAL_TOKEN: 1, // float beats decimal_int on shared prefix
   DECIMAL_INT_TOKEN: 2,

@@ -2,6 +2,9 @@
 
 ## Completed
 
+### 06/16/26
+- Bugfix: keyword-carving fixes
+
 ### 05/07/26
 - given bindings in expressions: `expr given { let x = ... }` (top-down readable local bindings)
 - doc comments (`///`) as named AST nodes distinct from regular `//` comments
