@@ -44,7 +44,7 @@ let answer = 42
 Let Assignment with Type
 ========================
 
-let answer: int = 42
+let answer: i32 = 42
 
 ---
 

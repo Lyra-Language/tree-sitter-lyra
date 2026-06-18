@@ -84,7 +84,7 @@ let fetchJSON = async (url: string, options: FetchOptions) -> Response => {
 Pure function declaration
 ================================
 
-let add = pure (a: int, b: int) -> int => a + b
+let add = pure (a: i32, b: i32) -> i32 => a + b
 
 ---
 
@@ -111,7 +111,7 @@ let add = pure (a: int, b: int) -> int => a + b
 Public pure function
 ================================
 
-pub let multiply = pure (a: int, b: int) -> int => a * b
+pub let multiply = pure (a: i32, b: i32) -> i32 => a * b
 
 ---
 
@@ -139,7 +139,7 @@ pub let multiply = pure (a: int, b: int) -> int => a * b
 Pure async function
 ================================
 
-let compute = pure async (n: int) -> int => n * 2
+let compute = pure async (n: i32) -> i32 => n * 2
 
 ---
 
@@ -165,7 +165,7 @@ let compute = pure async (n: int) -> int => n * 2
 Pure with pattern matching
 ================================
 
-let fib = pure (n: int) -> int {
+let fib = pure (n: i32) -> i32 {
   (0) => 0,
   (1) => 1,
   (n) => fib(n-1) + fib(n-2),
@@ -227,7 +227,7 @@ let fib = pure (n: int) -> int {
 Basic Function declaration without parameters with return type
 ==============================================================
 
-let foo = () -> int => 42
+let foo = () -> i32 => 42
 
 ---
 
@@ -245,7 +245,7 @@ let foo = () -> int => 42
 Basic Function declaration with parameters
 ==========================================
 
-let sum = (a: int, b: int) -> int => a + b
+let sum = (a: i32, b: i32) -> i32 => a + b
 
 ---
 
@@ -420,7 +420,7 @@ let map<t,u> = (array: []t, func: (t) -> u) -> []u => {
 Recursive Function with multiple function patterns
 ==================================================
 
-let fib = pure rec (n: int) -> int {
+let fib = pure rec (n: i32) -> i32 {
   (0) => 0,
   (1) => 1,
   (n) => fib(n-2) + fib(n-1),
@@ -483,7 +483,7 @@ let fib = pure rec (n: int) -> int {
 Function with multiple function patterns and guard
 ==================================================
 
-let fib = pure (n: int) -> int {
+let fib = pure (n: i32) -> i32 {
   (n) if n < 2 => n,
   (n) => fib(n-2) + fib(n-1),
 }
@@ -603,7 +603,7 @@ Missing comma in parameters is an error
 :error
 =============================================
 
-let foo = (x: int y: int) -> int => x * y
+let foo = (x: i32 y: i32) -> i32 => x * y
 
 ---
 
@@ -625,6 +625,6 @@ Pure keyword in wrong order
 :error
 ===========================
 
-let compute = async pure (n: int) -> int => n * 2
+let compute = async pure (n: i32) -> i32 => n * 2
 
 ---

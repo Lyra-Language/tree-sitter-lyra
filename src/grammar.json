@@ -8739,10 +8739,6 @@
       "_primary_expr"
     ],
     [
-      "named_struct_literal",
-      "anonymous_struct_literal"
-    ],
-    [
       "data_constructor_expr",
       "_primary_expr"
     ],

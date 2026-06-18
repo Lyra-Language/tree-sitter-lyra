@@ -85,7 +85,7 @@ let scale = (x: f64, factor: f64 = 1.0) -> f64 => x * factor
 Multiple parameters with defaults
 ================================
 
-let clamp = (value: int, min: int = 0, max: int = 100) -> int => value
+let clamp = (value: i32, min: i32 = 0, max: i32 = 100) -> i32 => value
 
 ---
 
@@ -117,7 +117,7 @@ let clamp = (value: int, min: int = 0, max: int = 100) -> int => value
 Default value without type annotation
 =====================================
 
-let add = (x: int, y = 0) -> int => x + y
+let add = (x: i32, y = 0) -> i32 => x + y
 
 ---
 
@@ -173,7 +173,7 @@ let process = (items: []string, config: Config = get_default_config()) -> void =
 Default value as array literal
 ==============================
 
-let sum_all = (nums: []int = [0, 1, 2]) -> int => 0
+let sum_all = (nums: []i32 = [0, 1, 2]) -> i32 => 0
 
 ---
 
@@ -203,7 +203,7 @@ let sum_all = (nums: []int = [0, 1, 2]) -> int => 0
 Default parameter value with multiple clauses
 ============================================
 
-let factorial = pure rec (n: int, acc: int = 1) -> int {
+let factorial = pure rec (n: i32, acc: i32 = 1) -> i32 {
   (0, acc) => acc,
   (n, acc) => factorial(n - 1, acc * n),
 }

@@ -6,7 +6,7 @@ trait Show {
   show: (Self) -> string
 }
 
-impl Show for int {
+impl Show for i32 {
   show = (n) => int_to_string(n)
 }
 
@@ -91,7 +91,7 @@ impl Converter<int, string> for IntFormatter {
   (trait_implementation
     (trait_name)
     (string_type)
-    (signed_integer_type)
+    (generic_type)
     (user_defined_type_name)
     (impl_methods
       (trait_method_implementation
@@ -107,7 +107,7 @@ impl Converter<int, string> for IntFormatter {
                 (identifier))))))))
   (trait_implementation
     (trait_name)
-    (signed_integer_type)
+    (generic_type)
     (string_type)
     (user_defined_type_name)
     (impl_methods
@@ -483,7 +483,7 @@ impl Mappable<Array, string> for StringArrayMapper {
   (trait_implementation
     (trait_name)
     (user_defined_type_name)
-    (signed_integer_type)
+    (generic_type)
     (user_defined_type_name)
     (impl_methods
       (trait_method_implementation
@@ -526,14 +526,14 @@ Trait with Function Type Generic Parameter
 =============================================
 
 trait Applicable<f> {
-  apply: (f, int) -> int
+  apply: (f, i32) -> i32
 }
 
-impl Applicable<(int) -> int> for UnaryOp {
+impl Applicable<(i32) -> i32> for UnaryOp {
   apply = (fn, x) => fn(x)
 }
 
-impl Applicable<(int, int) -> int> for BinaryOp {
+impl Applicable<(i32, i32) -> i32> for BinaryOp {
   apply = (fn, x) => fn(x, x)
 }
 
@@ -610,7 +610,7 @@ trait Collection<c, e> {
   add: (c<e>, e) -> c<e>,
   remove: (c<e>, e) -> c<e>,
   contains: (c<e>, e) -> bool,
-  size: (c<e>) -> int
+  size: (c<e>) -> u64
 }
 
 impl Collection<Array, string> for StringList {
@@ -670,7 +670,7 @@ impl Collection<Array, string> for StringList {
             (parameter_type
               (generic_type
                 (generic_type_parameter))))
-          (signed_integer_type)))))
+          (unsigned_integer_type)))))
   (trait_implementation
     (trait_name)
     (user_defined_type_name)

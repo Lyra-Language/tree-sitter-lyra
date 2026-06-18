@@ -116,7 +116,7 @@ let items: []int = [1, 2, 3]
     (identifier)
     (type_annotation
       (array_type
-        (signed_integer_type)))
+        (generic_type)))
     (array_literal
       (integer_literal
         (decimal_int))

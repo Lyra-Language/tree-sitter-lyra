@@ -2,7 +2,7 @@
 Basic tuple declaration
 =======================
 
-tuple Point2D(int, int)
+tuple Point2D(i32, i32)
 
 ---
 

@@ -153,7 +153,7 @@ newtype Quarter = f32 where range(0..=100), step(0.25)
 // Valid: 0, 0.25, 0.5, 0.75, 1.0, 1.25, ...
 
 // Degrees in 15° increments
-newtype CompassHeading = int where range(0..<360), step(15)
+newtype CompassHeading = u32 where range(0..<360), step(15)
 // Valid: 0, 15, 30, 45, ..., 345
 
 ---
@@ -181,7 +181,7 @@ newtype CompassHeading = int where range(0..<360), step(15)
   (type_declaration
     (constrained_type
       (constrained_type_name)
-      (signed_integer_type)
+      (unsigned_integer_type)
       (constraints
         (range_constraint
           (constraint_math_expr
