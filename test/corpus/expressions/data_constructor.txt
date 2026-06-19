@@ -30,45 +30,47 @@ match c {
           (decimal_int))))))
 
 ==================================================
-Constructor application with a literal argument
+Constructor application uses call syntax (literal argument)
 ==================================================
 
-let x = Some 42
+let x = Some(42)
 
 ---
 
 (program
   (declaration
     name: (identifier)
-    value: (data_constructor_expr
-      constructor: (data_type_name)
-      value: (integer_literal
-        (decimal_int)))))
+    value: (tuple_literal
+      tuple_name: (tuple_name)
+      (tuple_value
+        (integer_literal
+          (decimal_int))))))
 
 ==================================================
-Constructor application with a call argument
+Constructor application uses call syntax (call argument)
 ==================================================
 
-let x = Some foo(y)
+let x = Some(foo(y))
 
 ---
 
 (program
   (declaration
     name: (identifier)
-    value: (data_constructor_expr
-      constructor: (data_type_name)
-      value: (call_expr
-        function: (identifier)
-        arguments: (argument_list
-          value: (value
-            (identifier)))))))
+    value: (tuple_literal
+      tuple_name: (tuple_name)
+      (tuple_value
+        (call_expr
+          function: (identifier)
+          arguments: (argument_list
+            value: (value
+              (identifier))))))))
 
 ==================================================
-Constructor application binds tighter than binary operators
+Constructor application is an ordinary operand of binary operators
 ==================================================
 
-let x = Some 1 ?? d
+let x = Some(1) ?? d
 
 ---
 
@@ -76,8 +78,9 @@ let x = Some 1 ?? d
   (declaration
     name: (identifier)
     value: (null_coalescing_expr
-      optional: (data_constructor_expr
-        constructor: (data_type_name)
-        value: (integer_literal
-          (decimal_int)))
+      optional: (tuple_literal
+        tuple_name: (tuple_name)
+        (tuple_value
+          (integer_literal
+            (decimal_int))))
       default: (identifier))))

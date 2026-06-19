@@ -143,7 +143,7 @@ impl Functor for DynamicArray<t> {
 
 impl Functor for Maybe {
   map = (maybe, fn) => match maybe {
-    Some x => Some fn(x),
+    Some x => Some(fn(x)),
     None => None
   }
 }
@@ -231,13 +231,14 @@ impl Functor for Maybe {
               (data_pattern
                 (data_type_name)
                 (identifier))
-              (data_constructor_expr
-                (data_type_name)
-                (call_expr
-                  (identifier)
-                  (argument_list
-                    (value
-                      (identifier))))))
+              (tuple_literal
+                (tuple_name)
+                (tuple_value
+                  (call_expr
+                    (identifier)
+                    (argument_list
+                      (value
+                        (identifier)))))))
             (match_arm
               (data_pattern
                 (data_type_name))
@@ -300,13 +301,13 @@ let inverted: Point = -my_point // uses the overloaded prefix -
                       (member_expr
                         (identifier)
                         (identifier))))))))))))
-      (declaration
-        (identifier)
-        (type_annotation
-          (user_defined_type_name))
-        (negation
-          (identifier)))
-      (comment))
+  (declaration
+    (identifier)
+    (type_annotation
+      (user_defined_type_name))
+    (negation
+      (identifier)))
+  (comment))
 
 ================================================================
 Generic Trait Implemented for Generic Type with binary operators

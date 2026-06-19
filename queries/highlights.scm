@@ -134,8 +134,9 @@
 ; Name declared inside a `data` definition body (e.g. Red, Some, None)
 (data_type_constructor name: (data_type_constructor_name) @constructor)
 
-; Constructor applied in an expression  (e.g. Some 42, None)
-(data_constructor_expr constructor: (data_type_name) @constructor)
+; An applied constructor (e.g. `Some(42)`) parses as a named tuple literal, so it
+; is highlighted by the `(tuple_name) @constructor` rule above. A nullary
+; constructor used as a value (`None`) is a bare `user_defined_type_name`.
 
 ; Constructor matched in a pattern  (e.g. Some x => …)
 (data_pattern name: (data_type_name) @constructor)

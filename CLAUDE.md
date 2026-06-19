@@ -1,4 +1,4 @@
-# tree-sitter-lyra — Project Context for Zed AI
+# tree-sitter-lyra — Project Context
 
 This is the tree-sitter grammar for the Lyra programming language. It produces a C parser (`src/parser.c`) consumed via CGO by the sibling `lyra/` Go project.
 
@@ -71,8 +71,15 @@ fixed  unsafe  given  mut  ref  own  void
 Several ambiguities are resolved at parse time via GLR (listed in the `conflicts:` array of `grammar.js`):
 
 - `named_struct_literal` vs `_tuple_name` vs `_primary_expr` — `Point { ... }` could be a struct literal or an identifier followed by a block
-- `data_constructor_expr` vs `_primary_expr` / `data_pattern` — `Some x` in expression vs pattern position
+- `_primary_expr` vs `data_pattern` — a capitalized name in expression vs pattern position
 - `expression` vs `_math_operand` / `_bool_operand` / `_comparison_operand` — operator precedence lookahead conflicts
+
+Note: there is no juxtaposition constructor application. Data values are built with
+call syntax (`Some(42)`, `None`), which parses as a named `tuple_literal`; the Go
+typechecker resolves a tuple-literal name that is a data constructor to its data
+type. (The old `data_constructor_expr` rule and its `_constructor_value` machinery
+were removed — they existed only to disambiguate `Some 42` in a terminator-less
+grammar.)
 - `for_loop` / `for_in_loop` with and without a label
 
 ## Operator Precedence (low → high)
