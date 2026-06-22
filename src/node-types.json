@@ -1840,6 +1840,10 @@
           {
             "type": "const_identifier",
             "named": true
+          },
+          {
+            "type": "identifier",
+            "named": true
           }
         ]
       },

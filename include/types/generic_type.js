@@ -26,5 +26,10 @@ module.exports = {
   generic_parameters: ($) =>
     prec.left(PREC.GENERIC_PARAMETERS, seq("<", commaSep1($.generic_parameter), ">")),
 
+  // Generic type arguments at a construction / call site: `Point2::<i32> { … }`,
+  // `Coords2::<i32>(…)`, `map::<i64, i64>(…)`. The turbofish `::` is required to
+  // disambiguate from a `<` comparison (the classic template-`<` ambiguity).
+  // These are usually omittable — the typechecker infers the arguments from the
+  // value arguments — so the turbofish rarely needs to be written.
   generic_arguments: ($) => seq("::", "<", commaSep1($.type), ">"),
 };

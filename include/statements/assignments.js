@@ -16,7 +16,13 @@ module.exports = {
         optional($.attribute_list),
         optional($.visibility),
         field("keyword", "const"),
-        field("name", $.const_identifier),
+        // Const names must be SCREAMING_CASE (`const_identifier`). A lowercase
+        // `identifier` is accepted here ONLY so the collector can emit a clear
+        // "const names must be SCREAMING_CASE" diagnostic instead of an opaque
+        // parse error; it is still rejected. Usage sites and compile-time-
+        // constant positions (array sizes, …) keep requiring `const_identifier`,
+        // so the lexical const guarantee is unchanged everywhere else.
+        field("name", choice($.const_identifier, $.identifier)),
         optional(field("type_annotation", $.type_annotation)),
         "=",
         field("value", $.expression),
