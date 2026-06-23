@@ -2,7 +2,15 @@ const { commaSep1 } = require("../helpers");
 const { PREC } = require("../prec");
 
 module.exports = {
-  // A generic type is a lowercase letter optionally followed by any number of letters or numbers
+  // Type parameters are lowercase by design — Lyra is ML-style: a lowercase
+  // name (`t`, `a`, `ok`) is a type *variable*, an Uppercase name is a *concrete*
+  // type (`user_defined_type_name`). This lexical split is deliberate and is what
+  // lets a constructor payload like `Some t` read as "Some applied to a type var"
+  // without semantic resolution. So `<T, E>` (the Rust/Swift habit) is NOT a
+  // valid parameter list — write `<t, e>`. (Uppercase params produce a parse
+  // ERROR rather than a tailored message; supporting them would require resolving
+  // the single-letter `T`/`const_identifier` lexer collision — intentionally not
+  // done. See lyra memory `bug-generic-data-constructors`.)
   generic_type: ($) =>
     seq(
       /[a-z][a-z0-9]*/,

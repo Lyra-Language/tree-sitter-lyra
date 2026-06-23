@@ -8342,7 +8342,7 @@
     },
     "data_pattern": {
       "type": "PREC_LEFT",
-      "value": 0,
+      "value": 10,
       "content": {
         "type": "SEQ",
         "members": [
@@ -8632,6 +8632,7 @@
       "_primary_expr"
     ],
     [
+      "_tuple_name",
       "_primary_expr",
       "data_pattern"
     ],

@@ -76,6 +76,43 @@ let make_sum_fn = (a: i32) -> (i32) -> i32 => (b) => a + b
                 (add_operator)
                 (identifier))))))
 
+===========================================
+Lambda parameter destructured by data pattern
+===========================================
+
+data Maybe<t> = Some t | None
+let f = (Some(x): Maybe<i64>) -> i64 => x
+
+---
+
+(program
+    (type_declaration
+    (data_type
+        (data_type_name)
+        (generic_parameters
+        (generic_parameter
+            (generic_type)))
+        (data_type_constructor
+        (data_type_constructor_name)
+        (generic_type))
+        (data_type_constructor
+        (data_type_constructor_name))))
+    (declaration
+    (identifier)
+    (lambda_expr
+        (parameter_list
+        (parameter
+            (data_pattern
+            (data_type_name)
+            (tuple_pattern
+                (identifier)))
+            (parameterized_type
+            (user_defined_type_name)
+            (signed_integer_type))))
+        (return_type
+            (signed_integer_type))
+        (identifier))))
+
 ==============================
 Function that accepts a lambda
 ==============================

@@ -93,6 +93,7 @@ module.exports = {
   // Data pattern
   data_pattern: ($) =>
     prec.left(
+      PREC.DATA_PATTERN,
       seq(
         field("name", alias($.user_defined_type_name, $.data_type_name)),
         optional(field("pattern", $.pattern)),

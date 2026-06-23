@@ -77,6 +77,7 @@ const PREC = {
   DATA_CTOR: 10, // `Some x` / `Node { value: 1 }`
   STRUCT_LITERAL: 10,
   TUPLE_PATTERN: 10,
+  DATA_PATTERN: 10, // `Some(x)` / `Ok(x)` as a *pattern* — needs to beat tuple_literal (1) the same way TUPLE_PATTERN already does, or a parenthesized payload loses to the constructor-call expression reading in a position (e.g. a lambda parameter) ambiguous between the two
   STRUCT_FIELD_RENAME: 10,
   BOOLEAN_EXPR: 10,
   IF_EXPR: 10,

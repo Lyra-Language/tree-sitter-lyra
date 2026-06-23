@@ -40,7 +40,7 @@ module.exports = grammar({
 
   conflicts: ($) => [
     [$.named_struct_literal, $._tuple_name, $._primary_expr],
-    [$._primary_expr, $.data_pattern],
+    [$._tuple_name, $._primary_expr, $.data_pattern],
     [$.parameter_type, $.tuple_type_element],
     // A postfix form (identifier, call, member access, …) can appear on
     // its own as an `expression` or as the left operand of a math /
