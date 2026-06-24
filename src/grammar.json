@@ -2894,9 +2894,42 @@
         },
         {
           "type": "SYMBOL",
+          "name": "trait_method_path"
+        },
+        {
+          "type": "SYMBOL",
           "name": "_primary_expr"
         }
       ]
+    },
+    "trait_method_path": {
+      "type": "PREC_LEFT",
+      "value": 300,
+      "content": {
+        "type": "SEQ",
+        "members": [
+          {
+            "type": "FIELD",
+            "name": "trait_name",
+            "content": {
+              "type": "SYMBOL",
+              "name": "user_defined_type_name"
+            }
+          },
+          {
+            "type": "STRING",
+            "value": "::"
+          },
+          {
+            "type": "FIELD",
+            "name": "method",
+            "content": {
+              "type": "SYMBOL",
+              "name": "identifier"
+            }
+          }
+        ]
+      }
     },
     "_primary_expr": {
       "type": "CHOICE",
@@ -5562,11 +5595,7 @@
       "members": [
         {
           "type": "STRING",
-          "value": "::"
-        },
-        {
-          "type": "STRING",
-          "value": "<"
+          "value": "::<"
         },
         {
           "type": "SEQ",
@@ -7002,6 +7031,22 @@
         {
           "type": "STRING",
           "value": "="
+        },
+        {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "FIELD",
+              "name": "is_pure",
+              "content": {
+                "type": "SYMBOL",
+                "name": "pure_modifier"
+              }
+            },
+            {
+              "type": "BLANK"
+            }
+          ]
         },
         {
           "type": "FIELD",

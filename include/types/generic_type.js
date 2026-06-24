@@ -39,5 +39,15 @@ module.exports = {
   // disambiguate from a `<` comparison (the classic template-`<` ambiguity).
   // These are usually omittable — the typechecker infers the arguments from the
   // value arguments — so the turbofish rarely needs to be written.
-  generic_arguments: ($) => seq("::", "<", commaSep1($.type), ">"),
+  //
+  // `::<` is one atomic token (not `"::"` then `"<"`) so the *lexer* — via
+  // ordinary maximal-munch — disambiguates turbofish from `trait_method_path`'s
+  // `TraitName::method` (postfix.js) instead of the *parser* having to choose
+  // between two competing reductions of the same `TypeName ::` prefix before
+  // it can see whether `<` or an identifier follows. That choice is a
+  // shift/reduce tie tree-sitter's static precedence resolves the same way
+  // regardless of the next token, so splitting it at the lexer (where the
+  // next character actually is visible) is the fix, not a precedence/conflict
+  // tweak at the parser level.
+  generic_arguments: ($) => seq("::<", commaSep1($.type), ">"),
 };

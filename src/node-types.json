@@ -168,6 +168,10 @@
         "named": true
       },
       {
+        "type": "trait_method_path",
+        "named": true
+      },
+      {
         "type": "try_expr",
         "named": true
       },
@@ -969,6 +973,10 @@
             "named": true
           },
           {
+            "type": "trait_method_path",
+            "named": true
+          },
+          {
             "type": "try_expr",
             "named": true
           },
@@ -1074,6 +1082,10 @@
           },
           {
             "type": "parenthesized_expr",
+            "named": true
+          },
+          {
+            "type": "trait_method_path",
             "named": true
           },
           {
@@ -1272,6 +1284,10 @@
             "named": true
           },
           {
+            "type": "trait_method_path",
+            "named": true
+          },
+          {
             "type": "try_expr",
             "named": true
           },
@@ -1440,6 +1456,10 @@
             "named": true
           },
           {
+            "type": "trait_method_path",
+            "named": true
+          },
+          {
             "type": "try_expr",
             "named": true
           },
@@ -1538,6 +1558,10 @@
           },
           {
             "type": "parenthesized_expr",
+            "named": true
+          },
+          {
+            "type": "trait_method_path",
             "named": true
           },
           {
@@ -1677,6 +1701,10 @@
             "named": true
           },
           {
+            "type": "trait_method_path",
+            "named": true
+          },
+          {
             "type": "try_expr",
             "named": true
           },
@@ -1782,6 +1810,10 @@
           },
           {
             "type": "parenthesized_expr",
+            "named": true
+          },
+          {
+            "type": "trait_method_path",
             "named": true
           },
           {
@@ -2481,6 +2513,10 @@
             "named": true
           },
           {
+            "type": "trait_method_path",
+            "named": true
+          },
+          {
             "type": "try_expr",
             "named": true
           },
@@ -2840,6 +2876,10 @@
             "named": true
           },
           {
+            "type": "trait_method_path",
+            "named": true
+          },
+          {
             "type": "try_expr",
             "named": true
           },
@@ -3005,6 +3045,10 @@
           },
           {
             "type": "string_literal",
+            "named": true
+          },
+          {
+            "type": "trait_method_path",
             "named": true
           },
           {
@@ -3810,6 +3854,10 @@
             "named": true
           },
           {
+            "type": "trait_method_path",
+            "named": true
+          },
+          {
             "type": "try_expr",
             "named": true
           },
@@ -4249,6 +4297,10 @@
             "named": true
           },
           {
+            "type": "trait_method_path",
+            "named": true
+          },
+          {
             "type": "try_expr",
             "named": true
           },
@@ -4575,6 +4627,10 @@
             "named": true
           },
           {
+            "type": "trait_method_path",
+            "named": true
+          },
+          {
             "type": "try_expr",
             "named": true
           },
@@ -4702,6 +4758,10 @@
             "named": true
           },
           {
+            "type": "trait_method_path",
+            "named": true
+          },
+          {
             "type": "try_expr",
             "named": true
           },
@@ -4755,6 +4815,10 @@
           },
           {
             "type": "parenthesized_expr",
+            "named": true
+          },
+          {
+            "type": "trait_method_path",
             "named": true
           },
           {
@@ -5317,6 +5381,10 @@
           "named": true
         },
         {
+          "type": "trait_method_path",
+          "named": true
+        },
+        {
           "type": "try_expr",
           "named": true
         },
@@ -5535,6 +5603,10 @@
             "named": true
           },
           {
+            "type": "trait_method_path",
+            "named": true
+          },
+          {
             "type": "try_expr",
             "named": true
           },
@@ -5604,6 +5676,10 @@
           },
           {
             "type": "string_literal",
+            "named": true
+          },
+          {
+            "type": "trait_method_path",
             "named": true
           },
           {
@@ -6229,6 +6305,16 @@
     "type": "trait_method_implementation",
     "named": true,
     "fields": {
+      "is_pure": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "pure_modifier",
+            "named": true
+          }
+        ]
+      },
       "method_clause": {
         "multiple": false,
         "required": true,
@@ -6245,6 +6331,32 @@
         "types": [
           {
             "type": "method_name",
+            "named": true
+          }
+        ]
+      }
+    }
+  },
+  {
+    "type": "trait_method_path",
+    "named": true,
+    "fields": {
+      "method": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "identifier",
+            "named": true
+          }
+        ]
+      },
+      "trait_name": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "user_defined_type_name",
             "named": true
           }
         ]
@@ -6349,6 +6461,10 @@
           },
           {
             "type": "parenthesized_expr",
+            "named": true
+          },
+          {
+            "type": "trait_method_path",
             "named": true
           },
           {
@@ -6854,6 +6970,10 @@
   },
   {
     "type": "::",
+    "named": false
+  },
+  {
+    "type": "::<",
     "named": false
   },
   {

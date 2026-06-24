@@ -82,6 +82,8 @@ were removed — they existed only to disambiguate `Some 42` in a terminator-les
 grammar.)
 - `for_loop` / `for_in_loop` with and without a label
 
+**Lexer-level disambiguation, not GLR (added 06/24/26):** `trait_method_path` (`TraitName::method`, the fully-qualified trait-method-call form, `include/expressions/postfix.js`) and turbofish generic args (`generic_arguments`, `include/types/generic_type.js`) both start with `TypeName ::`. This is *not* resolvable via `conflicts:`/precedence — tree-sitter's static shift/reduce resolution commits to one production before either's deciding token (`<` vs an identifier) is visible, regardless of which side wins the precedence comparison. The actual fix: `generic_arguments` uses `"::<"` as one atomic string token instead of `"::"` then `"<"`, so ordinary lexer maximal-munch picks the right token before the parser ever has to choose. If you touch either rule, keep the combined token — splitting it back into two literals reintroduces the ambiguity (confirmed by deliberately reverting it during development: tuple/struct-literal turbofish broke, with or without explicit `conflicts:` entries).
+
 ## Operator Precedence (low → high)
 
 | Group | Key constants | Approximate level |

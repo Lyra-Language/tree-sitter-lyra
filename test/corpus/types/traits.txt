@@ -742,3 +742,42 @@ impl Collection<Array, string> for StringList {
               (identifier)
               (identifier))
             (argument_list)))))))
+
+=================================
+Trait Method Implementation Marked Pure
+=================================
+
+trait Show {
+  show: (Self) -> string
+}
+
+impl Show for i64 {
+  show = pure (n) => "x"
+}
+
+---
+
+(program
+  (trait_declaration
+    (trait_name)
+    (trait_methods
+      (trait_method
+        (identifier)
+        (trait_method_signature
+          (parameter_type_list
+            (parameter_type
+              (self_type)))
+          (string_type)))))
+  (trait_implementation
+    (trait_name)
+    (signed_integer_type)
+    (impl_methods
+      (trait_method_implementation
+        (method_name
+          (identifier))
+        (pure_modifier)
+        (method_clause
+          (pattern_parameter_list
+            (identifier))
+          (string_literal
+            (string_content)))))))

@@ -10,8 +10,24 @@ module.exports = {
     $.optional_index_expr,
     $.try_expr,
     $.deref_expr,
+    $.trait_method_path,
     $._primary_expr,
   ),
+
+  // Fully-qualified trait method path: `TraitName::method`. Disambiguates
+  // which trait's implementation to call when a plain `obj.method(args)`
+  // would be ambiguous (two traits implementing a same-named method for the
+  // same type) — mirrors Rust's `Trait::method(receiver)` form. Always
+  // appears as a call_expr's `function`; the receiver is then an ordinary
+  // first argument (`Show::show(n)`), not an implicit `.`-bound object, since
+  // there is no value to the left of `::` to bind it to. See the note on
+  // `generic_arguments` (types/generic_type.js) for why this no longer
+  // competes with turbofish (`Point3D::<f32>(...)`) for the same `::` prefix.
+  trait_method_path: $ => prec.left(PREC.POSTFIX, seq(
+    field('trait_name', $.user_defined_type_name),
+    '::',
+    field('method', $.identifier)
+  )),
 
   _primary_expr: $ => choice(
     $.identifier,

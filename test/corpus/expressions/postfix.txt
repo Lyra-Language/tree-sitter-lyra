@@ -330,3 +330,43 @@ foo(1, 2
         (integer_literal
   (decimal_int))
       (MISSING ")"))))
+
+============================
+Fully-Qualified Trait Method Call
+============================
+
+let result = Show::show(n)
+
+---
+
+(program
+  (declaration
+    name: (identifier)
+    value: (call_expr
+      function: (trait_method_path
+        trait_name: (user_defined_type_name)
+        method: (identifier))
+      arguments: (argument_list
+        value: (value
+          (identifier))))))
+
+============================================
+Fully-Qualified Trait Method Call with Turbofish
+============================================
+
+let result = Show::show::<i64>(n)
+
+---
+
+(program
+  (declaration
+    name: (identifier)
+    value: (call_expr
+      function: (trait_method_path
+        trait_name: (user_defined_type_name)
+        method: (identifier))
+      generic_arguments: (generic_arguments
+        (signed_integer_type))
+      arguments: (argument_list
+        value: (value
+          (identifier))))))
