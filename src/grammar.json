@@ -3217,6 +3217,38 @@
           "members": [
             {
               "type": "FIELD",
+              "name": "is_det",
+              "content": {
+                "type": "SYMBOL",
+                "name": "det_modifier"
+              }
+            },
+            {
+              "type": "BLANK"
+            }
+          ]
+        },
+        {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "FIELD",
+              "name": "is_noalloc",
+              "content": {
+                "type": "SYMBOL",
+                "name": "noalloc_modifier"
+              }
+            },
+            {
+              "type": "BLANK"
+            }
+          ]
+        },
+        {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "FIELD",
               "name": "is_async",
               "content": {
                 "type": "SYMBOL",
@@ -3356,6 +3388,14 @@
     "pure_modifier": {
       "type": "STRING",
       "value": "pure"
+    },
+    "det_modifier": {
+      "type": "STRING",
+      "value": "det"
+    },
+    "noalloc_modifier": {
+      "type": "STRING",
+      "value": "noalloc"
     },
     "async_modifier": {
       "type": "STRING",
@@ -7049,6 +7089,38 @@
           ]
         },
         {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "FIELD",
+              "name": "is_det",
+              "content": {
+                "type": "SYMBOL",
+                "name": "det_modifier"
+              }
+            },
+            {
+              "type": "BLANK"
+            }
+          ]
+        },
+        {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "FIELD",
+              "name": "is_noalloc",
+              "content": {
+                "type": "SYMBOL",
+                "name": "noalloc_modifier"
+              }
+            },
+            {
+              "type": "BLANK"
+            }
+          ]
+        },
+        {
           "type": "FIELD",
           "name": "method_clause",
           "content": {
@@ -8854,6 +8926,14 @@
       {
         "type": "STRING",
         "value": "pure"
+      },
+      {
+        "type": "STRING",
+        "value": "det"
+      },
+      {
+        "type": "STRING",
+        "value": "noalloc"
       },
       {
         "type": "STRING",

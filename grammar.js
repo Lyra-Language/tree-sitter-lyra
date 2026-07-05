@@ -105,6 +105,8 @@ module.exports = grammar({
       "weak",
       "with",
       "pure",
+      "det",
+      "noalloc",
       "gen",
       "yield",
 

@@ -3971,12 +3971,32 @@
           }
         ]
       },
+      "is_det": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "det_modifier",
+            "named": true
+          }
+        ]
+      },
       "is_gen": {
         "multiple": false,
         "required": false,
         "types": [
           {
             "type": "gen_modifier",
+            "named": true
+          }
+        ]
+      },
+      "is_noalloc": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "noalloc_modifier",
             "named": true
           }
         ]
@@ -6305,6 +6325,26 @@
     "type": "trait_method_implementation",
     "named": true,
     "fields": {
+      "is_det": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "det_modifier",
+            "named": true
+          }
+        ]
+      },
+      "is_noalloc": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "noalloc_modifier",
+            "named": true
+          }
+        ]
+      },
       "is_pure": {
         "multiple": false,
         "required": false,
@@ -7121,6 +7161,10 @@
     "named": false
   },
   {
+    "type": "det_modifier",
+    "named": true
+  },
+  {
     "type": "div_assign_operator",
     "named": true
   },
@@ -7268,6 +7312,10 @@
   {
     "type": "newtype",
     "named": false
+  },
+  {
+    "type": "noalloc_modifier",
+    "named": true
   },
   {
     "type": "octal_prefix",

@@ -6,6 +6,8 @@ module.exports = {
     seq(
       optional(field("is_unsafe", $.unsafe_modifier)),
       optional(field("is_pure", $.pure_modifier)),
+      optional(field("is_det", $.det_modifier)),
+      optional(field("is_noalloc", $.noalloc_modifier)),
       optional(field("is_async", $.async_modifier)),
       optional(field("is_gen", $.gen_modifier)),
       optional(field("is_rec", $.rec_modifier)),
@@ -29,6 +31,13 @@ module.exports = {
 
   unsafe_modifier: ($) => "unsafe",
   pure_modifier: ($) => "pure",
+  // `det` (deterministic): same inputs -> same outputs. Coarser than `pure` —
+  // permits mutation and allocation, forbids ambient rand/time/io. Mutually
+  // exclusive with `pure` (a semantic rule enforced by the checker, not here).
+  det_modifier: ($) => "det",
+  // `noalloc`: heap-allocation-free. Orthogonal resource bound — stacks onto
+  // any purity rung (`pure noalloc`, `det noalloc`) for hot loops / real-time.
+  noalloc_modifier: ($) => "noalloc",
   async_modifier: ($) => "async",
   gen_modifier: ($) => "gen",
   rec_modifier: ($) => "rec",

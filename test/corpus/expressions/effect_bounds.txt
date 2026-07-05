@@ -1,0 +1,91 @@
+==================
+Function with det bound
+==================
+
+let step = det (x: i64) -> i64 => { x }
+
+---
+
+(program
+  (declaration
+    name: (identifier)
+    value: (lambda_expr
+      is_det: (det_modifier)
+      parameters: (parameter_list
+        (parameter
+          pattern: (identifier)
+          type: (signed_integer_type)))
+      return_type: (return_type
+        type: (signed_integer_type))
+      body: (block
+        (expression_statement
+          (identifier))))))
+
+==================
+Function with det and noalloc bounds
+==================
+
+let integrate = det noalloc (dt: f32) -> f32 => { dt }
+
+---
+
+(program
+  (declaration
+    name: (identifier)
+    value: (lambda_expr
+      is_det: (det_modifier)
+      is_noalloc: (noalloc_modifier)
+      parameters: (parameter_list
+        (parameter
+          pattern: (identifier)
+          type: (float_type)))
+      return_type: (return_type
+        type: (float_type))
+      body: (block
+        (expression_statement
+          (identifier))))))
+
+==================
+Trait method with det bound
+==================
+
+impl Physics for World {
+  tick = det (self) => { self }
+}
+
+---
+
+(program
+  (trait_implementation
+    trait_name: (trait_name)
+    type: (user_defined_type_name)
+    methods: (impl_methods
+      (trait_method_implementation
+        method_name: (method_name
+          (identifier))
+        is_det: (det_modifier)
+        method_clause: (method_clause
+          parameters: (pattern_parameter_list
+            (identifier))
+          body: (block
+            (expression_statement
+              (identifier))))))))
+
+==================
+det-prefixed and noalloc-prefixed names are not carved as keywords
+==================
+
+let detail = 1
+let noalloc_count = 2
+
+---
+
+(program
+  (declaration
+    name: (identifier)
+    value: (integer_literal
+      (decimal_int)))
+  (declaration
+    name: (identifier)
+    value: (integer_literal
+      (decimal_int))))

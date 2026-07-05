@@ -60,11 +60,20 @@ The external scanner (`src/scanner.c`) handles block comments and the string int
 ## Reserved Keywords
 
 ```
-for  if  else  match  let  var  const  true  false
+for  if  else  match  let  var  const  readonly  true  false
 import  module  as  pub  async  await  Self
-stack  shared  weak  with  pure  gen  yield
+stack  shared  weak  with  pure  det  noalloc  gen  yield
 fixed  unsafe  given  mut  ref  own  void
 ```
+
+Effect bounds on functions/methods: `pure` (no observable effect), `det`
+(deterministic — permits mutation/allocation, forbids ambient rand/time/io),
+and `noalloc` (heap-allocation-free, orthogonal — stacks with any purity rung).
+All three are `optional(field(...))` modifiers in `lambda_expr` (and
+`trait_method_implementation`); `det`/`noalloc` mirror `pure`. Mutual exclusion
+of `pure`/`det` is a checker rule, not a grammar one (`checker/effect_bounds.go`,
+`lyra-E015`, landed 07/04/26 along with AST collection). `det`/`noalloc`
+*enforcement* is still pending (see `lyra/todo.md` FP/Imperative #5).
 
 ## Known GLR Conflicts
 

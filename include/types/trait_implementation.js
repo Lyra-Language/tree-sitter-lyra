@@ -34,14 +34,16 @@ module.exports = {
 
   impl_methods: ($) => commaSep1($.trait_method_implementation),
 
-  // `pure` sits between `=` and the clause, mirroring a free function's
-  // `name = pure (params) => body` — the purity annotation modifies the
-  // value being bound, not the name.
+  // Purity/effect bounds sit between `=` and the clause, mirroring a free
+  // function's `name = pure (params) => body` — they modify the value being
+  // bound, not the name. `det`/`noalloc` parallel `pure` (see lambda.js).
   trait_method_implementation: ($) =>
     seq(
       field("method_name", $.method_name),
       "=",
       optional(field("is_pure", $.pure_modifier)),
+      optional(field("is_det", $.det_modifier)),
+      optional(field("is_noalloc", $.noalloc_modifier)),
       field("method_clause", alias($.lambda_clause, $.method_clause)),
     ),
 
