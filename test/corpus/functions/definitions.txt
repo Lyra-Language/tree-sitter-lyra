@@ -330,6 +330,156 @@ let compare<n> where n: Ord = (a: n, b: n) -> n => a <=> b
         (spaceship_operator)
         (identifier)))))
 
+==================================================
+Function sugar (params attached to name, no `=`)
+==================================================
+
+let multiply(a: i32, b: i32) -> i32 => a * b
+
+---
+
+(program
+  (declaration
+    (identifier)
+    (lambda_expr
+      (parameter_list
+        (parameter
+          (identifier)
+          (signed_integer_type))
+        (parameter
+          (identifier)
+          (signed_integer_type)))
+      (return_type
+        (signed_integer_type))
+      (binary_expr
+        (identifier)
+        (mul_operator)
+        (identifier)))))
+
+==================================================
+Function sugar with generic parameters
+==================================================
+
+let sum<n>(a: n, b: n) -> n => a + b
+
+---
+
+(program
+  (declaration
+    (identifier)
+    (generic_parameters
+      (generic_parameter
+        (generic_type)))
+    (lambda_expr
+      (parameter_list
+        (parameter
+          (identifier)
+          (generic_type))
+        (parameter
+          (identifier)
+          (generic_type)))
+      (return_type
+        (generic_type))
+      (binary_expr
+        (identifier)
+        (add_operator)
+        (identifier)))))
+
+==================================================
+Function sugar with generic parameters and constraints
+==================================================
+
+let compare<n> where n: Ord (a: n, b: n) -> n => a <=> b
+
+---
+
+(program
+  (declaration
+    (identifier)
+    (generic_parameters
+      (generic_parameter
+        (generic_type)))
+    (generic_parameter_constraints
+      (generic_parameter_constraint
+        (generic_type)
+        (generic_bounds
+          (trait_name))))
+    (lambda_expr
+      (parameter_list
+        (parameter
+          (identifier)
+          (generic_type))
+        (parameter
+          (identifier)
+          (generic_type)))
+      (return_type
+        (generic_type))
+      (boolean_expr
+        (identifier)
+        (spaceship_operator)
+        (identifier)))))
+
+==================================================
+Function sugar with modifiers and multi-clause body
+==================================================
+
+let fib(n: i32) -> i32 {
+  (0) => 0,
+  (1) => 1,
+  (n) => fib(n-2) + fib(n-1),
+}
+
+---
+
+(program
+  (declaration
+    (identifier)
+    (lambda_expr
+      (parameter_list
+        (parameter
+          (identifier)
+          (signed_integer_type)))
+      (return_type
+        (signed_integer_type))
+      (lambda_clause_list
+        (lambda_clause
+          (pattern_parameter_list
+            (literal_pattern
+              (integer_literal
+                (decimal_int))))
+          (integer_literal
+            (decimal_int)))
+        (lambda_clause
+          (pattern_parameter_list
+            (literal_pattern
+              (integer_literal
+                (decimal_int))))
+          (integer_literal
+            (decimal_int)))
+        (lambda_clause
+          (pattern_parameter_list
+            (identifier))
+          (binary_expr
+            (call_expr
+              (identifier)
+              (argument_list
+                (value
+                  (binary_expr
+                    (identifier)
+                    (sub_operator)
+                    (integer_literal
+                      (decimal_int))))))
+            (add_operator)
+            (call_expr
+              (identifier)
+              (argument_list
+                (value
+                  (binary_expr
+                    (identifier)
+                    (sub_operator)
+                    (integer_literal
+                      (decimal_int))))))))))))
+
 =====================================
 Function with patterns for parameters
 =====================================
@@ -626,5 +776,14 @@ Pure keyword in wrong order
 ===========================
 
 let compute = async pure (n: i32) -> i32 => n * 2
+
+---
+
+==================================================
+Where clause without a value is an error
+:error
+==================================================
+
+let compare<n> where n: Ord
 
 ---

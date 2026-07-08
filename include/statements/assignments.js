@@ -32,7 +32,24 @@ module.exports = {
   declaration: ($) =>
     prec.left(
       choice(
-        // Identifier binding: supports generics, where constraints, optional value
+        // Identifier binding: supports generics, `where` constraints, and a
+        // value that is either the usual `= <expression>` or the ML-style
+        // function-definition sugar — a bare `lambda_expr` whose parameter list
+        // attaches directly to the name, with no `=`:
+        //   let multiply(a: i32, b: i32) -> i32 => a * b
+        //   let compare<n> where n: Ord (a: n, b: n) -> n => a <=> b
+        // The sugar's lambda lands in the same `value` field as `= <lambda>`,
+        // so it desugars to an identical binding (VarDeclStmt{Value:
+        // LambdaExpr}) and the collector needs no special case.
+        //
+        // The tail is a three-way `choice` (inlined, not a separate rule, since
+        // one arm matches empty). Crucially, a `where` clause REQUIRES a value
+        // (an `=` form or the lambda sugar): a value-less generic binding with
+        // constraints is meaningless, and — more importantly — allowing it made
+        // `let f<n> where n: Ord` a complete statement, so a following
+        // `(…) => …` parsed as a *separate* bare-lambda statement instead of
+        // the sugar's parameter list. Forbidding the value-less-after-`where`
+        // case removes that ambiguity, so `(` can only open the lambda.
         seq(
           optional($.attribute_list),
           optional($.visibility),
@@ -40,17 +57,32 @@ module.exports = {
           optional(field("mutability", mutModifier)),
           field("name", $.identifier),
           optional(field("generic_parameters", $.generic_parameters)),
-          optional(
+          choice(
+            // `where` clause present: a value is REQUIRED — the `=` form or
+            // the bare-lambda function sugar.
             seq(
               "where",
               field(
                 "generic_parameter_constraints",
                 $.generic_parameter_constraints,
               ),
+              choice(
+                seq(
+                  optional(field("type_annotation", $.type_annotation)),
+                  "=",
+                  field("value", $.expression),
+                ),
+                field("value", $.lambda_expr),
+              ),
             ),
+            // No `where` clause: the value is optional.
+            seq(
+              optional(field("type_annotation", $.type_annotation)),
+              optional(seq("=", field("value", $.expression))),
+            ),
+            // No `where` clause, function sugar: a bare lambda as the value.
+            field("value", $.lambda_expr),
           ),
-          optional(field("type_annotation", $.type_annotation)),
-          optional(seq("=", field("value", $.expression))),
         ),
         // Pattern binding: value is required
         seq(

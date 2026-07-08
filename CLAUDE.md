@@ -72,8 +72,9 @@ and `noalloc` (heap-allocation-free, orthogonal — stacks with any purity rung)
 All three are `optional(field(...))` modifiers in `lambda_expr` (and
 `trait_method_implementation`); `det`/`noalloc` mirror `pure`. Mutual exclusion
 of `pure`/`det` is a checker rule, not a grammar one (`checker/effect_bounds.go`,
-`lyra-E015`, landed 07/04/26 along with AST collection). `det`/`noalloc`
-*enforcement* is still pending (see `lyra/todo.md` FP/Imperative #5).
+`lyra-E015`, landed 07/08/26 along with AST collection). `det`/`noalloc`
+*enforcement* landed too (`purity.go` `checkBoundedEffects`, `lyra-E016`); only
+`Rand`/`Time` detection remains (see `lyra/todo.md` FP/Imperative #5).
 
 ## Known GLR Conflicts
 
@@ -92,6 +93,30 @@ grammar.)
 - `for_loop` / `for_in_loop` with and without a label
 
 **Lexer-level disambiguation, not GLR (added 06/24/26):** `trait_method_path` (`TraitName::method`, the fully-qualified trait-method-call form, `include/expressions/postfix.js`) and turbofish generic args (`generic_arguments`, `include/types/generic_type.js`) both start with `TypeName ::`. This is *not* resolvable via `conflicts:`/precedence — tree-sitter's static shift/reduce resolution commits to one production before either's deciding token (`<` vs an identifier) is visible, regardless of which side wins the precedence comparison. The actual fix: `generic_arguments` uses `"::<"` as one atomic string token instead of `"::"` then `"<"`, so ordinary lexer maximal-munch picks the right token before the parser ever has to choose. If you touch either rule, keep the combined token — splitting it back into two literals reintroduces the ambiguity (confirmed by deliberately reverting it during development: tuple/struct-literal turbofish broke, with or without explicit `conflicts:` entries).
+
+## Function-Definition Sugar (`declaration`, `include/statements/assignments.js`)
+
+A function is a `let`/`var` binding whose value is a `lambda_expr`. Two spellings:
+
+```lyra
+let add = (a: i32, b: i32) -> i32 => a + b   // explicit: value is a lambda
+let add(a: i32, b: i32) -> i32 => a + b       // ML-style sugar: params attach to the name, no `=`
+```
+
+The sugar is an arm of the identifier `declaration`'s value tail that stores a
+bare `lambda_expr` in the **same `value` field** as the `=` form — so it
+desugars to an identical CST/AST (`VarDeclStmt{Value: LambdaExpr}`) and the Go
+collector needs no special case. Modifiers (`pure`, `async`, …) sit where the
+lambda has them, i.e. after the name: `let sq(x: i32) => x` / `let f pure (…) …`.
+
+**Invariant — a `where` clause REQUIRES a value.** The value tail is a three-way
+`choice`; the `where` arm forces an `=` form or the lambda sugar to follow. This
+is not cosmetic: allowing a value-less `let f<n> where n: Ord` made it a
+complete statement, so `let f<n> where n: Ord (a: n) => a` parsed as an empty
+declaration followed by a *separate* bare-lambda statement instead of the sugar.
+Forbidding value-less-after-`where` removes that ambiguity (so `(` can only open
+the lambda) and is enforced by the `Where clause without a value is an error`
+`:error` corpus test. Do not re-add an `optional` value on the `where` path.
 
 ## Operator Precedence (low → high)
 
