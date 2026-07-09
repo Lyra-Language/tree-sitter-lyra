@@ -108,6 +108,7 @@ module.exports = grammar({
       "det",
       "noalloc",
       "gen",
+      "rec",
       "yield",
 
       "fixed",

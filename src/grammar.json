@@ -7465,6 +7465,117 @@
                 }
               },
               {
+                "type": "FIELD",
+                "name": "modifiers",
+                "content": {
+                  "type": "SYMBOL",
+                  "name": "fn_modifiers"
+                }
+              },
+              {
+                "type": "FIELD",
+                "name": "name",
+                "content": {
+                  "type": "SYMBOL",
+                  "name": "identifier"
+                }
+              },
+              {
+                "type": "CHOICE",
+                "members": [
+                  {
+                    "type": "FIELD",
+                    "name": "generic_parameters",
+                    "content": {
+                      "type": "SYMBOL",
+                      "name": "generic_parameters"
+                    }
+                  },
+                  {
+                    "type": "BLANK"
+                  }
+                ]
+              },
+              {
+                "type": "CHOICE",
+                "members": [
+                  {
+                    "type": "SEQ",
+                    "members": [
+                      {
+                        "type": "STRING",
+                        "value": "where"
+                      },
+                      {
+                        "type": "FIELD",
+                        "name": "generic_parameter_constraints",
+                        "content": {
+                          "type": "SYMBOL",
+                          "name": "generic_parameter_constraints"
+                        }
+                      }
+                    ]
+                  },
+                  {
+                    "type": "BLANK"
+                  }
+                ]
+              },
+              {
+                "type": "FIELD",
+                "name": "value",
+                "content": {
+                  "type": "SYMBOL",
+                  "name": "lambda_expr"
+                }
+              }
+            ]
+          },
+          {
+            "type": "SEQ",
+            "members": [
+              {
+                "type": "CHOICE",
+                "members": [
+                  {
+                    "type": "SYMBOL",
+                    "name": "attribute_list"
+                  },
+                  {
+                    "type": "BLANK"
+                  }
+                ]
+              },
+              {
+                "type": "CHOICE",
+                "members": [
+                  {
+                    "type": "SYMBOL",
+                    "name": "visibility"
+                  },
+                  {
+                    "type": "BLANK"
+                  }
+                ]
+              },
+              {
+                "type": "FIELD",
+                "name": "keyword",
+                "content": {
+                  "type": "CHOICE",
+                  "members": [
+                    {
+                      "type": "STRING",
+                      "value": "let"
+                    },
+                    {
+                      "type": "STRING",
+                      "value": "var"
+                    }
+                  ]
+                }
+              },
+              {
                 "type": "CHOICE",
                 "members": [
                   {
@@ -7739,6 +7850,42 @@
                 }
               }
             ]
+          }
+        ]
+      }
+    },
+    "fn_modifiers": {
+      "type": "REPEAT1",
+      "content": {
+        "type": "CHOICE",
+        "members": [
+          {
+            "type": "SYMBOL",
+            "name": "unsafe_modifier"
+          },
+          {
+            "type": "SYMBOL",
+            "name": "pure_modifier"
+          },
+          {
+            "type": "SYMBOL",
+            "name": "det_modifier"
+          },
+          {
+            "type": "SYMBOL",
+            "name": "noalloc_modifier"
+          },
+          {
+            "type": "SYMBOL",
+            "name": "async_modifier"
+          },
+          {
+            "type": "SYMBOL",
+            "name": "gen_modifier"
+          },
+          {
+            "type": "SYMBOL",
+            "name": "rec_modifier"
           }
         ]
       }
@@ -8994,6 +9141,10 @@
       {
         "type": "STRING",
         "value": "gen"
+      },
+      {
+        "type": "STRING",
+        "value": "rec"
       },
       {
         "type": "STRING",

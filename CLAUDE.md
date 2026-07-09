@@ -62,9 +62,12 @@ The external scanner (`src/scanner.c`) handles block comments and the string int
 ```
 for  if  else  match  let  var  const  readonly  true  false
 import  module  as  pub  async  await  Self
-stack  shared  weak  with  pure  det  noalloc  gen  yield
+stack  shared  weak  with  pure  det  noalloc  gen  rec  yield
 fixed  unsafe  given  mut  ref  own  void
 ```
+
+(`rec` was reserved 07/08/26 so it can lead a function-definition binding's name
+— see Function-Definition Sugar. It is one of the seven `fn_modifiers`.)
 
 Effect bounds on functions/methods: `pure` (no observable effect), `det`
 (deterministic — permits mutation/allocation, forbids ambient rand/time/io),
@@ -96,27 +99,46 @@ grammar.)
 
 ## Function-Definition Sugar (`declaration`, `include/statements/assignments.js`)
 
-A function is a `let`/`var` binding whose value is a `lambda_expr`. Two spellings:
+A function is a `let`/`var` binding whose value is a `lambda_expr`. Three spellings:
 
 ```lyra
-let add = (a: i32, b: i32) -> i32 => a + b   // explicit: value is a lambda
-let add(a: i32, b: i32) -> i32 => a + b       // ML-style sugar: params attach to the name, no `=`
+let add = pure (a: i32, b: i32) -> i32 => a + b   // explicit: value is a lambda (modifiers inside it)
+let add(a: i32, b: i32) -> i32 => a + b            // ML-style sugar: params attach to the name, no `=`
+let pure add(a: i32, b: i32) -> i32 => a + b       // sugar with modifiers leading the name
 ```
 
-The sugar is an arm of the identifier `declaration`'s value tail that stores a
-bare `lambda_expr` in the **same `value` field** as the `=` form — so it
-desugars to an identical CST/AST (`VarDeclStmt{Value: LambdaExpr}`) and the Go
-collector needs no special case. Modifiers (`pure`, `async`, …) sit where the
-lambda has them, i.e. after the name: `let sq(x: i32) => x` / `let f pure (…) …`.
+All three produce an identical binding (`VarDeclStmt{Value: LambdaExpr}`).
+`declaration` has THREE identifier arms (see the rule's comments):
 
-**Invariant — a `where` clause REQUIRES a value.** The value tail is a three-way
-`choice`; the `where` arm forces an `=` form or the lambda sugar to follow. This
-is not cosmetic: allowing a value-less `let f<n> where n: Ord` made it a
-complete statement, so `let f<n> where n: Ord (a: n) => a` parsed as an empty
-declaration followed by a *separate* bare-lambda statement instead of the sugar.
-Forbidding value-less-after-`where` removes that ambiguity (so `(` can only open
-the lambda) and is enforced by the `Where clause without a value is an error`
-`:error` corpus test. Do not re-add an `optional` value on the `where` path.
+1. **Modifier-led function** — `let <fn_modifiers> name [<generics>] [where …] <lambda>`.
+   Entered as soon as a modifier follows the keyword; the lambda `value` is
+   **required**. The collector (`declarations/var_decl.go` `applyFunctionModifiers`)
+   lifts the modifier flags off the declaration's `modifiers` field onto the
+   collected `LambdaExpr`, so `let pure add(…)` ≡ `let add = pure (…)`.
+2. **Plain identifier binding** — `= <expression>`, or the modifier-less lambda
+   sugar (`let add(…) => …`) stored in the same `value` field, or a value-less
+   `let x` / `let x: T`.
+3. **Pattern (destructuring) binding.**
+
+Two invariants that keep the parse unambiguous — **do not weaken either**:
+
+- **A `where` clause REQUIRES a value**, and **the modifier-led arm REQUIRES its
+  lambda.** Both exist for the same reason: a value-less `let f<n> where n: Ord`
+  (or `let pure add`) would be a complete statement that swallows a following
+  `(…) => …` as a *separate* bare-lambda statement instead of the sugar. Enforced
+  by the `Where clause without a value` and `Leading modifier on a non-function`
+  `:error` corpus tests (`let pure x = 42` does not parse).
+- **`fn_modifiers` is ONE `repeat1(choice(...))` rule, not seven separate
+  `optional(field(...))` fields** before the name. Seven stacked optionals ahead
+  of a generic `<` doubled the (already ~120 MB) `parser.c` to ~247 MB and broke
+  correctness (even `let x = 42` mis-parsed). The single rule keeps the size at
+  baseline. Order and duplicates are validated in the collector
+  (`applyFunctionModifiers`), not the grammar, so `let async pure f(…)` parses
+  but is reported. `rec` had to be reserved (it is one of the seven modifiers);
+  `let rec = 5` / `foo(rec)` (rec as an identifier) no longer parse.
+
+Note: this grammar's `parser.c` is inherently ~120 MB and takes ~60 s to
+`generate` (its large GLR-conflict set), so budget for that on any grammar edit.
 
 ## Operator Precedence (low → high)
 

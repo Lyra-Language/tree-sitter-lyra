@@ -480,6 +480,57 @@ let fib(n: i32) -> i32 {
                     (integer_literal
                       (decimal_int))))))))))))
 
+==================================================
+Function sugar with a leading modifier
+==================================================
+
+let pure multiply(a: i32, b: i32) -> i32 => a * b
+
+---
+
+(program
+  (declaration
+    (fn_modifiers
+      (pure_modifier))
+    (identifier)
+    (lambda_expr
+      (parameter_list
+        (parameter
+          (identifier)
+          (signed_integer_type))
+        (parameter
+          (identifier)
+          (signed_integer_type)))
+      (return_type
+        (signed_integer_type))
+      (binary_expr
+        (identifier)
+        (mul_operator)
+        (identifier)))))
+
+==================================================
+Function sugar with multiple leading modifiers
+==================================================
+
+let pure async fetchJSON(url: string) -> Response => x
+
+---
+
+(program
+  (declaration
+    (fn_modifiers
+      (pure_modifier)
+      (async_modifier))
+    (identifier)
+    (lambda_expr
+      (parameter_list
+        (parameter
+          (identifier)
+          (string_type)))
+      (return_type
+        (user_defined_type_name))
+      (identifier))))
+
 =====================================
 Function with patterns for parameters
 =====================================
@@ -785,5 +836,14 @@ Where clause without a value is an error
 ==================================================
 
 let compare<n> where n: Ord
+
+---
+
+==================================================
+Leading modifier on a non-function is an error
+:error
+==================================================
+
+let pure x = 42
 
 ---

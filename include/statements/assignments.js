@@ -32,6 +32,42 @@ module.exports = {
   declaration: ($) =>
     prec.left(
       choice(
+        // Modifier-led function definition: modifiers (`pure`, `async`, …) lead
+        // the name so the definition reads like a function, not an assignment:
+        //   let pure multiply(a: i32, b: i32) -> i32 => a * b
+        //   let pure async fetchJSON(url: string) -> Response => { … }
+        //   let pure compare<n> where n: Ord (a: n, b: n) -> n => a <=> b
+        // This is its OWN arm (entered as soon as a modifier follows the
+        // keyword) in which a lambda `value` is REQUIRED. Two properties matter:
+        //  (1) The modifiers are one `fn_modifiers` rule, not seven separate
+        //      `optional(...)` fields — seven stacked optionals before the name
+        //      doubled the (already ~120 MB) parse table and broke correctness.
+        //  (2) The lambda value is required (no empty / `=` tail here), so
+        //      `let pure add` cannot be a complete value-less statement that
+        //      swallows a following `(…) => …` as a separate bare lambda — the
+        //      same garden-path the `where`-requires-a-value rule below avoids.
+        // The lambda lands in the usual `value` field, so the collector lifts
+        // the `fn_modifiers` flags onto it and the binding is identical to the
+        // `= pure (…)` form (VarDeclStmt{Value: LambdaExpr}). `let pure x = 42`
+        // does not parse — modifiers require a function.
+        seq(
+          optional($.attribute_list),
+          optional($.visibility),
+          field("keyword", choice("let", "var")),
+          field("modifiers", $.fn_modifiers),
+          field("name", $.identifier),
+          optional(field("generic_parameters", $.generic_parameters)),
+          optional(
+            seq(
+              "where",
+              field(
+                "generic_parameter_constraints",
+                $.generic_parameter_constraints,
+              ),
+            ),
+          ),
+          field("value", $.lambda_expr),
+        ),
         // Identifier binding: supports generics, `where` constraints, and a
         // value that is either the usual `= <expression>` or the ML-style
         // function-definition sugar — a bare `lambda_expr` whose parameter list
@@ -40,16 +76,15 @@ module.exports = {
         //   let compare<n> where n: Ord (a: n, b: n) -> n => a <=> b
         // The sugar's lambda lands in the same `value` field as `= <lambda>`,
         // so it desugars to an identical binding (VarDeclStmt{Value:
-        // LambdaExpr}) and the collector needs no special case.
+        // LambdaExpr}).
         //
-        // The tail is a three-way `choice` (inlined, not a separate rule, since
-        // one arm matches empty). Crucially, a `where` clause REQUIRES a value
-        // (an `=` form or the lambda sugar): a value-less generic binding with
-        // constraints is meaningless, and — more importantly — allowing it made
-        // `let f<n> where n: Ord` a complete statement, so a following
-        // `(…) => …` parsed as a *separate* bare-lambda statement instead of
-        // the sugar's parameter list. Forbidding the value-less-after-`where`
-        // case removes that ambiguity, so `(` can only open the lambda.
+        // The value tail is a three-way `choice` (inlined, since one arm matches
+        // empty). A `where` clause REQUIRES a value (an `=` form or the lambda
+        // sugar): a value-less generic binding with constraints is meaningless,
+        // and allowing it made `let f<n> where n: Ord` a complete statement, so
+        // a following `(…) => …` parsed as a separate bare-lambda statement
+        // instead of the sugar's parameter list. Forbidding the
+        // value-less-after-`where` case removes that ambiguity.
         seq(
           optional($.attribute_list),
           optional($.visibility),
@@ -58,8 +93,6 @@ module.exports = {
           field("name", $.identifier),
           optional(field("generic_parameters", $.generic_parameters)),
           choice(
-            // `where` clause present: a value is REQUIRED — the `=` form or
-            // the bare-lambda function sugar.
             seq(
               "where",
               field(
@@ -75,12 +108,10 @@ module.exports = {
                 field("value", $.lambda_expr),
               ),
             ),
-            // No `where` clause: the value is optional.
             seq(
               optional(field("type_annotation", $.type_annotation)),
               optional(seq("=", field("value", $.expression))),
             ),
-            // No `where` clause, function sugar: a bare lambda as the value.
             field("value", $.lambda_expr),
           ),
         ),
@@ -95,6 +126,25 @@ module.exports = {
           "=",
           field("value", $.expression),
         ),
+      ),
+    ),
+
+  // Function modifiers that may lead a function-definition binding's name
+  // (`let pure async fetchJSON(…) => …`). Gathered as ONE rule, not as separate
+  // `optional(...)` fields on the declaration: seven stacked optionals before
+  // the name doubled the (already large) parse table and broke parse
+  // correctness. Order and duplicates are validated by the collector, not the
+  // grammar. The collector lifts these flags onto the binding's lambda value.
+  fn_modifiers: ($) =>
+    repeat1(
+      choice(
+        $.unsafe_modifier,
+        $.pure_modifier,
+        $.det_modifier,
+        $.noalloc_modifier,
+        $.async_modifier,
+        $.gen_modifier,
+        $.rec_modifier,
       ),
     ),
 

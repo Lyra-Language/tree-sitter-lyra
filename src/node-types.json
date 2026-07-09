@@ -2293,6 +2293,16 @@
           }
         ]
       },
+      "modifiers": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "fn_modifiers",
+            "named": true
+          }
+        ]
+      },
       "mutability": {
         "multiple": false,
         "required": false,
@@ -2701,6 +2711,45 @@
     "type": "float_type",
     "named": true,
     "fields": {}
+  },
+  {
+    "type": "fn_modifiers",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "async_modifier",
+          "named": true
+        },
+        {
+          "type": "det_modifier",
+          "named": true
+        },
+        {
+          "type": "gen_modifier",
+          "named": true
+        },
+        {
+          "type": "noalloc_modifier",
+          "named": true
+        },
+        {
+          "type": "pure_modifier",
+          "named": true
+        },
+        {
+          "type": "rec_modifier",
+          "named": true
+        },
+        {
+          "type": "unsafe_modifier",
+          "named": true
+        }
+      ]
+    }
   },
   {
     "type": "for_body",
@@ -3163,6 +3212,16 @@
           {
             "type": "var",
             "named": false
+          }
+        ]
+      },
+      "modifiers": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "fn_modifiers",
+            "named": true
           }
         ]
       },
