@@ -72,8 +72,10 @@ fixed  unsafe  given  mut  ref  own  void
 Effect bounds on functions/methods: `pure` (no observable effect), `det`
 (deterministic — permits mutation/allocation, forbids ambient rand/time/io),
 and `noalloc` (heap-allocation-free, orthogonal — stacks with any purity rung).
-All three are `optional(field(...))` modifiers in `lambda_expr` (and
-`trait_method_implementation`); `det`/`noalloc` mirror `pure`. Mutual exclusion
+All three are `optional(field(...))` modifiers in `lambda_expr`,
+`trait_method_implementation`, and — leading the name — a `trait_method`
+*declaration* (`trait Show { pure show: (Self) -> string }`, a contract every
+impl must satisfy); `det`/`noalloc` mirror `pure`. Mutual exclusion
 of `pure`/`det` is a checker rule, not a grammar one (`checker/effect_bounds.go`,
 `lyra-E015`, landed 07/08/26 along with AST collection). `det`/`noalloc`
 *enforcement* landed too (`purity.go` `checkBoundedEffects`, `lyra-E016`); only

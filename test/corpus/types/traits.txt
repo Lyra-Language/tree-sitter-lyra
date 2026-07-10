@@ -781,3 +781,35 @@ impl Show for i64 {
             (identifier))
           (string_literal
             (string_content)))))))
+
+==============================
+Trait Method with Pure Bound
+==============================
+
+trait Show {
+  pure show: (Self) -> string,
+  det now: (Self) -> i64
+}
+
+---
+
+(program
+  (trait_declaration
+    (trait_name)
+    (trait_methods
+      (trait_method
+        (pure_modifier)
+        (identifier)
+        (trait_method_signature
+          (parameter_type_list
+            (parameter_type
+              (self_type)))
+          (string_type)))
+      (trait_method
+        (det_modifier)
+        (identifier)
+        (trait_method_signature
+          (parameter_type_list
+            (parameter_type
+              (self_type)))
+          (signed_integer_type))))))

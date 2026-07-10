@@ -47,6 +47,9 @@ module.exports = {
 
   trait_method: ($) =>
     seq(
+      optional(field("is_pure", $.pure_modifier)),
+      optional(field("is_det", $.det_modifier)),
+      optional(field("is_noalloc", $.noalloc_modifier)),
       field("name", choice($.identifier, $.unary_operator, $.binary_operator)),
       ":",
       field("signature", alias($.lambda_type, $.trait_method_signature)),
