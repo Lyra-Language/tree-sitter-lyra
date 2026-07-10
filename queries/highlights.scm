@@ -38,7 +38,6 @@
 "break"    @keyword.control
 "continue" @keyword.control
 "with"     @keyword.control
-"given"    @keyword.control
 
 ; =============================================================================
 ; Keywords — async / coroutines

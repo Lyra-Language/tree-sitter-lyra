@@ -52,7 +52,6 @@ const PREC = {
   // operand.
   BLOCK: 2,
   TYPE: 2,
-  GIVEN: 3, // lower than all operators so `a + b given { ... }` = `(a + b) given { ... }`
   TUPLE_NAME: 10, // Must match STRUCT_LITERAL so named-tuple vs named-struct is a GLR conflict, not resolved by precedence
   ARRAY_COMP: 2,
 

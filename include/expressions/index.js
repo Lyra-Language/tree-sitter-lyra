@@ -34,7 +34,6 @@ module.exports = {
       $.null_coalescing_expr,
       $.compose_expr,
       $.address_of_expr,
-      $.given_expr,
       $.sizeof_expr,
       $.for_loop,
       $.for_in_loop,
@@ -100,29 +99,6 @@ module.exports = {
     ),
 
   compose_operator: ($) => "->>",
-
-  given_expr: ($) =>
-    prec.right(
-      PREC.GIVEN,
-      seq(
-        field("body", $.expression),
-        "given",
-        field("bindings", $.given_bindings),
-      ),
-    ),
-
-  given_bindings: ($) =>
-    seq(
-      "{",
-      repeat1(
-        choice(
-          $.declaration,
-          $.const_declaration,
-          $.destructuring_else_declaration,
-        ),
-      ),
-      "}",
-    ),
 
   ...control_flow,
   ...boolean,

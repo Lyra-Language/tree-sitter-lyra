@@ -80,10 +80,6 @@
         "named": true
       },
       {
-        "type": "given_expr",
-        "named": true
-      },
-      {
         "type": "group",
         "named": true
       },
@@ -3505,55 +3501,6 @@
           "named": true
         }
       ]
-    }
-  },
-  {
-    "type": "given_bindings",
-    "named": true,
-    "fields": {},
-    "children": {
-      "multiple": true,
-      "required": true,
-      "types": [
-        {
-          "type": "const_declaration",
-          "named": true
-        },
-        {
-          "type": "declaration",
-          "named": true
-        },
-        {
-          "type": "destructuring_else_declaration",
-          "named": true
-        }
-      ]
-    }
-  },
-  {
-    "type": "given_expr",
-    "named": true,
-    "fields": {
-      "bindings": {
-        "multiple": false,
-        "required": true,
-        "types": [
-          {
-            "type": "given_bindings",
-            "named": true
-          }
-        ]
-      },
-      "body": {
-        "multiple": false,
-        "required": true,
-        "types": [
-          {
-            "type": "expression",
-            "named": true
-          }
-        ]
-      }
     }
   },
   {
@@ -7317,10 +7264,6 @@
   {
     "type": "gen_modifier",
     "named": true
-  },
-  {
-    "type": "given",
-    "named": false
   },
   {
     "type": "hexadecimal_prefix",

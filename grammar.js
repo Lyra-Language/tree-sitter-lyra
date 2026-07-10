@@ -113,7 +113,6 @@ module.exports = grammar({
 
       "fixed",
       "unsafe",
-      "given",
       "mut",
       "ref",
       "own",

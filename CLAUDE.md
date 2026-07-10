@@ -63,7 +63,7 @@ The external scanner (`src/scanner.c`) handles block comments and the string int
 for  if  else  match  let  var  const  readonly  true  false
 import  module  as  pub  async  await  Self
 stack  shared  weak  with  pure  det  noalloc  gen  rec  yield
-fixed  unsafe  given  mut  ref  own  void
+fixed  unsafe  mut  ref  own  void
 ```
 
 (`rec` was reserved 07/08/26 so it can lead a function-definition binding's name
@@ -146,7 +146,7 @@ Note: this grammar's `parser.c` is inherently ~120 MB and takes ~60 s to
 
 | Group | Key constants | Approximate level |
 |---|---|---|
-| Block, type, given | `BLOCK=2`, `GIVEN=3` | lowest |
+| Block, type | `BLOCK=2`, `TYPE=2` | lowest |
 | Logical | `LOGICAL_OR=30`, `LOGICAL_AND=40` | low |
 | Equality / relational | `EQUALITY=80`, `RELATIONAL=90` | medium-low |
 | Arithmetic | `ADDITIVE=110`, `MULTIPLICATIVE=120` | medium |
@@ -203,7 +203,6 @@ test/corpus/
     boolean.txt
     compose.txt
     generators.txt
-    given.txt
     postfix.txt
     rec.txt
     string_concat.txt

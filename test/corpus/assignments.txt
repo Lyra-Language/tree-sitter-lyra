@@ -380,3 +380,17 @@ grid[i].y = 9
       property: (identifier))
     value: (integer_literal
       (decimal_int))))
+
+==========================================
+given is a plain identifier (keyword retired)
+==========================================
+
+let given = 5
+
+---
+
+(program
+  (declaration
+    name: (identifier)
+    value: (integer_literal
+      (decimal_int))))
