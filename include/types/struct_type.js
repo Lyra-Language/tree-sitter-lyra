@@ -5,7 +5,6 @@ module.exports = {
     seq(
       optional(field("attributes", $.attribute_list)),
       optional($.visibility),
-      optional(field("allocation", $.allocation_modifier)),
       "struct",
       field("struct_name", alias($.user_defined_type_name, $.struct_name)),
       optional($.generic_parameters),

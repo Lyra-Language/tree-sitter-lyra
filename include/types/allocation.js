@@ -1,9 +1,14 @@
 /**
- * Allocation modifiers for controlling stack vs shared allocation
+ * Allocation modifiers for controlling stack vs shared allocation.
+ *
+ * Allocation flavor is a property of a *value's storage*, chosen at the use site
+ * — NOT a property of the type declaration. There is deliberately no
+ * declaration-level modifier (`shared struct Vec3 {}` does not parse); a type is
+ * flavored where it is used.
  *
  * Usage:
- *   - On type declarations: `stack struct Vec3 { ... }`, `shared data Tree<t> = ...`
  *   - On type annotations: `let pos: stack Vec3 = ...`, `let node: shared Node = ...`
+ *   - On a field type, incl. to break a recursive cycle: `next: shared Node`
  *   - On array types: `stack [16]f32` (fixed-size stack array)
  *   - Weak references: `weak Parent` (for breaking cycles in shared types)
  *

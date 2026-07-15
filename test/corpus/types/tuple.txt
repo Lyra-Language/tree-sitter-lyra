@@ -58,10 +58,10 @@ pub tuple Point3D(f64, f64, f64)
           (float_type))))))
 
 =========================================================
-Tuple declaration with visibility and allocation modifier
+Tuple declaration with visibility
 =========================================================
 
-pub stack tuple Point3D(f64, f64, f64)
+pub tuple Point3D(f64, f64, f64)
 
 ---
 
@@ -69,7 +69,6 @@ pub stack tuple Point3D(f64, f64, f64)
   (type_declaration
     (named_tuple_type
       (visibility)
-      (allocation_modifier)
       (tuple_type_name)
       (tuple_type_body
         (tuple_type_element

@@ -4,7 +4,6 @@ module.exports = {
   named_tuple_type: ($) =>
     seq(
       optional(field("visibility", $.visibility)),
-      optional(field("allocation", $.allocation_modifier)),
       "tuple",
       field("name", alias($.user_defined_type_name, $.tuple_type_name)),
       optional(field("generic_parameters", $.generic_parameters)),

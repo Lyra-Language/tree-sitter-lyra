@@ -268,10 +268,10 @@ Multiple struct attributes
             (unsigned_integer_type)))))))
 
 ===========================================
-Struct attributes with visibility and allocation
+Struct attributes with visibility
 ===========================================
 
-@packed pub stack struct GpuVertex { x: f32, y: f32, z: f32 }
+@packed pub struct GpuVertex { x: f32, y: f32, z: f32 }
 
 ---
 
@@ -282,7 +282,6 @@ Struct attributes with visibility and allocation
         (attribute
           (identifier)))
       (visibility)
-      (allocation_modifier)
       (struct_name)
       (struct_type_body
         (struct_member

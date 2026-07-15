@@ -2156,16 +2156,6 @@
     "type": "data_type",
     "named": true,
     "fields": {
-      "allocation": {
-        "multiple": false,
-        "required": false,
-        "types": [
-          {
-            "type": "allocation_modifier",
-            "named": true
-          }
-        ]
-      },
       "attributes": {
         "multiple": false,
         "required": false,
@@ -4528,16 +4518,6 @@
     "type": "named_tuple_type",
     "named": true,
     "fields": {
-      "allocation": {
-        "multiple": false,
-        "required": false,
-        "types": [
-          {
-            "type": "allocation_modifier",
-            "named": true
-          }
-        ]
-      },
       "generic_parameters": {
         "multiple": false,
         "required": false,
@@ -6025,16 +6005,6 @@
     "type": "struct_type",
     "named": true,
     "fields": {
-      "allocation": {
-        "multiple": false,
-        "required": false,
-        "types": [
-          {
-            "type": "allocation_modifier",
-            "named": true
-          }
-        ]
-      },
       "attributes": {
         "multiple": false,
         "required": false,

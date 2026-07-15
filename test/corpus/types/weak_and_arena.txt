@@ -2,7 +2,7 @@
 Weak Type Basic
 ===============
 
-shared struct Child {
+struct Child {
   parent: weak Parent
 }
 
@@ -11,7 +11,6 @@ shared struct Child {
 (program
   (type_declaration
     (struct_type
-      (allocation_modifier)
       (struct_name)
       (struct_type_body
         (struct_member
@@ -24,7 +23,7 @@ shared struct Child {
 Weak Type with Maybe
 ==========================
 
-shared struct Node {
+struct Node {
   next: Maybe<Node>,
   prev: weak Maybe<Node>
 }
@@ -34,7 +33,6 @@ shared struct Node {
 (program
   (type_declaration
     (struct_type
-      (allocation_modifier)
       (struct_name)
       (struct_type_body
         (struct_member

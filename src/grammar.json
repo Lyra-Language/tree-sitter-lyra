@@ -5092,22 +5092,6 @@
             ]
           },
           {
-            "type": "CHOICE",
-            "members": [
-              {
-                "type": "FIELD",
-                "name": "allocation",
-                "content": {
-                  "type": "SYMBOL",
-                  "name": "allocation_modifier"
-                }
-              },
-              {
-                "type": "BLANK"
-              }
-            ]
-          },
-          {
             "type": "STRING",
             "value": "data"
           },
@@ -5755,22 +5739,6 @@
           ]
         },
         {
-          "type": "CHOICE",
-          "members": [
-            {
-              "type": "FIELD",
-              "name": "allocation",
-              "content": {
-                "type": "SYMBOL",
-                "name": "allocation_modifier"
-              }
-            },
-            {
-              "type": "BLANK"
-            }
-          ]
-        },
-        {
           "type": "STRING",
           "value": "struct"
         },
@@ -5984,22 +5952,6 @@
               "content": {
                 "type": "SYMBOL",
                 "name": "visibility"
-              }
-            },
-            {
-              "type": "BLANK"
-            }
-          ]
-        },
-        {
-          "type": "CHOICE",
-          "members": [
-            {
-              "type": "FIELD",
-              "name": "allocation",
-              "content": {
-                "type": "SYMBOL",
-                "name": "allocation_modifier"
               }
             },
             {

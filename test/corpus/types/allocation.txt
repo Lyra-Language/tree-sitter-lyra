@@ -1,56 +1,3 @@
-================
-Stack struct type
-================
-
-stack struct Vec3 {
-  x: f32,
-  y: f32,
-  z: f32,
-}
-
----
-
-(program
-  (type_declaration
-    (struct_type
-      (allocation_modifier)
-      (struct_name)
-      (struct_type_body
-        (struct_member
-          (field_name)
-          (field_type
-            (float_type)))
-        (struct_member
-          (field_name)
-          (field_type
-            (float_type)))
-        (struct_member
-          (field_name)
-          (field_type
-            (float_type)))))))
-
-==============
-Stack data type
-==============
-
-stack data Direction = North | South | East | West
-
----
-
-(program
-  (type_declaration
-    (data_type
-      (allocation_modifier)
-      (data_type_name)
-      (data_type_constructor
-        (data_type_constructor_name))
-      (data_type_constructor
-        (data_type_constructor_name))
-      (data_type_constructor
-        (data_type_constructor_name))
-      (data_type_constructor
-        (data_type_constructor_name)))))
-
 ======================
 Fixed-size array type
 ======================
@@ -184,10 +131,10 @@ let vertices: [MAX_VERTICES]Vec3 = []
     (array_literal)))
 
 ======================================
-Public stack struct with generic type
+Public generic struct
 ======================================
 
-pub stack struct Transform<t> {
+pub struct Transform<t> {
   position: t,
   rotation: Quat,
   scale: t,
@@ -199,7 +146,6 @@ pub stack struct Transform<t> {
   (type_declaration
     (struct_type
       (visibility)
-      (allocation_modifier)
       (struct_name)
       (generic_parameters
         (generic_parameter
