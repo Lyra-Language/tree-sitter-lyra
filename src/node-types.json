@@ -172,6 +172,10 @@
         "named": true
       },
       {
+        "type": "tuple_index_expr",
+        "named": true
+      },
+      {
         "type": "tuple_literal",
         "named": true
       },
@@ -977,6 +981,10 @@
             "named": true
           },
           {
+            "type": "tuple_index_expr",
+            "named": true
+          },
+          {
             "type": "user_defined_type_name",
             "named": true
           }
@@ -1086,6 +1094,10 @@
           },
           {
             "type": "try_expr",
+            "named": true
+          },
+          {
+            "type": "tuple_index_expr",
             "named": true
           },
           {
@@ -1288,6 +1300,10 @@
             "named": true
           },
           {
+            "type": "tuple_index_expr",
+            "named": true
+          },
+          {
             "type": "tuple_literal",
             "named": true
           },
@@ -1460,6 +1476,10 @@
             "named": true
           },
           {
+            "type": "tuple_index_expr",
+            "named": true
+          },
+          {
             "type": "tuple_literal",
             "named": true
           },
@@ -1562,6 +1582,10 @@
           },
           {
             "type": "try_expr",
+            "named": true
+          },
+          {
+            "type": "tuple_index_expr",
             "named": true
           },
           {
@@ -1705,6 +1729,10 @@
             "named": true
           },
           {
+            "type": "tuple_index_expr",
+            "named": true
+          },
+          {
             "type": "user_defined_type_name",
             "named": true
           }
@@ -1814,6 +1842,10 @@
           },
           {
             "type": "try_expr",
+            "named": true
+          },
+          {
+            "type": "tuple_index_expr",
             "named": true
           },
           {
@@ -2517,6 +2549,10 @@
             "named": true
           },
           {
+            "type": "tuple_index_expr",
+            "named": true
+          },
+          {
             "type": "user_defined_type_name",
             "named": true
           }
@@ -2919,6 +2955,10 @@
             "named": true
           },
           {
+            "type": "tuple_index_expr",
+            "named": true
+          },
+          {
             "type": "tuple_literal",
             "named": true
           },
@@ -3088,6 +3128,10 @@
           },
           {
             "type": "try_expr",
+            "named": true
+          },
+          {
+            "type": "tuple_index_expr",
             "named": true
           },
           {
@@ -3858,6 +3902,10 @@
             "named": true
           },
           {
+            "type": "tuple_index_expr",
+            "named": true
+          },
+          {
             "type": "user_defined_type_name",
             "named": true
           }
@@ -4321,6 +4369,10 @@
             "named": true
           },
           {
+            "type": "tuple_index_expr",
+            "named": true
+          },
+          {
             "type": "user_defined_type_name",
             "named": true
           }
@@ -4641,6 +4693,10 @@
             "named": true
           },
           {
+            "type": "tuple_index_expr",
+            "named": true
+          },
+          {
             "type": "user_defined_type_name",
             "named": true
           }
@@ -4772,6 +4828,10 @@
             "named": true
           },
           {
+            "type": "tuple_index_expr",
+            "named": true
+          },
+          {
             "type": "user_defined_type_name",
             "named": true
           }
@@ -4829,6 +4889,10 @@
           },
           {
             "type": "try_expr",
+            "named": true
+          },
+          {
+            "type": "tuple_index_expr",
             "named": true
           },
           {
@@ -5395,6 +5459,10 @@
           "named": true
         },
         {
+          "type": "tuple_index_expr",
+          "named": true
+        },
+        {
           "type": "tuple_literal",
           "named": true
         },
@@ -5617,6 +5685,10 @@
             "named": true
           },
           {
+            "type": "tuple_index_expr",
+            "named": true
+          },
+          {
             "type": "user_defined_type_name",
             "named": true
           }
@@ -5690,6 +5762,10 @@
           },
           {
             "type": "try_expr",
+            "named": true
+          },
+          {
+            "type": "tuple_index_expr",
             "named": true
           },
           {
@@ -6515,6 +6591,84 @@
           },
           {
             "type": "try_expr",
+            "named": true
+          },
+          {
+            "type": "tuple_index_expr",
+            "named": true
+          },
+          {
+            "type": "user_defined_type_name",
+            "named": true
+          }
+        ]
+      }
+    }
+  },
+  {
+    "type": "tuple_index_expr",
+    "named": true,
+    "fields": {
+      "index": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "decimal_int",
+            "named": true
+          }
+        ]
+      },
+      "object": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "call_expr",
+            "named": true
+          },
+          {
+            "type": "const_identifier",
+            "named": true
+          },
+          {
+            "type": "deref_expr",
+            "named": true
+          },
+          {
+            "type": "identifier",
+            "named": true
+          },
+          {
+            "type": "index_expr",
+            "named": true
+          },
+          {
+            "type": "member_expr",
+            "named": true
+          },
+          {
+            "type": "optional_index_expr",
+            "named": true
+          },
+          {
+            "type": "optional_member_expr",
+            "named": true
+          },
+          {
+            "type": "parenthesized_expr",
+            "named": true
+          },
+          {
+            "type": "trait_method_path",
+            "named": true
+          },
+          {
+            "type": "try_expr",
+            "named": true
+          },
+          {
+            "type": "tuple_index_expr",
             "named": true
           },
           {

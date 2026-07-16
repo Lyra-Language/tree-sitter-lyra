@@ -2812,6 +2812,10 @@
         },
         {
           "type": "SYMBOL",
+          "name": "tuple_index_expr"
+        },
+        {
+          "type": "SYMBOL",
           "name": "index_expr"
         },
         {
@@ -2960,6 +2964,35 @@
                   "name": "const_identifier"
                 }
               ]
+            }
+          }
+        ]
+      }
+    },
+    "tuple_index_expr": {
+      "type": "PREC_LEFT",
+      "value": 300,
+      "content": {
+        "type": "SEQ",
+        "members": [
+          {
+            "type": "FIELD",
+            "name": "object",
+            "content": {
+              "type": "SYMBOL",
+              "name": "_postfix_expr"
+            }
+          },
+          {
+            "type": "STRING",
+            "value": "."
+          },
+          {
+            "type": "FIELD",
+            "name": "index",
+            "content": {
+              "type": "SYMBOL",
+              "name": "decimal_int"
             }
           }
         ]

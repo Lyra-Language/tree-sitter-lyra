@@ -370,3 +370,52 @@ let result = Show::show::<i64>(n)
       arguments: (argument_list
         value: (value
           (identifier))))))
+
+==================
+Tuple Index Access
+==================
+
+let x = pair.0
+
+---
+
+(program
+  (declaration
+    name: (identifier)
+    value: (tuple_index_expr
+      object: (identifier)
+      index: (decimal_int))))
+
+==================
+Nested Tuple Index
+==================
+
+let x = pair.0.1
+
+---
+
+(program
+  (declaration
+    name: (identifier)
+    value: (tuple_index_expr
+      object: (tuple_index_expr
+        object: (identifier)
+        index: (decimal_int))
+      index: (decimal_int))))
+
+===============================
+Tuple Index Then Property (mix)
+===============================
+
+let x = pair.0.name
+
+---
+
+(program
+  (declaration
+    name: (identifier)
+    value: (member_expr
+      object: (tuple_index_expr
+        object: (identifier)
+        index: (decimal_int))
+      property: (identifier))))

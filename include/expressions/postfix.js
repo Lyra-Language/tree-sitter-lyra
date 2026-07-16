@@ -6,6 +6,7 @@ module.exports = {
     $.call_expr,
     $.member_expr,
     $.optional_member_expr,
+    $.tuple_index_expr,
     $.index_expr,
     $.optional_index_expr,
     $.try_expr,
@@ -46,6 +47,20 @@ module.exports = {
     field('object', $._postfix_expr),
     '.',
     field('property', choice($.identifier, $.const_identifier))
+  )),
+
+  // Positional tuple access: `pair.0`, `pair.1`. Distinct from member_expr
+  // (a named struct field or method) because the property is a numeric index,
+  // not an identifier — so the collector gets a separate node kind and doesn't
+  // have to sniff whether a property is a number. The index is a plain decimal
+  // integer, and no float token collides here: tree-sitter's lexer is
+  // context-sensitive, so after `obj .` only decimal_int/identifier are valid
+  // tokens and float_literal is never offered — which is why even a nested
+  // `pair.0.1` lexes as two indices, not `0` then a `.1` float.
+  tuple_index_expr: $ => prec.left(PREC.POSTFIX, seq(
+    field('object', $._postfix_expr),
+    '.',
+    field('index', $.decimal_int)
   )),
 
   // Optional member access - safe navigation for Maybe<T>
