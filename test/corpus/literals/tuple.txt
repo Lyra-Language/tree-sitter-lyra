@@ -90,3 +90,38 @@ let nums = (0, ...rest, 3)
       (tuple_value
         (integer_literal
           (decimal_int))))))
+
+==================================
+Tuple literal with leading identifier
+==================================
+
+let t = (a, b)
+
+---
+
+(program
+  (declaration
+    name: (identifier)
+    value: (tuple_literal
+      (tuple_value
+        (identifier))
+      (tuple_value
+        (identifier)))))
+
+==========================================
+Tuple literal with leading nullary constructor
+==========================================
+
+let t = (None, 7)
+
+---
+
+(program
+  (declaration
+    name: (identifier)
+    value: (tuple_literal
+      (tuple_value
+        (user_defined_type_name))
+      (tuple_value
+        (integer_literal
+          (decimal_int))))))

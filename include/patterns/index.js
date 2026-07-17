@@ -4,19 +4,28 @@ const { PREC } = require("../prec");
 module.exports = {
   // Core pattern types
   pattern: ($) =>
-    prec.left(
-      PREC.PATTERN,
-      choice(
-        $.binding_pattern, // binding: name @ inner
-        $.identifier, // simple binding: x
-        $.literal_pattern, // literal matching: 42, "hello"
-        $.regex_pattern, // regex matching: r/[0-9]+/
-        $.range_pattern, // range matching: 0..=9, 10..99
-        $.array_pattern, // array destructuring: [a, b, ...rest]
-        $.struct_pattern, // struct destructuring: {name, age}
-        $.tuple_pattern, // tuple destructuring: (x, y, z)
-        $.data_pattern, // data pattern: Some(42)
-        $.wildcard_pattern, // wildcard: _
+    choice(
+      // A bare identifier stays at default precedence — NOT under PREC.PATTERN —
+      // so `identifier → pattern` and `identifier → _primary_expr` (the tuple/
+      // parenthesized-expression reading) are equal-precedence and become a GLR
+      // conflict (declared as `[pattern, _primary_expr]`) rather than being
+      // silently precedence-resolved toward the pattern. That is what lets a
+      // name-leading `(a, b)`/`(a)` parse as a tuple/parenthesized expression
+      // when no `=>` follows, while `(a, b) => …` still parses as a lambda.
+      $.identifier, // simple binding: x
+      prec.left(
+        PREC.PATTERN,
+        choice(
+          $.binding_pattern, // binding: name @ inner
+          $.literal_pattern, // literal matching: 42, "hello"
+          $.regex_pattern, // regex matching: r/[0-9]+/
+          $.range_pattern, // range matching: 0..=9, 10..99
+          $.array_pattern, // array destructuring: [a, b, ...rest]
+          $.struct_pattern, // struct destructuring: {name, age}
+          $.tuple_pattern, // tuple destructuring: (x, y, z)
+          $.data_pattern, // data pattern: Some(42)
+          $.wildcard_pattern, // wildcard: _
+        ),
       ),
     ),
 
@@ -92,11 +101,19 @@ module.exports = {
 
   // Data pattern
   data_pattern: ($) =>
-    prec.left(
-      PREC.DATA_PATTERN,
-      seq(
-        field("name", alias($.user_defined_type_name, $.data_type_name)),
-        optional(field("pattern", $.pattern)),
+    choice(
+      // Nullary constructor `None`: default precedence, so the bare name is
+      // equal-precedence to its expression reading and GLR-forks — the same
+      // treatment the bare identifier gets in `pattern`, so a constructor-leading
+      // tuple `(None, 7)` parses. A payload-bearing pattern keeps PREC.DATA_PATTERN
+      // (it must still beat the constructor-*call* expression reading of `Some(x)`).
+      field("name", alias($.user_defined_type_name, $.data_type_name)),
+      prec.left(
+        PREC.DATA_PATTERN,
+        seq(
+          field("name", alias($.user_defined_type_name, $.data_type_name)),
+          field("pattern", $.pattern),
+        ),
       ),
     ),
 

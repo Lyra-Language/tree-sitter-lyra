@@ -42,6 +42,19 @@ module.exports = grammar({
     [$.named_struct_literal, $._tuple_name, $._primary_expr],
     [$._tuple_name, $._primary_expr, $.data_pattern],
     [$.parameter_type, $.tuple_type_element],
+    // A parenthesized name can begin a lambda parameter list (`(a, b) => …`) or
+    // an anonymous tuple / parenthesized expression (`(a, b)`, `(a)`). A bare
+    // identifier is both a `pattern` (the lambda param) and an `expression` (the
+    // tuple element), so GLR must keep both parses alive until `=>` (or its
+    // absence) decides — otherwise the parser statically commits to the lambda
+    // reading and `(a, b)`/`(a)` fail. The `[expression, literal_pattern]` entry
+    // below already covers a *literal*-leading tuple (`(20, 22)`); this covers a
+    // name-leading one (a bare `identifier` reduces to `pattern` for the lambda
+    // param, or to `_primary_expr` for the tuple element).
+    [$.pattern, $._primary_expr],
+    [$.pattern, $.for_loop, $.for_in_loop],
+    [$._primary_expr, $.for_loop, $.for_in_loop],
+    [$._primary_expr, $.data_pattern],
     // A postfix form (identifier, call, member access, …) can appear on
     // its own as an `expression` or as the left operand of a math /
     // comparison / compound-assignment operator. Tree-sitter needs the
@@ -75,7 +88,6 @@ module.exports = grammar({
     [$._bool_operand, $._comparison_operand],
     // A bare identifier can be either a primary expression or the label
     // prefix of a labeled for/for-in loop expression.
-    [$._primary_expr, $.for_loop, $.for_in_loop],
     // for_loop/for_in_loop with and without a label over the same token sequence.
     [$.for_loop],
     [$.for_in_loop],

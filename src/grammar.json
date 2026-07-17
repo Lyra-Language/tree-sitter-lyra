@@ -8232,53 +8232,58 @@
       }
     },
     "pattern": {
-      "type": "PREC_LEFT",
-      "value": 5,
-      "content": {
-        "type": "CHOICE",
-        "members": [
-          {
-            "type": "SYMBOL",
-            "name": "binding_pattern"
-          },
-          {
-            "type": "SYMBOL",
-            "name": "identifier"
-          },
-          {
-            "type": "SYMBOL",
-            "name": "literal_pattern"
-          },
-          {
-            "type": "SYMBOL",
-            "name": "regex_pattern"
-          },
-          {
-            "type": "SYMBOL",
-            "name": "range_pattern"
-          },
-          {
-            "type": "SYMBOL",
-            "name": "array_pattern"
-          },
-          {
-            "type": "SYMBOL",
-            "name": "struct_pattern"
-          },
-          {
-            "type": "SYMBOL",
-            "name": "tuple_pattern"
-          },
-          {
-            "type": "SYMBOL",
-            "name": "data_pattern"
-          },
-          {
-            "type": "SYMBOL",
-            "name": "wildcard_pattern"
+      "type": "CHOICE",
+      "members": [
+        {
+          "type": "SYMBOL",
+          "name": "identifier"
+        },
+        {
+          "type": "PREC_LEFT",
+          "value": 5,
+          "content": {
+            "type": "CHOICE",
+            "members": [
+              {
+                "type": "SYMBOL",
+                "name": "binding_pattern"
+              },
+              {
+                "type": "SYMBOL",
+                "name": "literal_pattern"
+              },
+              {
+                "type": "SYMBOL",
+                "name": "regex_pattern"
+              },
+              {
+                "type": "SYMBOL",
+                "name": "range_pattern"
+              },
+              {
+                "type": "SYMBOL",
+                "name": "array_pattern"
+              },
+              {
+                "type": "SYMBOL",
+                "name": "struct_pattern"
+              },
+              {
+                "type": "SYMBOL",
+                "name": "tuple_pattern"
+              },
+              {
+                "type": "SYMBOL",
+                "name": "data_pattern"
+              },
+              {
+                "type": "SYMBOL",
+                "name": "wildcard_pattern"
+              }
+            ]
           }
-        ]
-      }
+        }
+      ]
     },
     "regex_pattern": {
       "type": "SYMBOL",
@@ -8628,27 +8633,40 @@
       }
     },
     "data_pattern": {
-      "type": "PREC_LEFT",
-      "value": 10,
-      "content": {
-        "type": "SEQ",
-        "members": [
-          {
-            "type": "FIELD",
-            "name": "name",
+      "type": "CHOICE",
+      "members": [
+        {
+          "type": "FIELD",
+          "name": "name",
+          "content": {
+            "type": "ALIAS",
             "content": {
-              "type": "ALIAS",
-              "content": {
-                "type": "SYMBOL",
-                "name": "user_defined_type_name"
-              },
-              "named": true,
-              "value": "data_type_name"
-            }
-          },
-          {
-            "type": "CHOICE",
+              "type": "SYMBOL",
+              "name": "user_defined_type_name"
+            },
+            "named": true,
+            "value": "data_type_name"
+          }
+        },
+        {
+          "type": "PREC_LEFT",
+          "value": 10,
+          "content": {
+            "type": "SEQ",
             "members": [
+              {
+                "type": "FIELD",
+                "name": "name",
+                "content": {
+                  "type": "ALIAS",
+                  "content": {
+                    "type": "SYMBOL",
+                    "name": "user_defined_type_name"
+                  },
+                  "named": true,
+                  "value": "data_type_name"
+                }
+              },
               {
                 "type": "FIELD",
                 "name": "pattern",
@@ -8656,14 +8674,11 @@
                   "type": "SYMBOL",
                   "name": "pattern"
                 }
-              },
-              {
-                "type": "BLANK"
               }
             ]
           }
-        ]
-      }
+        }
+      ]
     },
     "literal_pattern": {
       "type": "CHOICE",
@@ -8928,6 +8943,24 @@
       "tuple_type_element"
     ],
     [
+      "pattern",
+      "_primary_expr"
+    ],
+    [
+      "pattern",
+      "for_loop",
+      "for_in_loop"
+    ],
+    [
+      "_primary_expr",
+      "for_loop",
+      "for_in_loop"
+    ],
+    [
+      "_primary_expr",
+      "data_pattern"
+    ],
+    [
       "expression",
       "_math_operand"
     ],
@@ -8954,11 +8987,6 @@
     [
       "_bool_operand",
       "_comparison_operand"
-    ],
-    [
-      "_primary_expr",
-      "for_loop",
-      "for_in_loop"
     ],
     [
       "for_loop"
