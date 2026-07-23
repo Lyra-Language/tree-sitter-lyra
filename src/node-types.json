@@ -4183,6 +4183,10 @@
           "named": true
         },
         {
+          "type": "char_literal",
+          "named": true
+        },
+        {
           "type": "float_literal",
           "named": true
         },

@@ -117,9 +117,10 @@ module.exports = {
       ),
     ),
 
-  // Literal patterns (for pattern matching)
+  // Literal patterns (for pattern matching). A char_literal ('a') matches a
+  // `rune` scrutinee — the equality counterpart to a numeric/string/bool literal.
   literal_pattern: ($) =>
-    choice($._number_literal, $.string_literal, $.boolean_literal),
+    choice($._number_literal, $.char_literal, $.string_literal, $.boolean_literal),
 
   // Range patterns (for pattern matching)
   range_pattern: ($) =>

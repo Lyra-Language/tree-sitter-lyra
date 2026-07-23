@@ -431,3 +431,34 @@ match foo {
         (integer
           (MISSING "decimal_int_token1")))
       (string_literal))))
+
+=====================================
+Match on rune with char literal arms
+=====================================
+
+match c {
+  'a' => 1,
+  '\n' => 2,
+  _ => 0,
+}
+
+---
+
+(program
+  (expression_statement
+    (match_expr
+      (identifier)
+      (match_arm
+        (literal_pattern
+          (char_literal))
+        (integer_literal
+          (decimal_int)))
+      (match_arm
+        (literal_pattern
+          (char_literal))
+        (integer_literal
+          (decimal_int)))
+      (match_arm
+        (wildcard_pattern)
+        (integer_literal
+          (decimal_int))))))
