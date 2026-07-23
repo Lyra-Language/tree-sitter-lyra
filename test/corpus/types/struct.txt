@@ -296,3 +296,22 @@ Struct attributes with visibility
           (field_name)
           (field_type
             (float_type)))))))
+==================
+Rune primitive type in a parameter and return
+==================
+
+let f = (c: rune) -> rune => c
+
+---
+
+(program
+  (declaration
+    name: (identifier)
+    value: (lambda_expr
+      parameters: (parameter_list
+        (parameter
+          pattern: (identifier)
+          type: (rune_type)))
+      return_type: (return_type
+        type: (rune_type))
+      body: (identifier))))

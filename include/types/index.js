@@ -65,11 +65,16 @@ module.exports = {
       $.fixed_point_type,
       $.string_type,
       $.boolean_type,
+      $.rune_type,
     ),
 
   string_type: ($) => "string",
 
   boolean_type: ($) => "bool",
+
+  // A Unicode code point (i32), matching Go/Odin's `rune`. The literal syntax is
+  // still a character literal `'a'` (like Go, whose `token.CHAR` yields a `rune`).
+  rune_type: ($) => "rune",
 
   default_field_value: ($) => seq("=", $.expression),
 

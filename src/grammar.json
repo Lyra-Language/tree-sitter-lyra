@@ -4483,6 +4483,10 @@
         {
           "type": "SYMBOL",
           "name": "boolean_type"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "rune_type"
         }
       ]
     },
@@ -4493,6 +4497,10 @@
     "boolean_type": {
       "type": "STRING",
       "value": "bool"
+    },
+    "rune_type": {
+      "type": "STRING",
+      "value": "rune"
     },
     "default_field_value": {
       "type": "SEQ",

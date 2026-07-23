@@ -362,6 +362,10 @@
         "named": true
       },
       {
+        "type": "rune_type",
+        "named": true
+      },
+      {
         "type": "self_type",
         "named": true
       },
@@ -485,6 +489,10 @@
           },
           {
             "type": "parameterized_type",
+            "named": true
+          },
+          {
+            "type": "rune_type",
             "named": true
           },
           {
@@ -783,6 +791,10 @@
           },
           {
             "type": "parameterized_type",
+            "named": true
+          },
+          {
+            "type": "rune_type",
             "named": true
           },
           {
@@ -6980,6 +6992,10 @@
             "named": true
           },
           {
+            "type": "rune_type",
+            "named": true
+          },
+          {
             "type": "self_type",
             "named": true
           },
@@ -7524,6 +7540,10 @@
   {
     "type": "return",
     "named": false
+  },
+  {
+    "type": "rune_type",
+    "named": true
   },
   {
     "type": "shared",
