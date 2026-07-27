@@ -394,3 +394,26 @@ let given = 5
     name: (identifier)
     value: (integer_literal
       (decimal_int))))
+
+==========================================
+128-bit integer type annotations (i128/u128)
+==========================================
+
+let big: i128 = 5
+let ubig: u128 = 5
+
+---
+
+(program
+  (declaration
+    (identifier)
+    (type_annotation
+      (signed_integer_type))
+    (integer_literal
+      (decimal_int)))
+  (declaration
+    (identifier)
+    (type_annotation
+      (unsigned_integer_type))
+    (integer_literal
+      (decimal_int))))

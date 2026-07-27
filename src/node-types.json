@@ -7414,6 +7414,10 @@
     "named": true
   },
   {
+    "type": "i128",
+    "named": false
+  },
+  {
     "type": "i16",
     "named": false
   },
@@ -7587,6 +7591,10 @@
   },
   {
     "type": "tuple",
+    "named": false
+  },
+  {
+    "type": "u128",
     "named": false
   },
   {
