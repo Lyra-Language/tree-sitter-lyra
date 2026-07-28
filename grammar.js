@@ -69,6 +69,11 @@ module.exports = grammar({
     // also means a bare number could be a complete `expression` or a pattern
     // (e.g. inside `(`/match contexts), so that conflict must be declared too.
     [$.expression, $.literal_pattern],
+    // An empty `[]` (and, in a `(`-led context, a non-empty `[…]`) is ambiguous
+    // between an empty array *literal* (expression) and an empty array *pattern*
+    // (a match arm / lambda param). GLR keeps both alive until the surrounding
+    // context — an expression position vs a pattern position — decides.
+    [$.array_literal, $.array_pattern],
     // A literal or postfix form can appear on its own as an `expression`
     // or as an operand of a boolean && / || operator. Mirrors the
     // expression/_math_operand conflict above.

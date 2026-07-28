@@ -462,3 +462,30 @@ match c {
         (wildcard_pattern)
         (integer_literal
           (decimal_int))))))
+
+==========================
+Match empty array pattern
+==========================
+
+match xs {
+  [] => 0,
+  [head, ...tail] => 1,
+}
+
+---
+
+(program
+  (expression_statement
+    (match_expr
+      (identifier)
+      (match_arm
+        (array_pattern)
+        (integer_literal
+          (decimal_int)))
+      (match_arm
+        (array_pattern
+          (identifier)
+          (rest_pattern
+            (identifier)))
+        (integer_literal
+          (decimal_int))))))

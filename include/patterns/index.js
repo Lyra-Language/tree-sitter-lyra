@@ -1,4 +1,4 @@
-const { commaSep1 } = require("../helpers");
+const { commaSep1, commaSep } = require("../helpers");
 const { PREC } = require("../prec");
 
 module.exports = {
@@ -33,7 +33,9 @@ module.exports = {
   regex_pattern: ($) => $.regex_literal,
 
   // Array patterns (shared between destructuring and pattern matching)
-  array_pattern: ($) => seq("[", commaSep1($._pattern_element), "]"),
+  // commaSep (not commaSep1) so an empty `[]` pattern parses — the base case of a
+  // list match (`match xs { [] => …, [a, ...rest] => … }`).
+  array_pattern: ($) => seq("[", commaSep($._pattern_element), "]"),
 
   // Struct patterns (shared)
   struct_pattern: ($) => seq("{", commaSep1($.struct_field_pattern), "}"),
