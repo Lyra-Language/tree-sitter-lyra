@@ -224,8 +224,24 @@ void tree_sitter_lyra_external_scanner_deserialize(void *payload, const char *bu
 bool tree_sitter_lyra_external_scanner_scan(void *payload, TSLexer *lexer, const bool *valid_symbols) {
   Scanner *scanner = (Scanner *)payload;
 
-  // Handle block comment
-  if (valid_symbols[BLOCK_COMMENT]) {
+  // Handle block comment.
+  //
+  // NEVER inside a string: `"/*"` is two content bytes, not a comment opener.
+  // Comments are `extras`, so BLOCK_COMMENT is valid almost everywhere —
+  // including at a string content-chunk boundary — and this check runs before
+  // the in_string() branch below. Unguarded, a string whose content begins with
+  // `/*` swallowed everything up to the next `*/` anywhere in the file (the rest
+  // of that line, following declarations, and all) as a comment, with no
+  // diagnostic from any later pass. It fired at each point where a fresh content
+  // chunk starts: the opening quote, right after a `${…}` interpolation, and —
+  // because scan_block_comment skips leading whitespace as token padding —
+  // after a leading space (`" /* x */ y"`).
+  //
+  // An *interpolation* is an expression context, so comments stay valid there;
+  // in_string() is false for CTX_INTERPOLATION, which is exactly the distinction
+  // this guard needs. (`//` line comments are matched by the internal lexer, and
+  // the content scan below already consumes them as ordinary bytes.)
+  if (valid_symbols[BLOCK_COMMENT] && !in_string(scanner)) {
     if (scan_block_comment(lexer)) {
       return true;
     }

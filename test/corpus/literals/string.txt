@@ -123,3 +123,126 @@ String interpolation with missing closing bracket is an error
     (string_content)
     (ERROR
       (identifier))))
+
+=================================================
+Comment openers inside a string are content, not comments
+=================================================
+
+let open = "/*"
+let close = "*/"
+let after = 1
+
+---
+
+(program
+  (declaration
+    name: (identifier)
+    value: (string_literal
+      (string_content)))
+  (declaration
+    name: (identifier)
+    value: (string_literal
+      (string_content)))
+  (declaration
+    name: (identifier)
+    value: (integer_literal
+      (decimal_int))))
+
+=================================================
+Block comment opener after leading whitespace in a string
+=================================================
+
+let a = " /* note */ price"
+
+---
+
+(program
+  (declaration
+    name: (identifier)
+    value: (string_literal
+      (string_content))))
+
+=================================================
+Block comment opener right after an interpolation
+=================================================
+
+let b = "${x} /* hi */ y"
+
+---
+
+(program
+  (declaration
+    name: (identifier)
+    value: (string_literal
+      (string_interpolation
+        (identifier))
+      (string_content))))
+
+=================================================
+Line comment opener inside a string is content
+=================================================
+
+let c = "// not a comment"
+let d = " // leading space"
+let e = "${x} // tail"
+
+---
+
+(program
+  (declaration
+    name: (identifier)
+    value: (string_literal
+      (string_content)))
+  (declaration
+    name: (identifier)
+    value: (string_literal
+      (string_content)))
+  (declaration
+    name: (identifier)
+    value: (string_literal
+      (string_interpolation
+        (identifier))
+      (string_content))))
+
+=================================================
+Block comment delimiters mid-content stay content
+=================================================
+
+let f = "a /* b */ c"
+let g = "path/*.txt"
+
+---
+
+(program
+  (declaration
+    name: (identifier)
+    value: (string_literal
+      (string_content)))
+  (declaration
+    name: (identifier)
+    value: (string_literal
+      (string_content))))
+
+=================================================
+A real block comment still parses outside a string
+=================================================
+
+/* leading */
+let h = "x" /* trailing */
+/* nested /* inner */ outer */
+let i = 2
+
+---
+
+(program
+  (comment)
+  (declaration
+    name: (identifier)
+    value: (string_literal
+      (string_content)))
+  (comment)
+  (comment)
+  (declaration
+    name: (identifier)
+    value: (integer_literal
+      (decimal_int))))

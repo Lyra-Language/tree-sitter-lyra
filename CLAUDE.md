@@ -57,6 +57,14 @@ externals:  [$._BLOCK_COMMENT, $._string_start, $._string_content,
 
 The external scanner (`src/scanner.c`) handles block comments and the string interpolation protocol, because these require stateful lexing that tree-sitter's declarative DSL cannot express.
 
+**Comment scanning is gated on `!in_string(scanner)` — do not remove that guard.** Comments are `extras`, so `BLOCK_COMMENT` is valid almost everywhere, including at every string content-chunk boundary, and the comment branch runs *before* the in-string branch. Unguarded (the state until 07/29/26), a string whose content began with `/*` lexed as a comment running to the next `*/` **anywhere later in the file** — swallowing the rest of the line, following declarations, and all — and no later pass reported anything (`lyrac check` exited 0). It fired wherever a fresh content chunk starts: after the opening quote, right after a `${…}` interpolation, and — since `scan_block_comment` skips leading whitespace as token padding — after a leading space (`" /* x */ y"`). An *interpolation* is an expression context where comments remain valid, and `in_string()` is false for `CTX_INTERPOLATION`, which is exactly the line this guard draws. Fixing it also stopped the padding-skip from **eating a content chunk's leading whitespace** (`"${a} ${b}"` now emits the middle space as `string_content`; it previously vanished from the CST and was recoverable only by the collector's raw-source re-slice). Corpus coverage: the comment-delimiter tests in `test/corpus/literals/string.txt`.
+
+## Regex Literals (`include/literals/regex.js`)
+
+`r/…/` is a single token that outranks the identifier rule, and `r` is itself a valid identifier — so `let ratio = r/2` (no spaces) begins something the lexer reads as a regex. Its content classes **exclude newlines**, so the token can never span a line; without that bound (before 07/29/26) it ran on to the next `/` anywhere later in the file — including the first slash of a `//` comment — swallowing all the code between into one literal, silently. A same-line `r/2 + a/b` is still mis-lexed; the real cure is a delimiter that can't collide with identifier-plus-division, which is a language decision rather than a token tweak.
+
+Don't delete the rule as "unused": it backs `pattern(r/…/)` constraints on `newtype` (`include/types/constrained_type.js`) and `regex_pattern` in match arms, and the constraint path is implemented downstream (`lyra/pkg/regex` is a full DFA engine; the typechecker enforces `PatternConstraint`). Only the match-arm *pattern* form is unlowered in the backend.
+
 ## Reserved Keywords
 
 ```

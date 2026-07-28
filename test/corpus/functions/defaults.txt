@@ -25,6 +25,7 @@ let greet = (name: string, prefix: string = "Hello") -> string => "${prefix} ${n
       (string_literal
         (string_interpolation
           (identifier))
+        (string_content)
         (string_interpolation
           (identifier))))))
 

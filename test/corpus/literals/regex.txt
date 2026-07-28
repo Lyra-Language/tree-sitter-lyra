@@ -10,3 +10,26 @@ let phone = r/[2-9][0-9]{2} [2-9][0-9]{2} [0-9]{4}$/
   (declaration
     (identifier)
     (regex_literal)))
+=================================================
+A regex literal cannot span a newline
+=================================================
+
+let ratio = r/2
+let speed = a/b
+
+---
+
+(program
+  (declaration
+    name: (identifier)
+    value: (binary_expr
+      left: (identifier)
+      operator: (div_operator)
+      right: (integer_literal
+        (decimal_int))))
+  (declaration
+    name: (identifier)
+    value: (binary_expr
+      left: (identifier)
+      operator: (div_operator)
+      right: (identifier))))
