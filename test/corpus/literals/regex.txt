@@ -2,7 +2,7 @@
 Simple Regex (Phone)
 ====================
 
-let phone = r/[2-9][0-9]{2} [2-9][0-9]{2} [0-9]{4}$/
+let phone = r"[2-9][0-9]{2} [2-9][0-9]{2} [0-9]{4}$"
 
 ---
 
@@ -10,12 +10,39 @@ let phone = r/[2-9][0-9]{2} [2-9][0-9]{2} [0-9]{4}$/
   (declaration
     (identifier)
     (regex_literal)))
+
 =================================================
-A regex literal cannot span a newline
+A slash needs no escaping inside a regex literal
 =================================================
 
-let ratio = r/2
-let speed = a/b
+let path = r"/usr/local/bin"
+
+---
+
+(program
+  (declaration
+    name: (identifier)
+    value: (regex_literal)))
+
+=================================================
+An escaped quote inside a regex literal
+=================================================
+
+let quoted = r"\"[a-z]+\""
+
+---
+
+(program
+  (declaration
+    name: (identifier)
+    value: (regex_literal)))
+
+=================================================
+Division by an identifier named r is not a regex
+=================================================
+
+let ratio = r/2 + a/b
+let tail = r/2
 
 ---
 
@@ -23,13 +50,39 @@ let speed = a/b
   (declaration
     name: (identifier)
     value: (binary_expr
-      left: (identifier)
-      operator: (div_operator)
-      right: (integer_literal
-        (decimal_int))))
+      left: (binary_expr
+        left: (identifier)
+        operator: (div_operator)
+        right: (integer_literal
+          (decimal_int)))
+      operator: (add_operator)
+      right: (binary_expr
+        left: (identifier)
+        operator: (div_operator)
+        right: (identifier))))
   (declaration
     name: (identifier)
     value: (binary_expr
       left: (identifier)
       operator: (div_operator)
-      right: (identifier))))
+      right: (integer_literal
+        (decimal_int)))))
+
+=================================================
+An unterminated regex literal is a loud error
+:error
+=================================================
+
+let a = r"unterminated
+let b = 1
+
+---
+
+(program
+  (declaration
+    name: (identifier)
+    value: (identifier))
+  (expression_statement
+    (string_literal
+      (string_content)
+      (MISSING """))))

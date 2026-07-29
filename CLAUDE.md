@@ -61,9 +61,13 @@ The external scanner (`src/scanner.c`) handles block comments and the string int
 
 ## Regex Literals (`include/literals/regex.js`)
 
-`r/…/` is a single token that outranks the identifier rule, and `r` is itself a valid identifier — so `let ratio = r/2` (no spaces) begins something the lexer reads as a regex. Its content classes **exclude newlines**, so the token can never span a line; without that bound (before 07/29/26) it ran on to the next `/` anywhere later in the file — including the first slash of a `//` comment — swallowing all the code between into one literal, silently. A same-line `r/2 + a/b` is still mis-lexed; the real cure is a delimiter that can't collide with identifier-plus-division, which is a language decision rather than a token tweak.
+A regex literal is **`r"…"`** — the `r` sigil plus *string* delimiters — as one `token(prec(1, …))` that outranks the bare identifier `r`.
 
-Don't delete the rule as "unused": it backs `pattern(r/…/)` constraints on `newtype` (`include/types/constrained_type.js`) and `regex_pattern` in match arms, and the constraint path is implemented downstream (`lyra/pkg/regex` is a full DFA engine; the typechecker enforces `PatternConstraint`). Only the match-arm *pattern* form is unlowered in the backend.
+It was `r/…/` until 07/29/26, which was fundamentally ambiguous: `r` is an ordinary identifier and `/` is division, so `let ratio = r/2 + a/b` lexed as the regex `r/2 + a/` followed by a stray `b`, silently, and an unterminated one ran to the next `/` anywhere later in the file (bounding the token to one line, the first mitigation, only shrank the blast radius). Slash delimiters cannot be disambiguated lexically — the deciding context is arbitrarily far right, and a regex may legally contain spaces, digits, and operators, so no heuristic on the content separates the two readings.
+
+A `"` cannot follow an identifier in any valid Lyra expression (there is no juxtaposition application — calls require parens), so `r"` can only ever begin a regex and `r/2` is unambiguously division. Two bonuses: `/` needs no escaping inside a pattern (`r"https://example"`, not `r/https:\/\/example/`), and the form matches how a Python programmer already writes one (`r"\d+"`). The delimiter itself escapes as `\"`. Newlines stay excluded from the content classes, so an unterminated literal degrades to an identifier plus an unterminated string — a loud parse error — instead of consuming the file.
+
+Don't delete the rule as "unused": it backs `pattern(r"…")` constraints on `newtype` (`include/types/constrained_type.js`) and `regex_pattern` in match arms, and the constraint path is implemented downstream (`lyra/pkg/regex` is a full DFA engine; the typechecker enforces `PatternConstraint`). Only the match-arm *pattern* form is unlowered in the backend.
 
 ## Reserved Keywords
 
