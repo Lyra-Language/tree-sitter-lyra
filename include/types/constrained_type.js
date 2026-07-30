@@ -3,7 +3,7 @@ const { commaSep1 } = require("../helpers");
 module.exports = {
   constrained_type: ($) =>
     seq(
-      optional($.visibility),
+      optional(field("visibility", $.visibility)),
       "newtype",
       field("name", alias($.user_defined_type_name, $.constrained_type_name)),
       "=",

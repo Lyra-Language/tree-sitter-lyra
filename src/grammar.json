@@ -4668,8 +4668,12 @@
           "type": "CHOICE",
           "members": [
             {
-              "type": "SYMBOL",
-              "name": "visibility"
+              "type": "FIELD",
+              "name": "visibility",
+              "content": {
+                "type": "SYMBOL",
+                "name": "visibility"
+              }
             },
             {
               "type": "BLANK"
@@ -5124,8 +5128,12 @@
             "type": "CHOICE",
             "members": [
               {
-                "type": "SYMBOL",
-                "name": "visibility"
+                "type": "FIELD",
+                "name": "visibility",
+                "content": {
+                  "type": "SYMBOL",
+                  "name": "visibility"
+                }
               },
               {
                 "type": "BLANK"
@@ -5779,8 +5787,12 @@
           "type": "CHOICE",
           "members": [
             {
-              "type": "SYMBOL",
-              "name": "visibility"
+              "type": "FIELD",
+              "name": "visibility",
+              "content": {
+                "type": "SYMBOL",
+                "name": "visibility"
+              }
             },
             {
               "type": "BLANK"
@@ -7333,8 +7345,12 @@
             "type": "CHOICE",
             "members": [
               {
-                "type": "SYMBOL",
-                "name": "visibility"
+                "type": "FIELD",
+                "name": "visibility",
+                "content": {
+                  "type": "SYMBOL",
+                  "name": "visibility"
+                }
               },
               {
                 "type": "BLANK"
@@ -7422,8 +7438,12 @@
                 "type": "CHOICE",
                 "members": [
                   {
-                    "type": "SYMBOL",
-                    "name": "visibility"
+                    "type": "FIELD",
+                    "name": "visibility",
+                    "content": {
+                      "type": "SYMBOL",
+                      "name": "visibility"
+                    }
                   },
                   {
                     "type": "BLANK"
@@ -7533,8 +7553,12 @@
                 "type": "CHOICE",
                 "members": [
                   {
-                    "type": "SYMBOL",
-                    "name": "visibility"
+                    "type": "FIELD",
+                    "name": "visibility",
+                    "content": {
+                      "type": "SYMBOL",
+                      "name": "visibility"
+                    }
                   },
                   {
                     "type": "BLANK"
@@ -7748,8 +7772,12 @@
                 "type": "CHOICE",
                 "members": [
                   {
-                    "type": "SYMBOL",
-                    "name": "visibility"
+                    "type": "FIELD",
+                    "name": "visibility",
+                    "content": {
+                      "type": "SYMBOL",
+                      "name": "visibility"
+                    }
                   },
                   {
                     "type": "BLANK"

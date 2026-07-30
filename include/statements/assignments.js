@@ -14,7 +14,7 @@ module.exports = {
     prec.left(
       seq(
         optional($.attribute_list),
-        optional($.visibility),
+        optional(field("visibility", $.visibility)),
         field("keyword", "const"),
         // Const names must be SCREAMING_CASE (`const_identifier`). A lowercase
         // `identifier` is accepted here ONLY so the collector can emit a clear
@@ -52,7 +52,7 @@ module.exports = {
         // does not parse — modifiers require a function.
         seq(
           optional($.attribute_list),
-          optional($.visibility),
+          optional(field("visibility", $.visibility)),
           field("keyword", choice("let", "var")),
           field("modifiers", $.fn_modifiers),
           field("name", $.identifier),
@@ -87,7 +87,7 @@ module.exports = {
         // value-less-after-`where` case removes that ambiguity.
         seq(
           optional($.attribute_list),
-          optional($.visibility),
+          optional(field("visibility", $.visibility)),
           field("keyword", choice("let", "var")),
           optional(field("mutability", mutModifier)),
           field("name", $.identifier),
@@ -118,7 +118,7 @@ module.exports = {
         // Pattern binding: value is required
         seq(
           optional($.attribute_list),
-          optional($.visibility),
+          optional(field("visibility", $.visibility)),
           field("keyword", choice("let", "var")),
           optional(field("mutability", mutModifier)),
           field("pattern", $.destructuring_only_pattern),

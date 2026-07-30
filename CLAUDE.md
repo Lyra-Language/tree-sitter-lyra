@@ -231,3 +231,17 @@ test/corpus/
     tuple.txt            named tuples
     ...
 ```
+
+## Field labels
+
+`visibility` (`pub`) is a **labelled field** on every declaration that accepts it —
+`optional(field("visibility", $.visibility))`. It used to be labelled on only two of
+nine sites (`tuple_type`, `trait_declaration`) and an anonymous child on the rest, which
+split the collector three ways: `ChildByFieldName` where it was labelled, a
+`case "visibility":` scan in the child loop where it wasn't, and a hand-rolled scan
+helper in `var_decl.go`. Worse, reading an *unlabelled* child by field name returns nil
+**silently**, so the mistake reads as "this declaration is never public" rather than as
+an error — which is exactly how `pub let` went uncollected until 07/30.
+
+The rule: if a collector needs to find something, label it. An anonymous child is fine
+only for tokens nothing reads.
