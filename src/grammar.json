@@ -3148,116 +3148,68 @@
       "type": "SEQ",
       "members": [
         {
-          "type": "CHOICE",
-          "members": [
-            {
-              "type": "FIELD",
-              "name": "is_unsafe",
-              "content": {
-                "type": "SYMBOL",
-                "name": "unsafe_modifier"
+          "type": "REPEAT",
+          "content": {
+            "type": "CHOICE",
+            "members": [
+              {
+                "type": "FIELD",
+                "name": "is_unsafe",
+                "content": {
+                  "type": "SYMBOL",
+                  "name": "unsafe_modifier"
+                }
+              },
+              {
+                "type": "FIELD",
+                "name": "is_pure",
+                "content": {
+                  "type": "SYMBOL",
+                  "name": "pure_modifier"
+                }
+              },
+              {
+                "type": "FIELD",
+                "name": "is_det",
+                "content": {
+                  "type": "SYMBOL",
+                  "name": "det_modifier"
+                }
+              },
+              {
+                "type": "FIELD",
+                "name": "is_noalloc",
+                "content": {
+                  "type": "SYMBOL",
+                  "name": "noalloc_modifier"
+                }
+              },
+              {
+                "type": "FIELD",
+                "name": "is_async",
+                "content": {
+                  "type": "SYMBOL",
+                  "name": "async_modifier"
+                }
+              },
+              {
+                "type": "FIELD",
+                "name": "is_gen",
+                "content": {
+                  "type": "SYMBOL",
+                  "name": "gen_modifier"
+                }
+              },
+              {
+                "type": "FIELD",
+                "name": "is_rec",
+                "content": {
+                  "type": "SYMBOL",
+                  "name": "rec_modifier"
+                }
               }
-            },
-            {
-              "type": "BLANK"
-            }
-          ]
-        },
-        {
-          "type": "CHOICE",
-          "members": [
-            {
-              "type": "FIELD",
-              "name": "is_pure",
-              "content": {
-                "type": "SYMBOL",
-                "name": "pure_modifier"
-              }
-            },
-            {
-              "type": "BLANK"
-            }
-          ]
-        },
-        {
-          "type": "CHOICE",
-          "members": [
-            {
-              "type": "FIELD",
-              "name": "is_det",
-              "content": {
-                "type": "SYMBOL",
-                "name": "det_modifier"
-              }
-            },
-            {
-              "type": "BLANK"
-            }
-          ]
-        },
-        {
-          "type": "CHOICE",
-          "members": [
-            {
-              "type": "FIELD",
-              "name": "is_noalloc",
-              "content": {
-                "type": "SYMBOL",
-                "name": "noalloc_modifier"
-              }
-            },
-            {
-              "type": "BLANK"
-            }
-          ]
-        },
-        {
-          "type": "CHOICE",
-          "members": [
-            {
-              "type": "FIELD",
-              "name": "is_async",
-              "content": {
-                "type": "SYMBOL",
-                "name": "async_modifier"
-              }
-            },
-            {
-              "type": "BLANK"
-            }
-          ]
-        },
-        {
-          "type": "CHOICE",
-          "members": [
-            {
-              "type": "FIELD",
-              "name": "is_gen",
-              "content": {
-                "type": "SYMBOL",
-                "name": "gen_modifier"
-              }
-            },
-            {
-              "type": "BLANK"
-            }
-          ]
-        },
-        {
-          "type": "CHOICE",
-          "members": [
-            {
-              "type": "FIELD",
-              "name": "is_rec",
-              "content": {
-                "type": "SYMBOL",
-                "name": "rec_modifier"
-              }
-            },
-            {
-              "type": "BLANK"
-            }
-          ]
+            ]
+          }
         },
         {
           "type": "FIELD",

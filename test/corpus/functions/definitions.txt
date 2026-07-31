@@ -821,14 +821,35 @@ let sum<n = (a: n, b: n) -> n => a + b
 
 
 
+Order is not a parse-level distinction since lambda_expr's modifiers became one repeated
+choice (see the note on that rule — it is what took the parser from 62,663 states to 6,475).
+`lyra`'s collector rejects this and names the canonical order.
+
 ===========================
-Pure keyword in wrong order
-:error
+Modifiers out of order still parse
 ===========================
 
 let compute = async pure (n: i32) -> i32 => n * 2
 
 ---
+
+(program
+  (declaration
+    name: (identifier)
+    value: (lambda_expr
+      is_async: (async_modifier)
+      is_pure: (pure_modifier)
+      parameters: (parameter_list
+        (parameter
+          pattern: (identifier)
+          type: (signed_integer_type)))
+      return_type: (return_type
+        type: (signed_integer_type))
+      body: (binary_expr
+        left: (identifier)
+        operator: (mul_operator)
+        right: (integer_literal
+          (decimal_int))))))
 
 ==================================================
 Where clause without a value is an error

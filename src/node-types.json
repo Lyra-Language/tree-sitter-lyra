@@ -4042,7 +4042,7 @@
         ]
       },
       "is_async": {
-        "multiple": false,
+        "multiple": true,
         "required": false,
         "types": [
           {
@@ -4052,7 +4052,7 @@
         ]
       },
       "is_det": {
-        "multiple": false,
+        "multiple": true,
         "required": false,
         "types": [
           {
@@ -4062,7 +4062,7 @@
         ]
       },
       "is_gen": {
-        "multiple": false,
+        "multiple": true,
         "required": false,
         "types": [
           {
@@ -4072,7 +4072,7 @@
         ]
       },
       "is_noalloc": {
-        "multiple": false,
+        "multiple": true,
         "required": false,
         "types": [
           {
@@ -4082,7 +4082,7 @@
         ]
       },
       "is_pure": {
-        "multiple": false,
+        "multiple": true,
         "required": false,
         "types": [
           {
@@ -4092,7 +4092,7 @@
         ]
       },
       "is_rec": {
-        "multiple": false,
+        "multiple": true,
         "required": false,
         "types": [
           {
@@ -4102,7 +4102,7 @@
         ]
       },
       "is_unsafe": {
-        "multiple": false,
+        "multiple": true,
         "required": false,
         "types": [
           {

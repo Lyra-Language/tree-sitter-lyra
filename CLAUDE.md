@@ -261,3 +261,41 @@ which the checker rejects as conflicting bounds, exactly as it does for a lambda
 The consumer is `lyra`'s purity pass: an unconstrained callback makes its function
 *effect-polymorphic* (its purity is decided per call site by the argument), while a declared
 bound makes it unconditional and constrains every caller instead.
+
+## Parser size, and the rule that decides it (`lambda_expr`)
+
+`src/parser.c` is ~12.8 MB (6,475 states). It was **116 MB and 62,663 states** until the
+`lambda_expr` modifiers were rebuilt, and `tree-sitter generate --report-states-for-rule -`
+is what found it: `lambda_expr` alone owned **57,026 of those states — 91%**.
+
+The cause was seven independent `optional()` modifiers in sequence (`unsafe`, `pure`, `det`,
+`noalloc`, `async`, `gen`, `rec`). An LR automaton tracks every distinct prefix through such
+a chain — 2^7 = 128 of them before the parameter list — and because the GLR conflicts around
+`(` keep the lambda-parameter-list, tuple and parenthesized-expression readings alive
+simultaneously, each prefix grew its own family of states across the whole expression
+grammar. `LARGE_STATE_COUNT` told the same story: 21,714 of 62,663 (35%, where a few percent
+is normal), and file size is states × actions.
+
+One repeated `choice` instead of seven optionals collapses that to a single loop state.
+Measured alternatives, for anyone tempted to reintroduce ordering here:
+
+| Form | States | `parser.c` |
+|---|---|---|
+| Seven ordered `optional()`s | 62,663 | 116 MB |
+| Ordered, mutually-exclusive ones grouped (5 optionals) | 37,687 | 70 MB |
+| `repeat(choice(…))` — order-free | **6,475** | **12.8 MB** |
+
+**What it cost:** modifier order and repetition stopped being parse errors. `lyra`'s
+collector reports both (`lyra-E029`, `expressions/modifier_order.go`) with a message naming
+the offending modifier and the canonical order — strictly better than a syntax error pointing
+at whichever token failed to shift. The semantic sibling (`pure` and `det` conflicting) was
+already a checker diagnostic, so the rules now live together.
+
+**What it bought, beyond size:** `src/parser.c` left Git LFS. `git-lfs` is no longer a
+prerequisite for cloning this repo, the file is diffable in review, and a grammar change no
+longer costs 116 MB of LFS quota per revision. Do not re-add the LFS filter without
+re-measuring: at 12.8 MB it is an ordinary large text file.
+
+**If the parser starts growing again**, run
+`npx tree-sitter generate --report-states-for-rule -` first. It attributes states per rule,
+and the answer has been one rule both times anyone has looked.

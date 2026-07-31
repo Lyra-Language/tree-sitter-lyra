@@ -4,13 +4,34 @@ const unsafe = require("../unsafe");
 module.exports = {
   lambda_expr: ($) =>
     seq(
-      optional(field("is_unsafe", $.unsafe_modifier)),
-      optional(field("is_pure", $.pure_modifier)),
-      optional(field("is_det", $.det_modifier)),
-      optional(field("is_noalloc", $.noalloc_modifier)),
-      optional(field("is_async", $.async_modifier)),
-      optional(field("is_gen", $.gen_modifier)),
-      optional(field("is_rec", $.rec_modifier)),
+      // One repeated choice, **not** seven optionals in sequence. This is the single
+      // biggest thing in the grammar by generated size: seven independent `optional()`s
+      // give an LR automaton 2^7 = 128 distinct prefixes to track before the parameter
+      // list, and because the GLR conflicts around `(` keep the lambda-parameter-list,
+      // tuple and parenthesized-expression readings alive simultaneously, each prefix
+      // grew its own family of states across the whole expression grammar. Measured:
+      // `lambda_expr` owned 57,026 of 62,663 states (91%), and collapsing it to this form
+      // took the parser to 6,475 states — `src/parser.c` from 116 MB to 12.8 MB, which is
+      // what took it back out of Git LFS.
+      //
+      // The cost is that **order and repetition are no longer parse errors**: `async pure`
+      // and `pure pure` now parse. Both are rejected by `lyra`'s collector with a message
+      // naming the canonical order, which is a better diagnostic than a syntax error
+      // pointing at the wrong token — and the semantic half of this (`pure` and `det`
+      // conflicting) already lived there rather than here.
+      //
+      // Fields still attach per child, so `ChildByFieldName("is_pure")` is unchanged.
+      repeat(
+        choice(
+          field("is_unsafe", $.unsafe_modifier),
+          field("is_pure", $.pure_modifier),
+          field("is_det", $.det_modifier),
+          field("is_noalloc", $.noalloc_modifier),
+          field("is_async", $.async_modifier),
+          field("is_gen", $.gen_modifier),
+          field("is_rec", $.rec_modifier),
+        ),
+      ),
       field("parameters", $.parameter_list),
       optional(field("return_type", $.return_type)),
       choice(
