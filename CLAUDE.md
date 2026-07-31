@@ -245,3 +245,19 @@ an error — which is exactly how `pub let` went uncollected until 07/30.
 
 The rule: if a collector needs to find something, label it. An anonymous child is fine
 only for tokens nothing reads.
+
+## Effect modifiers on a function *type* (`include/types/lambda_type.js`)
+
+`lambda_type` accepts the same `pure`/`det`/`noalloc` modifiers `lambda_expr` does, so a
+callback parameter can be constrained: `f: pure () -> t`. They are **labelled fields**
+(`is_pure`/`is_det`/`is_noalloc`), matching the lambda-value rule, so the collector reads
+presence by field name rather than scanning tokens — see the field-labels rule above.
+
+Two things this is *not*. It is not a new node kind: `pure_modifier` and friends already
+existed for lambda values, so no highlight query gained a case and `lyra-zed-ext`'s queries
+need no change. And it is not a semantic rule — the grammar accepts `pure det (…) -> t`,
+which the checker rejects as conflicting bounds, exactly as it does for a lambda value.
+
+The consumer is `lyra`'s purity pass: an unconstrained callback makes its function
+*effect-polymorphic* (its purity is decided per call site by the argument), while a declared
+bound makes it unconditional and constrains every caller instead.

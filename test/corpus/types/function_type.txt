@@ -12,3 +12,44 @@ newtype Callback = () -> int
       (constrained_type_name)
       (lambda_type
         (generic_type)))))
+
+=============================
+Function type with effect modifiers
+=============================
+
+let apply = (f: pure () -> i64, g: pure noalloc (i64) -> i64, h: det (i64) -> i64) -> i64 => f()
+
+---
+
+(program
+  (declaration
+    (identifier)
+    (lambda_expr
+      (parameter_list
+        (parameter
+          (identifier)
+          (lambda_type
+            (pure_modifier)
+            (signed_integer_type)))
+        (parameter
+          (identifier)
+          (lambda_type
+            (pure_modifier)
+            (noalloc_modifier)
+            (parameter_type_list
+              (parameter_type
+                (signed_integer_type)))
+            (signed_integer_type)))
+        (parameter
+          (identifier)
+          (lambda_type
+            (det_modifier)
+            (parameter_type_list
+              (parameter_type
+                (signed_integer_type)))
+            (signed_integer_type))))
+      (return_type
+        (signed_integer_type))
+      (call_expr
+        (identifier)
+        (argument_list)))))

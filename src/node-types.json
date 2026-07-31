@@ -4147,6 +4147,36 @@
     "type": "lambda_type",
     "named": true,
     "fields": {
+      "is_det": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "det_modifier",
+            "named": true
+          }
+        ]
+      },
+      "is_noalloc": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "noalloc_modifier",
+            "named": true
+          }
+        ]
+      },
+      "is_pure": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "pure_modifier",
+            "named": true
+          }
+        ]
+      },
       "modifier": {
         "multiple": false,
         "required": false,
@@ -6535,6 +6565,36 @@
     "type": "trait_method_signature",
     "named": true,
     "fields": {
+      "is_det": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "det_modifier",
+            "named": true
+          }
+        ]
+      },
+      "is_noalloc": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "noalloc_modifier",
+            "named": true
+          }
+        ]
+      },
+      "is_pure": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "pure_modifier",
+            "named": true
+          }
+        ]
+      },
       "modifier": {
         "multiple": false,
         "required": false,
