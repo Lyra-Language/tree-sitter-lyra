@@ -1,0 +1,169 @@
+================================================================
+A line break ends a statement
+================================================================
+
+let a = 1
+let b = 2
+
+---
+
+(program
+  (declaration
+    (identifier)
+    (integer_literal
+      (decimal_int)))
+  (declaration
+    (identifier)
+    (integer_literal
+      (decimal_int))))
+
+================================================================
+A semicolon ends a statement, so several fit on one line
+================================================================
+
+let a = 1; let b = 2
+
+---
+
+(program
+  (declaration
+    (identifier)
+    (integer_literal
+      (decimal_int)))
+  (declaration
+    (identifier)
+    (integer_literal
+      (decimal_int))))
+
+================================================================
+A trailing semicolon is allowed
+================================================================
+
+let a = 1;
+
+---
+
+(program
+  (declaration
+    (identifier)
+    (integer_literal
+      (decimal_int))))
+
+================================================================
+Blank lines collapse into one terminator
+================================================================
+
+let a = 1
+
+
+let b = 2
+
+---
+
+(program
+  (declaration
+    (identifier)
+    (integer_literal
+      (decimal_int)))
+  (declaration
+    (identifier)
+    (integer_literal
+      (decimal_int))))
+
+================================================================
+A leading minus starts a new statement, it does not continue the previous one
+================================================================
+
+let b = a
+-2
+
+---
+
+(program
+  (declaration
+    (identifier)
+    (identifier))
+  (expression_statement
+    (negation
+      (integer_literal
+        (decimal_int)))))
+
+================================================================
+A leading paren starts a new statement
+================================================================
+
+let f = add3
+(4)
+
+---
+
+(program
+  (declaration
+    (identifier)
+    (identifier))
+  (expression_statement
+    (parenthesized_expr
+      (integer_literal
+        (decimal_int)))))
+
+================================================================
+A leading bracket starts a new statement
+================================================================
+
+let n = xs
+[1]
+
+---
+
+(program
+  (declaration
+    (identifier)
+    (identifier))
+  (expression_statement
+    (array_literal
+      (integer_literal
+        (decimal_int)))))
+
+================================================================
+A trailing operator continues onto the next line
+================================================================
+
+let a = 1 +
+  2
+
+---
+
+(program
+  (declaration
+    (identifier)
+    (binary_expr
+      (integer_literal
+        (decimal_int))
+      (add_operator)
+      (integer_literal
+        (decimal_int)))))
+
+================================================================
+A leading dot continues a method chain
+================================================================
+
+let n = xs
+  .map(f)
+  .len()
+
+---
+
+(program
+  (declaration
+    (identifier)
+    (call_expr
+      (member_expr
+        (call_expr
+          (member_expr
+            (identifier)
+            (identifier))
+          (argument_list
+            (value
+              (identifier))))
+        (identifier))
+      (argument_list))))

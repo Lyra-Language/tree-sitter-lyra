@@ -10,6 +10,7 @@ enum TokenType {
   INTERPOLATION_END,
   STRING_END,
   RAW_STRING_LITERAL,
+  NEWLINE,
 };
 
 
@@ -169,6 +170,113 @@ static bool scan_raw_string(TSLexer *lexer) {
   return false;
 }
 
+// Does the text at the cursor start with `word`, as a whole word? Only ASCII
+// letters follow a keyword we care about, so the boundary test is just "the next
+// character is not a letter, digit or underscore".
+//
+// Consumes what it inspects, which is why callers must already have decided not
+// to emit a token: the lookahead cannot be rewound. Every caller here is on the
+// "return false" path.
+static bool peek_keyword(TSLexer *lexer, const char *word) {
+  for (const char *p = word; *p; p++) {
+    if (lexer->lookahead != (int32_t)*p) {
+      return false;
+    }
+    lexer->advance(lexer, true);
+  }
+  int32_t c = lexer->lookahead;
+  bool ident_char = (c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z') ||
+                    (c >= '0' && c <= '9') || c == '_';
+  return !ident_char;
+}
+
+// Scan the statement terminator: a newline that ends a statement.
+//
+// **The parser decides whether a statement may end here, not this function.**
+// tree-sitter only sets valid_symbols[NEWLINE] in states where the grammar
+// accepts a terminator, so a newline in the middle of an unfinished expression
+// (`a +` at end of line, or anywhere inside parens) never reaches this code —
+// which is what makes trailing-operator continuation work with no token table.
+// Go needs a list of "tokens that may end a statement" precisely because its
+// insertion happens in the lexer, with no parse state to ask.
+//
+// What is left for this function is the *forward* half: a line that begins with
+// something which continues the previous statement rather than starting a new
+// one.
+//
+// **The rule for what belongs here: a token that cannot begin a statement.**
+// That is what makes suppression safe — if a line could not have been a new
+// statement anyway, treating it as a continuation cannot hide a misparse. Every
+// entry below meets that test:
+//
+//   - `.` — a method chain (`m\n  .map(f)`). UFCS is decided (lyra/todo.md), so
+//     receiver chains are about to become the normal way to write a pipeline;
+//     Go's rule, which has no forward half at all, is what forces its users to
+//     leave a trailing dot.
+//   - `|` — the leading-bar style for a multi-line `data` declaration
+//     (`data CSSColor =\n  | ColorName …\n  | Hex …`), which the corpus already
+//     uses and which this change broke before the case was added.
+//   - `else` — `}\nelse {`. Go requires `} else {`; nothing in Lyra's corpus
+//     writes it either way today, so this costs nothing and removes a papercut.
+//   - `where` — a bound written under its declaration.
+//
+// Notably absent: `-`, `(`, `[`, `*`. Each of those *can* start a statement — a
+// negation, a parenthesized expression, an array literal, a deref assignment —
+// and treating them as continuations is exactly the silent misparse this whole
+// change exists to fix (`let b = a` then `-2` was reading as `a - 2`). A leading
+// binary operator ends the previous statement; write the operator at the end of
+// the previous line to continue across lines.
+//
+// Comments are not skipped here. On seeing `/` this returns false, tree-sitter's
+// own lexer consumes the comment as an extra, and the scanner is called again at
+// the position after it — so a trailing `// note` does not suppress the
+// terminator on its line. The one gap is a *block* comment containing the only
+// newline (`a = 1 /*\n*/ b = 2`), which joins; that is rare enough to leave.
+static bool scan_newline(TSLexer *lexer) {
+  bool saw_newline = false;
+  for (;;) {
+    int32_t c = lexer->lookahead;
+    if (c == ' ' || c == '\t' || c == '\r') {
+      lexer->advance(lexer, true);
+    } else if (c == '\n') {
+      saw_newline = true;
+      lexer->advance(lexer, true);
+    } else {
+      break;
+    }
+  }
+  if (!saw_newline) {
+    return false;
+  }
+
+  // The terminator is zero-width: it stands for the line break, and the break
+  // was consumed above as token padding. mark_end here keeps it from swallowing
+  // the next token.
+  lexer->mark_end(lexer);
+
+  bool continuation = false;
+  switch (lexer->lookahead) {
+  case '.':
+  case '|':
+    continuation = true;
+    break;
+  case 'e':
+    continuation = peek_keyword(lexer, "else");
+    break;
+  case 'w':
+    continuation = peek_keyword(lexer, "where");
+    break;
+  default:
+    break;
+  }
+  if (continuation) {
+    return false;
+  }
+
+  lexer->result_symbol = NEWLINE;
+  return true;
+}
+
 // External scanner API
 void *tree_sitter_lyra_external_scanner_create(void) {
   Scanner *scanner = calloc(1, sizeof(Scanner));
@@ -223,6 +331,19 @@ void tree_sitter_lyra_external_scanner_deserialize(void *payload, const char *bu
 
 bool tree_sitter_lyra_external_scanner_scan(void *payload, TSLexer *lexer, const bool *valid_symbols) {
   Scanner *scanner = (Scanner *)payload;
+
+  // Statement terminator, first — but never inside a string, where a newline is
+  // ordinary content, and never inside an interpolation, whose `${…}` holds an
+  // expression rather than statements. Both are the same guard the comment
+  // branch below needs, and for the same reason: this runs before them.
+  //
+  // valid_symbols[NEWLINE] is false in the overwhelming majority of states, so
+  // the common path is one array read.
+  if (valid_symbols[NEWLINE] && !in_string(scanner) && !in_interpolation(scanner)) {
+    if (scan_newline(lexer)) {
+      return true;
+    }
+  }
 
   // Handle block comment.
   //

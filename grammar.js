@@ -18,6 +18,7 @@ const comments = require("./include/comments");
 const destructuring = require("./include/destructuring/destructuring");
 const patterns = require("./include/patterns");
 const attributes = require("./include/attributes");
+const { statementList } = require("./include/helpers");
 
 module.exports = grammar({
   name: "lyra",
@@ -34,6 +35,10 @@ module.exports = grammar({
     $._interpolation_end,
     $._string_end,
     $._raw_string_literal,
+    // The statement terminator. Zero-width, emitted by the scanner for a line
+    // break that ends a statement — see scan_newline in src/scanner.c for why
+    // the parser, not a token table, decides where that is.
+    $._newline,
   ],
 
   inline: ($) => [$._comma],
@@ -143,7 +148,7 @@ module.exports = grammar({
       seq(
         optional($.module_declaration),
         repeat($.import_statement),
-        repeat($.statement),
+        optional(statementList($)),
       ),
 
     _comma: ($) => ",",

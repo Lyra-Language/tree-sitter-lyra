@@ -23,6 +23,20 @@ module.exports = {
       $.expression_statement,
     ),
 
+  // What ends a statement: a line break, or an explicit `;`.
+  //
+  // `repeat1` so a blank line after a `;` (or any run of the two) is one
+  // separator rather than a separator followed by a stray one where the grammar
+  // wants a statement. The scanner already collapses consecutive line breaks
+  // into a single `_newline`; this covers the mixed forms.
+  //
+  // `;` is the explicit form, for putting several statements on one line. It is
+  // never required — the line break is the ordinary terminator — which is the
+  // Go/Swift/Kotlin arrangement rather than C's. Note `;` already appears in the
+  // grammar twice as an intra-construct separator (`for i = 0; i < n; i++` and
+  // `[value; count]`); those are unrelated positions and unaffected.
+  _statement_separator: ($) => repeat1(choice($._newline, ";")),
+
   expression_statement: ($) => $.expression,
 
   return_statement: ($) =>

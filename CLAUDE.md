@@ -52,10 +52,31 @@ supertypes: [$.expression, $.statement, $.pattern, $.type]
 extras:     [/\s/, $.doc_comment, $.comment]   // whitespace and comments ignored everywhere
 externals:  [$._BLOCK_COMMENT, $._string_start, $._string_content,
              $._interpolation_start, $._interpolation_end,
-             $._string_end, $._raw_string_literal]
+             $._string_end, $._raw_string_literal, $._newline]
 ```
 
-The external scanner (`src/scanner.c`) handles block comments and the string interpolation protocol, because these require stateful lexing that tree-sitter's declarative DSL cannot express.
+The external scanner (`src/scanner.c`) handles block comments, the string interpolation protocol, and the statement terminator, because these require stateful or context-sensitive lexing that tree-sitter's declarative DSL cannot express.
+
+## Statement Terminators
+
+**A line break ends a statement; `;` is the explicit form** for putting several on one line. Statements are a separated list (`statementList` in `include/helpers.js`, used by `block` and `program`), with the separator after the last one optional.
+
+Before 07/31/26 there was **no separator at all** — `block` was `seq("{", repeat($.statement), "}")` and newlines were only `extras`. Multiple statements per line already worked, so this change adds no expressiveness; what it removes is a silent misparse. With no terminator the parser is maximally greedy and a line break means nothing, so all three of these compiled and ran as *one* statement:
+
+```
+let b = a          let f = add3        let n = xs
+-2                 (4)                 [1]
+```
+
+`a - 2`, `add3(4)`, `xs[1]` — three statements to a human, one to the parser, no diagnostic. Requiring a separator also *shrank* the parser: 6475 → 5356 states, `parser.c` 12.8 MB → 8.4 MB, because the ambiguity is gone.
+
+**The scanner asks the parser, not a token table.** `scan_newline` only runs where `valid_symbols[NEWLINE]` is set, and tree-sitter sets it exactly in states where the grammar accepts a terminator. So a newline inside an unfinished expression never reaches the scanner, and trailing-operator continuation (`let a = 1 +` ⏎ `2`) works with no rule of its own. Go needs its list of "tokens that may end a statement" because its insertion happens in the lexer, where there is no parse state to consult.
+
+What the scanner *does* decide is the forward half — a line that begins with something continuing the previous statement. **The rule for what may go on that list: a token that cannot begin a statement.** That is what makes suppression safe; if a line could not have been a new statement, treating it as a continuation cannot hide a misparse. Currently `.` (method chains — UFCS is decided, so receiver chains are coming), `|` (leading-bar `data` declarations, already in the corpus), and the keywords `else` and `where`. Deliberately **not** on it: `-`, `(`, `[`, `*` — each can start a statement, and treating them as continuations is the exact bug above.
+
+Comments are not skipped by `scan_newline`. On `/` it returns false, tree-sitter's own lexer takes the comment as an extra, and the scanner is called again after it — so a trailing `// note` does not suppress its line's terminator. Known gap: a *block* comment holding the only newline (`a = 1 /*` ⏎ `*/ b = 2`) joins the two statements.
+
+Corpus: `test/corpus/statements/terminators.txt`.
 
 **Comment scanning is gated on `!in_string(scanner)` — do not remove that guard.** Comments are `extras`, so `BLOCK_COMMENT` is valid almost everywhere, including at every string content-chunk boundary, and the comment branch runs *before* the in-string branch. Unguarded (the state until 07/29/26), a string whose content began with `/*` lexed as a comment running to the next `*/` **anywhere later in the file** — swallowing the rest of the line, following declarations, and all — and no later pass reported anything (`lyrac check` exited 0). It fired wherever a fresh content chunk starts: after the opening quote, right after a `${…}` interpolation, and — since `scan_block_comment` skips leading whitespace as token padding — after a leading space (`" /* x */ y"`). An *interpolation* is an expression context where comments remain valid, and `in_string()` is false for `CTX_INTERPOLATION`, which is exactly the line this guard draws. Fixing it also stopped the padding-skip from **eating a content chunk's leading whitespace** (`"${a} ${b}"` now emits the middle space as `string_content`; it previously vanished from the CST and was recoverable only by the collector's raw-source re-slice). Corpus coverage: the comment-delimiter tests in `test/corpus/literals/string.txt`.
 

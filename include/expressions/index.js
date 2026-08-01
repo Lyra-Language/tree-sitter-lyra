@@ -10,6 +10,7 @@ const builtins = require("./builtins");
 const for_loop = require("../statements/control_flow/for_loop");
 const for_in_loop = require("../statements/control_flow/for_in_loop");
 const { PREC } = require("../prec");
+const { statementList } = require("../helpers");
 
 module.exports = {
   expression: ($) =>
@@ -40,7 +41,8 @@ module.exports = {
       // Note: user_defined_type_name is accessed via _postfix_expression -> _primary_expression
     ),
 
-  block: ($) => prec.left(PREC.BLOCK, seq("{", repeat($.statement), "}")),
+  block: ($) =>
+    prec.left(PREC.BLOCK, seq("{", optional(statementList($)), "}")),
 
   // Await expression for async operations
   await_expr: ($) =>
