@@ -198,6 +198,14 @@
 (integer_literal)    @number
 (float_literal)      @number.float
 (char_literal)       @character
+
+; A negation's `-`. Without this the sign is the one unstyled character in
+; `-5`, since the rules above capture only the literal it wraps. It matters
+; most in a *pattern* — `-1 => …`, `-128..=-1 => …` — which became writable
+; only when pattern literals gained a sign (a2588c5); the same `negation`
+; node serves both positions, so one rule covers each. The Zed extension's
+; sibling query carries the same rule.
+(negation operator: _ @operator)
 (string_literal)     @string
 (raw_string_literal) @string
 (string_content)     @string
