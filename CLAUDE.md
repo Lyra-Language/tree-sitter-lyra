@@ -34,7 +34,7 @@ After regenerating, the sibling Go project also needs `go clean -cache` before `
 |---|---|
 | `include/expressions/` | all expressions (math, boolean, postfix, lambdas, match, if, range, array comprehensions, async/await, compose `->>`), string interpolation |
 | `include/expressions/functions.js` | function/lambda definitions, guards |
-| `include/types/` | `struct`, `data`, `tuple`, `newtype`, trait declarations, trait implementations, generics, `where` clauses, allocation modifiers |
+| `include/types/` | `struct`, `data`, `tuple`, `newtype`, `type` aliases, trait declarations, trait implementations, generics, `where` clauses, allocation modifiers |
 | `include/statements/` | assignments (`let`/`var`/`const`), math-assign ops (`+=`, etc.), `for`, `for-in`, `arena`/`with`, `return`/`break`/`continue` |
 | `include/literals/` | struct literals, tuple literals, array literals |
 | `include/literals/numbers.js` | integer (decimal, hex `0x`, binary `0b`, octal `0o`), float |
@@ -335,3 +335,16 @@ Three constraints shape the rule, each learned by violating it:
 - **It aliases to `negation` rather than introducing a node kind.** `collectRangePattern` reads `start`/`end` through `CollectExpr`, which already handles a `negation` with an `operand` field; a new kind would need collector support for no gain.
 
 It needs two declared conflicts, both mirrors of ones already present for the unsigned case: `[expression, _signed_number_literal]` (which replaces `[expression, literal_pattern]` — declaring the old pair now warns as unnecessary) and `[_math_operand, _negated_number_literal]`. This is the region `grammar.js`'s conflict comments call finely balanced, so **check that `0 - 200` still parses as a `binary_expr` with a `sub_operator`** after touching any of it — the failure mode is that it becomes `0` plus a dangling `negation(-200)`.
+
+## Type Aliases vs `newtype`
+
+Two declarations that look alike and mean opposite things:
+
+- **`type Op = ((i64, i64)) -> i64`** (`include/types/type_alias.js`) is **transparent**. The name and the type are interchangeable — no conversion at the boundary, no identity of its own. The collector registers the aliased type *itself* under the alias's name, so the rest of the compiler needs no notion of aliases.
+- **`newtype Volume = u8 where range(0..=100)`** (`include/types/constrained_type.js`) is **nominal**. It is a distinct type you opt into at a conversion site, which is what lets it carry `where` constraints.
+
+They are not redundant, and neither is a flag on the other: one adds meaning at a boundary, the other removes repetition. The motivating case for an alias is a function type — `(g: ((i64, i64)) -> i64, …)` is where Lyra reads worst, and the double parens (one *tuple* parameter, since single parens would be two arguments) can only be named away, never spelled away. `newtype` cannot serve: it makes the value un-callable without unwrapping, which is right for a nominal type and useless here.
+
+`type` is **not** a reserved word — it is a keyword only in this position, so `let type = 5` still compiles. Adding it to `reserved` would be a gratuitous break.
+
+Corpus: `test/corpus/types/type_alias.txt`.

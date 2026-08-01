@@ -4280,6 +4280,10 @@
         {
           "type": "SYMBOL",
           "name": "constrained_type"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "type_alias"
         }
       ]
     },
@@ -6213,6 +6217,56 @@
     "anonymous_tuple_type": {
       "type": "SYMBOL",
       "name": "tuple_type_body"
+    },
+    "type_alias": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "FIELD",
+              "name": "visibility",
+              "content": {
+                "type": "SYMBOL",
+                "name": "visibility"
+              }
+            },
+            {
+              "type": "BLANK"
+            }
+          ]
+        },
+        {
+          "type": "STRING",
+          "value": "type"
+        },
+        {
+          "type": "FIELD",
+          "name": "name",
+          "content": {
+            "type": "ALIAS",
+            "content": {
+              "type": "SYMBOL",
+              "name": "user_defined_type_name"
+            },
+            "named": true,
+            "value": "type_alias_name"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": "="
+        },
+        {
+          "type": "FIELD",
+          "name": "type",
+          "content": {
+            "type": "SYMBOL",
+            "name": "type"
+          }
+        }
+      ]
     },
     "trait_declaration": {
       "type": "SEQ",

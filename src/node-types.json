@@ -6929,6 +6929,47 @@
     "fields": {}
   },
   {
+    "type": "type_alias",
+    "named": true,
+    "fields": {
+      "name": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "type_alias_name",
+            "named": true
+          }
+        ]
+      },
+      "type": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "type",
+            "named": true
+          }
+        ]
+      },
+      "visibility": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "visibility",
+            "named": true
+          }
+        ]
+      }
+    }
+  },
+  {
+    "type": "type_alias_name",
+    "named": true,
+    "fields": {}
+  },
+  {
     "type": "type_annotation",
     "named": true,
     "fields": {
@@ -6966,6 +7007,10 @@
         },
         {
           "type": "struct_type",
+          "named": true
+        },
+        {
+          "type": "type_alias",
           "named": true
         }
       ]
@@ -7693,6 +7738,10 @@
   },
   {
     "type": "tuple",
+    "named": false
+  },
+  {
+    "type": "type",
     "named": false
   },
   {

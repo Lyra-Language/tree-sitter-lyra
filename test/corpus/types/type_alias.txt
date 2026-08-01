@@ -1,0 +1,51 @@
+================================================================
+Type alias of a function type
+================================================================
+
+type Op = ((i64, i64)) -> i64
+
+---
+
+(program
+  (type_declaration
+    (type_alias
+      (type_alias_name)
+      (lambda_type
+        (parameter_type_list
+          (parameter_type
+            (anonymous_tuple_type
+              (tuple_type_body
+                (tuple_type_element
+                  (signed_integer_type))
+                (tuple_type_element
+                  (signed_integer_type))))))
+        (signed_integer_type)))))
+
+================================================================
+Type alias of a named type
+================================================================
+
+type Point = Pt
+
+---
+
+(program
+  (type_declaration
+    (type_alias
+      (type_alias_name)
+      (user_defined_type_name))))
+
+================================================================
+Public type alias
+================================================================
+
+pub type Id = i64
+
+---
+
+(program
+  (type_declaration
+    (type_alias
+      (visibility)
+      (type_alias_name)
+      (signed_integer_type))))

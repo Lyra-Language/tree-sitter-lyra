@@ -6,6 +6,7 @@ const generic_type = require("./generic_type");
 const number_types = require("./number_types");
 const struct_type = require("./struct_type");
 const tuple_type = require("./tuple_type");
+const type_alias = require("./type_alias");
 const trait_declaration = require("./trait_declaration");
 const trait_implementation = require("./trait_implementation");
 const { commaSep1 } = require("../helpers");
@@ -17,7 +18,13 @@ module.exports = {
   return_type_annotation: ($) => seq("->", field("type", $.type)),
 
   type_declaration: ($) =>
-    choice($.struct_type, $.data_type, $.named_tuple_type, $.constrained_type),
+    choice(
+      $.struct_type,
+      $.data_type,
+      $.named_tuple_type,
+      $.constrained_type,
+      $.type_alias,
+    ),
 
   type: ($) =>
     prec(
@@ -86,6 +93,7 @@ module.exports = {
   ...number_types,
   ...struct_type,
   ...tuple_type,
+  ...type_alias,
   ...trait_declaration,
   ...trait_implementation,
 };
