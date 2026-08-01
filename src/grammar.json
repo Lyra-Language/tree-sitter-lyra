@@ -8816,12 +8816,51 @@
         }
       ]
     },
-    "literal_pattern": {
+    "_negated_number_literal": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "FIELD",
+          "name": "operator",
+          "content": {
+            "type": "STRING",
+            "value": "-"
+          }
+        },
+        {
+          "type": "FIELD",
+          "name": "operand",
+          "content": {
+            "type": "SYMBOL",
+            "name": "_number_literal"
+          }
+        }
+      ]
+    },
+    "_signed_number_literal": {
       "type": "CHOICE",
       "members": [
         {
           "type": "SYMBOL",
           "name": "_number_literal"
+        },
+        {
+          "type": "ALIAS",
+          "content": {
+            "type": "SYMBOL",
+            "name": "_negated_number_literal"
+          },
+          "named": true,
+          "value": "negation"
+        }
+      ]
+    },
+    "literal_pattern": {
+      "type": "CHOICE",
+      "members": [
+        {
+          "type": "SYMBOL",
+          "name": "_signed_number_literal"
         },
         {
           "type": "SYMBOL",
@@ -8848,7 +8887,7 @@
             "name": "start",
             "content": {
               "type": "SYMBOL",
-              "name": "_number_literal"
+              "name": "_signed_number_literal"
             }
           },
           {
@@ -8876,7 +8915,7 @@
             "name": "end",
             "content": {
               "type": "SYMBOL",
-              "name": "_number_literal"
+              "name": "_signed_number_literal"
             }
           }
         ]
@@ -9106,7 +9145,11 @@
     ],
     [
       "expression",
-      "literal_pattern"
+      "_signed_number_literal"
+    ],
+    [
+      "_math_operand",
+      "_negated_number_literal"
     ],
     [
       "array_literal",

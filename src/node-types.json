@@ -4249,6 +4249,10 @@
           "named": true
         },
         {
+          "type": "negation",
+          "named": true
+        },
+        {
           "type": "string_literal",
           "named": true
         }
@@ -5345,6 +5349,10 @@
           {
             "type": "integer_literal",
             "named": true
+          },
+          {
+            "type": "negation",
+            "named": true
           }
         ]
       },
@@ -5368,6 +5376,10 @@
           },
           {
             "type": "integer_literal",
+            "named": true
+          },
+          {
+            "type": "negation",
             "named": true
           }
         ]

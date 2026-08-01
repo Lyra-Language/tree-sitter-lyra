@@ -65,7 +65,7 @@ module.exports = grammar({
     // comparison / compound-assignment operator. Tree-sitter needs the
     // one-symbol look-ahead to decide between the two.
     [$.expression, $._math_operand],
-    // A bare number literal now reaches `expression` directly (not via the
+    // A bare number literal reaches `expression` directly (not via the
     // precedence-wrapped `_literal` — see note in literals/index.js). Routing
     // numbers around the wrapper is what fixes `0 - 200` parsing as `0` plus a
     // dangling `negation(-200)`: it lets the `expression/_math_operand`
@@ -73,7 +73,21 @@ module.exports = grammar({
     // as it already does for identifier/postfix operands. The direct route
     // also means a bare number could be a complete `expression` or a pattern
     // (e.g. inside `(`/match contexts), so that conflict must be declared too.
-    [$.expression, $.literal_pattern],
+    //
+    // It is declared against `_signed_number_literal` rather than against
+    // `literal_pattern`, which is where it sat until 07/31/26: a pattern's
+    // number now goes through that rule so it can carry a leading `-`
+    // (patterns/index.js), which puts the ambiguity one level down. In `(1, 2)`
+    // the `1` is still both a tuple-element expression and a pattern element,
+    // and GLR still has to keep both alive until the context decides — only the
+    // symbol the conflict is reported against changed. Declaring the old pair
+    // as well now draws an "unnecessary conflicts" warning.
+    [$.expression, $._signed_number_literal],
+    // And the negated form: after `-`, the number is either this rule's operand
+    // or a `negation`'s (`(-1, 2)` the tuple vs `(-1, 2)` the pattern). Mirrors
+    // the `[expression, _math_operand]` entry above, which exists for exactly
+    // this reason on the unsigned side.
+    [$._math_operand, $._negated_number_literal],
     // An empty `[]` (and, in a `(`-led context, a non-empty `[…]`) is ambiguous
     // between an empty array *literal* (expression) and an empty array *pattern*
     // (a match arm / lambda param). GLR keeps both alive until the surrounding

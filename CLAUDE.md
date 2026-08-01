@@ -8,7 +8,8 @@ This is the tree-sitter grammar for the Lyra programming language. It produces a
 grammar.js               — entry point; spreads all rule modules
 include/                 — grammar rule modules (see Architecture below)
 src/parser.c             — generated; do not edit by hand
-src/scanner.c            — hand-written external scanner (string interpolation, block comments)
+src/scanner.c            — hand-written external scanner (string interpolation, block
+                           comments, the statement terminator)
 test/corpus/**/*.txt     — all parser corpus tests
 queries/highlights.scm   — tree-sitter syntax highlight queries (minimal, WIP)
 ```
@@ -320,3 +321,17 @@ re-measuring: at 12.8 MB it is an ordinary large text file.
 **If the parser starts growing again**, run
 `npx tree-sitter generate --report-states-for-rule -` first. It attributes states per rule,
 and the answer has been one rule both times anyone has looked.
+
+## Signed Literals in Patterns
+
+**A pattern's number literal carries an optional `-`** — `-1 => …`, `-128..=127 => …` — via `_signed_number_literal` (`include/patterns/index.js`), used by both `literal_pattern` and `range_pattern`.
+
+Until 07/31/26 both took a bare `_number_literal`, which has no sign, so neither form parsed: the `-` landed in an `ERROR` that swallowed the whole `match`. Downstream that read as *nothing being wrong* — the collector saw no match expression, so `lyra`'s exhaustiveness check never ran and a test asserting "no errors" on a full-range match passed vacuously.
+
+Three constraints shape the rule, each learned by violating it:
+
+- **The sign cannot live in the token.** `decimal_int` swallowing a `-` would lex `a-1` as `a` followed by `-1` rather than as subtraction.
+- **It is a named rule that is then aliased** (`alias($._negated_number_literal, $.negation)`), not `alias(seq(…), $.negation)` inline. An inline sequence is not a node of its own, so its `operator`/`operand` fields hoist onto the enclosing `range_pattern` and displace `start`/`end` — leaving the sibling collector's `ChildByFieldName("start")` empty.
+- **It aliases to `negation` rather than introducing a node kind.** `collectRangePattern` reads `start`/`end` through `CollectExpr`, which already handles a `negation` with an `operand` field; a new kind would need collector support for no gain.
+
+It needs two declared conflicts, both mirrors of ones already present for the unsigned case: `[expression, _signed_number_literal]` (which replaces `[expression, literal_pattern]` — declaring the old pair now warns as unnecessary) and `[_math_operand, _negated_number_literal]`. This is the region `grammar.js`'s conflict comments call finely balanced, so **check that `0 - 200` still parses as a `binary_expr` with a `sub_operator`** after touching any of it — the failure mode is that it becomes `0` plus a dangling `negation(-200)`.

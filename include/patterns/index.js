@@ -119,20 +119,51 @@ module.exports = {
       ),
     ),
 
+  // A number literal in *pattern* position, with an optional leading `-`.
+  //
+  // The sign cannot live in the token — `decimal_int` swallowing a `-` would lex
+  // `a-1` as `a` and `-1` rather than as subtraction — and `negation` proper is
+  // defined over `_math_operand`, which would admit `-foo` and `-(a + b)` in a
+  // place where only a literal means anything. So it is its own production,
+  // **aliased to `negation`** so the CST shape is one the tree already contains:
+  // the collector reads a range pattern's `start`/`end` with CollectExpr, which
+  // handles a `negation` with an `operand` field and would not know a new node
+  // kind, and a literal pattern is collected from its raw text either way.
+  //
+  // Until 07/31/26 both rules below took a bare `_number_literal`, so `-1 => …`
+  // and `-128..=127 => …` did not parse at all — the `-` landed in an ERROR node.
+  // That went unnoticed because the error swallowed the whole `match`, leaving
+  // the collector with no match expression to check for exhaustiveness, so tests
+  // asserting "no errors" on a full-range match passed *vacuously*.
+  // A *named* rule, then aliased — not `alias(seq(…), $.negation)` inline. An
+  // inline sequence is not a node of its own, so its `operator`/`operand` fields
+  // hoist onto the enclosing `range_pattern` and displace its `start`/`end`,
+  // leaving the collector's ChildByFieldName("start") empty.
+  _negated_number_literal: ($) =>
+    seq(field("operator", "-"), field("operand", $._number_literal)),
+
+  _signed_number_literal: ($) =>
+    choice($._number_literal, alias($._negated_number_literal, $.negation)),
+
   // Literal patterns (for pattern matching). A char_literal ('a') matches a
   // `rune` scrutinee — the equality counterpart to a numeric/string/bool literal.
   literal_pattern: ($) =>
-    choice($._number_literal, $.char_literal, $.string_literal, $.boolean_literal),
+    choice(
+      $._signed_number_literal,
+      $.char_literal,
+      $.string_literal,
+      $.boolean_literal,
+    ),
 
   // Range patterns (for pattern matching)
   range_pattern: ($) =>
     prec.left(
       PREC.RANGE_PATTERN,
       seq(
-        field("start", $._number_literal),
+        field("start", $._signed_number_literal),
         "..",
         optional(field("end_operator", $.range_end_operator)),
-        field("end", $._number_literal),
+        field("end", $._signed_number_literal),
       ),
     ),
 

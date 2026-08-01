@@ -469,3 +469,47 @@ match xs {
             (identifier)))
         (integer_literal
           (decimal_int))))))
+
+=========================
+Negative literal and range patterns
+=========================
+
+match n {
+  -1 => "neg one",
+  -128..=-1 => "negative",
+  0..=127 => "positive",
+}
+
+---
+
+(program
+  (expression_statement
+    (match_expr
+      (identifier)
+      (match_arm
+        (literal_pattern
+          (negation
+            (integer_literal
+              (decimal_int))))
+        (string_literal
+          (string_content)))
+      (match_arm
+        (range_pattern
+          (negation
+            (integer_literal
+              (decimal_int)))
+          (range_end_operator)
+          (negation
+            (integer_literal
+              (decimal_int))))
+        (string_literal
+          (string_content)))
+      (match_arm
+        (range_pattern
+          (integer_literal
+            (decimal_int))
+          (range_end_operator)
+          (integer_literal
+            (decimal_int)))
+        (string_literal
+          (string_content))))))
