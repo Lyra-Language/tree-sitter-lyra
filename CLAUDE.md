@@ -87,7 +87,7 @@ A regex literal is **`r"…"`** — the `r` sigil plus *string* delimiters — a
 
 It was `r/…/` until 07/29/26, which was fundamentally ambiguous: `r` is an ordinary identifier and `/` is division, so `let ratio = r/2 + a/b` lexed as the regex `r/2 + a/` followed by a stray `b`, silently, and an unterminated one ran to the next `/` anywhere later in the file (bounding the token to one line, the first mitigation, only shrank the blast radius). Slash delimiters cannot be disambiguated lexically — the deciding context is arbitrarily far right, and a regex may legally contain spaces, digits, and operators, so no heuristic on the content separates the two readings.
 
-A `"` cannot follow an identifier in any valid Lyra expression (there is no juxtaposition application — calls require parens), so `r"` can only ever begin a regex and `r/2` is unambiguously division. Two bonuses: `/` needs no escaping inside a pattern (`r"https://example"`, not `r/https:\/\/example/`), and the form matches how a Python programmer already writes one (`r"\d+"`). The delimiter itself escapes as `\"`. Newlines stay excluded from the content classes, so an unterminated literal degrades to an identifier plus an unterminated string — a loud parse error — instead of consuming the file.
+A `"` cannot follow a **lowercase** `identifier` in any valid Lyra expression, so `r"` can only ever begin a regex and `r/2` is unambiguously division. (Juxtaposition application returned on 08/02, so a `"` *can* now follow an **uppercase** name — `Some "hi"` — but `identifier` is lowercase-leading by lexer rule and a constructor name is not, so the property this literal depends on is untouched. If juxtaposition is ever extended to lowercase names, this rationale dies with it.) Two bonuses: `/` needs no escaping inside a pattern (`r"https://example"`, not `r/https:\/\/example/`), and the form matches how a Python programmer already writes one (`r"\d+"`). The delimiter itself escapes as `\"`. Newlines stay excluded from the content classes, so an unterminated literal degrades to an identifier plus an unterminated string — a loud parse error — instead of consuming the file.
 
 Don't delete the rule as "unused": it backs `pattern(r"…")` constraints on `newtype` (`include/types/constrained_type.js`) and `regex_pattern` in match arms, and the constraint path is implemented downstream (`lyra/pkg/regex` is a full DFA engine; the typechecker enforces `PatternConstraint`). Only the match-arm *pattern* form is unlowered in the backend.
 
@@ -123,12 +123,12 @@ Several ambiguities are resolved at parse time via GLR (listed in the `conflicts
 - `_primary_expr` vs `data_pattern` — a capitalized name in expression vs pattern position
 - `expression` vs `_math_operand` / `_bool_operand` / `_comparison_operand` — operator precedence lookahead conflicts
 
-Note: there is no juxtaposition constructor application. Data values are built with
-call syntax (`Some(42)`, `None`), which parses as a named `tuple_literal`; the Go
-typechecker resolves a tuple-literal name that is a data constructor to its data
-type. (The old `data_constructor_expr` rule and its `_constructor_value` machinery
-were removed — they existed only to disambiguate `Some 42` in a terminator-less
-grammar.)
+Note: data values have **two spellings**, and the grammar keeps them apart on purpose.
+Juxtaposition (`Some 42`, `Err -1`) is `data_constructor_expr`; the parenthesized form
+(`Some(42)`, `Rect(3, 4)`) parses as a named `tuple_literal`, and the Go typechecker
+resolves a tuple-literal name that is a data constructor to its data type. The collector
+erases the difference — both build the same named `TupleLiteralExpr` — so no pass after
+collection knows which was written. See "Juxtaposition application" below.
 - `for_loop` / `for_in_loop` with and without a label
 - `pattern` / `_primary_expr` / `data_pattern` vs a name-leading `(…)` — a parenthesized bare name (`(a, b)`, `(a)`, `(None, 7)`) can begin a **lambda parameter list** (`(a, b) => …`), an **anonymous tuple**, or a **parenthesized expression**. A bare `identifier` is both a `pattern` (the lambda param) and a `_primary_expr` (the tuple element); a bare capitalized name is both a nullary `data_pattern` and a `_primary_expr`. GLR must keep both alive until `=>` (or its absence) decides. This needed *two* pieces (added 07/16/26): (1) the `[pattern, _primary_expr]`, `[pattern, for_loop, for_in_loop]`, and `[_primary_expr, data_pattern]` conflict entries, **and** (2) restructuring `pattern` and `data_pattern` so the bare-name alternative sits *outside* `prec.left(PREC.PATTERN)` / `prec.left(PREC.DATA_PATTERN)` — otherwise the higher pattern precedence silently resolves the reduce-reduce toward the pattern (committing to the lambda/data-pattern reading) and the conflict entry is reported "unnecessary". A payload-bearing `data_pattern` (`Some(x)`) keeps `PREC.DATA_PATTERN` (it must still beat the constructor-call expression reading). Before this fix a name-leading tuple literal failed to parse entirely.
 
@@ -387,6 +387,50 @@ tree-sitter can *insert* one to keep going — `range(..)` yields a zero-width `
 sitting on the `)`. The Go side treats missing-or-empty as absent
 (`collector_ctx.RangeBound`); a plain nil check reads that insertion as a bound of value
 zero.
+
+## Juxtaposition application (`data_constructor_expr`)
+
+`Some 42` and `Some(42)` are both legal. Restored 08/02/26 after being removed 06/18/26;
+the removal commit says the machinery existed "solely to prevent a nullary constructor from
+greedily consuming the next statement **in the terminator-less grammar**", and statements
+gained a terminator on 07/31/26, so the sole stated reason expired. It also closes a real
+asymmetry — `Some 42` was always legal in *pattern* position (`data_pattern` is
+`Name pattern`), so the two positions disagreed about the language's own syntax.
+
+**One operand, never curried.** There is no `Rect 3 4`. A constructor's positional payload
+is already a single anonymous tuple internally (`Rect(f64, f64)` → one `TupleType` param),
+so `Rect(3, 4)` reads as "Rect applied to the tuple `(3, 4)`" — the parens are the tuple's,
+not a call's — and its tree is unchanged. Parenthesized operands are outside
+`_constructor_value` precisely so `Some(42)`, `Rect(3, 4)` and `Some (a + b)` keep their
+existing named-`tuple_literal` parse. **Nothing that parsed before parses differently.**
+
+**`Some -1` is `Some(-1)`.** Application binds tighter than binary operators and `negation`
+is in the operand set. This is not Haskell's ambiguity: there, any identifier can be a
+value, so the subtraction reading has an operand. Here `identifier` is lowercase-leading and
+`const_identifier` is SCREAMING_CASE, so a PascalCase name in expression position is *always*
+a constructor — never a variable, never a constant — and the subtraction reading has nothing
+to bind. `MAX - 1` is untouched arithmetic. Reasoning and the residual hazard (a `-` overload
+on a sum type whose nullary constructor sits bare on the left) are in `lyra/todo.md`.
+
+**The operand must be atomic** — a literal, a name, a nullary constructor, a negated literal,
+a struct/array literal, or another application. A compound operand is parenthesized
+(`Ok(f(y))`, `Some(a.b)`). This is forced, not chosen: **every postfix form is headed by
+`_postfix_expr`, which reaches `parenthesized_expr`**, so admitting `call_expr`/`member_expr`/
+`index_expr`/`try_expr`/`deref_expr` as operands also admits `Some (x)…` while the parser
+looks for the `.`/`[`/`?`/`^`. That reopens a third reading of `Some(x)` and tips the
+pre-existing parameter-position race, so `(Some(x): Maybe<i64>) -> i64` stops parsing as a
+destructured lambda parameter. No conflict entry fixes it; the reading has to not exist.
+
+**In this region, tree-sitter's "unnecessary conflict" warning is unreliable — verify against
+the corpus.** During this change it reported entries as unnecessary that were load-bearing
+(dropping `[_tuple_name, _primary_expr, data_pattern]` broke the parameter case) *and*
+reported one as unnecessary that genuinely was. The corpus is the only trustworthy signal,
+the same lesson the signed-literal section records for the neighbouring rules.
+
+Cost: 5,537 → 6,606 states, `parser.c` 9.4 MB → 12.0 MB (+19% / +28%). Juxtaposition is
+genuinely expensive in an LR automaton — far below the 62,663-state `lambda_expr` incident,
+but this is now the second-largest single feature in the parser. Run
+`--report-states-for-rule -` before adding anything else here.
 
 ## Type Aliases vs `newtype`
 
