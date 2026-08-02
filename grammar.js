@@ -44,8 +44,37 @@ module.exports = grammar({
   inline: ($) => [$._comma],
 
   conflicts: ($) => [
-    [$.named_struct_literal, $._tuple_name, $._primary_expr],
+    // Juxtaposition application (`Some 42`) against the bare-name readings of the
+    // same leading token: a PascalCase name is also a `_primary_expr` (a static
+    // receiver, `Arena.new()`) and, in pattern position, a `data_pattern`. GLR
+    // keeps them alive until the following token decides.
+    [$.data_constructor_expr, $._primary_expr],
+    // A constructor operand overlaps the atomic part of `expression`, so it
+    // inherits the same number-literal-vs-pattern ambiguity `[$.expression,
+    // $._signed_number_literal]` resolves below (`(Some 1, …)` — is the `1` an
+    // operand or a pattern literal?).
+    [$._constructor_value, $._signed_number_literal],
+    // `(Some x, …)` — a juxtaposed constructor operand and a `data_pattern`'s
+    // sub-pattern are the same tokens in the same place (lambda parameter list
+    // vs anonymous tuple). GLR keeps both until the `=>` decides, exactly as it
+    // already does for a bare parenthesized name.
+    [$._constructor_value, $.pattern],
+    // The nullary-operand form of the same race: `(Some None, …)`.
+    [$._constructor_value, $.data_pattern],
+    // Nested juxtaposition: in `Some None`, is `None` the finished operand or the
+    // head of a further application? One operand, never curried, so it is the
+    // finished operand — but the decision needs the next token, which is what
+    // this keeps alive (`Some None - 1` reduces, then subtracts).
+    [$._constructor_value, $.data_constructor_expr],
+    // NOT redundant, despite tree-sitter reporting it so once
+    // data_constructor_expr existed: removing it makes a data pattern in a
+    // *parameter* position (`(Some(x): Maybe<i64>) -> i64`) resolve toward the
+    // named-tuple *expression* reading and fail to parse. This is the region
+    // grammar.js's own conflict notes call finely balanced — the "unnecessary
+    // conflict" warning is unreliable here, so verify against the corpus rather
+    // than the warning.
     [$._tuple_name, $._primary_expr, $.data_pattern],
+    [$.named_struct_literal, $._tuple_name, $._primary_expr],
     [$.parameter_type, $.tuple_type_element],
     // A parenthesized name can begin a lambda parameter list (`(a, b) => …`) or
     // an anonymous tuple / parenthesized expression (`(a, b)`, `(a)`). A bare

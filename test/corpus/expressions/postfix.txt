@@ -419,3 +419,67 @@ let x = pair.0.name
         object: (identifier)
         index: (decimal_int))
       property: (identifier))))
+
+==========================================
+Data constructor juxtaposition application
+==========================================
+
+let a = Some 42
+let b = Err -1
+let c = Some x
+let d = Some None
+
+---
+
+(program
+  (declaration
+    (identifier)
+    (data_constructor_expr
+      (data_type_name)
+      (integer_literal
+        (decimal_int))))
+  (declaration
+    (identifier)
+    (data_constructor_expr
+      (data_type_name)
+      (negation
+        (integer_literal
+          (decimal_int)))))
+  (declaration
+    (identifier)
+    (data_constructor_expr
+      (data_type_name)
+      (identifier)))
+  (declaration
+    (identifier)
+    (data_constructor_expr
+      (data_type_name)
+      (user_defined_type_name))))
+
+==========================================
+Parenthesized constructor payloads are unchanged
+==========================================
+
+let a = Some(42)
+let b = Rect(3, 4)
+
+---
+
+(program
+  (declaration
+    (identifier)
+    (tuple_literal
+      (tuple_name)
+      (tuple_value
+        (integer_literal
+          (decimal_int)))))
+  (declaration
+    (identifier)
+    (tuple_literal
+      (tuple_name)
+      (tuple_value
+        (integer_literal
+          (decimal_int)))
+      (tuple_value
+        (integer_literal
+          (decimal_int))))))
