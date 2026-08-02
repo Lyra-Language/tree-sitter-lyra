@@ -1,4 +1,4 @@
-const { commaSep1, commaSep } = require("../helpers");
+const { commaSep1, commaSep, rangeBounds } = require("../helpers");
 const { PREC } = require("../prec");
 
 module.exports = {
@@ -155,16 +155,25 @@ module.exports = {
       $.boolean_literal,
     ),
 
-  // Range patterns (for pattern matching)
+  // Range patterns: `0..=9`, `-128..<0`, and — since the three range grammars
+  // were unified — the open forms `0..` (at least 0) and `..<0` (below 0). An
+  // open end is what makes a range pattern able to cover the tail of a type's
+  // domain without naming its maximum, which is where a `match` on a width most
+  // often needs one.
+  //
+  // Both bounds omitted (a bare `..`) is not spellable: rangeBounds' `open` mode
+  // requires one, since an unbounded range pattern is `_`.
+  //
+  // The operand is `_signed_number_literal`, not `expression`: a pattern must be
+  // a compile-time constant for exhaustiveness and for the jump-ladder lowering.
+  // That is a deliberate difference from `range_expr`, not drift — see rangeBounds.
   range_pattern: ($) =>
     prec.left(
       PREC.RANGE_PATTERN,
-      seq(
-        field("start", $._signed_number_literal),
-        "..",
-        optional(field("end_operator", $.range_end_operator)),
-        field("end", $._signed_number_literal),
-      ),
+      rangeBounds($, {
+        startOperand: $._signed_number_literal,
+        open: true,
+      }),
     ),
 
   // Wildcard pattern

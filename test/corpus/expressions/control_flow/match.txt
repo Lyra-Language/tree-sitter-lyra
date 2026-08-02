@@ -513,3 +513,55 @@ match n {
             (decimal_int)))
         (string_literal
           (string_content))))))
+
+==========================================
+Match with open-ended range patterns
+==========================================
+
+match n {
+  100.. => 1,
+  ..<0 => 2,
+  0..=99 => 3,
+}
+
+---
+
+(program
+  (expression_statement
+    (match_expr
+      (identifier)
+      (match_arm
+        (range_pattern
+          (integer_literal
+            (decimal_int)))
+        (integer_literal
+          (decimal_int)))
+      (match_arm
+        (range_pattern
+          (range_end_operator)
+          (integer_literal
+            (decimal_int)))
+        (integer_literal
+          (decimal_int)))
+      (match_arm
+        (range_pattern
+          (integer_literal
+            (decimal_int))
+          (range_end_operator)
+          (integer_literal
+            (decimal_int)))
+        (integer_literal
+          (decimal_int))))))
+
+==========================================
+Match range pattern with no bounds is an error
+:error
+==========================================
+
+match n {
+  .. => print("anything"),
+}
+
+---
+
+(program)

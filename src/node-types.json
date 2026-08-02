@@ -2689,11 +2689,6 @@
     "fields": {}
   },
   {
-    "type": "equal_to_comparator",
-    "named": true,
-    "fields": {}
-  },
-  {
     "type": "equals_operator",
     "named": true,
     "fields": {}
@@ -4210,11 +4205,6 @@
     }
   },
   {
-    "type": "less_than_comparator",
-    "named": true,
-    "fields": {}
-  },
-  {
     "type": "less_than_operator",
     "named": true,
     "fields": {}
@@ -5247,26 +5237,22 @@
     "type": "range_constraint",
     "named": true,
     "fields": {
-      "comparator": {
-        "multiple": false,
-        "required": false,
-        "types": [
-          {
-            "type": "equal_to_comparator",
-            "named": true
-          },
-          {
-            "type": "less_than_comparator",
-            "named": true
-          }
-        ]
-      },
       "end": {
         "multiple": false,
         "required": false,
         "types": [
           {
             "type": "constraint_math_expr",
+            "named": true
+          }
+        ]
+      },
+      "end_operator": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "range_end_operator",
             "named": true
           }
         ]
@@ -5304,7 +5290,7 @@
       },
       "end_operator": {
         "multiple": false,
-        "required": true,
+        "required": false,
         "types": [
           {
             "type": "range_end_operator",
@@ -5340,7 +5326,7 @@
     "fields": {
       "end": {
         "multiple": false,
-        "required": true,
+        "required": false,
         "types": [
           {
             "type": "float_literal",
@@ -5368,7 +5354,7 @@
       },
       "start": {
         "multiple": false,
-        "required": true,
+        "required": false,
         "types": [
           {
             "type": "float_literal",

@@ -1,4 +1,4 @@
-const { commaSep1 } = require("../helpers");
+const { commaSep1, rangeBounds } = require("../helpers");
 
 module.exports = {
   constrained_type: ($) =>
@@ -29,26 +29,25 @@ module.exports = {
     seq("values", "(", field("values", commaSep1($.literal_val)), ")"),
   literal_val: ($) => choice($.string_literal, $._number_literal),
 
-  // Range constraint
+  // Range constraint: `range(0..=100)`, `range(0..)`, `range(..<360)`.
+  //
+  // Either bound may be omitted — an absent one is the base type's own limit —
+  // but not both: `range(..)` constrains nothing, and rangeBounds' `open` mode
+  // makes it unspellable rather than leaving it to a diagnostic.
+  //
+  // The `<`/`=` token used to be its own pair of node kinds here
+  // (`less_than_comparator` / `equal_to_comparator`) under a `comparator` field,
+  // for the same two characters `range_end_operator` already covered in the
+  // expression and pattern rules. That was naming drift and nothing else; it cost
+  // a third collector path and a third case anywhere the CST is read. The field
+  // is now `end_operator` everywhere.
   range_constraint: ($) =>
     seq(
       "range",
       "(",
-      optional(field("start", $.constraint_math_expr)),
-      "..",
-      optional(
-        seq(
-          field(
-            "comparator",
-            choice($.less_than_comparator, $.equal_to_comparator),
-          ),
-          field("end", $.constraint_math_expr),
-        ),
-      ),
+      rangeBounds($, { startOperand: $.constraint_math_expr, open: true }),
       ")",
     ),
-  less_than_comparator: ($) => "<",
-  equal_to_comparator: ($) => "=",
 
   // Regex constraint (String)
   pattern_constraint: ($) =>

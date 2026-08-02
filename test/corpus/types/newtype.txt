@@ -79,7 +79,7 @@ newtype Alpha = f32 where range(0..=1)
           (constraint_math_expr
             (integer_literal
               (decimal_int)))
-          (less_than_comparator)
+          (range_end_operator)
           (constraint_math_expr
             (integer_literal
               (decimal_int))))
@@ -98,7 +98,7 @@ newtype Alpha = f32 where range(0..=1)
           (constraint_math_expr
             (integer_literal
               (decimal_int)))
-          (equal_to_comparator)
+          (range_end_operator)
           (constraint_math_expr
             (constraint_binary_expr
               (constraint_math_expr
@@ -122,7 +122,7 @@ newtype Alpha = f32 where range(0..=1)
           (constraint_math_expr
             (integer_literal
               (decimal_int)))
-          (equal_to_comparator)
+          (range_end_operator)
           (constraint_math_expr
             (integer_literal
               (decimal_int))))))))
@@ -169,7 +169,7 @@ newtype CompassHeading = u32 where range(0..<360), step(15)
           (constraint_math_expr
             (integer_literal
               (decimal_int)))
-          (equal_to_comparator)
+          (range_end_operator)
           (constraint_math_expr
             (integer_literal
               (decimal_int))))
@@ -187,7 +187,7 @@ newtype CompassHeading = u32 where range(0..<360), step(15)
           (constraint_math_expr
             (integer_literal
               (decimal_int)))
-          (less_than_comparator)
+          (range_end_operator)
           (constraint_math_expr
             (integer_literal
               (decimal_int))))
@@ -247,8 +247,38 @@ newtype Alpha = f32 where range(0..=1
           (constraint_math_expr
             (integer_literal
               (decimal_int)))
-          (equal_to_comparator)
+          (range_end_operator)
           (constraint_math_expr
             (integer_literal
               (decimal_int)))
           (MISSING ")"))))))
+
+====================================
+Newtype with open-ended range constraints
+====================================
+
+newtype AtLeastZero = i64 where range(0..)
+newtype BelowFullTurn = f64 where range(..<360)
+
+---
+
+(program
+  (type_declaration
+    (constrained_type
+      (constrained_type_name)
+      (signed_integer_type)
+      (constraints
+        (range_constraint
+          (constraint_math_expr
+            (integer_literal
+              (decimal_int)))))))
+  (type_declaration
+    (constrained_type
+      (constrained_type_name)
+      (float_type)
+      (constraints
+        (range_constraint
+          (range_end_operator)
+          (constraint_math_expr
+            (integer_literal
+              (decimal_int))))))))

@@ -336,6 +336,58 @@ Three constraints shape the rule, each learned by violating it:
 
 It needs two declared conflicts, both mirrors of ones already present for the unsigned case: `[expression, _signed_number_literal]` (which replaces `[expression, literal_pattern]` — declaring the old pair now warns as unnecessary) and `[_math_operand, _negated_number_literal]`. This is the region `grammar.js`'s conflict comments call finely balanced, so **check that `0 - 200` still parses as a `binary_expr` with a `sub_operator`** after touching any of it — the failure mode is that it becomes `0` plus a dangling `negation(-200)`.
 
+## One `..` Notation, Three Sites (`rangeBounds`, `include/helpers.js`)
+
+The `..` range notation appears in three places — an expression (`0..<n`, `0..=10:2`), a
+match pattern (`0..=9`), and a `newtype` range constraint (`range(0..=100)`). Until 08/01/26
+they were three independent rules that had drifted apart on four axes at once:
+
+| | operand | start | end operator | end | step |
+|---|---|---|---|---|---|
+| `range_expr` | `expression` | required | **required** | required | optional `:step` |
+| `range_pattern` | `_signed_number_literal` | required | **optional** | required | — |
+| `range_constraint` | `constraint_math_expr` | **optional** | optional | optional | — |
+
+…and on a fifth: the same two characters `<`/`=` were `range_end_operator` in two of the
+rules and a pair of node kinds of their own (`less_than_comparator`/`equal_to_comparator`,
+under a `comparator` field) in the third.
+
+`rangeBounds($, {startOperand, endOperand, open, step})` is now the one shape. **Two of
+those axes are real and stay parameters; the rest were drift and are gone.**
+
+- **The operand legitimately differs.** A pattern needs a compile-time literal
+  (exhaustiveness and the jump-ladder lowering depend on it), a constraint needs a constant
+  *expression* (it is part of a type), an expression takes arbitrary runtime values.
+  Unifying these would either let a match arm hold a function call or break `for i in 0..<n`.
+- **Open-endedness legitimately differs.** `range(0..)` means "bounded below, and above by
+  the base type"; `10..` as a pattern covers a type's tail without naming its maximum. An
+  open-ended *expression* range would need the lazy iterator the language does not have, so
+  `range_expr` stays closed on both sides.
+- **Both bounds absent is refused structurally** (`open` mode is a `choice`, not two
+  independent `optional`s). `range(..)` constrains nothing and a bare `..` pattern is `_`.
+
+**The end operator is optional in the grammar at all three sites and required by the
+collector at all three** (`lyra-E032`, via `ctx.RangeEndOperator`). It is not a default:
+every reader of the collected operator tests `== "<"`, so an omitted one silently meant
+*inclusive* — `0..9` was `0..=9`, and that extra value is the boundary the exhaustiveness
+checker and the emitted comparison disagree on. The line between grammar and collector
+enforcement, worth keeping: **enforce in the collector when the construct has a plausible
+intended meaning that must be disambiguated** (`0..9` is what a Rust or Python programmer
+writes *meaning* something, and deserves a message naming both fixes rather than a syntax
+error pointing at whichever token failed to shift — the `lyra-E029` trade), **and in the
+grammar when it has no meaning at all** (a bare `..`).
+
+Cost of the change: 5,370 → 5,537 states, `parser.c` 8.8 MB → 9.4 MB (+3% / +6%), for two
+new pattern forms and lenient operators at three sites. Corpus: the open-ended tests in
+`test/corpus/expressions/control_flow/match.txt` and `test/corpus/types/newtype.txt`, plus
+the `:error` test that a bare `..` pattern does not parse.
+
+**A recovered parse is not an absent bound.** Where the grammar requires a bound,
+tree-sitter can *insert* one to keep going — `range(..)` yields a zero-width `decimal_int`
+sitting on the `)`. The Go side treats missing-or-empty as absent
+(`collector_ctx.RangeBound`); a plain nil check reads that insertion as a bound of value
+zero.
+
 ## Type Aliases vs `newtype`
 
 Two declarations that look alike and mean opposite things:
