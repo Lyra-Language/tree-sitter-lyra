@@ -5194,7 +5194,7 @@
             "name": "element_type",
             "content": {
               "type": "SYMBOL",
-              "name": "_non_allocated_type"
+              "name": "_element_type"
             }
           }
         ]
@@ -5210,6 +5210,23 @@
         {
           "type": "SYMBOL",
           "name": "const_identifier"
+        }
+      ]
+    },
+    "_element_type": {
+      "type": "CHOICE",
+      "members": [
+        {
+          "type": "SYMBOL",
+          "name": "_non_allocated_type"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "allocated_type"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "weak_type"
         }
       ]
     },

@@ -36,11 +36,33 @@ module.exports = {
     '[',
     optional(field('size', $.array_size)),
     ']',
-    field('element_type', $._non_allocated_type)
+    field('element_type', $._element_type)
   )),
 
   // Array size - compile-time constant expression
   array_size: $ => choice($._number_literal, $.const_identifier),
+
+  // An array *element* may carry ONE allocation or `weak` modifier —
+  // `[]shared Node`, `[3]weak Observer`, `[16]stack Vec3`. The element is the one
+  // position where a modifier is meaningful but was not accepted, which made the
+  // natural spelling for a tree's children (`kids: []shared Node`) unwritable and
+  // pushed it into a `Maybe<shared Node>` chain. Allocation is a use-site property
+  // (see the header), and an array's elements are a use site like any other; the
+  // type system already expected this, `firstAllocationMismatch` in `lyra`'s
+  // assignable.go having been written to catch "a `stack` element assigned into a
+  // `[N]shared` slot".
+  //
+  // It is a choice of three rather than `$.type` — which would admit `[]void` — and
+  // it is exactly ONE modifier deep, because the operand stays `_non_allocated_type`.
+  // That is what keeps `shared shared T` and `weak shared T` out, and it is why the
+  // two *other* users of `_non_allocated_type` (weak_type's inner, allocated_type's
+  // type) are deliberately left alone: their operand must remain modifier-free or
+  // modifiers become stackable everywhere.
+  _element_type: $ => choice(
+    $._non_allocated_type,
+    $.allocated_type,
+    $.weak_type,
+  ),
 
   // Non-allocated types (used to prevent recursion in array types)
   _non_allocated_type: $ => choice(

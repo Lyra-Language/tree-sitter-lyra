@@ -384,6 +384,41 @@ an error — which is exactly how `pub let` went uncollected until 07/30.
 The rule: if a collector needs to find something, label it. An anonymous child is fine
 only for tokens nothing reads.
 
+## Allocation modifiers on an array *element* (`include/types/allocation.js`)
+
+`[]shared Node`, `[3]weak Observer`, `[16]stack Vec3`. Added 08/03/26 via `_element_type`,
+a `choice` of `_non_allocated_type | allocated_type | weak_type` that only `array_type`
+uses.
+
+**Why the element and nowhere else.** Allocation is a *use-site* property (the header of
+`allocation.js`), and an array's elements are a use site — but `array_type`'s `element_type`
+was `_non_allocated_type`, so the modifier had no way in. The consequence was not a niche
+one: `kids: []shared Node`, the obvious spelling for a tree's children, did not parse, and
+the shape had to be bent into a `Maybe<shared Node>` chain instead. The `lyra` side had
+**already been written for this** — `firstAllocationMismatch` (`assignable.go`) recurses
+into array elements and its comment names "a `stack` element assigned into a `[N]shared`
+slot" as the case it exists for — so the checking outlived the syntax needed to reach it by
+some margin. Nothing in the Go pipeline changed; only the grammar did.
+
+**Exactly one modifier deep, deliberately.** `_element_type`'s operand stays
+`_non_allocated_type`, so `[]shared shared Node` is still a parse error. And the *other two*
+users of `_non_allocated_type` — `weak_type`'s `inner_type` and `allocated_type`'s `type` —
+are deliberately untouched: their operand must stay modifier-free, or `shared weak T` and
+`weak shared T` become writable everywhere. `weak T` already means "non-owning reference to
+a `shared T`" (the `.weak()` builtin's result is `WeakType{Inner: …Stack}`), so `weak shared T`
+would be saying the same thing twice with a different answer.
+
+It is a `choice` of the three rather than `$.type`, which would admit `[]void`. Note `[]void`
+parses anyway — as `generic_type`, since a lowercase name is a type *variable* by the ML
+lexical rule — which is pre-existing and unrelated (see `lyra/todo.md` on the decorative
+generic parameter list, the same Pit-of-Success inversion).
+
+Cost: 8,237 → 8,240 states (+3, +0.04%), `parser.c` +5 KB. This region is cheap because the
+element sits after a closing `]`, so there is no prefix for the automaton to track — nothing
+like the modifier chains that made `lambda_expr` expensive. Corpus:
+`test/corpus/types/allocation.txt`, including the two `:error` tests that pin the
+no-stacking rule.
+
 ## Effect modifiers on a function *type* (`include/types/lambda_type.js`)
 
 `lambda_type` accepts the same `pure`/`det`/`noalloc` modifiers `lambda_expr` does, so a
@@ -402,9 +437,10 @@ bound makes it unconditional and constrains every caller instead.
 
 ## Parser size, and the rule that decides it (`lambda_expr`)
 
-`src/parser.c` is ~14.7 MB (8,237 states) — the figure below is the low-water mark it was
-reduced *to*, before bitwise operators (+1,576 states), the struct-literal postfix head (+26)
-and newline-separated member lists (+29, traits/impls then struct declarations). It was **116 MB and 62,663 states** until the
+`src/parser.c` is ~14.7 MB (8,240 states) — the figure below is the low-water mark it was
+reduced *to*, before bitwise operators (+1,576 states), the struct-literal postfix head (+26),
+newline-separated member lists (+29, traits/impls then struct declarations) and array-element
+modifiers (+3). It was **116 MB and 62,663 states** until the
 `lambda_expr` modifiers were rebuilt, and `tree-sitter generate --report-states-for-rule -`
 is what found it: `lambda_expr` alone owned **57,026 of those states — 91%**.
 

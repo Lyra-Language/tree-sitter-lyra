@@ -774,6 +774,10 @@
         "required": true,
         "types": [
           {
+            "type": "allocated_type",
+            "named": true
+          },
+          {
             "type": "array_type",
             "named": true
           },
@@ -823,6 +827,10 @@
           },
           {
             "type": "user_defined_type_name",
+            "named": true
+          },
+          {
+            "type": "weak_type",
             "named": true
           }
         ]

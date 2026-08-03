@@ -163,3 +163,133 @@ pub struct Transform<t> {
           (field_name)
           (field_type
             (generic_type)))))))
+
+============================================
+Dynamic array of shared elements
+============================================
+
+struct Tree {
+  kids: []shared Node
+}
+
+---
+
+(program
+  (type_declaration
+    (struct_type
+      (struct_name)
+      (struct_type_body
+        (struct_member
+          (field_name)
+          (field_type
+            (array_type
+              (allocated_type
+                (allocation_modifier)
+                (user_defined_type_name)))))))))
+
+============================================
+Fixed-size array of shared elements
+============================================
+
+let nodes: [4]shared Node = xs
+
+---
+
+(program
+  (declaration
+    (identifier)
+    (type_annotation
+      (array_type
+        (array_size
+          (integer_literal
+            (decimal_int)))
+        (allocated_type
+          (allocation_modifier)
+          (user_defined_type_name))))
+    (identifier)))
+
+============================================
+Array of weak elements
+============================================
+
+struct Registry {
+  observers: []weak Listener
+}
+
+---
+
+(program
+  (type_declaration
+    (struct_type
+      (struct_name)
+      (struct_type_body
+        (struct_member
+          (field_name)
+          (field_type
+            (array_type
+              (weak_type
+                (user_defined_type_name)))))))))
+
+============================================
+Array element modifiers nest and compose
+============================================
+
+let a: [][]shared Node = xs
+let b: []shared []Node = ys
+let c: stack [2]weak Node = zs
+
+---
+
+(program
+  (declaration
+    (identifier)
+    (type_annotation
+      (array_type
+        (array_type
+          (allocated_type
+            (allocation_modifier)
+            (user_defined_type_name)))))
+    (identifier))
+  (declaration
+    (identifier)
+    (type_annotation
+      (array_type
+        (allocated_type
+          (allocation_modifier)
+          (array_type
+            (user_defined_type_name)))))
+    (identifier))
+  (declaration
+    (identifier)
+    (type_annotation
+      (allocated_type
+        (allocation_modifier)
+        (array_type
+          (array_size
+            (integer_literal
+              (decimal_int)))
+          (weak_type
+            (user_defined_type_name)))))
+    (identifier)))
+
+=================================================
+An element modifier does not stack
+:error
+=================================================
+
+let a: []shared shared Node = xs
+
+---
+
+(program)
+
+=================================================
+An allocation modifier still does not stack outside an array
+:error
+=================================================
+
+let a: shared weak Node = x
+
+---
+
+(program)
