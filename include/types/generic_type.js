@@ -40,6 +40,28 @@ module.exports = {
   // These are usually omittable — the typechecker infers the arguments from the
   // value arguments — so the turbofish rarely needs to be written.
   //
+  // **Where that ambiguity actually bites, because it is not where it looks.**
+  // The tempting argument for dropping the turbofish is that the competing read
+  // of `Name<T>(x)` — `(Name < T) > (x)` — is ungrammatical here: comparisons are
+  // non-associative (`_comparison_operand` in expressions/boolean.js admits no
+  // comparison), so `a < b > c` and even `(a < b) > c` do not parse. That
+  // argument is wrong, and the mistake is worth recording because it is the
+  // natural one to make. The conflict is not the chained read at the *end*, it is
+  // the decision at the `<` itself: on seeing `a <` the parser must choose
+  // between "generic arguments begin" and "less-than operator" before it can see
+  // whether `> (` follows, and the comparison branch loses.
+  //
+  // Measured, 08/02/26, by prototyping `seq(choice("::<", "<"), …)`: it generates
+  // with one extra conflict entry and costs **nothing** in parser size — 6,606 →
+  // 6,607 states, +5 KB — and `Point3D<f64>(1.0)` and `map<i64>(x)` both parse.
+  // The price is the language: `a < b`, `if n < 2` and `for i < 10` all become
+  // parse errors (six corpus tests fail). `x <= y` and `1 < 2` survive only
+  // because `<=` is its own token and a numeric literal cannot head a type
+  // argument list — so every comparison with an *identifier* on the left, which
+  // is nearly all of them, breaks. This is precisely the ambiguity C++ has and
+  // why Rust chose the turbofish. **Do not re-run this experiment; size was never
+  // the constraint.**
+  //
   // `::<` is one atomic token (not `"::"` then `"<"`) so the *lexer* — via
   // ordinary maximal-munch — disambiguates turbofish from `trait_method_path`'s
   // `TraitName::method` (postfix.js) instead of the *parser* having to choose
