@@ -101,9 +101,23 @@ A signature wrapped across lines is unaffected, for the reason the scanner secti
 newline inside an unfinished parameter list never reaches the scanner, because tree-sitter
 does not mark the terminator valid there.
 
-Cost: 8,208 → 8,224 states (+0.2%), `parser.c` +21 KB. **Struct declarations still require
-commas** (`struct_type_body`, `anonymous_struct_type`) and are the obvious next users of
-`memberList` — a one-word change each, deliberately not made with this one.
+**A struct declaration's fields take it too** — `struct_type_body` and
+`anonymous_struct_type`, so a field per line reads like the rest of the language:
+
+```lyra
+struct Node {
+  n: i64
+  tag: string
+}
+```
+
+A struct **literal**'s fields deliberately still require commas (`struct_fields`,
+`include/literals/struct.js`). That list sits inside the literal-vs-block ambiguity this
+file's conflict notes describe — `Point { … }` is contested between a struct literal and a
+name followed by a block — so a newline separator there is a question about that conflict
+rather than the same one-word change. It wants its own measurement, not this reflex.
+
+Cost: 8,208 → 8,237 states (+0.35% over both changes), `parser.c` +32 KB.
 
 **Comment scanning is gated on `!in_string(scanner)` — do not remove that guard.** Comments are `extras`, so `BLOCK_COMMENT` is valid almost everywhere, including at every string content-chunk boundary, and the comment branch runs *before* the in-string branch. Unguarded (the state until 07/29/26), a string whose content began with `/*` lexed as a comment running to the next `*/` **anywhere later in the file** — swallowing the rest of the line, following declarations, and all — and no later pass reported anything (`lyrac check` exited 0). It fired wherever a fresh content chunk starts: after the opening quote, right after a `${…}` interpolation, and — since `scan_block_comment` skips leading whitespace as token padding — after a leading space (`" /* x */ y"`). An *interpolation* is an expression context where comments remain valid, and `in_string()` is false for `CTX_INTERPOLATION`, which is exactly the line this guard draws. Fixing it also stopped the padding-skip from **eating a content chunk's leading whitespace** (`"${a} ${b}"` now emits the middle space as `string_content`; it previously vanished from the CST and was recoverable only by the collector's raw-source re-slice). Corpus coverage: the comment-delimiter tests in `test/corpus/literals/string.txt`.
 
@@ -388,9 +402,9 @@ bound makes it unconditional and constrains every caller instead.
 
 ## Parser size, and the rule that decides it (`lambda_expr`)
 
-`src/parser.c` is ~14.7 MB (8,224 states) — the figure below is the low-water mark it was
+`src/parser.c` is ~14.7 MB (8,237 states) — the figure below is the low-water mark it was
 reduced *to*, before bitwise operators (+1,576 states), the struct-literal postfix head (+26)
-and newline-separated member lists (+16). It was **116 MB and 62,663 states** until the
+and newline-separated member lists (+29, traits/impls then struct declarations). It was **116 MB and 62,663 states** until the
 `lambda_expr` modifiers were rebuilt, and `tree-sitter generate --report-states-for-rule -`
 is what found it: `lambda_expr` alone owned **57,026 of those states — 91%**.
 

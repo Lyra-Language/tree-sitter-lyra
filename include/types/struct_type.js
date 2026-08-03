@@ -1,4 +1,4 @@
-const { commaSep1 } = require("../helpers");
+const { memberList } = require("../helpers");
 
 module.exports = {
   struct_type: ($) =>
@@ -25,7 +25,11 @@ module.exports = {
       optional(field("default_value", $.default_field_value)),
     ),
 
-  struct_type_body: ($) => seq("{", commaSep1($.struct_member), "}"),
+  // Fields one per line or comma-separated — see memberList in helpers.js. The two
+  // bodies stay separate rules despite having the same shape: a *declaration*'s body
+  // and an anonymous struct *type* appear in different positions, and collapsing them
+  // would give the CST one node kind where the collector reads two.
+  struct_type_body: ($) => seq("{", memberList($, $.struct_member), "}"),
 
-  anonymous_struct_type: ($) => seq("{", commaSep1($.struct_member), "}"),
+  anonymous_struct_type: ($) => seq("{", memberList($, $.struct_member), "}"),
 };

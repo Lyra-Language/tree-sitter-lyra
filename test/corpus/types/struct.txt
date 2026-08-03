@@ -315,3 +315,28 @@ let f = (c: rune) -> rune => c
       return_type: (return_type
         type: (rune_type))
       body: (identifier))))
+
+==================
+Struct fields separated by newlines
+==================
+
+struct Node {
+  n: i64
+  tag: string
+}
+
+---
+
+(program
+  (type_declaration
+    (struct_type
+      (struct_name)
+      (struct_type_body
+        (struct_member
+          (field_name)
+          (field_type
+            (signed_integer_type)))
+        (struct_member
+          (field_name)
+          (field_type
+            (string_type)))))))
