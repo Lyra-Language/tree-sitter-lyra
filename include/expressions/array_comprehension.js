@@ -2,15 +2,39 @@ const { commaSep1 } = require("../helpers");
 const { PREC } = require("../prec");
 
 module.exports = {
+  // `[ x in 1..=10 | even(x) | x * x ]` — generators, optional guards, result,
+  // each separated by `|`.
+  //
+  // Since `|` became bitwise-or, `[ x in R | A | B ]` fits two readings: guard
+  // `A` with result `B`, or *no* guard and the single result `A | B`. Both parses
+  // complete, so this is a genuine GLR ambiguity rather than a shift/reduce one,
+  // and `prec.dynamic` is what picks between completed parses — the guarded
+  // branch wins.
+  //
+  // That makes the rule inside a comprehension: **a top-level `|` is a section
+  // separator; parenthesize a bitwise-or that is meant as a value**
+  // (`[ x in R | (a | b) ]`). Choosing the other way would silently turn every
+  // guarded comprehension into an unguarded one whose result is a bitwise-or —
+  // which is exactly what happened before this precedence was added, and it was
+  // a wrong tree rather than a parse error.
   array_comp_expr: ($) =>
     prec(
       PREC.ARRAY_COMP,
       seq(
         "[",
         $._generators,
-        optional(seq("|", $._guards)),
-        "|",
-        field("result_expr", $.result_expr),
+        choice(
+          prec.dynamic(
+            1,
+            seq(
+              "|",
+              $._guards,
+              "|",
+              field("result_expr", $.result_expr),
+            ),
+          ),
+          seq("|", field("result_expr", $.result_expr)),
+        ),
         "]",
       ),
     ),

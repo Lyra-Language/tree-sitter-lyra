@@ -1,0 +1,348 @@
+===========
+Bitwise and
+===========
+
+a & b
+
+---
+
+(program
+  (expression_statement
+    (binary_expr
+      (identifier)
+      (bitand_operator)
+      (identifier))))
+
+==========
+Bitwise or
+==========
+
+a | b
+
+---
+
+(program
+  (expression_statement
+    (binary_expr
+      (identifier)
+      (bitor_operator)
+      (identifier))))
+
+===========
+Bitwise xor
+===========
+
+a ~ b
+
+---
+
+(program
+  (expression_statement
+    (binary_expr
+      (identifier)
+      (bitxor_operator)
+      (identifier))))
+
+==========================
+Bitwise not is prefix tilde
+==========================
+
+~a
+
+---
+
+(program
+  (expression_statement
+    (bitwise_not
+      (identifier))))
+
+==========
+Shift left
+==========
+
+a << 2
+
+---
+
+(program
+  (expression_statement
+    (binary_expr
+      (identifier)
+      (shl_operator)
+      (integer_literal
+        (decimal_int)))))
+
+===========
+Shift right
+===========
+
+a >> 2
+
+---
+
+(program
+  (expression_statement
+    (binary_expr
+      (identifier)
+      (shr_operator)
+      (integer_literal
+        (decimal_int)))))
+
+==========================================
+Bitwise binds tighter than comparison
+==========================================
+
+flags & MASK == 0
+
+---
+
+(program
+  (expression_statement
+    (boolean_expr
+      (binary_expr
+        (identifier)
+        (bitand_operator)
+        (const_identifier))
+      (equals_operator)
+      (integer_literal
+        (decimal_int)))))
+
+==========================================
+Bitwise or is looser than addition
+==========================================
+
+a | b + c
+
+---
+
+(program
+  (expression_statement
+    (binary_expr
+      (identifier)
+      (bitor_operator)
+      (binary_expr
+        (identifier)
+        (add_operator)
+        (identifier)))))
+
+==========================================
+Shift binds tighter than addition
+==========================================
+
+a << 2 + 1
+
+---
+
+(program
+  (expression_statement
+    (binary_expr
+      (binary_expr
+        (identifier)
+        (shl_operator)
+        (integer_literal
+          (decimal_int)))
+      (add_operator)
+      (integer_literal
+        (decimal_int)))))
+
+==========================================
+And binds tighter than xor binds tighter than or
+==========================================
+
+a & b ~ c | d
+
+---
+
+(program
+  (expression_statement
+    (binary_expr
+      (binary_expr
+        (binary_expr
+          (identifier)
+          (bitand_operator)
+          (identifier))
+        (bitxor_operator)
+        (identifier))
+      (bitor_operator)
+      (identifier))))
+
+==========================================
+Complement applies before a binary operator
+==========================================
+
+~a & b
+
+---
+
+(program
+  (expression_statement
+    (binary_expr
+      (bitwise_not
+        (identifier))
+      (bitand_operator)
+      (identifier))))
+
+==========================================
+Complement of a parenthesized group
+==========================================
+
+~(a & b)
+
+---
+
+(program
+  (expression_statement
+    (bitwise_not
+      (group
+        (binary_expr
+          (identifier)
+          (bitand_operator)
+          (identifier))))))
+
+==========================================
+Bitwise compound assignments
+==========================================
+
+x &= 1
+x |= 2
+x ~= 3
+x <<= 4
+x >>= 5
+
+---
+
+(program
+  (expression_statement
+    (compound_assignment
+      (identifier)
+      (bitand_assign_operator)
+      (integer_literal
+        (decimal_int))))
+  (expression_statement
+    (compound_assignment
+      (identifier)
+      (bitor_assign_operator)
+      (integer_literal
+        (decimal_int))))
+  (expression_statement
+    (compound_assignment
+      (identifier)
+      (bitxor_assign_operator)
+      (integer_literal
+        (decimal_int))))
+  (expression_statement
+    (compound_assignment
+      (identifier)
+      (shl_assign_operator)
+      (integer_literal
+        (decimal_int))))
+  (expression_statement
+    (compound_assignment
+      (identifier)
+      (shr_assign_operator)
+      (integer_literal
+        (decimal_int)))))
+
+==========================================
+A leading-bar data declaration still parses
+==========================================
+
+data Color = Red | Green | Blue
+
+---
+
+(program
+  (type_declaration
+    (data_type
+      (data_type_name)
+      (data_type_constructor
+        (data_type_constructor_name))
+      (data_type_constructor
+        (data_type_constructor_name))
+      (data_type_constructor
+        (data_type_constructor_name)))))
+
+==========================================
+A struct update separator is still not bitwise or
+==========================================
+
+Player { existing | health: 10 }
+
+---
+
+(program
+  (expression_statement
+    (named_struct_literal
+      (struct_name)
+      (struct_body
+        (struct_update
+          (identifier)
+          (struct_field
+            (field_name)
+            (field_value
+              (integer_literal
+                (decimal_int)))))))))
+
+==========================================
+A comprehension guard is still not bitwise or
+==========================================
+
+let evens = [ x in 1..=10 | even(x) | x * x ]
+
+---
+
+(program
+  (declaration
+    (identifier)
+    (array_comp_expr
+      (generator
+        (identifier)
+        (range_expr
+          (range_start
+            (integer_literal
+              (decimal_int)))
+          (range_end_operator)
+          (range_end
+            (integer_literal
+              (decimal_int)))))
+      (comprehension_guard
+        (call_expr
+          (identifier)
+          (argument_list
+            (value
+              (identifier)))))
+      (result_expr
+        (binary_expr
+          (identifier)
+          (mul_operator)
+          (identifier))))))
+
+==========================================
+A bitwise or inside a comprehension is parenthesized
+==========================================
+
+let masked = [ x in 1..=10 | (x | 1) ]
+
+---
+
+(program
+  (declaration
+    (identifier)
+    (array_comp_expr
+      (generator
+        (identifier)
+        (range_expr
+          (range_start
+            (integer_literal
+              (decimal_int)))
+          (range_end_operator)
+          (range_end
+            (integer_literal
+              (decimal_int)))))
+      (result_expr
+        (group
+          (binary_expr
+            (identifier)
+            (bitor_operator)
+            (integer_literal
+              (decimal_int))))))))

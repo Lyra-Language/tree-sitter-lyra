@@ -106,12 +106,32 @@ const PREC = {
   // whole block body without fighting inner statements.
   TRAIT_IMPL: 100,
 
+  // Bitwise operators, between the comparisons and arithmetic.
+  //
+  // Binding *tighter than comparison* is the whole point, and it is where C got
+  // it wrong: there `flags & MASK == 0` silently means `flags & (MASK == 0)`,
+  // which is why C codebases parenthesise every masked comparison. Here `&`
+  // (104) beats `==` (80), so it reads the way it looks.
+  //
+  // Binding *looser than arithmetic* follows Python/Ruby rather than Go, which
+  // ties `|`/`^` to `+` and `&` to `*`. Distinct bands mean `a | b + c` groups
+  // as `a | (b + c)` — the arithmetic completes before it is folded in — instead
+  // of Go's `(a | b) + c`.
+  //
+  // Shifts are the exception and sit *above* addition (115), matching Go: `a + b
+  // << c` is `a + (b << c)` and `a * b << c` is `(a * b) << c`. C puts shifts
+  // below addition, which is the other classic parenthesise-everything trap.
+  BITWISE_OR: 100,
+  BITWISE_XOR: 102,
+  BITWISE_AND: 104,
+
   // Arithmetic.
   STRING_CONCAT: 110, // `++` operator, same binding power as addition
   ADDITIVE: 110,
+  SHIFT: 115, // `<<` / `>>` — tighter than `+`, looser than `*`
   MULTIPLICATIVE: 120,
   MATH_PRIMARY: 130,
-  UNARY: 140, // `-x`, `!x`
+  UNARY: 140, // `-x`, `!x`, `~x`
 
   // Statement-level control flow (jumps bind tighter than their payload
   // expression so `return x + 1` parses as `return (x + 1)`).

@@ -46,51 +46,68 @@ const { PREC } = require("../prec");
  * factory stays compatible with tree-sitter's `grammar({ rules: … })`
  * function-style rule definitions.
  */
-function arithmeticRules({ binary, unary, operand }) {
-  return {
-    [binary]: ($) =>
-      choice(
-        prec.left(
-          PREC.ADDITIVE,
-          seq(
-            field("left", operand($)),
-            field("operator", choice($.add_operator, $.sub_operator)),
-            field("right", operand($)),
-          ),
-        ),
-        prec.left(
-          PREC.MULTIPLICATIVE,
-          seq(
-            field("left", operand($)),
-            field(
-              "operator",
-              choice(
-                $.mul_operator,
-                $.div_operator,
-                $.mod_operator,
-                $.remainder_operator,
-              ),
-            ),
-            field("right", operand($)),
-          ),
-        ),
+function arithmeticRules({ binary, unary, bitnot, operand }) {
+  // One band per precedence level. Each is `prec.left` at its own level, so the
+  // relative ordering in prec.js is the only thing that decides grouping — see
+  // the PREC comment for why bitwise sits between comparison and arithmetic.
+  const band = (level, ops) => ($) =>
+    prec.left(
+      level,
+      seq(
+        field("left", operand($)),
+        field("operator", choice(...ops($))),
+        field("right", operand($)),
       ),
+    );
+
+  const bands = [
+    band(PREC.BITWISE_OR, ($) => [$.bitor_operator]),
+    band(PREC.BITWISE_XOR, ($) => [$.bitxor_operator]),
+    band(PREC.BITWISE_AND, ($) => [$.bitand_operator]),
+    band(PREC.ADDITIVE, ($) => [$.add_operator, $.sub_operator]),
+    band(PREC.SHIFT, ($) => [$.shl_operator, $.shr_operator]),
+    band(PREC.MULTIPLICATIVE, ($) => [
+      $.mul_operator,
+      $.div_operator,
+      $.mod_operator,
+      $.remainder_operator,
+    ]),
+  ];
+
+  return {
+    [binary]: ($) => choice(...bands.map((b) => b($))),
 
     [unary]: ($) =>
       prec.right(
         PREC.UNARY,
         seq(field("operator", "-"), field("operand", operand($))),
       ),
+
+    // Bitwise complement. `~` is *also* the binary xor operator, exactly as `-`
+    // is both subtraction and negation: the two are told apart by position, and
+    // `prec.right(UNARY)` here beats the binary band the same way negation does.
+    [bitnot]: ($) =>
+      prec.right(
+        PREC.UNARY,
+        seq(field("operator", "~"), field("operand", operand($))),
+      ),
   };
 }
 
 module.exports = {
   _math_expr: ($) =>
-    choice($.binary_expr, $.compound_assignment, $.negation, $.group),
+    choice(
+      $.binary_expr,
+      $.compound_assignment,
+      $.negation,
+      $.bitwise_not,
+      $.group,
+    ),
 
   ...arithmeticRules({
     binary: "binary_expr",
     unary: "negation",
+    bitnot: "bitwise_not",
     operand: ($) => $._math_operand,
   }),
 
@@ -108,6 +125,11 @@ module.exports = {
             $.div_assign_operator,
             $.mod_assign_operator,
             $.remainder_assign_operator,
+            $.bitand_assign_operator,
+            $.bitor_assign_operator,
+            $.bitxor_assign_operator,
+            $.shl_assign_operator,
+            $.shr_assign_operator,
           ),
         ),
         field("right", $._math_operand),
@@ -143,12 +165,26 @@ module.exports = {
   div_operator: ($) => "/",
   mod_operator: ($) => "%",
   remainder_operator: ($) => "%%",
+  // Bitwise and shift. `~` is xor here and complement in prefix position (see
+  // arithmeticRules); `&`/`|` are the single-character forms, so the two-character
+  // logical `&&`/`||` still win by longest match.
+  bitand_operator: ($) => "&",
+  bitor_operator: ($) => "|",
+  bitxor_operator: ($) => "~",
+  shl_operator: ($) => "<<",
+  shr_operator: ($) => ">>",
+
   add_assign_operator: ($) => "+=",
   sub_assign_operator: ($) => "-=",
   mul_assign_operator: ($) => "*=",
   div_assign_operator: ($) => "/=",
   mod_assign_operator: ($) => "%=",
   remainder_assign_operator: ($) => "%%=",
+  bitand_assign_operator: ($) => "&=",
+  bitor_assign_operator: ($) => "|=",
+  bitxor_assign_operator: ($) => "~=",
+  shl_assign_operator: ($) => "<<=",
+  shr_assign_operator: ($) => ">>=",
 
   group: ($) => prec(PREC.MATH_GROUP, seq("(", $._math_expr, ")")),
 
@@ -176,6 +212,7 @@ module.exports = {
       $._number_literal,
       $.constraint_binary_expr,
       $.constraint_negation,
+      $.constraint_bitwise_not,
       $.identifier,
       $.const_identifier,
     ),
@@ -183,6 +220,7 @@ module.exports = {
   ...arithmeticRules({
     binary: "constraint_binary_expr",
     unary: "constraint_negation",
+    bitnot: "constraint_bitwise_not",
     operand: ($) => $.constraint_math_expr,
   }),
 };

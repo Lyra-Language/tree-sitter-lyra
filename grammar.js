@@ -138,6 +138,22 @@ module.exports = grammar({
     // A comparison operand can also be a math operand or bool operand in
     // ambiguous positions (e.g. `&x == y` where `x` could be either).
     [$._comparison_operand, $._math_operand],
+    // `{ a | …` — bitwise-or made `|` ambiguous with the struct-update separator
+    // (`Point { base | x: 1 }`). After `{ identifier`, a following `|` either
+    // separates the update base from its fields, or is the operator of a
+    // bitwise-or expression that happens to be the block's first statement.
+    // Only the *next* token tells them apart (`x: 1` vs a bare operand), so GLR
+    // has to keep both alive. Resolving it by precedence instead would pick one
+    // reading statically and break the other.
+    [$.struct_update, $._primary_expr],
+    // The same `|` race one rule over: inside an array comprehension, `|`
+    // both separates the generators from the guards and closes the clause
+    // (`[x*2 for x in xs | x > 0 |]`), so after a generator — or after a guard —
+    // a following `|` is either that delimiter or a bitwise-or operator applied
+    // to the preceding operand. Same resolution, same reason.
+    [$.generator, $._primary_expr],
+    [$.comprehension_guard, $._primary_expr],
+    [$.comprehension_guard, $._postfix_expr],
     [$._bool_operand, $._comparison_operand],
     // A bare identifier can be either a primary expression or the label
     // prefix of a labeled for/for-in loop expression.

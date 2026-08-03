@@ -184,13 +184,65 @@ Note: this grammar's `parser.c` is inherently ~120 MB and takes ~60 s to
 | Block, type | `BLOCK=2`, `TYPE=2` | lowest |
 | Logical | `LOGICAL_OR=30`, `LOGICAL_AND=40` | low |
 | Equality / relational | `EQUALITY=80`, `RELATIONAL=90` | medium-low |
-| Arithmetic | `ADDITIVE=110`, `MULTIPLICATIVE=120` | medium |
+| Bitwise | `BITWISE_OR=100`, `BITWISE_XOR=102`, `BITWISE_AND=104` | medium-low |
+| Arithmetic | `ADDITIVE=110`, `SHIFT=115`, `MULTIPLICATIVE=120` | medium |
 | Unary | `UNARY=140` | medium-high |
 | Match / with | `MATCH_EXPR=201`, `WITH_STATEMENT=200` | high |
 | Await / yield-from | `AWAIT=250`, `YIELD_FROM=251` | higher |
 | Postfix (call, `.`, `[]`) | `POSTFIX=300` | highest |
 
 Full table is in `include/prec.js`.
+
+## Bitwise and Shift Operators (`include/expressions/math.js`)
+
+`& | ~ << >>` binary, `~` prefix (complement), and the five compound assignments
+(`&= |= ~= <<= >>=`). Added 08/02/26; the trait `binary_operator` list had reserved
+`<< >> & | ^` for overloads since before any of them existed in expression position.
+
+**Xor is `~`, not `^`.** `^` is spoken for twice — prefix `^T` raw-pointer types and
+postfix `ptr^` deref — so a binary `^` would be ambiguous with a deref in operand
+position, and `ptr^ ^ mask` is the case with no good answer. `~` was completely free
+(and already reserved in the trait `prefix_operator` list). Odin, which this language
+borrows from elsewhere (`%%`, the `rune` naming), spells xor `~` for the same reason.
+The complement is the same token in prefix position, exactly as `-` is both subtraction
+and negation, told apart by position and `prec.right(UNARY)`.
+
+**Precedence is deliberately not C's.** Bitwise binds *tighter than comparison*, so
+`flags & MASK == 0` groups as `(flags & MASK) == 0` — in C it means `flags & (MASK == 0)`,
+which is why C codebases parenthesise every masked comparison. It binds *looser than
+arithmetic* (Python/Ruby, not Go, which ties `|`/`^` to `+` and `&` to `*`), so
+`a | b + c` is `a | (b + c)`. Shifts are the exception at 115, above addition, matching
+Go: `a + b << c` is `a + (b << c)`. `&` > `~` > `|` matches C/Java/Python/Rust; Go is the
+outlier that ties `|` and `^`.
+
+**`|` collides with three existing constructs**, all resolved by GLR conflict entries
+rather than precedence (see `conflicts:`): the struct-update separator
+(`Player { base | f: v }`), and — twice — the array-comprehension delimiter, which both
+separates generators from guards and closes the clause. Only the token *after* the `|`
+tells them apart, so a static resolution would pick one reading and silently break the
+other.
+
+**The comprehension needed `prec.dynamic`, not a conflict entry.** `[ x in R | A | B ]`
+fits two *complete* parses — guard `A` with result `B`, or no guard and the single result
+`A | B` — so it is a genuine ambiguity between finished trees, which is the one thing
+`prec.dynamic` resolves and `conflicts:` does not. The guarded branch wins. The rule that
+falls out: **inside a comprehension a top-level `|` is a section separator; parenthesize a
+bitwise-or meant as a value** (`[ x in R | (a | b) ]`). Getting this wrong was not a parse
+error — every guarded comprehension silently became an unguarded one whose result was a
+bitwise-or, caught only by the existing corpus test.
+
+**`>>` does not break nested generics.** `Maybe<Result<i64, string>>` still parses:
+tree-sitter's lexer only considers tokens valid in the current parse state, and `>>` is not
+valid where a type argument list is closing. Verified directly, before and after.
+
+Cost: 6,606 → 8,182 states, `parser.c` 12.0 MB → 15.3 MB (+24% / +28%) — the third-largest
+single feature here, after `lambda_expr` and juxtaposition. Measured alternative, for anyone
+tempted to flatten it: collapsing the three bitwise bands into Go's two (`|`/`~` with `+`,
+`&`/`<<`/`>>` with `*`) saves only **424 states (5%)**, so the distinct bands are nearly
+free and buy the conventional `&` > `~` > `|` ordering. The bulk of the growth is having the
+operators at all, not the bands.
+
+Corpus: `test/corpus/bitwise_operators.txt`.
 
 ## Corpus Test Format
 

@@ -237,6 +237,20 @@
 (mod_assign_operator)       @operator
 (remainder_assign_operator) @operator
 
+; Bitwise and shift. Xor is `~`, which is also the prefix complement operator —
+; `bitwise_not` covers the prefix position, `bitxor_operator` the infix one.
+(bitand_operator)           @operator
+(bitor_operator)            @operator
+(bitxor_operator)           @operator
+(shl_operator)              @operator
+(shr_operator)              @operator
+(bitand_assign_operator)    @operator
+(bitor_assign_operator)     @operator
+(bitxor_assign_operator)    @operator
+(shl_assign_operator)       @operator
+(shr_assign_operator)       @operator
+(bitwise_not operator: _    @operator)
+
 ; Comparison (named nodes)
 (equals_operator)               @operator
 (not_equals_operator)           @operator

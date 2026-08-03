@@ -32,6 +32,10 @@
         "named": true
       },
       {
+        "type": "bitwise_not",
+        "named": true
+      },
+      {
         "type": "block",
         "named": true
       },
@@ -933,6 +937,10 @@
             "named": true
           },
           {
+            "type": "bitwise_not",
+            "named": true
+          },
+          {
             "type": "call_expr",
             "named": true
           },
@@ -1015,6 +1023,18 @@
             "named": true
           },
           {
+            "type": "bitand_operator",
+            "named": true
+          },
+          {
+            "type": "bitor_operator",
+            "named": true
+          },
+          {
+            "type": "bitxor_operator",
+            "named": true
+          },
+          {
             "type": "div_operator",
             "named": true
           },
@@ -1028,6 +1048,14 @@
           },
           {
             "type": "remainder_operator",
+            "named": true
+          },
+          {
+            "type": "shl_operator",
+            "named": true
+          },
+          {
+            "type": "shr_operator",
             "named": true
           },
           {
@@ -1046,6 +1074,10 @@
           },
           {
             "type": "binary_expr",
+            "named": true
+          },
+          {
+            "type": "bitwise_not",
             "named": true
           },
           {
@@ -1171,6 +1203,127 @@
     }
   },
   {
+    "type": "bitand_operator",
+    "named": true,
+    "fields": {}
+  },
+  {
+    "type": "bitor_operator",
+    "named": true,
+    "fields": {}
+  },
+  {
+    "type": "bitwise_not",
+    "named": true,
+    "fields": {
+      "operand": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "address_of_expr",
+            "named": true
+          },
+          {
+            "type": "binary_expr",
+            "named": true
+          },
+          {
+            "type": "bitwise_not",
+            "named": true
+          },
+          {
+            "type": "call_expr",
+            "named": true
+          },
+          {
+            "type": "compound_assignment",
+            "named": true
+          },
+          {
+            "type": "const_identifier",
+            "named": true
+          },
+          {
+            "type": "deref_expr",
+            "named": true
+          },
+          {
+            "type": "float_literal",
+            "named": true
+          },
+          {
+            "type": "group",
+            "named": true
+          },
+          {
+            "type": "identifier",
+            "named": true
+          },
+          {
+            "type": "index_expr",
+            "named": true
+          },
+          {
+            "type": "integer_literal",
+            "named": true
+          },
+          {
+            "type": "member_expr",
+            "named": true
+          },
+          {
+            "type": "negation",
+            "named": true
+          },
+          {
+            "type": "optional_index_expr",
+            "named": true
+          },
+          {
+            "type": "optional_member_expr",
+            "named": true
+          },
+          {
+            "type": "parenthesized_expr",
+            "named": true
+          },
+          {
+            "type": "trait_method_path",
+            "named": true
+          },
+          {
+            "type": "try_expr",
+            "named": true
+          },
+          {
+            "type": "tuple_index_expr",
+            "named": true
+          },
+          {
+            "type": "user_defined_type_name",
+            "named": true
+          }
+        ]
+      },
+      "operator": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "~",
+            "named": false
+          }
+        ]
+      }
+    }
+  },
+  {
+    "type": "bitxor_operator",
+    "named": true,
+    "fields": {}
+  },
+  {
     "type": "block",
     "named": true,
     "fields": {},
@@ -1221,6 +1374,10 @@
           },
           {
             "type": "binary_expr",
+            "named": true
+          },
+          {
+            "type": "bitwise_not",
             "named": true
           },
           {
@@ -1397,6 +1554,10 @@
           },
           {
             "type": "binary_expr",
+            "named": true
+          },
+          {
+            "type": "bitwise_not",
             "named": true
           },
           {
@@ -1681,6 +1842,10 @@
             "named": true
           },
           {
+            "type": "bitwise_not",
+            "named": true
+          },
+          {
             "type": "call_expr",
             "named": true
           },
@@ -1763,6 +1928,18 @@
             "named": true
           },
           {
+            "type": "bitand_assign_operator",
+            "named": true
+          },
+          {
+            "type": "bitor_assign_operator",
+            "named": true
+          },
+          {
+            "type": "bitxor_assign_operator",
+            "named": true
+          },
+          {
             "type": "div_assign_operator",
             "named": true
           },
@@ -1776,6 +1953,14 @@
           },
           {
             "type": "remainder_assign_operator",
+            "named": true
+          },
+          {
+            "type": "shl_assign_operator",
+            "named": true
+          },
+          {
+            "type": "shr_assign_operator",
             "named": true
           },
           {
@@ -1794,6 +1979,10 @@
           },
           {
             "type": "binary_expr",
+            "named": true
+          },
+          {
+            "type": "bitwise_not",
             "named": true
           },
           {
@@ -2039,6 +2228,18 @@
             "named": true
           },
           {
+            "type": "bitand_operator",
+            "named": true
+          },
+          {
+            "type": "bitor_operator",
+            "named": true
+          },
+          {
+            "type": "bitxor_operator",
+            "named": true
+          },
+          {
             "type": "div_operator",
             "named": true
           },
@@ -2052,6 +2253,14 @@
           },
           {
             "type": "remainder_operator",
+            "named": true
+          },
+          {
+            "type": "shl_operator",
+            "named": true
+          },
+          {
+            "type": "shr_operator",
             "named": true
           },
           {
@@ -2073,6 +2282,32 @@
     }
   },
   {
+    "type": "constraint_bitwise_not",
+    "named": true,
+    "fields": {
+      "operand": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "constraint_math_expr",
+            "named": true
+          }
+        ]
+      },
+      "operator": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "~",
+            "named": false
+          }
+        ]
+      }
+    }
+  },
+  {
     "type": "constraint_math_expr",
     "named": true,
     "fields": {},
@@ -2086,6 +2321,10 @@
         },
         {
           "type": "constraint_binary_expr",
+          "named": true
+        },
+        {
+          "type": "constraint_bitwise_not",
           "named": true
         },
         {
@@ -2986,6 +3225,10 @@
             "named": true
           },
           {
+            "type": "bitwise_not",
+            "named": true
+          },
+          {
             "type": "boolean_expr",
             "named": true
           },
@@ -3159,6 +3402,10 @@
           },
           {
             "type": "binary_expr",
+            "named": true
+          },
+          {
+            "type": "bitwise_not",
             "named": true
           },
           {
@@ -3686,6 +3933,10 @@
       "types": [
         {
           "type": "binary_expr",
+          "named": true
+        },
+        {
+          "type": "bitwise_not",
           "named": true
         },
         {
@@ -4791,6 +5042,10 @@
             "named": true
           },
           {
+            "type": "bitwise_not",
+            "named": true
+          },
+          {
             "type": "call_expr",
             "named": true
           },
@@ -5557,6 +5812,10 @@
           "named": true
         },
         {
+          "type": "bitwise_not",
+          "named": true
+        },
+        {
           "type": "call_expr",
           "named": true
         },
@@ -5727,6 +5986,16 @@
         ]
       }
     }
+  },
+  {
+    "type": "shl_operator",
+    "named": true,
+    "fields": {}
+  },
+  {
+    "type": "shr_operator",
+    "named": true,
+    "fields": {}
   },
   {
     "type": "signed_integer_type",
@@ -7540,6 +7809,18 @@
     "named": true
   },
   {
+    "type": "bitand_assign_operator",
+    "named": true
+  },
+  {
+    "type": "bitor_assign_operator",
+    "named": true
+  },
+  {
+    "type": "bitxor_assign_operator",
+    "named": true
+  },
+  {
     "type": "boolean_type",
     "named": true
   },
@@ -7787,6 +8068,14 @@
   {
     "type": "shared",
     "named": false
+  },
+  {
+    "type": "shl_assign_operator",
+    "named": true
+  },
+  {
+    "type": "shr_assign_operator",
+    "named": true
   },
   {
     "type": "stack",

@@ -92,7 +92,10 @@ module.exports = {
           token(">>"),
           token("&"),
           token("|"),
-          token("^"),
+          // Xor is `~`, not `^` — `^` is spoken for by raw-pointer types (`^T`)
+          // and postfix deref (`ptr^`), so a binary `^` would be ambiguous with
+          // a deref in operand position. See include/expressions/math.js.
+          token("~"),
         ),
         "_",
         ")",
