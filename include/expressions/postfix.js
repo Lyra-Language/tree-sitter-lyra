@@ -30,11 +30,30 @@ module.exports = {
     field('method', $.identifier)
   )),
 
+  // The head of every postfix form — a call, a member access, an index, a `?`.
+  //
+  // `named_struct_literal` is here (08/03) so a postfix form can hang off a struct
+  // literal: `Node { n: 7 }.n`, `Node { n: 7 }.a()`, `Grid { cells: […] }.cells[0]`.
+  // Before that none of them parsed, while *every other* value-producing expression
+  // worked as a head — `mk().a()`, `(Node { n: 7 }).a()`, a literal in an argument —
+  // so the struct literal was the lone exception, and field access off one is not
+  // something a reader has a model for failing.
+  //
+  // **Cheaper than it looks**: +26 states (8182 → 8208, +0.3%) and +69 KB of
+  // parser.c. Measured because the note in grammar.js says to — this region has form,
+  // and juxtaposition cost +19% states for less.
+  //
+  // Lyra needs no equivalent of Rust's and Go's "no struct literal in an `if`/`for`
+  // header" rule. There the `{` of `if Node { n: 7 }.n > 0 {` cannot be told from the
+  // body's without unbounded lookahead, so both languages forbid it unparenthesized;
+  // GLR keeps the two readings alive until a token decides, and the corpus has that
+  // exact form.
   _primary_expr: $ => choice(
     $.identifier,
     $.const_identifier,
     $.user_defined_type_name,  // For static method calls like Arena.new()
     $.parenthesized_expr,
+    $.named_struct_literal,
   ),
 
   call_expr: $ => prec.left(PREC.POSTFIX, seq(

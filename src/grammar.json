@@ -3537,6 +3537,10 @@
         {
           "type": "SYMBOL",
           "name": "parenthesized_expr"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "named_struct_literal"
         }
       ]
     },
@@ -9929,6 +9933,10 @@
     [
       "comprehension_guard",
       "_postfix_expr"
+    ],
+    [
+      "result_expr",
+      "_primary_expr"
     ],
     [
       "_bool_operand",

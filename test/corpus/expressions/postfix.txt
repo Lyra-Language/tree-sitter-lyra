@@ -483,3 +483,87 @@ let b = Rect(3, 4)
       (tuple_value
         (integer_literal
           (decimal_int))))))
+
+==================
+Field access on a struct literal
+==================
+
+let n = Node { n: 7 }.n
+
+---
+
+(program
+  (declaration
+    (identifier)
+    (member_expr
+      (named_struct_literal
+        (struct_name)
+        (struct_body
+          (struct_fields
+            (struct_field
+              (field_name)
+              (field_value
+                (integer_literal
+                  (decimal_int)))))))
+      (identifier))))
+
+==================
+Method call on a struct literal
+==================
+
+let v = Node { n: 7 }.a()
+
+---
+
+(program
+  (declaration
+    (identifier)
+    (call_expr
+      (member_expr
+        (named_struct_literal
+          (struct_name)
+          (struct_body
+            (struct_fields
+              (struct_field
+                (field_name)
+                (field_value
+                  (integer_literal
+                    (decimal_int)))))))
+        (identifier))
+      (argument_list))))
+
+==================
+Struct literal in an if condition
+==================
+
+let r = if Node { n: 7 }.n > 0 { 1 } else { 0 }
+
+---
+
+(program
+  (declaration
+    (identifier)
+    (if_block_expr
+      (boolean_expr
+        (member_expr
+          (named_struct_literal
+            (struct_name)
+            (struct_body
+              (struct_fields
+                (struct_field
+                  (field_name)
+                  (field_value
+                    (integer_literal
+                      (decimal_int)))))))
+          (identifier))
+        (greater_than_operator)
+        (integer_literal
+          (decimal_int)))
+      (block
+        (expression_statement
+          (integer_literal
+            (decimal_int))))
+      (block
+        (expression_statement
+          (integer_literal
+            (decimal_int)))))))

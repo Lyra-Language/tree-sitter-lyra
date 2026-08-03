@@ -122,6 +122,30 @@ Several ambiguities are resolved at parse time via GLR (listed in the `conflicts
 - `named_struct_literal` vs `_tuple_name` vs `_primary_expr` — `Point { ... }` could be a struct literal or an identifier followed by a block
 - `_primary_expr` vs `data_pattern` — a capitalized name in expression vs pattern position
 - `expression` vs `_math_operand` / `_bool_operand` / `_comparison_operand` — operator precedence lookahead conflicts
+- `result_expr` vs `_primary_expr` — inside an array comprehension, `[ Node { n: x } for x in xs ]`'s literal is both the result and a primary expression (see below)
+
+### A struct literal is a postfix head (08/03)
+
+`Node { n: 7 }.n`, `Node { n: 7 }.a()` and `Grid { cells: […] }.cells[0]` parse.
+`named_struct_literal` joined `_primary_expr` (`include/expressions/postfix.js`), which is the
+head of every postfix form. Before it, *no* postfix attached to a struct literal while every
+other value-producing expression worked as one — `mk().a()`, `(Node { n: 7 }).a()`, a literal
+in argument position — so the literal was the lone exception, and field access off one is not
+a thing a reader has a model for failing.
+
+**Measured, because this region has form**: +26 states (8182 → 8208, +0.3%) and +69 KB of
+`parser.c` (+0.45%). Juxtaposition cost +19% states for less, so the number was worth checking
+before the change rather than after.
+
+It needed exactly one conflict entry, `[$.result_expr, $._primary_expr]` — generation *fails*
+without it, so it is not the unreliable "unnecessary conflict" kind. The ambiguity is real: in
+`[ Node { n: x } for x in xs ]` the literal is a complete parse both as the comprehension's
+result and as a primary expression.
+
+**Lyra needs no "no struct literal in an `if` header" rule**, which both Rust and Go impose.
+There the `{` of `if Node { n: 7 }.n > 0 {` cannot be told from the body's opening brace, so
+they forbid it unparenthesized; GLR keeps both readings alive until a token decides. The
+corpus has that exact form (`Struct literal in an if condition`), and it runs.
 
 Note: data values have **two spellings**, and the grammar keeps them apart on purpose.
 Juxtaposition (`Some 42`, `Err -1`) is `data_constructor_expr`; the parenthesized form
@@ -338,7 +362,9 @@ bound makes it unconditional and constrains every caller instead.
 
 ## Parser size, and the rule that decides it (`lambda_expr`)
 
-`src/parser.c` is ~12.8 MB (6,475 states). It was **116 MB and 62,663 states** until the
+`src/parser.c` is ~14.7 MB (8,208 states) — the figure below is the low-water mark it was
+reduced *to*, before bitwise operators (+1,576 states) and the struct-literal postfix head
+(+26). It was **116 MB and 62,663 states** until the
 `lambda_expr` modifiers were rebuilt, and `tree-sitter generate --report-states-for-rule -`
 is what found it: `lambda_expr` alone owned **57,026 of those states — 91%**.
 

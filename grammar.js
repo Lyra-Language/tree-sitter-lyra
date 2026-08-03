@@ -154,6 +154,12 @@ module.exports = grammar({
     [$.generator, $._primary_expr],
     [$.comprehension_guard, $._primary_expr],
     [$.comprehension_guard, $._postfix_expr],
+    // A struct literal is a postfix head (`Node { n: 7 }.n`, postfix.js), which makes
+    // it both a comprehension's *result* and a primary expression inside one:
+    // `[ Node { n: x } for x in xs ]`. A genuine ambiguity between two complete
+    // parses, and the one conflict that change needed — generation fails outright
+    // without it, so it is not the "unnecessary conflict" kind this file warns about.
+    [$.result_expr, $._primary_expr],
     [$._bool_operand, $._comparison_operand],
     // A bare identifier can be either a primary expression or the label
     // prefix of a labeled for/for-in loop expression.
