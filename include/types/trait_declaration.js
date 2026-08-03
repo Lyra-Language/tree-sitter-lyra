@@ -1,4 +1,4 @@
-const { commaSep1 } = require("../helpers");
+const { commaSep1, memberList } = require("../helpers");
 const { PREC } = require("../prec");
 
 module.exports = {
@@ -43,7 +43,8 @@ module.exports = {
       field("generic_bounds", $.generic_bounds),
     ),
 
-  trait_methods: ($) => commaSep1($.trait_method),
+  // One per line or comma-separated — see memberList in helpers.js.
+  trait_methods: ($) => memberList($, $.trait_method),
 
   trait_method: ($) =>
     seq(

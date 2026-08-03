@@ -1,5 +1,5 @@
 const { parameter } = require("../expressions/functions/lambda");
-const { commaSep1, parameterList } = require("../helpers");
+const { commaSep1, memberList, parameterList } = require("../helpers");
 const { PREC } = require("../prec");
 
 module.exports = {
@@ -32,7 +32,8 @@ module.exports = {
       field("trait_impl_bounds", $.generic_bounds),
     ),
 
-  impl_methods: ($) => commaSep1($.trait_method_implementation),
+  // One per line or comma-separated, matching trait_methods.
+  impl_methods: ($) => memberList($, $.trait_method_implementation),
 
   // Purity/effect bounds sit between `=` and the clause, mirroring a free
   // function's `name = pure (params) => body` — they modify the value being

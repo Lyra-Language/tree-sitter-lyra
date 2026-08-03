@@ -43,7 +43,7 @@ After regenerating, the sibling Go project also needs `go clean -cache` before `
 | `include/modules/` | `module` declarations, `import` statements |
 | `include/attributes.js` | `@attr` / `@attr(args)` attribute syntax |
 | `include/comments.js` | `//` line comments, `///` doc comments, `/* */` block comments |
-| `include/helpers.js` | shared utilities: `commaSep1`, `commaSep`, `parameterList` |
+| `include/helpers.js` | shared utilities: `commaSep1`, `commaSep`, `memberList`, `statementList`, `parameterList`, `rangeBounds` |
 | `include/prec.js` | all `PREC.*` operator precedence constants |
 
 ## Grammar Configuration
@@ -78,6 +78,32 @@ What the scanner *does* decide is the forward half — a line that begins with s
 Comments are not skipped by `scan_newline`. On `/` it returns false, tree-sitter's own lexer takes the comment as an extra, and the scanner is called again after it — so a trailing `// note` does not suppress its line's terminator. Known gap: a *block* comment holding the only newline (`a = 1 /*` ⏎ `*/ b = 2`) joins the two statements.
 
 Corpus: `test/corpus/statements/terminators.txt`.
+
+**Member lists take the same terminator** (`memberList`, `include/helpers.js`), so a trait's
+and an impl's methods may be written one per line as well as comma-separated:
+
+```lyra
+trait Ops {
+  a: (Self) -> i64
+  b: (Self) -> i64
+}
+```
+
+Statements gained a terminator on 07/31 and these lists did not, which left the newline form
+failing — and failing *badly*: "missing }" pointed at the end of the **first** signature,
+several lines above anything a reader would suspect, then cascaded through the rest of the
+file. The separator is `_statement_separator` rather than a bare `_newline`, so `;` works
+here too and there is one answer to "what ends a thing on its own line". Commas keep working,
+including mixed with newlines and as a trailing separator, and the list stays non-empty —
+`trait C {}` is still a syntax error.
+
+A signature wrapped across lines is unaffected, for the reason the scanner section gives: a
+newline inside an unfinished parameter list never reaches the scanner, because tree-sitter
+does not mark the terminator valid there.
+
+Cost: 8,208 → 8,224 states (+0.2%), `parser.c` +21 KB. **Struct declarations still require
+commas** (`struct_type_body`, `anonymous_struct_type`) and are the obvious next users of
+`memberList` — a one-word change each, deliberately not made with this one.
 
 **Comment scanning is gated on `!in_string(scanner)` — do not remove that guard.** Comments are `extras`, so `BLOCK_COMMENT` is valid almost everywhere, including at every string content-chunk boundary, and the comment branch runs *before* the in-string branch. Unguarded (the state until 07/29/26), a string whose content began with `/*` lexed as a comment running to the next `*/` **anywhere later in the file** — swallowing the rest of the line, following declarations, and all — and no later pass reported anything (`lyrac check` exited 0). It fired wherever a fresh content chunk starts: after the opening quote, right after a `${…}` interpolation, and — since `scan_block_comment` skips leading whitespace as token padding — after a leading space (`" /* x */ y"`). An *interpolation* is an expression context where comments remain valid, and `in_string()` is false for `CTX_INTERPOLATION`, which is exactly the line this guard draws. Fixing it also stopped the padding-skip from **eating a content chunk's leading whitespace** (`"${a} ${b}"` now emits the middle space as `string_content`; it previously vanished from the CST and was recoverable only by the collector's raw-source re-slice). Corpus coverage: the comment-delimiter tests in `test/corpus/literals/string.txt`.
 
@@ -362,9 +388,9 @@ bound makes it unconditional and constrains every caller instead.
 
 ## Parser size, and the rule that decides it (`lambda_expr`)
 
-`src/parser.c` is ~14.7 MB (8,208 states) — the figure below is the low-water mark it was
-reduced *to*, before bitwise operators (+1,576 states) and the struct-literal postfix head
-(+26). It was **116 MB and 62,663 states** until the
+`src/parser.c` is ~14.7 MB (8,224 states) — the figure below is the low-water mark it was
+reduced *to*, before bitwise operators (+1,576 states), the struct-literal postfix head (+26)
+and newline-separated member lists (+16). It was **116 MB and 62,663 states** until the
 `lambda_expr` modifiers were rebuilt, and `tree-sitter generate --report-states-for-rule -`
 is what found it: `lambda_expr` alone owned **57,026 of those states — 91%**.
 

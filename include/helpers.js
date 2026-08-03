@@ -5,6 +5,31 @@ export function commaSep(rule) {
   return optional(commaSep1(rule));
 }
 
+// A brace-delimited list of *members* — one per line, or comma-separated, or both.
+//
+// The comma stays legal because it always was and reads well on one line
+// (`trait Show { show: (Self) -> string, name: (Self) -> string }`); what this adds
+// is the newline, so a member list agrees with the rest of the language about how
+// things on separate lines are separated. Statements gained a terminator on 07/31
+// and these lists did not, which left `trait C { a: … ⏎ b: … }` failing — and failing
+// *badly*, with "missing }" pointing at the end of the **first** signature, several
+// lines above anything a reader would suspect.
+//
+// The separator is `$._statement_separator`, not a bare `_newline`: it is the same
+// zero-width terminator the scanner already emits, so `;` works here too and there is
+// one answer to "what ends a thing on its own line". Trailing separator optional,
+// matching commaSep1 and statementList.
+//
+// **The list shape is commaSep1's, not statementList's.** statementList is written
+// "repeat(item separator) then optional item" so a single lookahead decides whether
+// the list continues — worth it there because a block's statements are the hot path.
+// Here the sep1 shape keeps `commaSep1`'s property that the list is non-empty, which
+// is what makes `trait C {}` a syntax error rather than a trait with no methods.
+export function memberList($, rule) {
+  const sep = choice(",", $._statement_separator);
+  return seq(rule, repeat(seq(sep, rule)), optional(sep));
+}
+
 // A statement list: statements separated by `_statement_separator`, with the
 // separator after the *last* one optional.
 //

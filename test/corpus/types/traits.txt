@@ -813,3 +813,66 @@ trait Show {
             (parameter_type
               (self_type)))
           (signed_integer_type))))))
+
+==================
+Trait methods separated by newlines
+==================
+
+trait Ops {
+  a: (Self) -> i64
+  b: (Self) -> i64
+}
+
+---
+
+(program
+  (trait_declaration
+    (trait_name)
+    (trait_methods
+      (trait_method
+        (identifier)
+        (trait_method_signature
+          (parameter_type_list
+            (parameter_type
+              (self_type)))
+          (signed_integer_type)))
+      (trait_method
+        (identifier)
+        (trait_method_signature
+          (parameter_type_list
+            (parameter_type
+              (self_type)))
+          (signed_integer_type))))))
+
+==================
+Impl methods separated by newlines
+==================
+
+impl Ops for Node {
+  a = (self) => 1
+  b = (self) => 2
+}
+
+---
+
+(program
+  (trait_implementation
+    (trait_name)
+    (user_defined_type_name)
+    (impl_methods
+      (trait_method_implementation
+        (method_name
+          (identifier))
+        (method_clause
+          (pattern_parameter_list
+            (identifier))
+          (integer_literal
+            (decimal_int))))
+      (trait_method_implementation
+        (method_name
+          (identifier))
+        (method_clause
+          (pattern_parameter_list
+            (identifier))
+          (integer_literal
+            (decimal_int)))))))
