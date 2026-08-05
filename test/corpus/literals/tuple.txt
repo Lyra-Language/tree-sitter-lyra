@@ -125,3 +125,45 @@ let t = (None, 7)
       (tuple_value
         (integer_literal
           (decimal_int))))))
+
+=====================================
+A Call May Be the First Tuple Element
+=====================================
+
+let p = (f(7), 1)
+
+---
+
+(program
+  (declaration
+    (identifier)
+    (tuple_literal
+      (tuple_value
+        (call_expr
+          (identifier)
+          (argument_list
+            (value
+              (integer_literal
+                (decimal_int))))))
+      (tuple_value
+        (integer_literal
+          (decimal_int))))))
+
+==============================
+A Call May Be Parenthesized
+==============================
+
+let p = (f(7))
+
+---
+
+(program
+  (declaration
+    (identifier)
+    (parenthesized_expr
+      (call_expr
+        (identifier)
+        (argument_list
+          (value
+            (integer_literal
+              (decimal_int))))))))

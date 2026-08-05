@@ -70,20 +70,30 @@ module.exports = {
       ),
     ),
 
-  // Tuple patterns (shared)
+  // Tuple patterns (shared), and **anonymous only** — `(x, y)`, not `name(x, y)`.
+  //
+  // It carried an optional leading name until 08/05, aliased from `$.identifier`, and
+  // that name could not be right: `identifier` is lowercase-leading by lexer rule while
+  // a named tuple *type* is PascalCase, so no program could legally use it. What it did
+  // instead was outbid the expression reading of the same tokens — `(f(7))` parsed as a
+  // parameter list holding the tuple pattern `f(7)` and then failed, so a **call could
+  // not be the first thing inside parentheses**: `(f(7))`, `(f(7), 1)`, `(f(7) + 1, 1)`
+  // and `((f(7)), 1)` were all syntax errors, while `(1, f(7))` was fine because by then
+  // the pattern reading was already dead. No corpus test used the name, and no collector
+  // read the field (only `tuple_literal.go` reads `tuple_name`, from the *expression*
+  // rule of the same alias).
+  //
+  // An **uppercase** named tuple pattern is unaffected because it was never this rule:
+  // `Point(x, y)` is a `data_pattern`, which the typechecker resolves to a tuple type
+  // when the name is one. The generic-argument slot went with the name, since arguments
+  // with nothing to apply them to are not a form.
   tuple_pattern: ($) =>
     prec.left(
       PREC.TUPLE_PATTERN,
       seq(
         choice(
           $.unit_pattern,
-          seq(
-            optional(field("tuple_name", alias($.identifier, $.tuple_name))),
-            optional(field("generic_arguments", $.generic_parameters)),
-            "(",
-            commaSep1($._pattern_element),
-            ")",
-          ),
+          seq("(", commaSep1($._pattern_element), ")"),
         ),
       ),
     ),

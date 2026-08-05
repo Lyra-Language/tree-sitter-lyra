@@ -227,6 +227,20 @@ collection knows which was written. See "Juxtaposition application" below.
 - `for_loop` / `for_in_loop` with and without a label
 - `pattern` / `_primary_expr` / `data_pattern` vs a name-leading `(…)` — a parenthesized bare name (`(a, b)`, `(a)`, `(None, 7)`) can begin a **lambda parameter list** (`(a, b) => …`), an **anonymous tuple**, or a **parenthesized expression**. A bare `identifier` is both a `pattern` (the lambda param) and a `_primary_expr` (the tuple element); a bare capitalized name is both a nullary `data_pattern` and a `_primary_expr`. GLR must keep both alive until `=>` (or its absence) decides. This needed *two* pieces (added 07/16/26): (1) the `[pattern, _primary_expr]`, `[pattern, for_loop, for_in_loop]`, and `[_primary_expr, data_pattern]` conflict entries, **and** (2) restructuring `pattern` and `data_pattern` so the bare-name alternative sits *outside* `prec.left(PREC.PATTERN)` / `prec.left(PREC.DATA_PATTERN)` — otherwise the higher pattern precedence silently resolves the reduce-reduce toward the pattern (committing to the lambda/data-pattern reading) and the conflict entry is reported "unnecessary". A payload-bearing `data_pattern` (`Some(x)`) keeps `PREC.DATA_PATTERN` (it must still beat the constructor-call expression reading). Before this fix a name-leading tuple literal failed to parse entirely.
 
+  **A third piece landed 08/05, and it was a rule that should not have existed.**
+  `tuple_pattern` carried an optional leading name aliased from `$.identifier` — but
+  `identifier` is lowercase-leading by lexer rule while a named tuple *type* is
+  PascalCase, so no legal program could ever use that name. What it did instead was
+  outbid the expression reading of the same tokens: `(f(7))` parsed as a parameter list
+  holding the tuple pattern `f(7)` and then failed, so **a call could not be the first
+  thing inside parentheses**. `(f(7))`, `(f(7), 1)`, `(f(7) + 1, 1)` and `((f(7)), 1)`
+  were all syntax errors; `(1, f(7))` was fine, which is the tell — by the second element
+  the pattern reading is already dead. `tuple_pattern` is anonymous-only now. An
+  *uppercase* named tuple pattern was never this rule (`Point(x, y)` is a `data_pattern`,
+  which the typechecker resolves to a tuple type when the name is one), no corpus test
+  used the name, and no collector read the field. Removing it **shrank** the parser:
+  8,262 → 8,234 states, `parser.c` −44 KB.
+
 **Lexer-level disambiguation, not GLR (added 06/24/26):** `trait_method_path` (`TraitName::method`, the fully-qualified trait-method-call form, `include/expressions/postfix.js`) and turbofish generic args (`generic_arguments`, `include/types/generic_type.js`) both start with `TypeName ::`. This is *not* resolvable via `conflicts:`/precedence — tree-sitter's static shift/reduce resolution commits to one production before either's deciding token (`<` vs an identifier) is visible, regardless of which side wins the precedence comparison. The actual fix: `generic_arguments` uses `"::<"` as one atomic string token instead of `"::"` then `"<"`, so ordinary lexer maximal-munch picks the right token before the parser ever has to choose. If you touch either rule, keep the combined token — splitting it back into two literals reintroduces the ambiguity (confirmed by deliberately reverting it during development: tuple/struct-literal turbofish broke, with or without explicit `conflicts:` entries).
 
 ## Function-Definition Sugar (`declaration`, `include/statements/assignments.js`)

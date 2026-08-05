@@ -7170,28 +7170,7 @@
   {
     "type": "tuple_pattern",
     "named": true,
-    "fields": {
-      "generic_arguments": {
-        "multiple": false,
-        "required": false,
-        "types": [
-          {
-            "type": "generic_parameters",
-            "named": true
-          }
-        ]
-      },
-      "tuple_name": {
-        "multiple": false,
-        "required": false,
-        "types": [
-          {
-            "type": "tuple_name",
-            "named": true
-          }
-        ]
-      }
-    },
+    "fields": {},
     "children": {
       "multiple": true,
       "required": true,
