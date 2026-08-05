@@ -336,7 +336,7 @@ let foo = { bar: "baz", blah 23 }
           (UNEXPECTED '2'))))))
 
 =================================================
-A Constant Followed by a Block Is Not a Struct
+A Name Followed by a Non-Struct Block Is a Block
 =================================================
 
 let n = if MAX { 1 } else { 0 }
@@ -356,3 +356,46 @@ let n = if MAX { 1 } else { 0 }
         (expression_statement
           (integer_literal
             (decimal_int)))))))
+
+=========================================================
+A Type Name Followed by a Non-Struct Block Is Also a Block
+=========================================================
+
+let n = if Point { 1 } else { 0 }
+
+---------------------------------
+
+(program
+  (declaration
+    (identifier)
+    (if_block_expr
+      (user_defined_type_name)
+      (block
+        (expression_statement
+          (integer_literal
+            (decimal_int))))
+      (block
+        (expression_statement
+          (integer_literal
+            (decimal_int)))))))
+
+==========================================
+Struct Instance with an All-Caps Type Name
+==========================================
+
+let s = S { v: 1 }
+
+---------------------------------
+
+(program
+  (declaration
+    (identifier)
+    (named_struct_literal
+      (struct_name)
+      (struct_body
+        (struct_fields
+          (struct_field
+            (field_name)
+            (field_value
+              (integer_literal
+                (decimal_int)))))))))

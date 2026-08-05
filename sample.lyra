@@ -1,0 +1,47 @@
+module demo
+
+import std.prelude
+
+/// A documented struct.
+@packed
+pub struct Node {
+  value: u8,
+  next: Maybe<shared Node>,
+}
+
+pub data Shape = Circle(f64) | Rect(f64, f64)
+pub tuple Pair<t>(t, t)
+newtype Volume = u8 where range(0..<=100)
+type Op = ((i64, i64)) -> i64
+
+trait Area {
+  pure area: (Self) -> f64
+}
+
+impl Area for Shape {
+  area = (self) => match self {
+    Circle(r) => r * r,
+    Rect(w, h) => w * h,
+  }
+}
+
+pub let pure add(a: i64, b: i64) -> i64 => a + b
+
+let main = () -> u8 => {
+  let n = Node { value: 3, next: None }
+  var total = 0
+  for i in 0..<10:2 { total += i }
+  for j in 10..>=0 { total -= j }
+  let xs: []i64 = [ x in 0..<5 | x > 1 | x * 2 ]
+  let ys: [2]weak Node = [n.weak(), n.weak()]
+  let flags = 0b1010 & 0xFF | 1 << 2 ~ 3
+  let s = "interp ${total} and ${add(1, 2)}"
+  let r = r"\d+"
+  let c = 'x'
+  let ok = total >= 0 && total < 100 || false
+  let neg = !ok
+  let p = Pair(1, 2)
+  let v = n.value
+  print(s)
+  u8(total)
+}

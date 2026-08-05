@@ -75,6 +75,13 @@ module.exports = grammar({
     // than the warning.
     [$._tuple_name, $._primary_expr, $.data_pattern],
     [$.named_struct_literal, $._tuple_name, $._primary_expr],
+    // `if Name • {` — is `Name` the condition and `{` the block's brace, or is this a
+    // struct literal? Only the brace's *contents* say, so GLR must keep both alive.
+    // named_struct_literal is on prec.dynamic rather than prec.left precisely so this
+    // stays a conflict instead of being resolved statically toward the struct, which
+    // is what made `if Point { 1 } else { 0 }` a syntax error.
+    [$.named_struct_literal, $._primary_expr],
+    [$.named_struct_literal, $._constructor_value],
     [$.parameter_type, $.tuple_type_element],
     // A parenthesized name can begin a lambda parameter list (`(a, b) => …`) or
     // an anonymous tuple / parenthesized expression (`(a, b)`, `(a)`). A bare

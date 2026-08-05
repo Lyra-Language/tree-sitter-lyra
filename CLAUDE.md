@@ -182,27 +182,41 @@ without it, so it is not the unreliable "unnecessary conflict" kind. The ambigui
 `[ Node { n: x } for x in xs ]` the literal is a complete parse both as the comprehension's
 result and as a primary expression.
 
-**Lyra needs no "no struct literal in an `if` header" rule** *when the brace's contents say
-which it is*, which is the case Rust and Go both forbid outright. `if Node { n: 7 }.n > 0 {`
-runs here — the corpus has that exact form (`Struct literal in an if condition`) — because
-`{ n: 7 }` is a struct body and cannot be a block.
+**Lyra needs no "no struct literal in an `if` header" rule**, which both Rust and Go impose.
+There the `{` of `if Node { n: 7 }.n > 0 {` cannot be told from the body's opening brace, so
+they forbid a struct literal in the header unparenthesized. Here GLR keeps both readings alive
+and **the brace's contents decide**: `{ n: 7 }` holds fields, so it is a struct body;
+`{ 1 }` holds a statement, so it is a block. Both forms are in the corpus and both run.
 
-**It does not hold in general, and the claim here used to say it did** (corrected 08/05).
-Where the brace's contents fit *both* readings, precedence resolves it statically toward the
-struct literal and the parse then fails: **`if Point { 1 } else { 0 }` is a syntax error**,
-because `{ 1 }` is a perfectly good block but not a struct body, and the parser has already
-committed by the time it finds out. A conflict entry does not help — with
-`prec.left(PREC.STRUCT_LITERAL)` present the decision never becomes a conflict, and
-tree-sitter reports the entry as unnecessary.
+**That took two attempts, and the first one is the instructive part** (08/05). The claim above
+was false in the case where the brace fits *both* readings — `if Point { 1 } else
+{ 0 }` was a syntax error, because `prec.left(PREC.STRUCT_LITERAL)` resolved the decision
+statically toward the struct before the parser could see that `{ 1 }` is not a struct body. A
+conflict entry cannot fix that: while the precedence is there the decision never becomes a
+conflict, and tree-sitter reports the entry as unnecessary.
 
-Measured while trying to fix it (08/05): moving `named_struct_literal` to `prec.dynamic` does
-turn it into a real conflict, and the generator then demands a conflict entry for
-`named_struct_literal`/`_primary_expr`; adding that one surfaces the next
-(`'if' user_defined_type_name const_identifier • '{'`, the juxtaposition case), and so on.
-It cascades because making struct literals dynamic opens the ambiguity everywhere a name can
-precede a brace. **This is a grammar project, not a one-line fix** — budget for it, and keep
-the corpus test `A Constant Followed by a Block Is Not a Struct` (literals/struct.txt) green
-throughout, since it pins the reading that a careless fix inverts.
+The fix is `named_struct_literal` as a **choice of two alternatives with different precedence
+kinds**, because the name is contested by two rivals that want opposite resolutions:
+
+- **With generic arguments** (`Point::<f64> { … }`) the rival is `_tuple_name`
+  (`Point::<f64>(…)`). That contest is settled by the *static* precedence the two share —
+  `PREC.TUPLE_NAME` and `PREC.STRUCT_LITERAL` are equal on purpose so neither wins outright
+  and GLR decides on `{` vs `(`. This alternative keeps `prec`.
+- **Without them** the rival is the bare-name reading (`if Point { 1 }`). This alternative
+  takes `prec.dynamic`, so it is *not* statically resolved and GLR settles it, with three
+  declared conflicts (see `conflicts:`).
+
+Two dead ends worth not repeating, both found by measurement rather than reasoning. Putting
+the whole rule on `prec.dynamic` breaks the first contest — `_tuple_name`'s static precedence
+then wins and `Point::<f64> { … }` stops parsing. Making `_tuple_name` dynamic to match
+"fixes" that and breaks parenthesized forms far afield, down to `(f(7), 1)`; its static
+precedence is load-bearing, so leave it alone. Note the corpus did **not** catch that one —
+the sibling Go suite did, which is the argument for running both before believing a grammar
+change.
+
+Cost: 8,206 → 8,262 states (+0.7%), `parser.c` +82 KB. Corpus: `A Name Followed by a
+Non-Struct Block Is a Block` and its type-name twin (literals/struct.txt) pin the reading a
+careless change here inverts.
 
 Note: data values have **two spellings**, and the grammar keeps them apart on purpose.
 Juxtaposition (`Some 42`, `Err -1`) is `data_constructor_expr`; the parenthesized form

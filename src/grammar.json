@@ -525,27 +525,36 @@
       ]
     },
     "named_struct_literal": {
-      "type": "PREC_LEFT",
-      "value": 10,
-      "content": {
-        "type": "SEQ",
-        "members": [
-          {
-            "type": "FIELD",
-            "name": "struct_name",
-            "content": {
-              "type": "ALIAS",
-              "content": {
-                "type": "SYMBOL",
-                "name": "user_defined_type_name"
-              },
-              "named": true,
-              "value": "struct_name"
-            }
-          },
-          {
-            "type": "CHOICE",
+      "type": "CHOICE",
+      "members": [
+        {
+          "type": "PREC",
+          "value": 10,
+          "content": {
+            "type": "SEQ",
             "members": [
+              {
+                "type": "FIELD",
+                "name": "struct_name",
+                "content": {
+                  "type": "ALIAS",
+                  "content": {
+                    "type": "CHOICE",
+                    "members": [
+                      {
+                        "type": "SYMBOL",
+                        "name": "user_defined_type_name"
+                      },
+                      {
+                        "type": "SYMBOL",
+                        "name": "const_identifier"
+                      }
+                    ]
+                  },
+                  "named": true,
+                  "value": "struct_name"
+                }
+              },
               {
                 "type": "FIELD",
                 "name": "generic_arguments",
@@ -555,20 +564,56 @@
                 }
               },
               {
-                "type": "BLANK"
+                "type": "FIELD",
+                "name": "struct_body",
+                "content": {
+                  "type": "SYMBOL",
+                  "name": "struct_body"
+                }
               }
             ]
-          },
-          {
-            "type": "FIELD",
-            "name": "struct_body",
-            "content": {
-              "type": "SYMBOL",
-              "name": "struct_body"
-            }
           }
-        ]
-      }
+        },
+        {
+          "type": "PREC_DYNAMIC",
+          "value": 10,
+          "content": {
+            "type": "SEQ",
+            "members": [
+              {
+                "type": "FIELD",
+                "name": "struct_name",
+                "content": {
+                  "type": "ALIAS",
+                  "content": {
+                    "type": "CHOICE",
+                    "members": [
+                      {
+                        "type": "SYMBOL",
+                        "name": "user_defined_type_name"
+                      },
+                      {
+                        "type": "SYMBOL",
+                        "name": "const_identifier"
+                      }
+                    ]
+                  },
+                  "named": true,
+                  "value": "struct_name"
+                }
+              },
+              {
+                "type": "FIELD",
+                "name": "struct_body",
+                "content": {
+                  "type": "SYMBOL",
+                  "name": "struct_body"
+                }
+              }
+            ]
+          }
+        }
+      ]
     },
     "anonymous_struct_literal": {
       "type": "PREC_LEFT",
@@ -9948,6 +9993,14 @@
       "named_struct_literal",
       "_tuple_name",
       "_primary_expr"
+    ],
+    [
+      "named_struct_literal",
+      "_primary_expr"
+    ],
+    [
+      "named_struct_literal",
+      "_constructor_value"
     ],
     [
       "parameter_type",
