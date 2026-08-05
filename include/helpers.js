@@ -110,3 +110,32 @@ export function parameterList(parameterRule) {
     ")"
   );
 }
+// A concrete type name **as it appears in expression position**, where the lexer
+// cannot tell which of two tokens it produced.
+//
+// `user_defined_type_name` is `/[A-Z][a-zA-Z0-9]*/` and `const_identifier` is
+// `/[A-Z][A-Z0-9_]*/`, so a name with no lowercase letter and no underscore — `S`,
+// `AB`, `HTTP2`, `A1B` — matches **both**, at the same length. Tree-sitter's lexer is
+// state-aware and picks one; in expression position, where a constant is also a legal
+// expression, it picks `const_identifier`. Everything downstream that required
+// `user_defined_type_name` then failed to apply, and the failure was total rather than
+// partial: `struct S { … }` declared fine and `S { v: 1 }` was a syntax error, in every
+// position, so an all-caps struct could be declared and never constructed.
+//
+// The distinction is *semantic*, not lexical — whether `AB` names a type or a constant
+// is not decidable from its spelling — so the parser has to accept both spellings and
+// let the following token decide. That is what GLR is for here, and the struct/tuple
+// bodies do decide it: a struct body needs `x: v`, `base | …`, or 2+ shorthand values,
+// none of which a block can be, and a `(` after a name is a tuple literal because a
+// `const` cannot hold a callable (its initializer must be compile-time constant).
+//
+// **Deliberately not used by `data_constructor_expr`.** Juxtaposition (`Some 42`) works
+// because a PascalCase name in expression position is *always* a constructor, never a
+// variable or a constant, so `MAX - 1` has no competing "apply MAX to -1" reading.
+// Admitting all-caps names there would create exactly that competing reading and turn
+// ordinary constant arithmetic into an application — see the juxtaposition section in
+// CLAUDE.md, which names this property as what the feature rests on. The cost is that
+// `CD 5` stays a parse error for an all-caps constructor while `CD(5)` works.
+export function typeNameInExpr($) {
+  return choice($.user_defined_type_name, $.const_identifier);
+}

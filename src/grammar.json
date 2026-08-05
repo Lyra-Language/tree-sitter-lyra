@@ -985,8 +985,17 @@
         "content": {
           "type": "ALIAS",
           "content": {
-            "type": "SYMBOL",
-            "name": "user_defined_type_name"
+            "type": "CHOICE",
+            "members": [
+              {
+                "type": "SYMBOL",
+                "name": "user_defined_type_name"
+              },
+              {
+                "type": "SYMBOL",
+                "name": "const_identifier"
+              }
+            ]
           },
           "named": true,
           "value": "tuple_name"

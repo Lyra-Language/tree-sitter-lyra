@@ -198,3 +198,23 @@ tuple RGBA((u8, u8, u8), f32)
                 (unsigned_integer_type)))))
         (tuple_type_element
           (float_type))))))
+
+=========================================
+Tuple instance with an all-caps type name
+=========================================
+
+let p = AB(1, 2)
+
+---
+
+(program
+  (declaration
+    (identifier)
+    (tuple_literal
+      (tuple_name)
+      (tuple_value
+        (integer_literal
+          (decimal_int)))
+      (tuple_value
+        (integer_literal
+          (decimal_int))))))

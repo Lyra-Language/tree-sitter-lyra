@@ -334,3 +334,25 @@ let foo = { bar: "baz", blah 23 }
         (ERROR
           (identifier)
           (UNEXPECTED '2'))))))
+
+=================================================
+A Constant Followed by a Block Is Not a Struct
+=================================================
+
+let n = if MAX { 1 } else { 0 }
+
+---------------------------------
+
+(program
+  (declaration
+    (identifier)
+    (if_block_expr
+      (const_identifier)
+      (block
+        (expression_statement
+          (integer_literal
+            (decimal_int))))
+      (block
+        (expression_statement
+          (integer_literal
+            (decimal_int)))))))

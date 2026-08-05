@@ -1,4 +1,5 @@
 const { PREC } = require("../prec");
+const { typeNameInExpr } = require("../helpers");
 
 module.exports = {
   tuple_literal: ($) =>
@@ -35,9 +36,12 @@ module.exports = {
 
   _tuple_value: ($) => prec.right(PREC.TUPLE_VALUE, alias($.expression, $.tuple_value)),
 
+  // typeNameInExpr for the same reason named_struct_literal uses it: an all-caps
+  // named tuple (`tuple AB(i64, i64)`) lexed as const_identifier, so `AB(1, 2)` fell
+  // through to the call reading and failed with "cannot resolve function AB".
   _tuple_name: ($) =>
     prec(
       PREC.TUPLE_NAME,
-      field("tuple_name", alias($.user_defined_type_name, $.tuple_name)),
+      field("tuple_name", alias(typeNameInExpr($), $.tuple_name)),
     ),
 };

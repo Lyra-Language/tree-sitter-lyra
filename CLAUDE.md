@@ -182,10 +182,27 @@ without it, so it is not the unreliable "unnecessary conflict" kind. The ambigui
 `[ Node { n: x } for x in xs ]` the literal is a complete parse both as the comprehension's
 result and as a primary expression.
 
-**Lyra needs no "no struct literal in an `if` header" rule**, which both Rust and Go impose.
-There the `{` of `if Node { n: 7 }.n > 0 {` cannot be told from the body's opening brace, so
-they forbid it unparenthesized; GLR keeps both readings alive until a token decides. The
-corpus has that exact form (`Struct literal in an if condition`), and it runs.
+**Lyra needs no "no struct literal in an `if` header" rule** *when the brace's contents say
+which it is*, which is the case Rust and Go both forbid outright. `if Node { n: 7 }.n > 0 {`
+runs here — the corpus has that exact form (`Struct literal in an if condition`) — because
+`{ n: 7 }` is a struct body and cannot be a block.
+
+**It does not hold in general, and the claim here used to say it did** (corrected 08/05).
+Where the brace's contents fit *both* readings, precedence resolves it statically toward the
+struct literal and the parse then fails: **`if Point { 1 } else { 0 }` is a syntax error**,
+because `{ 1 }` is a perfectly good block but not a struct body, and the parser has already
+committed by the time it finds out. A conflict entry does not help — with
+`prec.left(PREC.STRUCT_LITERAL)` present the decision never becomes a conflict, and
+tree-sitter reports the entry as unnecessary.
+
+Measured while trying to fix it (08/05): moving `named_struct_literal` to `prec.dynamic` does
+turn it into a real conflict, and the generator then demands a conflict entry for
+`named_struct_literal`/`_primary_expr`; adding that one surfaces the next
+(`'if' user_defined_type_name const_identifier • '{'`, the juxtaposition case), and so on.
+It cascades because making struct literals dynamic opens the ambiguity everywhere a name can
+precede a brace. **This is a grammar project, not a one-line fix** — budget for it, and keep
+the corpus test `A Constant Followed by a Block Is Not a Struct` (literals/struct.txt) green
+throughout, since it pins the reading that a careless fix inverts.
 
 Note: data values have **two spellings**, and the grammar keeps them apart on purpose.
 Juxtaposition (`Some 42`, `Err -1`) is `data_constructor_expr`; the parenthesized form
