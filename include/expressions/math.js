@@ -198,7 +198,7 @@ module.exports = {
 
   // ---------------------------------------------------------------------
   // Constraint arithmetic — used inside type-level constraint expressions
-  // (e.g. `where range(0..=2*PI)` in a constrained type). This is an
+  // (e.g. `where range(0..<=2*PI)` in a constrained type). This is an
   // independent sub-grammar that operates over `identifier` /
   // `const_identifier` / number literals rather than runtime expressions,
   // so it stays separate from `_math_expr` / `binary_expr` above

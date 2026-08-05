@@ -2,7 +2,7 @@
 Break Statement
 ===============
 
-for i in 0..=10 {
+for i in 0..<=10 {
   break
 }
 
@@ -28,8 +28,8 @@ for i in 0..=10 {
 Break Statement With Label
 ==========================
 
-outer: for x in 0..=10 {
-  for y in 0..=10 {
+outer: for x in 0..<=10 {
+  for y in 0..<=10 {
     break outer
   }
 }
@@ -71,7 +71,7 @@ outer: for x in 0..=10 {
 Continue
 ========
 
-for i in 0..=10 {
+for i in 0..<=10 {
   if get_foo() {
     continue
   }
@@ -107,8 +107,8 @@ for i in 0..=10 {
 Continue with label
 ===================
 
-outer: for x in 0..=10 {
-  for y in 0..=10 {
+outer: for x in 0..<=10 {
+  for y in 0..<=10 {
     if y % 2 == 0 {
       continue outer
     }
@@ -164,7 +164,7 @@ outer: for x in 0..=10 {
 Break with a value expression
 ==============================
 
-let result = for i in 0..=10 {
+let result = for i in 0..<=10 {
   if i * i > 50 {
     break i * i
   }
@@ -208,8 +208,8 @@ let result = for i in 0..=10 {
 Break with a value from labeled loop
 ======================================
 
-let result = outer: for i in 0..=10 {
-  for j in 0..=10 {
+let result = outer: for i in 0..<=10 {
+  for j in 0..<=10 {
     break outer i + j
   }
 }

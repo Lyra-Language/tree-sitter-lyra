@@ -287,7 +287,7 @@ Player { existing | health: 10 }
 A comprehension guard is still not bitwise or
 ==========================================
 
-let evens = [ x in 1..=10 | even(x) | x * x ]
+let evens = [ x in 1..<=10 | even(x) | x * x ]
 
 ---
 
@@ -321,7 +321,7 @@ let evens = [ x in 1..=10 | even(x) | x * x ]
 A bitwise or inside a comprehension is parenthesized
 ==========================================
 
-let masked = [ x in 1..=10 | (x | 1) ]
+let masked = [ x in 1..<=10 | (x | 1) ]
 
 ---
 

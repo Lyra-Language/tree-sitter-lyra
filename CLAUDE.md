@@ -478,7 +478,7 @@ and the answer has been one rule both times anyone has looked.
 
 ## Signed Literals in Patterns
 
-**A pattern's number literal carries an optional `-`** — `-1 => …`, `-128..=127 => …` — via `_signed_number_literal` (`include/patterns/index.js`), used by both `literal_pattern` and `range_pattern`.
+**A pattern's number literal carries an optional `-`** — `-1 => …`, `-128..<=127 => …` — via `_signed_number_literal` (`include/patterns/index.js`), used by both `literal_pattern` and `range_pattern`.
 
 Until 07/31/26 both took a bare `_number_literal`, which has no sign, so neither form parsed: the `-` landed in an `ERROR` that swallowed the whole `match`. Downstream that read as *nothing being wrong* — the collector saw no match expression, so `lyra`'s exhaustiveness check never ran and a test asserting "no errors" on a full-range match passed vacuously.
 
@@ -492,8 +492,8 @@ It needs two declared conflicts, both mirrors of ones already present for the un
 
 ## One `..` Notation, Three Sites (`rangeBounds`, `include/helpers.js`)
 
-The `..` range notation appears in three places — an expression (`0..<n`, `0..=10:2`), a
-match pattern (`0..=9`), and a `newtype` range constraint (`range(0..=100)`). Until 08/01/26
+The `..` range notation appears in three places — an expression (`0..<n`, `0..<=10:2`), a
+match pattern (`0..<=9`), and a `newtype` range constraint (`range(0..<=100)`). Until 08/01/26
 they were three independent rules that had drifted apart on four axes at once:
 
 | | operand | start | end operator | end | step |
@@ -523,7 +523,7 @@ those axes are real and stay parameters; the rest were drift and are gone.**
 **The end operator is optional in the grammar at all three sites and required by the
 collector at all three** (`lyra-E032`, via `ctx.RangeEndOperator`). It is not a default:
 every reader of the collected operator tests `== "<"`, so an omitted one silently meant
-*inclusive* — `0..9` was `0..=9`, and that extra value is the boundary the exhaustiveness
+*inclusive* — `0..9` was `0..<=9`, and that extra value is the boundary the exhaustiveness
 checker and the emitted comparison disagree on. The line between grammar and collector
 enforcement, worth keeping: **enforce in the collector when the construct has a plausible
 intended meaning that must be disambiguated** (`0..9` is what a Rust or Python programmer
@@ -591,7 +591,7 @@ but this is now the second-largest single feature in the parser. Run
 Two declarations that look alike and mean opposite things:
 
 - **`type Op = ((i64, i64)) -> i64`** (`include/types/type_alias.js`) is **transparent**. The name and the type are interchangeable — no conversion at the boundary, no identity of its own. The collector registers the aliased type *itself* under the alias's name, so the rest of the compiler needs no notion of aliases.
-- **`newtype Volume = u8 where range(0..=100)`** (`include/types/constrained_type.js`) is **nominal**. It is a distinct type you opt into at a conversion site, which is what lets it carry `where` constraints.
+- **`newtype Volume = u8 where range(0..<=100)`** (`include/types/constrained_type.js`) is **nominal**. It is a distinct type you opt into at a conversion site, which is what lets it carry `where` constraints.
 
 They are not redundant, and neither is a flag on the other: one adds meaning at a boundary, the other removes repetition. The motivating case for an alias is a function type — `(g: ((i64, i64)) -> i64, …)` is where Lyra reads worst, and the double parens (one *tuple* parameter, since single parens would be two arguments) can only be named away, never spelled away. `newtype` cannot serve: it makes the value un-callable without unwrapping, which is right for a nominal type and useless here.
 

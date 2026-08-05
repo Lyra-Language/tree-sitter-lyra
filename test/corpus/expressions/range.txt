@@ -1,0 +1,135 @@
+==================
+Range - ascending exclusive
+==================
+
+let a = 1..<5
+
+---
+
+(program
+  (declaration
+    name: (identifier)
+    value: (range_expr
+      start: (range_start (integer_literal (decimal_int)))
+      end_operator: (range_end_operator)
+      end: (range_end (integer_literal (decimal_int))))))
+
+==================
+Range - ascending inclusive
+==================
+
+let a = 1..<=5
+
+---
+
+(program
+  (declaration
+    name: (identifier)
+    value: (range_expr
+      start: (range_start (integer_literal (decimal_int)))
+      end_operator: (range_end_operator)
+      end: (range_end (integer_literal (decimal_int))))))
+
+==================
+Range - descending exclusive
+==================
+
+let a = 5..>1
+
+---
+
+(program
+  (declaration
+    name: (identifier)
+    value: (range_expr
+      start: (range_start (integer_literal (decimal_int)))
+      end_operator: (range_end_operator)
+      end: (range_end (integer_literal (decimal_int))))))
+
+==================
+Range - descending inclusive
+==================
+
+let a = 5..>=1
+
+---
+
+(program
+  (declaration
+    name: (identifier)
+    value: (range_expr
+      start: (range_start (integer_literal (decimal_int)))
+      end_operator: (range_end_operator)
+      end: (range_end (integer_literal (decimal_int))))))
+
+==================
+Range - descending with a step
+==================
+
+let a = 10..>=0:2
+
+---
+
+(program
+  (declaration
+    name: (identifier)
+    value: (range_expr
+      start: (range_start (integer_literal (decimal_int)))
+      end_operator: (range_end_operator)
+      end: (range_end (integer_literal (decimal_int)))
+      step: (range_step (integer_literal (decimal_int))))))
+
+==================
+Range - descending in a for-in loop
+==================
+
+for i in 5..>=1 { }
+
+---
+
+(program
+  (expression_statement
+    (for_in_loop
+      (for_in_condition
+        (for_variable_or_key)
+        (range_expr
+          start: (range_start (integer_literal (decimal_int)))
+          end_operator: (range_end_operator)
+          end: (range_end (integer_literal (decimal_int)))))
+      (for_in_body))))
+
+==================
+Range - descending in a comprehension
+==================
+
+let a = [x in 5..>=1 | x]
+
+---
+
+(program
+  (declaration
+    name: (identifier)
+    value: (array_comp_expr
+      (generator
+        identifier: (identifier)
+        value: (range_expr
+          start: (range_start (integer_literal (decimal_int)))
+          end_operator: (range_end_operator)
+          end: (range_end (integer_literal (decimal_int)))))
+      result_expr: (result_expr (identifier)))))
+
+==================
+Range - a comparison is not a range end operator
+==================
+
+let a = b < c
+
+---
+
+(program
+  (declaration
+    name: (identifier)
+    value: (boolean_expr
+      left: (identifier)
+      operator: (less_than_operator)
+      right: (identifier))))

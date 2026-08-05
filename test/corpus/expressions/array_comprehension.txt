@@ -2,7 +2,7 @@
 Basic array comprehension
 =========================
 
-let squares = [ x in 1..=5 | x * x ]
+let squares = [ x in 1..<=5 | x * x ]
 // squares == [1, 4, 9, 16, 25]
 
 ---
@@ -32,7 +32,7 @@ let squares = [ x in 1..=5 | x * x ]
 Basic array comprehension with guard
 ====================================
 
-let even_squares = [ x in 1..=10 | even(x) | x * x ]
+let even_squares = [ x in 1..<=10 | even(x) | x * x ]
 // even_squares == [4, 16, 36, 64, 100]
 
 ---
@@ -68,7 +68,7 @@ let even_squares = [ x in 1..=10 | even(x) | x * x ]
 Array comprehension with multiple generators and multiple guards
 ================================================================
 
-let foo = [ x in 1..=5, y in 1..=5 | odd(x), even(y) | (x, y, x * y) ]
+let foo = [ x in 1..<=5, y in 1..<=5 | odd(x), even(y) | (x, y, x * y) ]
 // foo == [(1, 2, 2), (1, 4, 4), (3, 2, 6), (3, 4, 12), (5, 2, 10), (5, 4, 20)]
 
 ---

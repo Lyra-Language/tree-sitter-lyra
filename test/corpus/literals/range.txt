@@ -21,7 +21,7 @@ Simple Range w/ int literals, less than
 Simple Range w/ int literals, equals
 ====================================
 
-0..=10
+0..<=10
 
 ---
 
@@ -40,7 +40,7 @@ Simple Range w/ int literals, equals
 Simple Range w/ step
 ====================
 
-0..=10:2
+0..<=10:2
 
 ---
 
@@ -62,7 +62,7 @@ Simple Range w/ step
 Range with variables
 ====================
 
-start..=end
+start..<=end
 
 ---
 
@@ -79,7 +79,7 @@ start..=end
 Range with expressions
 ======================
 
-foo/2..=end-1
+foo/2..<=end-1
 
 ---
 

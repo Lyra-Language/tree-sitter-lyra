@@ -2,7 +2,7 @@ const { commaSep1 } = require("../helpers");
 const { PREC } = require("../prec");
 
 module.exports = {
-  // `[ x in 1..=10 | even(x) | x * x ]` — generators, optional guards, result,
+  // `[ x in 1..<=10 | even(x) | x * x ]` — generators, optional guards, result,
   // each separated by `|`.
   //
   // Since `|` became bitwise-or, `[ x in R | A | B ]` fits two readings: guard

@@ -19,7 +19,7 @@ module.exports = {
           $.binding_pattern, // binding: name @ inner
           $.literal_pattern, // literal matching: 42, "hello"
           $.regex_pattern, // regex matching: r/[0-9]+/
-          $.range_pattern, // range matching: 0..=9, 10..99
+          $.range_pattern, // range matching: 0..<=9, 10..99
           $.array_pattern, // array destructuring: [a, b, ...rest]
           $.struct_pattern, // struct destructuring: {name, age}
           $.tuple_pattern, // tuple destructuring: (x, y, z)
@@ -131,7 +131,7 @@ module.exports = {
   // kind, and a literal pattern is collected from its raw text either way.
   //
   // Until 07/31/26 both rules below took a bare `_number_literal`, so `-1 => …`
-  // and `-128..=127 => …` did not parse at all — the `-` landed in an ERROR node.
+  // and `-128..<=127 => …` did not parse at all — the `-` landed in an ERROR node.
   // That went unnoticed because the error swallowed the whole `match`, leaving
   // the collector with no match expression to check for exhaustiveness, so tests
   // asserting "no errors" on a full-range match passed *vacuously*.
@@ -155,7 +155,7 @@ module.exports = {
       $.boolean_literal,
     ),
 
-  // Range patterns: `0..=9`, `-128..<0`, and — since the three range grammars
+  // Range patterns: `0..<=9`, `-128..<0`, and — since the three range grammars
   // were unified — the open forms `0..` (at least 0) and `..<0` (below 0). An
   // open end is what makes a range pattern able to cover the tail of a type's
   // domain without naming its maximum, which is where a `match` on a width most

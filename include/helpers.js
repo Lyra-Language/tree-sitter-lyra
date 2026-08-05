@@ -46,8 +46,8 @@ export function statementList($) {
 }
 
 // The `..` range notation, shared by the three places it appears: an expression
-// (`0..<n`, `0..=10:2`), a match pattern (`0..=9`), and a `newtype` range
-// constraint (`range(0..=100)`).
+// (`0..<n`, `0..<=10:2`), a match pattern (`0..<=9`), and a `newtype` range
+// constraint (`range(0..<=100)`).
 //
 // These were three separate rules that had drifted apart on four axes at once —
 // whether the end operator was required, whether either bound could be omitted,
@@ -62,7 +62,7 @@ export function statementList($) {
 // (it is part of a type), and an expression takes arbitrary runtime values.
 // Unifying those would either let a match arm hold a function call or break
 // `for i in 0..<n`. *Open-endedness* likewise: `range(0..)` means "at least 0,
-// bounded above by the base type" and `0..=9` as a pattern is a useful half-open
+// bounded above by the base type" and `0..<=9` as a pattern is a useful half-open
 // match, but an open-ended expression range would need the lazy iterator the
 // language does not have yet.
 //

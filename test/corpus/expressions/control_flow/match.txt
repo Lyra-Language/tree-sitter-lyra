@@ -226,9 +226,9 @@ Match with range arms
 =====================
 
  match foo {
-  0..=9 => print("one digit"),
+  0..<=9 => print("one digit"),
   42 => print("The Answer!"),
-  10..=99 => print("two digits"),
+  10..<=99 => print("two digits"),
   _ => print("lots of digits!"),
  }
 
@@ -476,8 +476,8 @@ Negative literal and range patterns
 
 match n {
   -1 => "neg one",
-  -128..=-1 => "negative",
-  0..=127 => "positive",
+  -128..<=-1 => "negative",
+  0..<=127 => "positive",
 }
 
 ---
@@ -521,7 +521,7 @@ Match with open-ended range patterns
 match n {
   100.. => 1,
   ..<0 => 2,
-  0..=99 => 3,
+  0..<=99 => 3,
 }
 
 ---

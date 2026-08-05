@@ -29,7 +29,7 @@ module.exports = {
     seq("values", "(", field("values", commaSep1($.literal_val)), ")"),
   literal_val: ($) => choice($.string_literal, $._number_literal),
 
-  // Range constraint: `range(0..=100)`, `range(0..)`, `range(..<360)`.
+  // Range constraint: `range(0..<=100)`, `range(0..)`, `range(..<360)`.
   //
   // Either bound may be omitted — an absent one is the base type's own limit —
   // but not both: `range(..)` constrains nothing, and rangeBounds' `open` mode
