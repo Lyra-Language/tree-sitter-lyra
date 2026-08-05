@@ -3429,29 +3429,8 @@
       ]
     },
     "result_expr": {
-      "type": "CHOICE",
-      "members": [
-        {
-          "type": "SYMBOL",
-          "name": "_math_operand"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "tuple_literal"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "named_struct_literal"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "anonymous_struct_literal"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "array_literal"
-        }
-      ]
+      "type": "SYMBOL",
+      "name": "expression"
     },
     "_postfix_expr": {
       "type": "CHOICE",
@@ -10030,10 +10009,6 @@
     [
       "comprehension_guard",
       "_postfix_expr"
-    ],
-    [
-      "result_expr",
-      "_primary_expr"
     ],
     [
       "_bool_operand",

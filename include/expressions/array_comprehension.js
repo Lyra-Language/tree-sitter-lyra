@@ -53,15 +53,23 @@ module.exports = {
   _guards: ($) => field("guards", commaSep1($.comprehension_guard)),
   comprehension_guard: ($) => choice($.boolean_expr, $.call_expr, $.identifier),
 
-  result_expr: ($) =>
-    choice(
-      // `_math_operand` already covers plain identifiers / postfix forms
-      // (e.g. `x`, `foo(x).bar`) as well as any nested math expression
-      // (e.g. `x * 2`), so we don't need a separate `$.identifier` branch.
-      $._math_operand,
-      $.tuple_literal,
-      $.named_struct_literal,
-      $.anonymous_struct_literal,
-      $.array_literal,
-    ),
+  // **Any expression.** This was a hand-maintained `choice` of `_math_operand`, the tuple
+  // and struct literals, and an array literal — which is a list of "expression forms
+  // someone needed so far", and it read as a rule the author had to learn: `[ x in xs |
+  // "a" ++ b ]` was a *syntax error*, as were an `if`, a `match`, and a lambda in result
+  // position. There is no property of a comprehension that any of those violate.
+  //
+  // **Widening it made the parser smaller**, which is why it is `$.expression` and not the
+  // narrower list plus `string_concat_expr`: 8,232 → 8,202 states and 35 KB off
+  // `parser.c`, and it retired the `[result_expr, _primary_expr]` conflict entry outright.
+  // The list was competing with `_primary_expr` over what a bare name or literal in result
+  // position reduces to; `$.expression` subsumes that reduction, so the ambiguity is gone
+  // rather than resolved. Measured, and the conflict removal verified against the corpus
+  // rather than trusted — generation's "unnecessary conflict" warning is documented in
+  // CLAUDE.md as unreliable in this region, and here it happened to be right.
+  //
+  // The `|` rule is unaffected: `[ x in R | A | B ]` is still guard-then-result by
+  // `prec.dynamic`, and a bitwise-or meant as a value is still parenthesized. That is a
+  // choice between two *complete* parses, which widening the operand does not touch.
+  result_expr: ($) => $.expression,
 };

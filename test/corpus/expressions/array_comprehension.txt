@@ -198,3 +198,64 @@ let squares = [ x in one_to_five | x * x ]
           (mul_operator)
           (identifier)))))
   (comment))
+
+==================
+Array comprehension - string concatenation result
+==================
+
+let a = [x in xs | "n" ++ x]
+
+---
+
+(program
+  (declaration
+    name: (identifier)
+    value: (array_comp_expr
+      (generator
+        identifier: (identifier)
+        value: (identifier))
+      result_expr: (result_expr
+        (string_concat_expr
+          left: (string_literal (string_content))
+          operator: (string_concat_operator)
+          right: (identifier))))))
+
+==================
+Array comprehension - a top-level bar is still a separator
+==================
+
+let a = [x in xs | y | z]
+
+---
+
+(program
+  (declaration
+    name: (identifier)
+    value: (array_comp_expr
+      (generator
+        identifier: (identifier)
+        value: (identifier))
+      guards: (comprehension_guard (identifier))
+      result_expr: (result_expr (identifier)))))
+
+==================
+Array comprehension - a parenthesized bitwise-or is a value
+==================
+
+let a = [x in xs | (y | z)]
+
+---
+
+(program
+  (declaration
+    name: (identifier)
+    value: (array_comp_expr
+      (generator
+        identifier: (identifier)
+        value: (identifier))
+      result_expr: (result_expr
+        (group
+          (binary_expr
+            left: (identifier)
+            operator: (bitor_operator)
+            right: (identifier)))))))
