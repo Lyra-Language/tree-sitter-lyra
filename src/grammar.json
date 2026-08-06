@@ -1936,7 +1936,7 @@
                   "name": "expression",
                   "content": {
                     "type": "SYMBOL",
-                    "name": "expression"
+                    "name": "_not_operand"
                   }
                 }
               ]
@@ -2102,6 +2102,57 @@
                   }
                 }
               ]
+            }
+          }
+        ]
+      }
+    },
+    "_not_operand": {
+      "type": "CHOICE",
+      "members": [
+        {
+          "type": "SYMBOL",
+          "name": "_literal"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "_number_literal"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "_postfix_expr"
+        },
+        {
+          "type": "ALIAS",
+          "content": {
+            "type": "SYMBOL",
+            "name": "boolean_not_expr"
+          },
+          "named": true,
+          "value": "boolean_expr"
+        }
+      ]
+    },
+    "boolean_not_expr": {
+      "type": "PREC_LEFT",
+      "value": 140,
+      "content": {
+        "type": "SEQ",
+        "members": [
+          {
+            "type": "FIELD",
+            "name": "operator",
+            "content": {
+              "type": "SYMBOL",
+              "name": "not"
+            }
+          },
+          {
+            "type": "FIELD",
+            "name": "expression",
+            "content": {
+              "type": "SYMBOL",
+              "name": "_not_operand"
             }
           }
         ]

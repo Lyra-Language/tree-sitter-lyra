@@ -302,6 +302,24 @@ Note: this grammar's `parser.c` is inherently ~120 MB and takes ~60 s to
 
 Full table is in `include/prec.js`.
 
+### A precedence does not bound an operand (`!`, `include/expressions/boolean.js`)
+
+`!`'s alternative in `boolean_expr` carried `PREC.UNARY` from the start and still grouped
+`!a && b` as **`!(a && b)`** until 08/05 — the opposite of every C-family language. The rule's
+precedence settles conflicts *between rules*; it does nothing about how much a **wider operand
+rule** absorbs, and the operand here was `$.expression`, which includes `boolean_expr` and so
+happily swallowed the `&&`.
+
+The fix is `_not_operand` — literals, `_postfix_expr`, and a nested `!` aliased back to
+`boolean_expr` so `!!x` produces the node the collector already reads. `_postfix_expr` reaches
+`parenthesized_expr`, so `!(a && b)` still says the other thing, and `!` now binds tighter than
+every binary operator, which is what `UNARY` was always meant to express.
+
+It went unnoticed for so long because **`!` had no backend lowering at all** — every program
+using it failed to build, so no one got far enough to be given the wrong answer. Worth
+remembering as a general shape: an unimplemented feature hides its own grammar bugs, and both
+surface together the day it is implemented.
+
 ## Bitwise and Shift Operators (`include/expressions/math.js`)
 
 `& | ~ << >>` binary, `~` prefix (complement), and the five compound assignments

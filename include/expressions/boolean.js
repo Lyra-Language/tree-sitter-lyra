@@ -7,7 +7,7 @@ module.exports = {
       choice(
         prec.left(
           PREC.UNARY,
-          seq(field("operator", $.not), field("expression", $.expression)),
+          seq(field("operator", $.not), field("expression", $._not_operand)),
         ),
         prec.left(
           PREC.RELATIONAL,
@@ -51,6 +51,35 @@ module.exports = {
           ),
         ),
       ),
+    ),
+
+  // The operand of `!`. Deliberately *not* `$.expression`: PREC.UNARY on the rule
+  // above cannot stop a wider operand rule from absorbing more, so with
+  // `$.expression` there `!a && b` parsed as `!(a && b)` — the operand swallowed
+  // the `&&` — which is the opposite grouping from every C-family language and
+  // silently changes what the program means. (It went unnoticed because `!` had no
+  // backend lowering at all until 08/05, so no program using it could be built.)
+  //
+  // A postfix expression is the right width: it reaches `parenthesized_expr`, so
+  // `!(a && b)` still says the other thing, and it keeps `!` binding tighter than
+  // every binary operator, which is what UNARY was always meant to express. A
+  // nested `!` is admitted explicitly so `!!x` parses; recursing through
+  // `boolean_expr` generally would put the swallowing back.
+  // The nested `!` is aliased back to `boolean_expr`, so `!!x` produces exactly
+  // the node the collector already reads (kind `boolean_expr`, `operator` field of
+  // kind `not`) and nothing downstream learns this rule exists.
+  _not_operand: ($) =>
+    choice(
+      $._literal,
+      $._number_literal,
+      $._postfix_expr,
+      alias($.boolean_not_expr, $.boolean_expr),
+    ),
+
+  boolean_not_expr: ($) =>
+    prec.left(
+      PREC.UNARY,
+      seq(field("operator", $.not), field("expression", $._not_operand)),
     ),
 
   // Operand positions for && / ||: accepts nested boolean expressions,

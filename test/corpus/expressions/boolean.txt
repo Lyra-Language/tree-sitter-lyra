@@ -218,3 +218,76 @@ x &&
   (identifier)
   (ERROR
     (and)))   
+==============================================
+Not binds tighter than && and ||
+==============================================
+
+let a = !x && y;
+let b = !x || y;
+
+---
+
+(program
+  (declaration
+    (identifier)
+    (boolean_expr
+      (boolean_expr
+        (not)
+        (identifier))
+      (and)
+      (identifier)))
+  (declaration
+    (identifier)
+    (boolean_expr
+      (boolean_expr
+        (not)
+        (identifier))
+      (or)
+      (identifier))))
+
+==============================================
+Not takes a parenthesized operand to reach a binary operand
+==============================================
+
+let a = !(x && y);
+
+---
+
+(program
+  (declaration
+    (identifier)
+    (boolean_expr
+      (not)
+      (parenthesized_expr
+        (boolean_expr
+          (identifier)
+          (and)
+          (identifier))))))
+
+==============================================
+Not applies to a call and a member access
+==============================================
+
+let a = !f(1);
+let b = !p.flag;
+
+---
+
+(program
+  (declaration
+    (identifier)
+    (boolean_expr
+      (not)
+      (call_expr
+        (identifier)
+        (argument_list
+          (value
+            (integer_literal
+              (decimal_int)))))))
+  (declaration
+    (identifier)
+    (boolean_expr
+      (not)
+      (member_expr
+        (identifier)
+        (identifier)))))
