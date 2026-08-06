@@ -371,6 +371,24 @@ operators at all, not the bands.
 
 Corpus: `test/corpus/bitwise_operators.txt`.
 
+## A match arm may hold a bare jump (`include/expressions/control_flow/match.js`)
+
+`match_arm`'s body is `choice($.expression, $._arm_jump)`, where `_arm_jump` is
+`break_statement` / `continue_statement` / `return_statement`. Without it `None => break`
+parsed `break` as an *identifier* — the jump forms are statements and the body position only
+admitted expressions — and the compiler reported `undefined identifier "break"`.
+
+The braced form `None => { break }` always worked, because a block holds statements. So this
+adds a spelling, not a behaviour, and the `lyra` collector erases it: a bare jump is collected
+as exactly that single-statement block, so no pass after the collector knows the alternative
+exists. Keep it that way — the cheap version of this feature lives entirely in these two
+places.
+
+Cost was negligible (`parser.c` +21 KB, no new conflicts), which is worth noting only because
+this grammar's other expression-position additions were not: juxtaposition cost +2.6 MB. The
+difference is that the jump rules already existed and are keyword-led, so there is no new
+ambiguity for the parser to carry — a `break` token can begin nothing else.
+
 ## Corpus Test Format
 
 Tests live in `test/corpus/**/*.txt`. Each file contains one or more tests separated by `===` / `---` delimiters:

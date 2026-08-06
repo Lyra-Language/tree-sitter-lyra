@@ -565,3 +565,73 @@ match n {
 ---
 
 (program)
+
+==============================================
+An arm body may be a bare break or continue
+==============================================
+
+for {
+  match m {
+    A => break,
+    B => continue,
+    _ => 1,
+  }
+}
+
+---
+
+(program
+  (expression_statement
+    (for_loop
+      (for_body
+        (expression_statement
+          (match_expr
+        (identifier)
+            (match_arm
+              (data_pattern
+                (data_type_name))
+              (break_statement))
+            (match_arm
+              (data_pattern
+                (data_type_name))
+              (continue_statement))
+            (match_arm
+              (wildcard_pattern)
+              (integer_literal
+                (decimal_int)))))))))
+
+==============================================
+An arm body may be a bare return, with or without a value
+==============================================
+
+let f = () -> i64 => match m {
+  A => return 7,
+  B => return,
+  _ => 1,
+}
+
+---
+
+(program
+  (declaration
+    (identifier)
+    (lambda_expr
+      (parameter_list)
+      (return_type
+        (signed_integer_type))
+      (match_expr
+        (identifier)
+        (match_arm
+          (data_pattern
+            (data_type_name))
+          (return_statement
+            (integer_literal
+              (decimal_int))))
+        (match_arm
+          (data_pattern
+            (data_type_name))
+          (return_statement))
+        (match_arm
+          (wildcard_pattern)
+          (integer_literal
+            (decimal_int)))))))
