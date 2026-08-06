@@ -177,6 +177,17 @@ module.exports = {
   // The operand is `_signed_number_literal`, not `expression`: a pattern must be
   // a compile-time constant for exhaustiveness and for the jump-ladder lowering.
   // That is a deliberate difference from `range_expr`, not drift — see rangeBounds.
+  //
+  // **A `const` bound (`LOW..<=HIGH`) does not parse, and the blocker is lexical
+  // rather than a missing alternative.** Admitting `const_identifier` here is one
+  // line and it generates — but `A`, `MAX` and every other all-uppercase *data
+  // constructor* pattern then misparses as a range bound with a MISSING `..`,
+  // because `const_identifier` and `user_defined_type_name` match that text
+  // identically and the lexer picks the constant once one is legal in the state.
+  // GLR conflict entries do not help (tree-sitter reports them "unnecessary" — the
+  // decision is made in the lexer, not the parser). It is the same ambiguity that
+  // blocks an all-caps struct literal, and it wants that grammar project rather
+  // than this reflex — see `lyra/todo.md`.
   range_pattern: ($) =>
     prec.left(
       PREC.RANGE_PATTERN,
