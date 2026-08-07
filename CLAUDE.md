@@ -409,6 +409,60 @@ pointing at the brace.
 
 Corpus: the three new tests at the end of `test/corpus/statements/for_loop.txt`.
 
+## A literal is a postfix head (08/06)
+
+`"abc".len()`, `[1, 2, 3].len()`, `1.wrapping_add(2)` and `1.5.floor()` parse. Until 08/06
+`_primary_expr` admitted an identifier, a `const_identifier`, a `user_defined_type_name`, a
+`parenthesized_expr` and a `named_struct_literal` — and no literal at all — so every postfix
+form was unreachable from one. `("abc").len()` and a bound `s.len()` worked, which is the
+tell that nothing was wrong with the *methods*.
+
+It matters more than it reads. UFCS made method syntax the normal way to call, so every
+combinator the standard library gains was unreachable from the literal a reader would
+naturally try it on.
+
+**The change is a partition, not an addition.** A literal kind must appear in `_primary_expr`
+*or* in `_literal`, never both: `expression` reaches `_literal` directly and `_postfix_expr`
+(hence `_primary_expr`) as well, so a kind in both is derivable two ways and every operand
+position becomes an unresolved reduce-reduce. Three kinds therefore stay in `_literal`:
+
+- `tuple_literal` — how `Some(42)` and `Rect(3, 4)` already parse; a postfix head would give
+  `Some(42)` a second reading;
+- `anonymous_struct_literal` — a bare `{ … }` head contests the block;
+- `array_repeat_init` — left out only because nothing wants a method on one yet.
+
+`regex_literal` also stays, and dropping it from `_literal` without adding it anywhere is the
+one mistake made along the way: it was then reachable only as a *constructor operand*, so
+`let phone = r"…"` parsed as a `data_constructor_expr` with a `MISSING` constructor name. The
+corpus caught it; the `prec.right(PREC.LITERAL)` wrapper on `_literal` is what makes a plain
+literal outrank the juxtaposition reading.
+
+The de-duplication also had to reach the operand rules that list a literal *and*
+`_postfix_expr` — `_string_concat_operand` lost its two string literals, `_math_operand` its
+`_number_literal`, and `_not_operand`/`_bool_operand`/`_comparison_operand` theirs.
+
+**Three new conflict entries**, all the literal analogues of races a bare name has run since
+07/16: `[$._primary_expr, $.literal_pattern]`, `[$._primary_expr, $._signed_number_literal]`
+and `[$._primary_expr, $._negated_number_literal]`. `('a', 'b')` and `(1, 2)` and `(-1, 2)`
+are each a lambda parameter list of patterns or an anonymous tuple of expressions, decided by
+the `=>` that may or may not follow. The `_literal` precedence wrapper used to settle this
+statically; reaching literals through `_primary_expr` instead is what turns it back into a
+conflict. Generation then reports `[expression, _signed_number_literal]` and
+`[_math_operand, _negated_number_literal]` as **unnecessary** — they are left in place, since
+this is the region whose warnings this file already records as unreliable.
+
+**Cost: −4 states** (7,724 → 7,720), `parser.c` slightly smaller. Removing the duplicate
+derivations bought more than the new heads cost, which is the opposite of what this region
+usually does — juxtaposition cost +19%. Verify against corpus, not warnings.
+
+**`0 - 200` must still be a `binary_expr` with a `sub_operator`** — the regression this
+region is on record for, since the failure mode is a *program*, not an error (`0` followed by
+a dangling `negation(-200)`). It is pinned by the second corpus test below and by an
+execution test in `lyra`.
+
+Corpus: `A literal is a postfix head` and `Literal heads do not disturb the readings they
+contest` (expressions/postfix.txt).
+
 ## A match arm may hold a bare jump (`include/expressions/control_flow/match.js`)
 
 `match_arm`'s body is `choice($.expression, $._arm_jump)`, where `_arm_jump` is

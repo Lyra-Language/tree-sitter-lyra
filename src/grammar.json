@@ -79,31 +79,11 @@
         "members": [
           {
             "type": "SYMBOL",
-            "name": "array_literal"
-          },
-          {
-            "type": "SYMBOL",
             "name": "array_repeat_init"
           },
           {
             "type": "SYMBOL",
-            "name": "boolean_literal"
-          },
-          {
-            "type": "SYMBOL",
-            "name": "char_literal"
-          },
-          {
-            "type": "SYMBOL",
             "name": "regex_literal"
-          },
-          {
-            "type": "SYMBOL",
-            "name": "string_literal"
-          },
-          {
-            "type": "SYMBOL",
-            "name": "raw_string_literal"
           },
           {
             "type": "SYMBOL",
@@ -1301,10 +1281,6 @@
         },
         {
           "type": "SYMBOL",
-          "name": "_number_literal"
-        },
-        {
-          "type": "SYMBOL",
           "name": "_postfix_expr"
         },
         {
@@ -2142,10 +2118,6 @@
         },
         {
           "type": "SYMBOL",
-          "name": "_number_literal"
-        },
-        {
-          "type": "SYMBOL",
           "name": "_postfix_expr"
         },
         {
@@ -2197,10 +2169,6 @@
         },
         {
           "type": "SYMBOL",
-          "name": "_number_literal"
-        },
-        {
-          "type": "SYMBOL",
           "name": "_postfix_expr"
         }
       ]
@@ -2211,10 +2179,6 @@
         {
           "type": "SYMBOL",
           "name": "_literal"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "_number_literal"
         },
         {
           "type": "SYMBOL",
@@ -2756,14 +2720,6 @@
       "members": [
         {
           "type": "SYMBOL",
-          "name": "string_literal"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "raw_string_literal"
-        },
-        {
-          "type": "SYMBOL",
           "name": "_postfix_expr"
         },
         {
@@ -2884,10 +2840,6 @@
     "_math_operand": {
       "type": "CHOICE",
       "members": [
-        {
-          "type": "SYMBOL",
-          "name": "_number_literal"
-        },
         {
           "type": "SYMBOL",
           "name": "_postfix_expr"
@@ -3659,6 +3611,30 @@
         {
           "type": "SYMBOL",
           "name": "named_struct_literal"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "string_literal"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "raw_string_literal"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "char_literal"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "boolean_literal"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "array_literal"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "_number_literal"
         }
       ]
     },
@@ -10058,6 +10034,18 @@
     [
       "_primary_expr",
       "data_pattern"
+    ],
+    [
+      "_primary_expr",
+      "literal_pattern"
+    ],
+    [
+      "_primary_expr",
+      "_signed_number_literal"
+    ],
+    [
+      "_primary_expr",
+      "_negated_number_literal"
     ],
     [
       "expression",

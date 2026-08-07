@@ -96,6 +96,24 @@ module.exports = grammar({
     [$.pattern, $.for_loop, $.for_in_loop],
     [$._primary_expr, $.for_loop, $.for_in_loop],
     [$._primary_expr, $.data_pattern],
+    // The literal analogue of the two entries above, and new on 08/06 with
+    // literals becoming postfix heads (`"abc".len()`). `('a', 'b')` is a lambda
+    // parameter list of `literal_pattern`s or an anonymous tuple of
+    // `_primary_expr`s, decided by the `=>` that may or may not follow — the same
+    // race a bare name has run since 07/16, reaching literals only now that they
+    // reduce through `_primary_expr` instead of through the precedence-wrapped
+    // `_literal`. That wrapper is what used to settle it statically.
+    [$._primary_expr, $.literal_pattern],
+    // The same race for a *number* literal, which reaches a pattern through
+    // `_signed_number_literal` (it may carry a leading `-`) rather than through
+    // `literal_pattern`. `(1, 2)` is a tuple of expressions or a parameter list of
+    // patterns; the `[expression, _signed_number_literal]` entry below covered it
+    // while numbers reached `expression` directly, and 08/06 moved them to
+    // `_primary_expr` so `1.wrapping_add(2)` parses.
+    [$._primary_expr, $._signed_number_literal],
+    // And its negated form: in `(-1, 2)` the `-1` is a negation expression whose
+    // operand is now a `_primary_expr`, or a pattern's `_negated_number_literal`.
+    [$._primary_expr, $._negated_number_literal],
     // A postfix form (identifier, call, member access, …) can appear on
     // its own as an `expression` or as the left operand of a math /
     // comparison / compound-assignment operator. Tree-sitter needs the

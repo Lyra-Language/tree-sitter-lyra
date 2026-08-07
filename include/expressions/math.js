@@ -151,10 +151,11 @@ module.exports = {
 
   // Operand for `++`: string literals, raw strings, postfix expressions
   // (identifiers, calls, member access, …), and nested concat expressions.
+  // A string literal is not listed: it is a `_primary_expr` as of 08/06, so it
+  // arrives through `_postfix_expr` — and listing it here as well made `"a" ++ b`
+  // an unresolved reduce-reduce over which route a bare literal took.
   _string_concat_operand: ($) =>
     choice(
-      $.string_literal,
-      $.raw_string_literal,
       $._postfix_expr,
       $.string_concat_expr,
     ),
@@ -194,7 +195,7 @@ module.exports = {
   // while `prec.left` / `prec.right` on the containing rule resolves the
   // associativity / precedence for chained operators.
   _math_operand: ($) =>
-    choice($._number_literal, $._postfix_expr, $._math_expr, $.address_of_expr),
+    choice($._postfix_expr, $._math_expr, $.address_of_expr),
 
   // ---------------------------------------------------------------------
   // Constraint arithmetic — used inside type-level constraint expressions

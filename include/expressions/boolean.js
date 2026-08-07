@@ -71,7 +71,6 @@ module.exports = {
   _not_operand: ($) =>
     choice(
       $._literal,
-      $._number_literal,
       $._postfix_expr,
       alias($.boolean_not_expr, $.boolean_expr),
     ),
@@ -87,12 +86,11 @@ module.exports = {
   // them), and postfix expressions (identifiers, calls, member accesses, …)
   // that may resolve to bool at type-check time.
   _bool_operand: ($) =>
-    choice($.boolean_expr, $._literal, $._number_literal, $._postfix_expr),
+    choice($.boolean_expr, $._literal, $._postfix_expr),
 
   _comparison_operand: ($) =>
     choice(
       $._literal,
-      $._number_literal,
       $._postfix_expr,
       $._math_expr,
       $.address_of_expr,

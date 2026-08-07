@@ -54,6 +54,12 @@ module.exports = {
     $.user_defined_type_name,  // For static method calls like Arena.new()
     $.parenthesized_expr,
     $.named_struct_literal,
+    $.string_literal,
+    $.raw_string_literal,
+    $.char_literal,
+    $.boolean_literal,
+    $.array_literal,
+    $._number_literal,
   ),
 
   call_expr: $ => prec.left(PREC.POSTFIX, seq(

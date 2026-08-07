@@ -567,3 +567,124 @@ let r = if Node { n: 7 }.n > 0 { 1 } else { 0 }
         (expression_statement
           (integer_literal
             (decimal_int)))))))
+
+==================================================
+A literal is a postfix head
+==================================================
+
+let a = "abc".len()
+let b = [1, 2, 3].len()
+let c = 1.wrapping_add(2)
+let d = 'x'.is_space()
+
+---
+
+(program
+  (declaration
+    name: (identifier)
+    value: (call_expr
+      function: (member_expr
+        object: (string_literal
+          (string_content))
+        property: (identifier))
+      arguments: (argument_list)))
+  (declaration
+    name: (identifier)
+    value: (call_expr
+      function: (member_expr
+        object: (array_literal
+          (integer_literal
+            (decimal_int))
+          (integer_literal
+            (decimal_int))
+          (integer_literal
+            (decimal_int)))
+        property: (identifier))
+      arguments: (argument_list)))
+  (declaration
+    name: (identifier)
+    value: (call_expr
+      function: (member_expr
+        object: (integer_literal
+          (decimal_int))
+        property: (identifier))
+      arguments: (argument_list
+        value: (value
+          (integer_literal
+            (decimal_int))))))
+  (declaration
+    name: (identifier)
+    value: (call_expr
+      function: (member_expr
+        object: (char_literal)
+        property: (identifier))
+      arguments: (argument_list))))
+
+==================================================
+Literal heads do not disturb the readings they contest
+==================================================
+
+let sub = 0 - 200
+let pair = (20, 22)
+let neg = (-1, 2)
+let lam = (a, b) => a + b
+let chars = ('a', 'b')
+let cat = "a" ++ "b"
+
+---
+
+(program
+  (declaration
+    name: (identifier)
+    value: (binary_expr
+      left: (integer_literal
+        (decimal_int))
+      operator: (sub_operator)
+      right: (integer_literal
+        (decimal_int))))
+  (declaration
+    name: (identifier)
+    value: (tuple_literal
+      (tuple_value
+        (integer_literal
+          (decimal_int)))
+      (tuple_value
+        (integer_literal
+          (decimal_int)))))
+  (declaration
+    name: (identifier)
+    value: (tuple_literal
+      (tuple_value
+        (negation
+          operand: (integer_literal
+            (decimal_int))))
+      (tuple_value
+        (integer_literal
+          (decimal_int)))))
+  (declaration
+    name: (identifier)
+    value: (lambda_expr
+      parameters: (parameter_list
+        (parameter
+          pattern: (identifier))
+        (parameter
+          pattern: (identifier)))
+      body: (binary_expr
+        left: (identifier)
+        operator: (add_operator)
+        right: (identifier))))
+  (declaration
+    name: (identifier)
+    value: (tuple_literal
+      (tuple_value
+        (char_literal))
+      (tuple_value
+        (char_literal))))
+  (declaration
+    name: (identifier)
+    value: (string_concat_expr
+      left: (string_literal
+        (string_content))
+      operator: (string_concat_operator)
+      right: (string_literal
+        (string_content)))))
