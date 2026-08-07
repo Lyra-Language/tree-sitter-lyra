@@ -439,3 +439,26 @@ let [a, b, c] =
       (identifier)
       (identifier)
       (identifier))))
+
+==================================================
+A wildcard binding discards the value
+==================================================
+
+let _ = compute()
+var _ = compute()
+
+---
+
+(program
+  (declaration
+    pattern: (destructuring_only_pattern
+      (wildcard_pattern))
+    value: (call_expr
+      function: (identifier)
+      arguments: (argument_list)))
+  (declaration
+    pattern: (destructuring_only_pattern
+      (wildcard_pattern))
+    value: (call_expr
+      function: (identifier)
+      arguments: (argument_list))))

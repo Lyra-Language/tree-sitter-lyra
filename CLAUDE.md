@@ -463,6 +463,29 @@ execution test in `lyra`.
 Corpus: `A literal is a postfix head` and `Literal heads do not disturb the readings they
 contest` (expressions/postfix.txt).
 
+## `let _ = expr` discards (08/07)
+
+`wildcard_pattern` is one of `destructuring_only_pattern`'s alternatives, so a bare `_` in
+binding position parses as a discard: evaluate the value, bind nothing.
+
+Before that it fell into `data_pattern`, which recovered with an **empty** name — the CST
+showed a `data_type_name` spanning zero characters — and the sibling Go project then
+reported "cannot destructure integer literal with a data pattern". The must-use warning has
+always ended *"bind it (`let _ = ...`) to discard it intentionally"*, so the compiler was
+recommending a spelling the parser rejected.
+
+The named form `let _ignored = …` always worked, taking `declaration`'s identifier branch,
+which is why the gap survived: the workaround reads as a style choice rather than a
+necessity.
+
+**Cost: zero states** (7,720 → 7,720), no new conflicts. `_` in that position was already
+unambiguous — nothing else can follow `let` there — so the alternative folds into the
+existing automaton. Corpus: `A wildcard binding discards the value`
+(destructuring.txt).
+
+Note `_` is still not an *expression*: `let _ = 5; _` does not parse, which is what keeps a
+discard from being read back.
+
 ## A match arm may hold a bare jump (`include/expressions/control_flow/match.js`)
 
 `match_arm`'s body is `choice($.expression, $._arm_jump)`, where `_arm_jump` is

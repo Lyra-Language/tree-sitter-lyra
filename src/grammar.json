@@ -9121,6 +9121,10 @@
           {
             "type": "SYMBOL",
             "name": "data_pattern"
+          },
+          {
+            "type": "SYMBOL",
+            "name": "wildcard_pattern"
           }
         ]
       }

@@ -15,7 +15,14 @@ module.exports = {
     ),
 
   // Pattern-only binding (excludes bare identifier, which takes the identifier branch
-  // of declaration to avoid ambiguity with function definitions)
+  // of declaration to avoid ambiguity with function definitions).
+  //
+  // `wildcard_pattern` is here so `let _ = expr` parses — evaluate and discard, which is
+  // the canonical way to opt out of the must-use rule. Without it a bare `_` in binding
+  // position fell into `data_pattern`, which recovered with an *empty* name and left
+  // `lyrac` reporting "cannot destructure integer literal with a data pattern". The
+  // named form `let _ignored = …` worked, taking the identifier branch, which is why the
+  // gap survived: the workaround looks like a style choice rather than a necessity.
   destructuring_only_pattern: ($) =>
     prec.right(
       choice(
@@ -24,6 +31,7 @@ module.exports = {
         $.struct_pattern,
         $.tuple_pattern,
         $.data_pattern,
+        $.wildcard_pattern,
       ),
     ),
 
