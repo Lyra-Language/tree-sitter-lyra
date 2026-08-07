@@ -6,6 +6,11 @@ module.exports = {
       optional(field("visibility", $.visibility)),
       "newtype",
       field("name", alias($.user_defined_type_name, $.constrained_type_name)),
+      // A `newtype` may be generic — `newtype Meters<t> = t`. It was the one type
+      // declaration without this: struct, data, tuple and trait all take it, and the
+      // omission put the `<t>` in an ERROR node while the declaration still collected,
+      // silently dropping the parameters.
+      optional(field("generic_parameters", $.generic_parameters)),
       "=",
       seq(
         field("type", $.type),

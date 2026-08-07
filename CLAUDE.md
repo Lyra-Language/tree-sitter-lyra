@@ -463,6 +463,20 @@ execution test in `lyra`.
 Corpus: `A literal is a postfix head` and `Literal heads do not disturb the readings they
 contest` (expressions/postfix.txt).
 
+## A `newtype` may be generic (08/07)
+
+`newtype Boxed<t> = t`. `constrained_type` takes `optional(field("generic_parameters",
+$.generic_parameters))` — the same slot struct, data, tuple and trait declarations have
+always had, and `newtype` was the one type declaration without it.
+
+The failure was quiet rather than loud: the `<t>` landed in an ERROR node **and the
+declaration still collected**, so the parameters were dropped and `newtype Point<t> = …`
+became `newtype Point = …`. The sibling Go project's golden file for that case recorded
+exactly the drop, under a test named for the feature — a golden regenerated from a
+truncated AST bakes the truncation in and then reads as a specification.
+
+Cost: +10 states (7,720 → 7,730), no new conflicts.
+
 ## `let _ = expr` discards (08/07)
 
 `wildcard_pattern` is one of `destructuring_only_pattern`'s alternatives, so a bare `_` in
