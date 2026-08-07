@@ -24,7 +24,7 @@ module.exports = {
         ';'
       )
     ),
-    field("condition_expr", alias($.boolean_expr, $.for_condition_expr)),
+    field("condition_expr", $._bool_operand),
     optional(
       seq(
         ';',

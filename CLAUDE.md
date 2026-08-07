@@ -371,6 +371,44 @@ operators at all, not the bands.
 
 Corpus: `test/corpus/bitwise_operators.txt`.
 
+## A `for` condition is any bool operand (`include/statements/control_flow/for_loop.js`)
+
+`for done { … }` parses. The condition was `alias($.boolean_expr, $.for_condition_expr)`,
+and a bare identifier is not a `boolean_expr`, so the only way to loop on a bool binding was
+`for done == true { … }` — which no one writes by choice, and which reads as the language
+lacking a while loop. It is `$._bool_operand` as of 08/06: a `boolean_expr`, a literal, or any
+`_postfix_expr`, so a name, a call (`for ready(n)`) and a member access (`for cfg.enabled`)
+all work.
+
+**`$.expression` — matching `if`'s condition — does not generate**, and the reason is worth
+recording because it looks like the obvious unification. A `block` *is* an expression, so
+`for { … }` becomes ambiguous between "condition, no body" and "no condition, body":
+
+```
+'for'  block  •  ';'  …
+  1:  'for'  (expression  block)
+  2:  (for_loop  'for'  block)
+```
+
+`if` does not have this problem because its `then_block` is mandatory, so a block after the
+condition is never optional. `_bool_operand` excludes `block` and sidesteps it entirely.
+
+**Cost: −1 state** (7,725 → 7,724) and −728 bytes. Not a typo: a narrower rule replaced by a
+wider one that the automaton already had to track for `&&`/`||` operands, so the states were
+shared rather than added. Measured, because this region has form.
+
+**The `for_condition_expr` alias is gone**, so a comparison condition now yields a plain
+`boolean_expr`. It never meant anything — the sibling collector handled it in the same
+`case` as `boolean_expr` — and keeping it would have made the node kind depend on which
+*form* the condition took, which is a trap for anyone writing a query against it. No
+highlight query in either this repo or `lyra-zed-ext` referenced it.
+
+Bool-ness is now entirely the typechecker's (`for loop condition must be boolean, got i64`),
+which is the better diagnostic anyway: `for n { }` over an integer used to be a syntax error
+pointing at the brace.
+
+Corpus: the three new tests at the end of `test/corpus/statements/for_loop.txt`.
+
 ## A match arm may hold a bare jump (`include/expressions/control_flow/match.js`)
 
 `match_arm`'s body is `choice($.expression, $._arm_jump)`, where `_arm_jump` is

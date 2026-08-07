@@ -39,7 +39,7 @@ for i < 10 {
   (expression_statement
     (for_loop
       (for_condition
-        (for_condition_expr
+        (boolean_expr
           (identifier)
           (less_than_operator)
           (integer_literal
@@ -74,7 +74,7 @@ for var i = 0; i < 10 {
           (identifier)
           (integer_literal
             (decimal_int)))
-        (for_condition_expr
+        (boolean_expr
           (identifier)
           (less_than_operator)
           (integer_literal
@@ -115,7 +115,7 @@ for i < 10; i += 1 {
   (expression_statement
     (for_loop
       (for_condition
-        (for_condition_expr
+        (boolean_expr
           (identifier)
           (less_than_operator)
           (integer_literal
@@ -155,7 +155,7 @@ for var i = 0; i < 10; i += 1 {
           (identifier)
           (integer_literal
             (decimal_int)))
-        (for_condition_expr
+        (boolean_expr
           (identifier)
           (less_than_operator)
           (integer_literal
@@ -176,3 +176,106 @@ for var i = 0; i < 10; i += 1 {
                   (string_content)
                   (string_interpolation
                     (identifier)))))))))))
+
+==================================================
+For loop over a bare bool binding
+==================================================
+
+for done {
+  println("waiting")
+}
+
+---
+
+(program
+  (expression_statement
+    (for_loop
+      (for_condition
+        (identifier))
+      (for_body
+        (expression_statement
+          (call_expr
+            (identifier)
+            (argument_list
+              (value
+                (string_literal
+                  (string_content))))))))))
+
+==================================================
+For loop over a call and a member access
+==================================================
+
+for ready(n) {
+  println("a")
+}
+for cfg.enabled {
+  println("b")
+}
+
+---
+
+(program
+  (expression_statement
+    (for_loop
+      (for_condition
+        (call_expr
+          (identifier)
+          (argument_list
+            (value
+              (identifier)))))
+      (for_body
+        (expression_statement
+          (call_expr
+            (identifier)
+            (argument_list
+              (value
+                (string_literal
+                  (string_content)))))))))
+  (expression_statement
+    (for_loop
+      (for_condition
+        (member_expr
+          (identifier)
+          (identifier)))
+      (for_body
+        (expression_statement
+          (call_expr
+            (identifier)
+            (argument_list
+              (value
+                (string_literal
+                  (string_content))))))))))
+
+==================================================
+A bare condition still admits the C-style clauses
+==================================================
+
+for var i = 0; running; i += 1 {
+  println("x")
+}
+
+---
+
+(program
+  (expression_statement
+    (for_loop
+      (for_condition
+        (for_initial_expr
+          (identifier)
+          (integer_literal
+            (decimal_int)))
+        (identifier)
+        (for_post_expr
+          (compound_assignment
+            (identifier)
+            (add_assign_operator)
+            (integer_literal
+              (decimal_int)))))
+      (for_body
+        (expression_statement
+          (call_expr
+            (identifier)
+            (argument_list
+              (value
+                (string_literal
+                  (string_content))))))))))

@@ -4791,13 +4791,8 @@
           "type": "FIELD",
           "name": "condition_expr",
           "content": {
-            "type": "ALIAS",
-            "content": {
-              "type": "SYMBOL",
-              "name": "boolean_expr"
-            },
-            "named": true,
-            "value": "for_condition_expr"
+            "type": "SYMBOL",
+            "name": "_bool_operand"
           }
         },
         {
