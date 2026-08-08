@@ -2290,10 +2290,6 @@
         {
           "type": "SYMBOL",
           "name": "bitwise_not"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "group"
         }
       ]
     },
@@ -2851,6 +2847,10 @@
         {
           "type": "SYMBOL",
           "name": "address_of_expr"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "tuple_literal"
         }
       ]
     },
@@ -3607,6 +3607,10 @@
         {
           "type": "SYMBOL",
           "name": "parenthesized_expr"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "group"
         },
         {
           "type": "SYMBOL",

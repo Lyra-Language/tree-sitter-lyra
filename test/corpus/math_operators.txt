@@ -185,3 +185,98 @@ let b = 5 - 3 - 1
       operator: (sub_operator)
       right: (integer_literal
         (decimal_int)))))
+
+==========================================
+A parenthesized expression is a postfix head
+==========================================
+
+let a = (x + y).field
+let b = (x + y)[0]
+let c = ((x + y) * 2).len()
+
+---
+
+(program
+  (declaration
+    (identifier)
+    (member_expr
+      (group
+        (binary_expr
+          (identifier)
+          (add_operator)
+          (identifier)))
+      (identifier)))
+  (declaration
+    (identifier)
+    (index_expr
+      (group
+        (binary_expr
+          (identifier)
+          (add_operator)
+          (identifier)))
+      (integer_literal
+        (decimal_int))))
+  (declaration
+    (identifier)
+    (call_expr
+      (member_expr
+        (group
+          (binary_expr
+            (group
+              (binary_expr
+                (identifier)
+                (add_operator)
+                (identifier)))
+            (mul_operator)
+            (integer_literal
+              (decimal_int))))
+        (identifier))
+      (argument_list))))
+
+==========================================
+A constructor call is a math operand
+==========================================
+
+let a = Cents(1) + Cents(2)
+let b = Point(1, 2) * 3
+let c = -Cents(1)
+
+---
+
+(program
+  (declaration
+    (identifier)
+    (binary_expr
+      (tuple_literal
+        (tuple_name)
+        (tuple_value
+          (integer_literal
+            (decimal_int))))
+      (add_operator)
+      (tuple_literal
+        (tuple_name)
+        (tuple_value
+          (integer_literal
+            (decimal_int))))))
+  (declaration
+    (identifier)
+    (binary_expr
+      (tuple_literal
+        (tuple_name)
+        (tuple_value
+          (integer_literal
+            (decimal_int)))
+        (tuple_value
+          (integer_literal
+            (decimal_int))))
+      (mul_operator)
+      (integer_literal
+        (decimal_int))))
+  (declaration
+    (identifier)
+    (negation
+      (tuple_literal
+        (tuple_name)
+        (tuple_value
+          (integer_literal
+            (decimal_int)))))))

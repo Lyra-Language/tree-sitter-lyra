@@ -101,7 +101,6 @@ module.exports = {
       $.compound_assignment,
       $.negation,
       $.bitwise_not,
-      $.group,
     ),
 
   ...arithmeticRules({
@@ -187,6 +186,17 @@ module.exports = {
   shl_assign_operator: ($) => "<<=",
   shr_assign_operator: ($) => ">>=",
 
+  // A parenthesized arithmetic expression. It is reached **only** through
+  // `_primary_expr` (postfix.js), not from `_math_expr` — every math operand still
+  // finds it, since `_math_operand` includes `_postfix_expr`.
+  //
+  // That single path is the point, and it was two until 08/07. `group` sat in
+  // `_math_expr` alone, so `(x + y)` could not head a postfix form and `(a + b).x` was
+  // a syntax error while `(a).x` parsed — a non-math parenthesis is a
+  // `parenthesized_expr`, which is a primary. Adding `group` to `_primary_expr`
+  // *beside* the `_math_expr` arm is an unresolved conflict (tree-sitter names it:
+  // `group` derivable two ways at every operand), so the arm came out instead. One path
+  // to one node, and the parser lost 19 states rather than gaining any.
   group: ($) => prec(PREC.MATH_GROUP, seq("(", $._math_expr, ")")),
 
   // An operand inside an arithmetic expression. Atoms (numbers, postfix
@@ -194,8 +204,12 @@ module.exports = {
   // arbitrary nested math (a binary expr, another group, a negation, etc.)
   // while `prec.left` / `prec.right` on the containing rule resolves the
   // associativity / precedence for chained operators.
+  // `tuple_literal` is here, and nowhere else reachable from arithmetic (08/07): a
+  // constructor call is `Cents(1)`, which lives in `_literal`, so `Cents(1) + Cents(2)`
+  // did not parse while `f(1) + f(2)` did. It cannot move into `_primary_expr` instead —
+  // see the note in literals/index.js for the second reading that would create.
   _math_operand: ($) =>
-    choice($._postfix_expr, $._math_expr, $.address_of_expr),
+    choice($._postfix_expr, $._math_expr, $.address_of_expr, $.tuple_literal),
 
   // ---------------------------------------------------------------------
   // Constraint arithmetic — used inside type-level constraint expressions

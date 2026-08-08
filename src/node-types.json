@@ -1041,6 +1041,10 @@
             "named": true
           },
           {
+            "type": "tuple_literal",
+            "named": true
+          },
+          {
             "type": "user_defined_type_name",
             "named": true
           }
@@ -1202,6 +1206,10 @@
           },
           {
             "type": "tuple_index_expr",
+            "named": true
+          },
+          {
+            "type": "tuple_literal",
             "named": true
           },
           {
@@ -1381,6 +1389,10 @@
             "named": true
           },
           {
+            "type": "tuple_literal",
+            "named": true
+          },
+          {
             "type": "user_defined_type_name",
             "named": true
           }
@@ -1464,6 +1476,10 @@
           },
           {
             "type": "float_literal",
+            "named": true
+          },
+          {
+            "type": "group",
             "named": true
           },
           {
@@ -1926,6 +1942,10 @@
             "named": true
           },
           {
+            "type": "group",
+            "named": true
+          },
+          {
             "type": "identifier",
             "named": true
           },
@@ -2150,6 +2170,10 @@
             "named": true
           },
           {
+            "type": "tuple_literal",
+            "named": true
+          },
+          {
             "type": "user_defined_type_name",
             "named": true
           }
@@ -2311,6 +2335,10 @@
           },
           {
             "type": "tuple_index_expr",
+            "named": true
+          },
+          {
+            "type": "tuple_literal",
             "named": true
           },
           {
@@ -3170,6 +3198,10 @@
             "named": true
           },
           {
+            "type": "group",
+            "named": true
+          },
+          {
             "type": "identifier",
             "named": true
           },
@@ -3502,6 +3534,10 @@
           },
           {
             "type": "float_literal",
+            "named": true
+          },
+          {
+            "type": "group",
             "named": true
           },
           {
@@ -4020,10 +4056,6 @@
           "named": true
         },
         {
-          "type": "group",
-          "named": true
-        },
-        {
           "type": "negation",
           "named": true
         }
@@ -4339,6 +4371,10 @@
           },
           {
             "type": "float_literal",
+            "named": true
+          },
+          {
+            "type": "group",
             "named": true
           },
           {
@@ -4886,6 +4922,10 @@
             "named": true
           },
           {
+            "type": "group",
+            "named": true
+          },
+          {
             "type": "identifier",
             "named": true
           },
@@ -5290,6 +5330,10 @@
             "named": true
           },
           {
+            "type": "tuple_literal",
+            "named": true
+          },
+          {
             "type": "user_defined_type_name",
             "named": true
           }
@@ -5405,6 +5449,10 @@
             "named": true
           },
           {
+            "type": "group",
+            "named": true
+          },
+          {
             "type": "identifier",
             "named": true
           },
@@ -5498,6 +5546,10 @@
           },
           {
             "type": "float_literal",
+            "named": true
+          },
+          {
+            "type": "group",
             "named": true
           },
           {
@@ -6236,6 +6288,10 @@
             "named": true
           },
           {
+            "type": "group",
+            "named": true
+          },
+          {
             "type": "identifier",
             "named": true
           },
@@ -6337,6 +6393,10 @@
           },
           {
             "type": "float_literal",
+            "named": true
+          },
+          {
+            "type": "group",
             "named": true
           },
           {
@@ -7241,6 +7301,10 @@
             "named": true
           },
           {
+            "type": "group",
+            "named": true
+          },
+          {
             "type": "identifier",
             "named": true
           },
@@ -7344,6 +7408,10 @@
           },
           {
             "type": "float_literal",
+            "named": true
+          },
+          {
+            "type": "group",
             "named": true
           },
           {

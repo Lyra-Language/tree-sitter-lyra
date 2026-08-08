@@ -25,7 +25,11 @@ module.exports = {
   // that must NOT be postfix heads, each for a reason:
   //
   //   - `tuple_literal` is how `Some(42)` and `Rect(3, 4)` already parse. As a
-  //     postfix head it would give `Some(42)` a second reading;
+  //     postfix head it would give `Some(42)` a second reading — `_primary_expr`
+  //     contains `user_defined_type_name`, so the same text is a `call_expr` too, and
+  //     that is a reduce-reduce at every operand position. It **is** listed in
+  //     `_math_operand` as of 08/07 (math.js), which is the one position it was
+  //     missing: `Cents(1) + Cents(2)` did not parse while `f(1) + f(2)` did;
   //   - `anonymous_struct_literal` — a bare `{ … }` head would contest the block;
   //   - `array_repeat_init` (`[0; 5]`) is left out only because nothing wants a
   //     method on one yet, and every addition here costs parser states.

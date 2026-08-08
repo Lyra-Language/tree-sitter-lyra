@@ -431,6 +431,9 @@ position becomes an unresolved reduce-reduce. Three kinds therefore stay in `_li
 - `anonymous_struct_literal` — a bare `{ … }` head contests the block;
 - `array_repeat_init` — left out only because nothing wants a method on one yet.
 
+`tuple_literal` gained the one operand position it was missing on 08/07 — see the
+parenthesized-head section below — without moving out of `_literal`.
+
 `regex_literal` also stays, and dropping it from `_literal` without adding it anywhere is the
 one mistake made along the way: it was then reachable only as a *constructor operand*, so
 `let phone = r"…"` parsed as a `data_constructor_expr` with a `MISSING` constructor name. The
@@ -462,6 +465,47 @@ execution test in `lyra`.
 
 Corpus: `A literal is a postfix head` and `Literal heads do not disturb the readings they
 contest` (expressions/postfix.txt).
+
+## A parenthesized expression is a postfix head; a constructor call is a math operand (08/07)
+
+Two gaps, closed together, and both by **removing** a derivation rather than adding one —
+the parser lost 19 states (7730 → 7711).
+
+```
+Cents(150) + Cents(275)   // was: syntax error: unexpected "Cents(150) +"
+(a + b).x                 // was: syntax error: unexpected ".x"
+```
+
+Arithmetic operator overloading landed the same day and turned both from curiosities into
+the first thing an author would write. Neither is about operators.
+
+**`Cents(1)` is a `tuple_literal`, and `_math_operand` never reached `_literal`.** So
+`f(1) + f(2)` parsed (a `call_expr` is a postfix form) and the constructor did not. It
+cannot move into `_primary_expr` instead — that is the partition above, and `Some(42)`
+would gain a second reading as a call of a `user_defined_type_name`. It is listed in
+`_math_operand` specifically, which is the one position it was missing.
+
+**`(x + y)` is a `group`, not a `parenthesized_expr`**, and `group` was reachable only
+from `_math_expr`. `(x)` is a `parenthesized_expr`, which is a `_primary_expr`, which is
+why `(a).x` always worked and `(a + b).x` never did — and why `(1 + 2).wrapping_add(3)`
+failed too, so this predated overloading and the literal-as-postfix-head work had not
+covered it.
+
+The fix is the part worth keeping. Adding `group` to `_primary_expr` *beside* its
+`_math_expr` arm is an unresolved conflict, and tree-sitter names it outright:
+
+```
+group  •  ';'  …
+  1:  (_math_expr  group)
+  2:  (_primary_expr  group)
+```
+
+So the arm came out. `group` now has exactly one derivation, and every math operand still
+finds it because `_math_operand` includes `_postfix_expr`. Same discipline as the literal
+partition: **one path to one node**, or every operand position is a reduce-reduce.
+
+Corpus: `A parenthesized expression is a postfix head` and `A constructor call is a math
+operand` (`test/corpus/math_operators.txt`).
 
 ## A `newtype` may be generic (08/07)
 
@@ -650,7 +694,9 @@ bound makes it unconditional and constrains every caller instead.
 `src/parser.c` is ~14.7 MB (8,240 states) — the figure below is the low-water mark it was
 reduced *to*, before bitwise operators (+1,576 states), the struct-literal postfix head (+26),
 newline-separated member lists (+29, traits/impls then struct declarations) and array-element
-modifiers (+3). It was **116 MB and 62,663 states** until the
+modifiers (+3). The 08/07 parenthesized-head and constructor-operand work went the other way
+(**-19**), which is the general shape worth noticing: both were fixed by giving a node *one*
+derivation instead of two, and a removed path is a removed family of states. It was **116 MB and 62,663 states** until the
 `lambda_expr` modifiers were rebuilt, and `tree-sitter generate --report-states-for-rule -`
 is what found it: `lambda_expr` alone owned **57,026 of those states — 91%**.
 

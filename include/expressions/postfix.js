@@ -53,6 +53,11 @@ module.exports = {
     $.const_identifier,
     $.user_defined_type_name,  // For static method calls like Arena.new()
     $.parenthesized_expr,
+    // `group` is `( <arithmetic> )`, and this is its **only** derivation as of 08/07 —
+    // it left `_math_expr` in the same change. Without it `(a + b).x` was a syntax
+    // error while `(a).x` parsed, because a non-math parenthesis is a
+    // `parenthesized_expr` and reached here already. See math.js's `group`.
+    $.group,
     $.named_struct_literal,
     $.string_literal,
     $.raw_string_literal,
