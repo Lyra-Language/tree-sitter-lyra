@@ -5353,6 +5353,18 @@
         {
           "type": "SYMBOL",
           "name": "lambda_type"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "anonymous_tuple_type"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "raw_pointer_type"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "anonymous_struct_type"
         }
       ]
     },

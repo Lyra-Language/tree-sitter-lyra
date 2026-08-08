@@ -472,6 +472,14 @@
         "required": true,
         "types": [
           {
+            "type": "anonymous_struct_type",
+            "named": true
+          },
+          {
+            "type": "anonymous_tuple_type",
+            "named": true
+          },
+          {
             "type": "array_type",
             "named": true
           },
@@ -497,6 +505,10 @@
           },
           {
             "type": "parameterized_type",
+            "named": true
+          },
+          {
+            "type": "raw_pointer_type",
             "named": true
           },
           {
@@ -778,6 +790,14 @@
             "named": true
           },
           {
+            "type": "anonymous_struct_type",
+            "named": true
+          },
+          {
+            "type": "anonymous_tuple_type",
+            "named": true
+          },
+          {
             "type": "array_type",
             "named": true
           },
@@ -803,6 +823,10 @@
           },
           {
             "type": "parameterized_type",
+            "named": true
+          },
+          {
+            "type": "raw_pointer_type",
             "named": true
           },
           {
@@ -7781,6 +7805,14 @@
         "required": true,
         "types": [
           {
+            "type": "anonymous_struct_type",
+            "named": true
+          },
+          {
+            "type": "anonymous_tuple_type",
+            "named": true
+          },
+          {
             "type": "array_type",
             "named": true
           },
@@ -7806,6 +7838,10 @@
           },
           {
             "type": "parameterized_type",
+            "named": true
+          },
+          {
+            "type": "raw_pointer_type",
             "named": true
           },
           {

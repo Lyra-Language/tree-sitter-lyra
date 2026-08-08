@@ -65,6 +65,16 @@ module.exports = {
   ),
 
   // Non-allocated types (used to prevent recursion in array types)
+  //
+  // This is `type` minus the three modifier forms (allocated/weak, which the callers
+  // add back where they are meaningful) and minus `void_type`, which no element,
+  // pointee or weak target may be.
+  //
+  // The anonymous tuple, the raw pointer and the anonymous struct were missing until
+  // 08/08 — an omission rather than a decision, and one that made `[](i64, string)`,
+  // `[]^u8` and `[]{ x: i64 }` unwritable in *every* position this rule feeds while the
+  // same types were fine everywhere else. `[]Pair` worked, so the workaround was to name
+  // the tuple, which is exactly the thing an anonymous tuple exists not to require.
   _non_allocated_type: $ => choice(
     $._primitive_type,
     $.parameterized_type,
@@ -73,6 +83,9 @@ module.exports = {
     $.array_type,
     $.generic_type,
     $.lambda_type,
+    $.anonymous_tuple_type,
+    $.raw_pointer_type,
+    $.anonymous_struct_type,
   ),
 
   // Allocated type - wraps any type with an allocation modifier

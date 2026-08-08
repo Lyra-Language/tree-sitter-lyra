@@ -156,3 +156,90 @@ fibs = [1, 1, ...more_fibs, 8, 13]
         (decimal_int))
       (integer_literal
         (decimal_int)))))
+
+=========================================
+Array of anonymous tuples
+=========================================
+
+let pairs: [](i64, string) = []
+let fixed: [3](i64, i64) = []
+
+---
+
+(program
+  (declaration
+    (identifier)
+    (type_annotation
+      (array_type
+        (anonymous_tuple_type
+          (tuple_type_body
+            (tuple_type_element
+              (signed_integer_type))
+            (tuple_type_element
+              (string_type))))))
+    (array_literal))
+  (declaration
+    (identifier)
+    (type_annotation
+      (array_type
+        (array_size
+          (integer_literal
+            (decimal_int)))
+        (anonymous_tuple_type
+          (tuple_type_body
+            (tuple_type_element
+              (signed_integer_type))
+            (tuple_type_element
+              (signed_integer_type))))))
+    (array_literal)))
+
+=========================================
+Array of raw pointers and anonymous structs
+=========================================
+
+let ptrs: []^u8 = []
+let recs: []{ x: i64 } = []
+
+---
+
+(program
+  (declaration
+    (identifier)
+    (type_annotation
+      (array_type
+        (raw_pointer_type
+          (unsigned_integer_type))))
+    (array_literal))
+  (declaration
+    (identifier)
+    (type_annotation
+      (array_type
+        (anonymous_struct_type
+          (struct_member
+            (field_name)
+            (field_type
+              (signed_integer_type))))))
+    (array_literal)))
+
+=========================================
+An allocation modifier on a tuple element
+=========================================
+
+let xs: []shared (i64, i64) = []
+
+---
+
+(program
+  (declaration
+    (identifier)
+    (type_annotation
+      (array_type
+        (allocated_type
+          (allocation_modifier)
+          (anonymous_tuple_type
+            (tuple_type_body
+              (tuple_type_element
+                (signed_integer_type))
+              (tuple_type_element
+                (signed_integer_type)))))))
+    (array_literal)))
