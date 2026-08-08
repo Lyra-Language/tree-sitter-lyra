@@ -876,3 +876,34 @@ impl Ops for Node {
             (identifier))
           (integer_literal
             (decimal_int)))))))
+
+=========================================
+Trait with a @builtin marker
+=========================================
+
+@builtin(Ord)
+pub trait Ord {
+  compare: (Self, Self) -> Ordering
+}
+
+---
+
+(program
+  (trait_declaration
+    (attribute_list
+      (attribute
+        (identifier)
+        (attribute_args
+          (user_defined_type_name))))
+    (visibility)
+    (trait_name)
+    (trait_methods
+      (trait_method
+        (identifier)
+        (trait_method_signature
+          (parameter_type_list
+            (parameter_type
+              (self_type))
+            (parameter_type
+              (self_type)))
+          (user_defined_type_name))))))

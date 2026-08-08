@@ -6892,6 +6892,16 @@
     "type": "trait_declaration",
     "named": true,
     "fields": {
+      "attributes": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "attribute_list",
+            "named": true
+          }
+        ]
+      },
       "generic_parameter_constraints": {
         "multiple": false,
         "required": false,

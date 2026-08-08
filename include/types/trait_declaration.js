@@ -4,6 +4,11 @@ const { PREC } = require("../prec");
 module.exports = {
   trait_declaration: ($) =>
     seq(
+      // `@builtin(Ord)` / `@builtin(Eq)` — the marker that confers compiler-known
+      // identity on a trait, exactly as it does on a `data` type. Placed before the
+      // visibility for the same reason data_type does: an attribute annotates the
+      // whole declaration, so it reads above `pub trait …`.
+      optional(field("attributes", $.attribute_list)),
       optional(field("visibility", $.visibility)),
       "trait",
       field("name", alias($.user_defined_type_name, $.trait_name)),
