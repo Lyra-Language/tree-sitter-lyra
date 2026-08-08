@@ -282,3 +282,210 @@ newtype BelowFullTurn = f64 where range(..<360)
           (constraint_math_expr
             (integer_literal
               (decimal_int))))))))
+
+=========================================
+Newtype over a fixed-size array
+=========================================
+
+newtype Grid = [3]i64
+
+---
+
+(program
+  (type_declaration
+    (constrained_type
+      (constrained_type_name)
+      (array_type
+        (array_size
+          (integer_literal
+            (decimal_int)))
+        (signed_integer_type)))))
+
+=========================================
+Newtype over a dynamic array
+=========================================
+
+newtype Buf = []u8
+
+---
+
+(program
+  (type_declaration
+    (constrained_type
+      (constrained_type_name)
+      (array_type
+        (unsigned_integer_type)))))
+
+=========================================
+Newtype over a nested array
+=========================================
+
+newtype Matrix = [2][2]f64
+
+---
+
+(program
+  (type_declaration
+    (constrained_type
+      (constrained_type_name)
+      (array_type
+        (array_size
+          (integer_literal
+            (decimal_int)))
+        (array_type
+          (array_size
+            (integer_literal
+              (decimal_int)))
+          (float_type))))))
+
+=========================================
+Newtype over an anonymous tuple
+=========================================
+
+newtype Rgb = (u8, u8, u8)
+
+---
+
+(program
+  (type_declaration
+    (constrained_type
+      (constrained_type_name)
+      (anonymous_tuple_type
+        (tuple_type_body
+          (tuple_type_element
+            (unsigned_integer_type))
+          (tuple_type_element
+            (unsigned_integer_type))
+          (tuple_type_element
+            (unsigned_integer_type)))))))
+
+=========================================
+Newtype over a raw pointer
+=========================================
+
+newtype Handle = ^u8
+
+---
+
+(program
+  (type_declaration
+    (constrained_type
+      (constrained_type_name)
+      (raw_pointer_type
+        (unsigned_integer_type)))))
+
+=========================================
+Newtype over a function type
+=========================================
+
+newtype Callback = (i64) -> bool
+
+---
+
+(program
+  (type_declaration
+    (constrained_type
+      (constrained_type_name)
+      (lambda_type
+        (parameter_type_list
+          (parameter_type
+            (signed_integer_type)))
+        (boolean_type)))))
+
+=========================================
+Newtype naming another type
+=========================================
+
+newtype Meters = f64
+newtype Distance = Meters
+
+---
+
+(program
+  (type_declaration
+    (constrained_type
+      (constrained_type_name)
+      (float_type)))
+  (type_declaration
+    (constrained_type
+      (constrained_type_name)
+      (user_defined_type_name))))
+
+=========================================
+Generic newtype
+=========================================
+
+newtype Point<t> = (t, t)
+
+---
+
+(program
+  (type_declaration
+    (constrained_type
+      (constrained_type_name)
+      (generic_parameters
+        (generic_parameter
+          (generic_type)))
+      (anonymous_tuple_type
+        (tuple_type_body
+          (tuple_type_element
+            (generic_type))
+          (tuple_type_element
+            (generic_type)))))))
+
+=========================================
+Generic newtype with several parameters and a constraint
+=========================================
+
+newtype Pair<a, b> = (a, b)
+newtype Bounded<t> = t where range(0..<10)
+
+---
+
+(program
+  (type_declaration
+    (constrained_type
+      (constrained_type_name)
+      (generic_parameters
+        (generic_parameter
+          (generic_type))
+        (generic_parameter
+          (generic_type)))
+      (anonymous_tuple_type
+        (tuple_type_body
+          (tuple_type_element
+            (generic_type))
+          (tuple_type_element
+            (generic_type))))))
+  (type_declaration
+    (constrained_type
+      (constrained_type_name)
+      (generic_parameters
+        (generic_parameter
+          (generic_type)))
+      (generic_type)
+      (constraints
+        (range_constraint
+          (constraint_math_expr
+            (integer_literal
+              (decimal_int)))
+          (range_end_operator)
+          (constraint_math_expr
+            (integer_literal
+              (decimal_int))))))))
+
+=========================================
+Newtype over an allocation-qualified type
+=========================================
+
+newtype Shared = shared string
+
+---
+
+(program
+  (type_declaration
+    (constrained_type
+      (constrained_type_name)
+      (allocated_type
+        (allocation_modifier)
+        (string_type)))))
