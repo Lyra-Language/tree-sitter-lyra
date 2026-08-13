@@ -9072,15 +9072,53 @@
         "type": "PREC",
         "value": 1,
         "content": {
-          "type": "SEQ",
+          "type": "CHOICE",
           "members": [
+            {
+              "type": "SEQ",
+              "members": [
+                {
+                  "type": "STRING",
+                  "value": "///"
+                },
+                {
+                  "type": "PATTERN",
+                  "value": "[^\\/\\n].*"
+                }
+              ]
+            },
             {
               "type": "STRING",
               "value": "///"
+            }
+          ]
+        }
+      }
+    },
+    "inner_doc_comment": {
+      "type": "TOKEN",
+      "content": {
+        "type": "PREC",
+        "value": 1,
+        "content": {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "SEQ",
+              "members": [
+                {
+                  "type": "STRING",
+                  "value": "//!"
+                },
+                {
+                  "type": "PATTERN",
+                  "value": ".*"
+                }
+              ]
             },
             {
-              "type": "PATTERN",
-              "value": ".*"
+              "type": "STRING",
+              "value": "//!"
             }
           ]
         }
@@ -9089,6 +9127,26 @@
     "comment": {
       "type": "CHOICE",
       "members": [
+        {
+          "type": "TOKEN",
+          "content": {
+            "type": "PREC",
+            "value": 2,
+            "content": {
+              "type": "SEQ",
+              "members": [
+                {
+                  "type": "STRING",
+                  "value": "////"
+                },
+                {
+                  "type": "PATTERN",
+                  "value": ".*"
+                }
+              ]
+            }
+          }
+        },
         {
           "type": "TOKEN",
           "content": {
@@ -10020,6 +10078,10 @@
     {
       "type": "SYMBOL",
       "name": "doc_comment"
+    },
+    {
+      "type": "SYMBOL",
+      "name": "inner_doc_comment"
     },
     {
       "type": "SYMBOL",

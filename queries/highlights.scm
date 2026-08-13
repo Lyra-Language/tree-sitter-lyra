@@ -3,6 +3,7 @@
 ; =============================================================================
 
 (doc_comment) @comment.documentation
+(inner_doc_comment) @comment.documentation
 (comment) @comment
 
 ; =============================================================================

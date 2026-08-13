@@ -227,11 +227,39 @@ static bool peek_keyword(TSLexer *lexer, const char *word) {
 // binary operator ends the previous statement; write the operator at the end of
 // the previous line to continue across lines.
 //
-// Comments are not skipped here. On seeing `/` this returns false, tree-sitter's
-// own lexer consumes the comment as an extra, and the scanner is called again at
-// the position after it — so a trailing `// note` does not suppress the
-// terminator on its line. The one gap is a *block* comment containing the only
-// newline (`a = 1 /*\n*/ b = 2`), which joins; that is rare enough to leave.
+// A *trailing* comment does not suppress its line's terminator: `a = 1 // note`
+// reaches this function with the lookahead already at `/` and no newline seen,
+// so it returns at the `saw_newline` check, tree-sitter's own lexer takes the
+// comment as an extra, and the scanner runs again on the line break after it.
+//
+// A comment on a line **of its own** is different, and used to break the
+// continuation rule (fixed 08/13). In
+//
+//     data Dir =
+//       North
+//       /// Towards the bottom of the map.
+//       | South
+//
+// the newline after `North` is followed by the comment, not by the `|`, so the
+// switch below fell to `default` and emitted the terminator — ending the
+// declaration and leaving `| South` to fail as a statement of its own. The
+// comment above this function claimed a `/` case existed; there was none. Every
+// continuation token is affected (`.`, `|`, `else`, `where`), so a comment could
+// not be written inside a method chain either, and a plain `//` broke it exactly
+// as a doc comment does. It surfaced with doc comments only because documenting
+// a data constructor is the first thing that makes anyone write one there.
+//
+// The look-ahead below therefore skips whole-line comments before testing for a
+// continuation. Skipping is safe because nothing here is consumed for real: on a
+// continuation the function returns false and tree-sitter re-lexes from the
+// token start, so the comment still becomes an ordinary extra node — which the
+// doc-comment collector depends on. On a terminator the `mark_end` above has
+// already fixed the token's end before the comment, so the skipped text is not
+// swallowed either.
+//
+// The one gap left is a *block* comment containing the only newline
+// (`a = 1 /*\n*/ b = 2`), which joins the two statements; that is rare enough to
+// leave.
 static bool scan_newline(TSLexer *lexer) {
   bool saw_newline = false;
   for (;;) {
@@ -253,6 +281,41 @@ static bool scan_newline(TSLexer *lexer) {
   // was consumed above as token padding. mark_end here keeps it from swallowing
   // the next token.
   lexer->mark_end(lexer);
+
+  // Skip whole-line comments so the continuation test below sees the next line
+  // of *code*. See the header comment for why consuming here is harmless.
+  for (;;) {
+    if (lexer->lookahead != '/') {
+      break;
+    }
+    lexer->advance(lexer, true);
+    if (lexer->lookahead == '/') {
+      while (!lexer->eof(lexer) && lexer->lookahead != '\n') {
+        lexer->advance(lexer, true);
+      }
+    } else if (lexer->lookahead == '*') {
+      lexer->advance(lexer, true);
+      int32_t prev = 0;
+      while (!lexer->eof(lexer)) {
+        if (prev == '*' && lexer->lookahead == '/') {
+          lexer->advance(lexer, true);
+          break;
+        }
+        prev = lexer->lookahead;
+        lexer->advance(lexer, true);
+      }
+    } else {
+      // A division operator, not a comment. It cannot be un-consumed, but the
+      // mark_end above already fixed the token's end, and `/` was never a
+      // continuation — so falling through emits the same terminator the
+      // `default` case below would have.
+      break;
+    }
+    while (lexer->lookahead == ' ' || lexer->lookahead == '\t' ||
+           lexer->lookahead == '\r' || lexer->lookahead == '\n') {
+      lexer->advance(lexer, true);
+    }
+  }
 
   bool continuation = false;
   switch (lexer->lookahead) {

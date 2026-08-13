@@ -8315,6 +8315,11 @@
     "named": false
   },
   {
+    "type": "inner_doc_comment",
+    "named": true,
+    "extra": true
+  },
+  {
     "type": "label",
     "named": true
   },

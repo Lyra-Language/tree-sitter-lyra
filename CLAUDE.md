@@ -42,7 +42,7 @@ After regenerating, the sibling Go project also needs `go clean -cache` before `
 | `include/destructuring/` | destructuring declarations (`let {x, y} = ...`) |
 | `include/modules/` | `module` declarations, `import` statements |
 | `include/attributes.js` | `@attr` / `@attr(args)` attribute syntax |
-| `include/comments.js` | `//` line comments, `///` doc comments, `/* */` block comments |
+| `include/comments.js` | `//` line comments, `///` doc comments, `//!` inner doc comments, `/* */` block comments |
 | `include/helpers.js` | shared utilities: `commaSep1`, `commaSep`, `memberList`, `statementList`, `parameterList`, `rangeBounds` |
 | `include/prec.js` | all `PREC.*` operator precedence constants |
 
@@ -50,7 +50,7 @@ After regenerating, the sibling Go project also needs `go clean -cache` before `
 
 ```js
 supertypes: [$.expression, $.statement, $.pattern, $.type]
-extras:     [/\s/, $.doc_comment, $.comment]   // whitespace and comments ignored everywhere
+extras:     [/\s/, $.doc_comment, $.inner_doc_comment, $.comment]   // whitespace and comments ignored everywhere
 externals:  [$._BLOCK_COMMENT, $._string_start, $._string_content,
              $._interpolation_start, $._interpolation_end,
              $._string_end, $._raw_string_literal, $._newline]
@@ -75,7 +75,22 @@ let b = a          let f = add3        let n = xs
 
 What the scanner *does* decide is the forward half — a line that begins with something continuing the previous statement. **The rule for what may go on that list: a token that cannot begin a statement.** That is what makes suppression safe; if a line could not have been a new statement, treating it as a continuation cannot hide a misparse. Currently `.` (method chains — UFCS is decided, so receiver chains are coming), `|` (leading-bar `data` declarations, already in the corpus), and the keywords `else` and `where`. Deliberately **not** on it: `-`, `(`, `[`, `*` — each can start a statement, and treating them as continuations is the exact bug above.
 
-Comments are not skipped by `scan_newline`. On `/` it returns false, tree-sitter's own lexer takes the comment as an extra, and the scanner is called again after it — so a trailing `// note` does not suppress its line's terminator. Known gap: a *block* comment holding the only newline (`a = 1 /*` ⏎ `*/ b = 2`) joins the two statements.
+**A trailing comment does not suppress its line's terminator; a comment on a line of its own does not break a continuation** (the second half fixed 08/13). `a = 1 // note` reaches `scan_newline` with no newline seen yet, so it returns early, tree-sitter's own lexer takes the comment as an extra, and the scanner runs again on the following line break.
+
+A comment on its own line used to end the statement, and this file asserted the opposite — it claimed a `/` case returned false, and there was none, so `/` fell to `default` and the terminator fired. Every continuation token was affected:
+
+```lyra
+data Dir =
+  North
+  /// Towards the bottom of the map.
+  | South     // was: `| South` left over as a statement of its own
+```
+
+`scan_newline` now skips whole-line comments (line and block) before testing for a continuation. Skipping is safe because nothing is consumed for real: on a continuation the function returns false and tree-sitter re-lexes from the token start, so the comment still becomes an ordinary extra node — which the Go side's doc-comment attachment depends on. On a terminator, `mark_end` has already fixed the token's end before the comment.
+
+It surfaced only when doc comments gained meaning, because documenting a `data` constructor is the first thing that makes anyone write a comment there — a plain `//` was broken identically and had been since 07/31. Pinned by `A comment on its own line does not break a continuation` and its trailing-comment twin in `test/corpus/comments.txt`; keep both, since the fix and the thing it must not break are one line apart in the scanner.
+
+Known gap, unchanged: a *block* comment holding the only newline (`a = 1 /*` ⏎ `*/ b = 2`) joins the two statements.
 
 Corpus: `test/corpus/statements/terminators.txt`.
 
@@ -120,6 +135,46 @@ rather than the same one-word change. It wants its own measurement, not this ref
 Cost: 8,208 → 8,237 states (+0.35% over both changes), `parser.c` +32 KB.
 
 **Comment scanning is gated on `!in_string(scanner)` — do not remove that guard.** Comments are `extras`, so `BLOCK_COMMENT` is valid almost everywhere, including at every string content-chunk boundary, and the comment branch runs *before* the in-string branch. Unguarded (the state until 07/29/26), a string whose content began with `/*` lexed as a comment running to the next `*/` **anywhere later in the file** — swallowing the rest of the line, following declarations, and all — and no later pass reported anything (`lyrac check` exited 0). It fired wherever a fresh content chunk starts: after the opening quote, right after a `${…}` interpolation, and — since `scan_block_comment` skips leading whitespace as token padding — after a leading space (`" /* x */ y"`). An *interpolation* is an expression context where comments remain valid, and `in_string()` is false for `CTX_INTERPOLATION`, which is exactly the line this guard draws. Fixing it also stopped the padding-skip from **eating a content chunk's leading whitespace** (`"${a} ${b}"` now emits the middle space as `string_content`; it previously vanished from the CST and was recoverable only by the collector's raw-source re-slice). Corpus coverage: the comment-delimiter tests in `test/corpus/literals/string.txt`.
+
+## Three Comment Tokens, Settled by Token Precedence (`include/comments.js`)
+
+```
+/// x    doc_comment        prec 1   documents the declaration below it
+//! x    inner_doc_comment  prec 1   documents the module the file belongs to
+//// …   comment            prec 2   a divider rule, deliberately NOT documentation
+// x     comment            prec 0
+```
+
+All four share the `//` prefix, so **every one of them is decided by explicit token
+precedence, not by match length** — tree-sitter compares precedence first, which is the
+only reason `/// x` is not simply eaten by the longer `comment` match. `doc_comment`
+carried `prec(1)` for that reason from the start; `inner_doc_comment` (08/13) joins it,
+and both are in `extras` so they may appear anywhere — `//!` has to reach the top of a
+file, above the `module` line.
+
+**The divider needs the highest precedence of the four, and that is the subtle one.**
+Precedence outranking length cuts the wrong way for `////////`: `doc_comment` matches its
+first three characters at prec 1 and wins over the whole-line `comment` at prec 0, so a
+rule line above a declaration silently becomes its documentation — or, once the remaining
+`/////` fails to lex as anything, a syntax error pointing at a comment. Making
+`doc_comment` refuse a fourth slash is *not* enough on its own, for the same reason: the
+shorter high-precedence token still wins unless something outbids it. Both halves are
+needed — `doc_comment` excludes the fourth slash, and `comment` bids `prec(2)` for it.
+
+A bare `///` with nothing after it stays legal (it separates paragraphs inside a doc
+block), so the no-fourth-slash rule is written as a `choice` and applies only to a line
+with content.
+
+**Cost: zero new parse states** (7,786 → 7,786), `parser.c` +631 KB (14.32 → 14.95 MB,
++4.4%). Comments are extras, so they add lex-table entries in every state rather than
+parse states. Attributed by measurement: `inner_doc_comment` plus the tightened
+`doc_comment` is +257 KB, and the divider's `prec(2)` alternative is the other +374 KB.
+That is the whole price of the divider rule not silently becoming documentation, and it
+buys a failure mode this project otherwise pays for downstream.
+
+Corpus: the four doc-comment tests in `test/corpus/comments.txt`, including `A divider
+rule is a comment, not a doc comment`, which is the one that inverts if the precedences
+are disturbed.
 
 ## Regex Literals (`include/literals/regex.js`)
 

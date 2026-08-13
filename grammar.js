@@ -25,7 +25,7 @@ module.exports = grammar({
 
   supertypes: ($) => [$.expression, $.statement, $.pattern, $.type],
 
-  extras: ($) => [/\s/, $.doc_comment, $.comment],
+  extras: ($) => [/\s/, $.doc_comment, $.inner_doc_comment, $.comment],
 
   externals: ($) => [
     $._BLOCK_COMMENT,

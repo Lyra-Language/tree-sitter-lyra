@@ -117,3 +117,117 @@ let x = 1
     (identifier)
     (integer_literal
       (decimal_int))))
+
+=====================================
+An inner doc comment documents the module
+=====================================
+
+//! The prelude's Maybe combinators.
+//!
+//! Every one of them is `pure noalloc`.
+module std.prelude
+
+---
+
+(program
+  (inner_doc_comment)
+  (inner_doc_comment)
+  (inner_doc_comment)
+  (module_declaration
+    (module_path
+      (module_name)
+      (module_name))))
+
+=====================================
+A blank doc line separates paragraphs
+=====================================
+
+/// Adds two numbers.
+///
+/// Traps on overflow.
+let add = (a: i32, b: i32) -> i32 => a + b
+
+---
+
+(program
+  (doc_comment)
+  (doc_comment)
+  (doc_comment)
+  (declaration
+    (identifier)
+    (lambda_expr
+      (parameter_list
+        (parameter
+          (identifier)
+          (signed_integer_type))
+        (parameter
+          (identifier)
+          (signed_integer_type)))
+      (return_type
+        (signed_integer_type))
+      (binary_expr
+        (identifier)
+        (add_operator)
+        (identifier)))))
+
+=====================================
+A divider rule is a comment, not a doc comment
+=====================================
+
+////////////////////////////////////
+// Section: arithmetic
+////////////////////////////////////
+let x = 1
+
+---
+
+(program
+  (comment)
+  (comment)
+  (comment)
+  (declaration
+    (identifier)
+    (integer_literal
+      (decimal_int))))
+
+=====================================
+A comment on its own line does not break a continuation
+=====================================
+
+data Dir =
+  /// Towards the top of the map.
+  North
+  /// Towards the bottom of the map.
+  | South
+
+---
+
+(program
+  (type_declaration
+    (data_type
+      (data_type_name)
+      (doc_comment)
+      (data_type_constructor
+        (data_type_constructor_name))
+      (doc_comment)
+      (data_type_constructor
+        (data_type_constructor_name)))))
+
+=====================================
+A trailing comment still terminates its line
+=====================================
+
+let b = a // note
+-2
+
+---
+
+(program
+  (declaration
+    (identifier)
+    (identifier))
+  (comment)
+  (expression_statement
+    (negation
+      (integer_literal
+        (decimal_int)))))
