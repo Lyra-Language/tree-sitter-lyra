@@ -6948,7 +6948,7 @@
       },
       "methods": {
         "multiple": false,
-        "required": true,
+        "required": false,
         "types": [
           {
             "type": "trait_methods",

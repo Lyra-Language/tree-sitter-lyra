@@ -109,8 +109,9 @@ failing — and failing *badly*: "missing }" pointed at the end of the **first**
 several lines above anything a reader would suspect, then cascaded through the rest of the
 file. The separator is `_statement_separator` rather than a bare `_newline`, so `;` works
 here too and there is one answer to "what ends a thing on its own line". Commas keep working,
-including mixed with newlines and as a trailing separator, and the list stays non-empty —
-`trait C {}` is still a syntax error.
+including mixed with newlines and as a trailing separator, and the list itself stays
+non-empty — `trait C { , }` is a syntax error. What changed on 08/14 is that a *trait's*
+body became optional, braces and all; see [A trait body is optional](#a-trait-body-is-optional-0814).
 
 A signature wrapped across lines is unaffected, for the reason the scanner section gives: a
 newline inside an unfinished parameter list never reaches the scanner, because tree-sitter
@@ -463,6 +464,44 @@ which is the better diagnostic anyway: `for n { }` over an integer used to be a 
 pointing at the brace.
 
 Corpus: the three new tests at the end of `test/corpus/statements/for_loop.txt`.
+
+## A trait body is optional (08/14)
+
+Both spellings of an **umbrella** trait parse — one that declares no methods and exists to
+name a bundle of supertraits:
+
+```lyra
+trait Arithmetic: Add + Sub + Mult + Div
+trait Arithmetic: Add + Sub + Mult + Div {}
+```
+
+The body is `optional(seq("{", optional(field("methods", $.trait_methods)), "}"))`, so the
+braces *and* the list are each optional. The list itself stays `memberList`-shaped and
+therefore non-empty, which is what keeps `trait C { , }` an error: the list is **absent**,
+never empty.
+
+It was required until 08/14, and the old comment gave the reason — the non-emptiness is
+"what makes `trait C {}` a syntax error rather than a trait with no methods", which was
+right while a method-less trait meant nothing. Supertraits are what changed the arithmetic:
+the sibling Go project enforces them (`lyra-E040`, 08/07) and makes them reachable through
+a `where` bound (08/14), so a trait that adds no methods now carries meaning. `impl_methods`
+was already optional, so `impl Arithmetic for Vec2 {}` had been parsing the whole time —
+only the declaration could not be written.
+
+**The bodiless form is the one to keep working**, and it is the one an author reaches for:
+there is no body, so there is nothing to delimit. Rust requires `trait A: B {}` because its
+grammar has no statement terminator to end the declaration; this one does.
+
+**Which is also the ambiguity to watch.** With the body optional, a `{` on the *next* line
+could have been absorbed as the trait's body. It is not — the terminator ends the
+declaration first, so `trait Marker` ⏎ `{ 1 }` is a trait plus a block statement, while
+`trait Marker { 1 }` on one line is a (malformed) body. This is the `for`-condition hazard
+in the section above, and the reason that one could not take `$.expression`; here the
+terminator resolves it. Pinned by `A brace on the next line is not a trait body`.
+
+Cost: 7,786 → 7,825 states (+39, +0.5%), `parser.c` +41 KB (+0.27%). Corpus: the four trait
+tests at the end of `test/corpus/types/traits.txt`, including the `:error` one for the
+non-empty member list.
 
 ## A literal is a postfix head (08/06)
 

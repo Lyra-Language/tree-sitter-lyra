@@ -907,3 +907,81 @@ pub trait Ord {
             (parameter_type
               (self_type)))
           (user_defined_type_name))))))
+
+=========================================
+An umbrella trait declares no methods
+=========================================
+
+trait Arithmetic: Add + Mul {}
+impl Arithmetic for Vec2 {}
+
+---
+
+(program
+  (trait_declaration
+    (trait_name)
+    (trait_bounds
+      (trait_name)
+      (trait_name)))
+  (trait_implementation
+    (trait_name)
+    (user_defined_type_name)))
+
+=========================================
+A trait body may be omitted entirely
+=========================================
+
+trait Arithmetic: Add + Mul
+trait Marker
+
+---
+
+(program
+  (trait_declaration
+    (trait_name)
+    (trait_bounds
+      (trait_name)
+      (trait_name)))
+  (trait_declaration
+    (trait_name)))
+
+=========================================
+An empty trait body needs no supertraits
+=========================================
+
+trait Marker {}
+
+---
+
+(program
+  (trait_declaration
+    (trait_name)))
+
+=============================================
+A brace on the next line is not a trait body
+=============================================
+
+trait Marker
+{ 1 }
+
+---
+
+(program
+  (trait_declaration
+    (trait_name))
+  (expression_statement
+    (block
+      (expression_statement
+        (integer_literal
+          (decimal_int))))))
+
+=========================================
+A member list is still non-empty
+:error
+=========================================
+
+trait C { , }
+
+---
+
+(program)

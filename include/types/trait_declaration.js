@@ -23,9 +23,27 @@ module.exports = {
           ),
         ),
       ),
-      "{",
-      field("methods", $.trait_methods),
-      "}",
+      // **The body is optional, braces and all**, so an *umbrella* trait parses in both
+      // spellings: `trait Arithmetic: Add + Mul` and `… { }`. It adds no methods of its
+      // own and exists to name a bundle of supertraits.
+      //
+      // Required until 08/14, and deliberately: a trait with no methods meant nothing, so
+      // refusing `trait C {}` cost an author nothing. Supertraits are what changed the
+      // arithmetic — enforced 08/07, reachable through a bound 08/14 — and an umbrella is
+      // the shape anyone writing `where t: Arithmetic` wants. `impl_methods` was already
+      // optional, so the impl half (`impl Arithmetic for Vec2 {}`) had been parsing the
+      // whole time; only the declaration could not be written.
+      //
+      // The bodiless form is the one an author reaches for — there is no body, so there
+      // is nothing to delimit — and Rust's `trait A: B {}` requires the braces only
+      // because its grammar has no statement terminator to end the declaration. This one
+      // does, which is what makes the brace optional here and not there.
+      //
+      // The member list itself stays non-empty (memberList is commaSep1-shaped): the
+      // *list* is absent rather than empty, which is what keeps `trait C { , }` an error.
+      optional(
+        seq("{", optional(field("methods", $.trait_methods)), "}"),
+      ),
     ),
 
   generic_bounds: ($) =>
