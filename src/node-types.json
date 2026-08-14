@@ -714,15 +714,7 @@
       "required": true,
       "types": [
         {
-          "type": "const_identifier",
-          "named": true
-        },
-        {
-          "type": "float_literal",
-          "named": true
-        },
-        {
-          "type": "integer_literal",
+          "type": "expression",
           "named": true
         }
       ]

@@ -192,17 +192,8 @@
       ]
     },
     "array_repeat_count": {
-      "type": "CHOICE",
-      "members": [
-        {
-          "type": "SYMBOL",
-          "name": "_number_literal"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "const_identifier"
-        }
-      ]
+      "type": "SYMBOL",
+      "name": "expression"
     },
     "boolean_literal": {
       "type": "CHOICE",
