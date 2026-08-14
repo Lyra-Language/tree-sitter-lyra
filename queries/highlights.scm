@@ -93,6 +93,11 @@
 (float_type)            @type.builtin
 (string_type)           @type.builtin
 (boolean_type)          @type.builtin
+; `rune` is a primitive like the rest. It was missing here while the sibling
+; query in lyra-zed-ext had it, so `rune` rendered unstyled among highlighted
+; neighbours — the drift these two files are warned about in the workspace
+; CLAUDE.md, showing up in the one direction nobody checks.
+(rune_type)             @type.builtin
 (void_type)             @type.builtin
 (self_type)             @type.builtin
 
@@ -275,6 +280,10 @@
 "->"  @operator
 ".."  @operator
 "..." @operator
+; The end operator is a node of its own, not part of the `..` token, so without
+; this the `<=` of `0..<=9` renders unstyled beside a highlighted `..` — half an
+; operator in the operator colour and half in body text.
+(range_end_operator) @operator
 "?"   @operator
 "??"  @operator
 "?."  @operator
