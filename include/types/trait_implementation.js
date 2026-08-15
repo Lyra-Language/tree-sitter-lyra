@@ -13,9 +13,20 @@ module.exports = {
         "for",
         field("type", $.type),
         optional(seq("where", field("constraints", $.impl_constraints))),
-        "{",
-        optional(field("methods", $.impl_methods)),
-        "}",
+        // **The body is optional, braces and all**, matching `trait_declaration` — so an
+        // umbrella's pair reads as a pair: `trait Arithmetic: Add + Mul` above
+        // `impl Arithmetic for Vec2`. The *methods* were already optional; this drops the
+        // `{}` that was left standing around nothing.
+        //
+        // Same reasoning as the trait's, and the same reason Rust cannot follow: there is
+        // no body to delimit, and a language with a statement terminator does not need a
+        // brace to say where a declaration ended. The thirteen
+        // `impl Arithmetic for <width> {}` lines in the prelude are what makes it worth
+        // having rather than merely consistent.
+        //
+        // The ambiguity it creates is the trait's, and the terminator settles it the same
+        // way: a `{` on the *next* line is a block statement, not this impl's body.
+        optional(seq("{", optional(field("methods", $.impl_methods)), "}")),
       ),
     ),
 

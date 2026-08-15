@@ -912,8 +912,8 @@ pub trait Ord {
 An umbrella trait declares no methods
 =========================================
 
-trait Arithmetic: Add + Mul {}
-impl Arithmetic for Vec2 {}
+trait Arithmetic: Add + Mul
+impl Arithmetic for Vec2
 
 ---
 
@@ -926,6 +926,42 @@ impl Arithmetic for Vec2 {}
   (trait_implementation
     (trait_name)
     (user_defined_type_name)))
+
+=============================================
+An impl body may be omitted, or left empty
+=============================================
+
+impl Arithmetic for Vec2 {}
+impl Marker for Vec2
+
+---
+
+(program
+  (trait_implementation
+    (trait_name)
+    (user_defined_type_name))
+  (trait_implementation
+    (trait_name)
+    (user_defined_type_name)))
+
+=============================================
+A brace on the next line is not an impl body
+=============================================
+
+impl Marker for Vec2
+{ 1 }
+
+---
+
+(program
+  (trait_implementation
+    (trait_name)
+    (user_defined_type_name))
+  (expression_statement
+    (block
+      (expression_statement
+        (integer_literal
+          (decimal_int))))))
 
 =========================================
 A trait body may be omitted entirely

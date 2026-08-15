@@ -7872,28 +7872,41 @@
             ]
           },
           {
-            "type": "STRING",
-            "value": "{"
-          },
-          {
             "type": "CHOICE",
             "members": [
               {
-                "type": "FIELD",
-                "name": "methods",
-                "content": {
-                  "type": "SYMBOL",
-                  "name": "impl_methods"
-                }
+                "type": "SEQ",
+                "members": [
+                  {
+                    "type": "STRING",
+                    "value": "{"
+                  },
+                  {
+                    "type": "CHOICE",
+                    "members": [
+                      {
+                        "type": "FIELD",
+                        "name": "methods",
+                        "content": {
+                          "type": "SYMBOL",
+                          "name": "impl_methods"
+                        }
+                      },
+                      {
+                        "type": "BLANK"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "STRING",
+                    "value": "}"
+                  }
+                ]
               },
               {
                 "type": "BLANK"
               }
             ]
-          },
-          {
-            "type": "STRING",
-            "value": "}"
           }
         ]
       }
