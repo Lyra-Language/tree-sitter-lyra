@@ -210,3 +210,80 @@ for in foo {
 
 (ERROR
   (ERROR))
+
+===========================================
+A wildcard loop binding
+===========================================
+
+for _ in 0..<3 {
+  println("hi")
+}
+
+---
+
+(program
+  (expression_statement
+    (for_in_loop
+      (for_in_condition
+        (for_variable_or_key)
+        (range_expr
+          start: (range_start
+            (integer_literal
+              (decimal_int)))
+          end_operator: (range_end_operator)
+          end: (range_end
+            (integer_literal
+              (decimal_int)))))
+      (for_in_body
+        (expression_statement
+          (call_expr
+            function: (identifier)
+            arguments: (argument_list
+              value: (value
+                (string_literal
+                  (string_content))))))))))
+
+===========================================
+A wildcard in either position of a two-name binding
+===========================================
+
+for _, v in xs {
+  println("${v}")
+}
+for k, _ in xs {
+  println("${k}")
+}
+
+---
+
+(program
+  (expression_statement
+    (for_in_loop
+      (for_in_condition
+        (for_variable_or_key)
+        (for_index_or_value)
+        (identifier))
+      (for_in_body
+        (expression_statement
+          (call_expr
+            function: (identifier)
+            arguments: (argument_list
+              value: (value
+                (string_literal
+                  (string_interpolation
+                    (identifier))))))))))
+  (expression_statement
+    (for_in_loop
+      (for_in_condition
+        (for_variable_or_key)
+        (for_index_or_value)
+        (identifier))
+      (for_in_body
+        (expression_statement
+          (call_expr
+            function: (identifier)
+            arguments: (argument_list
+              value: (value
+                (string_literal
+                  (string_interpolation
+                    (identifier)))))))))))

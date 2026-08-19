@@ -274,6 +274,13 @@ Corpus: `A literal is a postfix head`, `Literal heads do not disturb the reading
 - **A trait body is optional**, braces and all: `trait Arithmetic: Add + Sub + Mul + Div`, with or without `{}`. The method list stays `memberList`-shaped and therefore non-empty, which is what keeps `trait C { , }` an error — the list is **absent**, never empty. `impl_methods` was already optional, so `impl Arithmetic for Vec2 {}` parses either way. The ambiguity to watch is a `{` on the *next* line: the terminator ends the declaration first, so `trait Marker` ⏎ `{ 1 }` is a trait plus a block statement while `trait Marker { 1 }` is a (malformed) body. Pinned by `A brace on the next line is not a trait body`.
 - **A `newtype` may be generic** — `constrained_type` takes the same `optional(field("generic_parameters", …))` slot every other type declaration has. Without it the `<t>` landed in an ERROR node **and the declaration still collected**, so parameters were silently dropped; the Go golden file recorded the truncation under a test named for the feature, which is how a regenerated golden bakes in a bug and then reads as a specification.
 - **`let _ = expr` discards.** `wildcard_pattern` is one of `destructuring_only_pattern`'s alternatives. Without it a bare `_` fell into `data_pattern` and recovered with an *empty* name, and the must-use warning was recommending a spelling the parser rejected. `_` is still not an *expression*: `let _ = 5; _` does not parse, which is what keeps a discard from being read back.
+- **A loop binding may be `_`.** `for _ in 0..<n` and `for _, v in xs` iterate without
+  naming a counter. `identifier` is `/(_[a-zA-Z0-9_]+|[a-z][a-zA-Z0-9_]*)/` — a leading
+  underscore needs a character after it — so `for _i in` parsed and a bare `_` did not.
+  It is admitted **inside the existing alias** (`alias(choice($.identifier, '_'),
+  $.for_variable_or_key)`) rather than as a `wildcard_pattern` alternative beside it, so
+  the CST shape is unchanged and the collector needed no change; the name it binds is `_`,
+  which no identifier can spell, so the body cannot refer to it.
 - **A match arm may hold a bare jump.** `match_arm`'s body is `choice($.expression, $._arm_jump)`, where `_arm_jump` is `break`/`continue`/`return`. Without it `None => break` parsed `break` as an identifier. The `lyra` collector erases it into the equivalent single-statement block, so no pass after the collector knows the alternative exists — **keep it that way**; the cheap version of this feature lives entirely in those two places.
 
 ## Corpus Test Format
