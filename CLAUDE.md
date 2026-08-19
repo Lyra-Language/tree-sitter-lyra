@@ -269,6 +269,55 @@ The literal heads need three conflict entries — `[$._primary_expr, $.literal_p
 
 Corpus: `A literal is a postfix head`, `Literal heads do not disturb the readings they contest` (expressions/postfix.txt), `A parenthesized expression is a postfix head`, `A constructor call is a math operand` (math_operators.txt).
 
+## Foreign functions (`include/statements/extern_declaration.js`)
+
+A signature with no body, and the effect bound its caller is asked to trust:
+
+```lyra
+extern getpid: () -> i32
+unsafe extern pure sqrt: (f64) -> f64
+
+@link("m")
+unsafe extern pure log: (f64) -> f64
+```
+
+**`unsafe` before `extern`, the bound after it.** An extern with no bound carries every
+effect and is safe to declare; *narrowing* it asserts something no compiler can check, so
+the keyword marks the claim and the claim follows it. The shape after `extern` is
+`trait_method`'s — leading modifiers, `name`, `:`, a `lambda_type` — because they are the
+same kind of declaration: a signature standing in for a body someone else supplies.
+
+**The modifiers are one `fn_modifiers`, not stacked `optional`s, and the difference was
+measured** (7,822 states before the rule):
+
+| form | states | cost |
+|---|---|---|
+| `extern name: type`, no modifiers | 7,830 | +8 |
+| `unsafe` + `fn_modifiers` | 7,856 | +34 |
+| `unsafe` + three stacked `optional`s | 7,952 | +130 |
+
+The declaration form is nearly free; the modifiers are the whole cost, and the repeated
+choice is four times cheaper than the stacked one — the `lambda_expr` lesson at 1/500th
+the scale, landing the same way. What it costs is that the grammar admits more than the
+language means (order, duplicates, `async`/`gen`/`rec`, an `unsafe` written *after*
+`extern`), all of which is the collector's to report, the same trade `let` makes with
+`lyra-E029`.
+
+**`extern` is a keyword only in declaration position**, exactly like `type`: `let extern = 5`
+still parses, and reserving it would be a gratuitous break.
+
+`attribute_args` gained `string_literal` so `@link("m")` can name a library — the first
+attribute argument that is *data* rather than a name or a size. It stays a plain
+`string_literal`: an attribute argument is read by the collector, not evaluated, so
+interpolation in one would be a value nothing could produce.
+
+**A finding, not a change: the `reserved` block reserves nothing.** `let with = 5` and
+`let yield = 5` both parse, though both words are listed there. `let unsafe = 5` *is*
+refused, but by the "leading modifier on a non-function" arm of `declaration` rather than
+by the list. So the list under [Reserved Keywords](#reserved-keywords) documents intent and
+does not enforce it; adding a word to it does nothing on its own. Left alone here because
+`extern` should not be reserved anyway, but it is a surface that looks like it works.
+
 ## Small forms, and what pins them
 
 - **A trait body is optional**, braces and all: `trait Arithmetic: Add + Sub + Mul + Div`, with or without `{}`. The method list stays `memberList`-shaped and therefore non-empty, which is what keeps `trait C { , }` an error — the list is **absent**, never empty. `impl_methods` was already optional, so `impl Arithmetic for Vec2 {}` parses either way. The ambiguity to watch is a `{` on the *next* line: the terminator ends the declaration first, so `trait Marker` ⏎ `{ 1 }` is a trait plus a block statement while `trait Marker { 1 }` is a (malformed) body. Pinned by `A brace on the next line is not a trait body`.

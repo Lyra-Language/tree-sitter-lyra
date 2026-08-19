@@ -288,6 +288,10 @@
         "named": true
       },
       {
+        "type": "extern_declaration",
+        "named": true
+      },
+      {
         "type": "index_assignment",
         "named": true
       },
@@ -903,6 +907,10 @@
           },
           {
             "type": "integer_literal",
+            "named": true
+          },
+          {
+            "type": "string_literal",
             "named": true
           },
           {
@@ -3397,6 +3405,128 @@
           "named": true
         }
       ]
+    }
+  },
+  {
+    "type": "extern_declaration",
+    "named": true,
+    "fields": {
+      "attributes": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "attribute_list",
+            "named": true
+          }
+        ]
+      },
+      "is_unsafe": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "unsafe_modifier",
+            "named": true
+          }
+        ]
+      },
+      "modifiers": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "fn_modifiers",
+            "named": true
+          }
+        ]
+      },
+      "name": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "identifier",
+            "named": true
+          }
+        ]
+      },
+      "signature": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "extern_signature",
+            "named": true
+          }
+        ]
+      }
+    }
+  },
+  {
+    "type": "extern_signature",
+    "named": true,
+    "fields": {
+      "is_det": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "det_modifier",
+            "named": true
+          }
+        ]
+      },
+      "is_noalloc": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "noalloc_modifier",
+            "named": true
+          }
+        ]
+      },
+      "is_pure": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "pure_modifier",
+            "named": true
+          }
+        ]
+      },
+      "modifier": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "type_modifier",
+            "named": true
+          }
+        ]
+      },
+      "parameter_types": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "parameter_type_list",
+            "named": true
+          }
+        ]
+      },
+      "return_type": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "type",
+            "named": true
+          }
+        ]
+      }
     }
   },
   {
@@ -8217,6 +8347,10 @@
   {
     "type": "even_rounding_mode",
     "named": true
+  },
+  {
+    "type": "extern",
+    "named": false
   },
   {
     "type": "f16",

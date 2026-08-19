@@ -1,4 +1,5 @@
 const assignments = require("./assignments");
+const externDeclaration = require("./extern_declaration");
 const arena = require("./arena");
 const { PREC } = require("../prec");
 
@@ -8,6 +9,7 @@ module.exports = {
       $.type_declaration,
       $.trait_declaration,
       $.trait_implementation,
+      $.extern_declaration,
       $.const_declaration,
       $.declaration,
       $.var_reassignment,
@@ -53,5 +55,6 @@ module.exports = {
     prec.right(PREC.JUMP, seq("continue", optional(field("label", $.identifier)))),
 
   ...assignments,
+  ...externDeclaration,
   ...arena,
 };

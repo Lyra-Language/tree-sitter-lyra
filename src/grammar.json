@@ -8172,6 +8172,10 @@
         },
         {
           "type": "SYMBOL",
+          "name": "extern_declaration"
+        },
+        {
+          "type": "SYMBOL",
           "name": "const_declaration"
         },
         {
@@ -9051,6 +9055,88 @@
           "content": {
             "type": "SYMBOL",
             "name": "expression"
+          }
+        }
+      ]
+    },
+    "extern_declaration": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "FIELD",
+              "name": "attributes",
+              "content": {
+                "type": "SYMBOL",
+                "name": "attribute_list"
+              }
+            },
+            {
+              "type": "BLANK"
+            }
+          ]
+        },
+        {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "FIELD",
+              "name": "is_unsafe",
+              "content": {
+                "type": "SYMBOL",
+                "name": "unsafe_modifier"
+              }
+            },
+            {
+              "type": "BLANK"
+            }
+          ]
+        },
+        {
+          "type": "STRING",
+          "value": "extern"
+        },
+        {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "FIELD",
+              "name": "modifiers",
+              "content": {
+                "type": "SYMBOL",
+                "name": "fn_modifiers"
+              }
+            },
+            {
+              "type": "BLANK"
+            }
+          ]
+        },
+        {
+          "type": "FIELD",
+          "name": "name",
+          "content": {
+            "type": "SYMBOL",
+            "name": "identifier"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": ":"
+        },
+        {
+          "type": "FIELD",
+          "name": "signature",
+          "content": {
+            "type": "ALIAS",
+            "content": {
+              "type": "SYMBOL",
+              "name": "lambda_type"
+            },
+            "named": true,
+            "value": "extern_signature"
           }
         }
       ]
@@ -10065,6 +10151,10 @@
               {
                 "type": "SYMBOL",
                 "name": "user_defined_type_name"
+              },
+              {
+                "type": "SYMBOL",
+                "name": "string_literal"
               }
             ]
           }
@@ -10091,6 +10181,10 @@
                     {
                       "type": "SYMBOL",
                       "name": "user_defined_type_name"
+                    },
+                    {
+                      "type": "SYMBOL",
+                      "name": "string_literal"
                     }
                   ]
                 }
