@@ -10,9 +10,10 @@
 ; Keywords — binding
 ; =============================================================================
 
-"let"   @keyword
-"var"   @keyword
-"const" @keyword
+"let"    @keyword
+"var"    @keyword
+"const"  @keyword
+"extern" @keyword
 
 ; =============================================================================
 ; Keywords — type declarations
