@@ -64,6 +64,7 @@ module.exports = {
     $.char_literal,
     $.boolean_literal,
     $.array_literal,
+    $.tuple_literal,
     $._number_literal,
   ),
 

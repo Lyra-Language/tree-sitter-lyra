@@ -2838,10 +2838,6 @@
         {
           "type": "SYMBOL",
           "name": "address_of_expr"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "tuple_literal"
         }
       ]
     },
@@ -3626,6 +3622,10 @@
         {
           "type": "SYMBOL",
           "name": "array_literal"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "tuple_literal"
         },
         {
           "type": "SYMBOL",

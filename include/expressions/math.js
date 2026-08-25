@@ -204,12 +204,15 @@ module.exports = {
   // arbitrary nested math (a binary expr, another group, a negation, etc.)
   // while `prec.left` / `prec.right` on the containing rule resolves the
   // associativity / precedence for chained operators.
-  // `tuple_literal` is here, and nowhere else reachable from arithmetic (08/07): a
-  // constructor call is `Cents(1)`, which lives in `_literal`, so `Cents(1) + Cents(2)`
-  // did not parse while `f(1) + f(2)` did. It cannot move into `_primary_expr` instead —
-  // see the note in literals/index.js for the second reading that would create.
+  // `tuple_literal` used to be listed here specifically (08/07), because a constructor
+  // call lived only in `_literal` and so `Cents(1) + Cents(2)` did not parse while
+  // `f(1) + f(2)` did. It is a `_primary_expr` as of 08/22 — that is what makes
+  // `Some(1).unwrap_or(0)` parse — so `_postfix_expr` reaches it, and listing it again
+  // here is the duplicate derivation this file's own rule forbids: tree-sitter reports it
+  // as an unresolved conflict between `_math_operand` and `_primary_expr` at the first
+  // token that could end either.
   _math_operand: ($) =>
-    choice($._postfix_expr, $._math_expr, $.address_of_expr, $.tuple_literal),
+    choice($._postfix_expr, $._math_expr, $.address_of_expr),
 
   // ---------------------------------------------------------------------
   // Constraint arithmetic — used inside type-level constraint expressions

@@ -2022,6 +2022,10 @@
             "named": true
           },
           {
+            "type": "tuple_literal",
+            "named": true
+          },
+          {
             "type": "user_defined_type_name",
             "named": true
           }
@@ -3275,6 +3279,10 @@
           },
           {
             "type": "tuple_index_expr",
+            "named": true
+          },
+          {
+            "type": "tuple_literal",
             "named": true
           },
           {
@@ -4576,6 +4584,10 @@
             "named": true
           },
           {
+            "type": "tuple_literal",
+            "named": true
+          },
+          {
             "type": "user_defined_type_name",
             "named": true
           }
@@ -5124,6 +5136,10 @@
             "named": true
           },
           {
+            "type": "tuple_literal",
+            "named": true
+          },
+          {
             "type": "user_defined_type_name",
             "named": true
           }
@@ -5651,6 +5667,10 @@
             "named": true
           },
           {
+            "type": "tuple_literal",
+            "named": true
+          },
+          {
             "type": "user_defined_type_name",
             "named": true
           }
@@ -5748,6 +5768,10 @@
           },
           {
             "type": "tuple_index_expr",
+            "named": true
+          },
+          {
+            "type": "tuple_literal",
             "named": true
           },
           {
@@ -6494,6 +6518,10 @@
             "named": true
           },
           {
+            "type": "tuple_literal",
+            "named": true
+          },
+          {
             "type": "user_defined_type_name",
             "named": true
           }
@@ -6599,6 +6627,10 @@
           },
           {
             "type": "tuple_index_expr",
+            "named": true
+          },
+          {
+            "type": "tuple_literal",
             "named": true
           },
           {
@@ -7513,6 +7545,10 @@
             "named": true
           },
           {
+            "type": "tuple_literal",
+            "named": true
+          },
+          {
             "type": "user_defined_type_name",
             "named": true
           }
@@ -7620,6 +7656,10 @@
           },
           {
             "type": "tuple_index_expr",
+            "named": true
+          },
+          {
+            "type": "tuple_literal",
             "named": true
           },
           {

@@ -688,3 +688,118 @@ let cat = "a" ++ "b"
       operator: (string_concat_operator)
       right: (string_literal
         (string_content)))))
+
+==================================================
+A constructor call is a postfix head
+==================================================
+
+let a = Some(1).unwrap_or(0)
+let b = Rect(3, 4).area()
+let c = Some(3).map(f).unwrap_or(0)
+
+---
+
+(program
+  (declaration
+    name: (identifier)
+    value: (call_expr
+      function: (member_expr
+        object: (tuple_literal
+          tuple_name: (tuple_name)
+          (tuple_value
+            (integer_literal
+              (decimal_int))))
+        property: (identifier))
+      arguments: (argument_list
+        value: (value
+          (integer_literal
+            (decimal_int))))))
+  (declaration
+    name: (identifier)
+    value: (call_expr
+      function: (member_expr
+        object: (tuple_literal
+          tuple_name: (tuple_name)
+          (tuple_value
+            (integer_literal
+              (decimal_int)))
+          (tuple_value
+            (integer_literal
+              (decimal_int))))
+        property: (identifier))
+      arguments: (argument_list)))
+  (declaration
+    name: (identifier)
+    value: (call_expr
+      function: (member_expr
+        object: (call_expr
+          function: (member_expr
+            object: (tuple_literal
+              tuple_name: (tuple_name)
+              (tuple_value
+                (integer_literal
+                  (decimal_int))))
+            property: (identifier))
+          arguments: (argument_list
+            value: (value
+              (identifier))))
+        property: (identifier))
+      arguments: (argument_list
+        value: (value
+          (integer_literal
+            (decimal_int)))))))
+
+==================================================
+A constructor head does not disturb the readings it contests
+==================================================
+
+let plain = Some(42)
+let jux = Some 42
+let math = Cents(150) + Cents(275)
+let param = (Some(x): Maybe<i64>) -> i64 => x
+
+---
+
+(program
+  (declaration
+    name: (identifier)
+    value: (tuple_literal
+      tuple_name: (tuple_name)
+      (tuple_value
+        (integer_literal
+          (decimal_int)))))
+  (declaration
+    name: (identifier)
+    value: (data_constructor_expr
+      constructor: (data_type_name)
+      value: (integer_literal
+        (decimal_int))))
+  (declaration
+    name: (identifier)
+    value: (binary_expr
+      left: (tuple_literal
+        tuple_name: (tuple_name)
+        (tuple_value
+          (integer_literal
+            (decimal_int))))
+      operator: (add_operator)
+      right: (tuple_literal
+        tuple_name: (tuple_name)
+        (tuple_value
+          (integer_literal
+            (decimal_int))))))
+  (declaration
+    name: (identifier)
+    value: (lambda_expr
+      parameters: (parameter_list
+        (parameter
+          pattern: (data_pattern
+            name: (data_type_name)
+            pattern: (tuple_pattern
+              (identifier)))
+          type: (parameterized_type
+            name: (user_defined_type_name)
+            type_arguments: (signed_integer_type))))
+      return_type: (return_type
+        type: (signed_integer_type))
+      body: (identifier))))
