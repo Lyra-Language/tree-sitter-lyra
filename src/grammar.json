@@ -6240,6 +6240,22 @@
           "members": [
             {
               "type": "FIELD",
+              "name": "name",
+              "content": {
+                "type": "SYMBOL",
+                "name": "parameter_type_name"
+              }
+            },
+            {
+              "type": "BLANK"
+            }
+          ]
+        },
+        {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "FIELD",
               "name": "modifier",
               "content": {
                 "type": "SYMBOL",
@@ -6260,6 +6276,26 @@
           }
         }
       ]
+    },
+    "parameter_type_name": {
+      "type": "TOKEN",
+      "content": {
+        "type": "SEQ",
+        "members": [
+          {
+            "type": "PATTERN",
+            "value": "[a-z][a-zA-Z0-9_]*"
+          },
+          {
+            "type": "PATTERN",
+            "value": "[ \\t]*"
+          },
+          {
+            "type": "STRING",
+            "value": ":"
+          }
+        ]
+      }
     },
     "variadic_parameter": {
       "type": "STRING",

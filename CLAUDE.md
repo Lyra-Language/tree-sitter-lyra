@@ -322,6 +322,19 @@ the first, for a diagnostic the collector gives better than a syntax error point
 whichever token failed to shift. The extern rule already aliases `lambda_type` to
 `extern_signature`, so the collector's discriminator is free.
 
+**A parameter may carry a name** — `(dest: ^mut u8, destLen: ^mut u64)` — required by the
+collector in an `extern` and refused in a plain function type (`lyra-E067`), on the same
+admit-then-report trade.
+
+**The name and its colon are one token** (`parameter_type_name`), and that is forced rather
+than stylistic. A lowercase name in type position is a *type variable*, whose own leading
+pattern is a bare regex, so `t` in `(t) -> u` and `n` in `(n: i64) -> u` are the same
+lexeme — a **lexical** collision, which a `conflicts:` entry cannot resolve because the
+choice is made before the parser sees it. Lexing `n:` as one token settles it by maximal
+munch. A declared conflict was tried first and did nothing, which is the tell: if adding a
+`conflicts:` entry changes no state count and fixes no test, the ambiguity is in the lexer.
+Whitespace is inside the token, so `(n : i64)` still parses. **+4 states.**
+
 **Lyra has no variadic functions, and this did not give it any.** Two features share the
 spelling: *calling* a C variadic needs nothing from the language, since every argument is
 known at the call site, while *defining* one needs an argument pack nothing else here would

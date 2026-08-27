@@ -161,3 +161,61 @@ let f: (i32, ...) -> i32 = g
           (variadic_parameter))
         return_type: (signed_integer_type)))
     value: (identifier)))
+
+===========================================
+An extern names its parameters
+===========================================
+
+unsafe extern compress: (dest: ^mut u8, destLen: ^mut u64, source: ^u8) -> i32
+
+---
+
+(program
+  (extern_declaration
+    is_unsafe: (unsafe_modifier)
+    name: (identifier)
+    signature: (extern_signature
+      parameter_types: (parameter_type_list
+        (parameter_type
+          name: (parameter_type_name)
+          type: (raw_pointer_type
+            pointee: (unsigned_integer_type)))
+        (parameter_type
+          name: (parameter_type_name)
+          type: (raw_pointer_type
+            pointee: (unsigned_integer_type)))
+        (parameter_type
+          name: (parameter_type_name)
+          type: (raw_pointer_type
+            pointee: (unsigned_integer_type))))
+      return_type: (signed_integer_type))))
+
+===========================================
+A named parameter is told from a type variable by the colon
+===========================================
+
+let f: (t) -> t = g
+let h: (n: i64) -> i64 = k
+
+---
+
+(program
+  (declaration
+    name: (identifier)
+    type_annotation: (type_annotation
+      type: (lambda_type
+        parameter_types: (parameter_type_list
+          (parameter_type
+            type: (generic_type)))
+        return_type: (generic_type)))
+    value: (identifier))
+  (declaration
+    name: (identifier)
+    type_annotation: (type_annotation
+      type: (lambda_type
+        parameter_types: (parameter_type_list
+          (parameter_type
+            name: (parameter_type_name)
+            type: (signed_integer_type)))
+        return_type: (signed_integer_type)))
+    value: (identifier)))
