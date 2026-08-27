@@ -243,3 +243,50 @@ let xs: []shared (i64, i64) = []
               (tuple_type_element
                 (signed_integer_type)))))))
     (array_literal)))
+
+=========================================================
+Array Spread syntax - a call, a member and an index
+=========================================================
+
+xs = [...f(a), ...p.q, ...ys[0], 5]
+
+----------------------------
+
+(program
+  (var_reassignment
+    (identifier)
+    (array_literal
+      (spread_expr
+        (call_expr
+          (identifier)
+          (argument_list
+            (value
+              (identifier)))))
+      (spread_expr
+        (member_expr
+          (identifier)
+          (identifier)))
+      (spread_expr
+        (index_expr
+          (identifier)
+          (integer_literal
+            (decimal_int))))
+      (integer_literal
+        (decimal_int)))))
+
+=========================================================
+Array Spread syntax - a rest pattern still destructures
+=========================================================
+
+let [head, ...tail] = xs
+
+----------------------------
+
+(program
+  (declaration
+    (destructuring_only_pattern
+      (array_pattern
+        (identifier)
+        (rest_pattern
+          (identifier))))
+    (identifier)))

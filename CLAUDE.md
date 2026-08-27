@@ -146,6 +146,13 @@ Several ambiguities are resolved at parse time via GLR (listed in the `conflicts
 - `result_expr` vs `_primary_expr` — inside an array comprehension, `[ Node { n: x } for x in xs ]`'s literal is both the result and a primary expression
 - `for_loop` / `for_in_loop` with and without a label
 - `pattern` / `_primary_expr` / `data_pattern` vs a name-leading `(…)`
+- `_primary_expr` vs `rest_pattern` — `[...xs, 1]` is a spread *expression* in an array
+  literal or a rest *pattern* in an array destructuring, both spelled `'...' identifier`,
+  and only what follows the list decides. It became a conflict on 08/27 when
+  `spread_expr`'s operand widened from the `identifier` **token** to the postfix tier: with
+  both readings holding the token directly the reduction could be deferred, and with one of
+  them wrapping it the parser has to commit. **+9 states (+0.1%)** for the widening and the
+  entry together — measured, as this region's note says to.
 
 ### A name-leading `(…)` has three readings
 

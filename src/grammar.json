@@ -1650,10 +1650,10 @@
           },
           {
             "type": "FIELD",
-            "name": "spread_name",
+            "name": "value",
             "content": {
               "type": "SYMBOL",
-              "name": "identifier"
+              "name": "_postfix_expr"
             }
           }
         ]
@@ -10308,6 +10308,10 @@
       "_tuple_name",
       "_primary_expr",
       "data_pattern"
+    ],
+    [
+      "_primary_expr",
+      "rest_pattern"
     ],
     [
       "named_struct_literal",

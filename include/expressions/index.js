@@ -176,8 +176,16 @@ module.exports = {
       ),
     ),
 
+  // The operand is a **postfix** expression, not a bare identifier: `[...f(x), 1]`,
+  // `[...a.b, 1]` and `[...xs[0], 1]` are all things a reader writes, and restricting it
+  // to a name made them unrepresentable rather than unimplemented — the AST node held a
+  // `string`, so no later pass could have accepted them however it was written.
+  //
+  // The postfix tier rather than `$.expression`: it is the widest one that stops before a
+  // binary operator, so `...a` in `[...a, 1]` cannot swallow the comma's neighbours, and
+  // it is the same tier every other prefix operand uses.
   spread_expr: ($) =>
-    prec.right(PREC.SPREAD, seq("...", field("spread_name", $.identifier))),
+    prec.right(PREC.SPREAD, seq("...", field("value", $._postfix_expr))),
 
   // Function composition: f >> g produces a function that applies f then g
   // Right-associative so `f >> g >> h` means `f >> (g >> h)`

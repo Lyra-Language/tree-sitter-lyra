@@ -74,6 +74,14 @@ module.exports = grammar({
     // conflict" warning is unreliable here, so verify against the corpus rather
     // than the warning.
     [$._tuple_name, $._primary_expr, $.data_pattern],
+    // `[...xs, 1]` — is the `xs` a spread *expression*'s operand or a rest *pattern*'s
+    // name? Both are `'...' identifier` over the same tokens, and only what follows the
+    // list decides (an array destructuring's `=`, against an array literal's use as a
+    // value). It became a conflict when spread_expr's operand widened from the
+    // `identifier` *token* to the postfix tier: with both readings holding the token
+    // directly the reduction could be deferred, and with one of them wrapping it in
+    // `_primary_expr` it cannot. GLR keeps both alive, which is what it is for.
+    [$._primary_expr, $.rest_pattern],
     [$.named_struct_literal, $._tuple_name, $._primary_expr],
     // `if Name • {` — is `Name` the condition and `{` the block's brace, or is this a
     // struct literal? Only the brace's *contents* say, so GLR must keep both alive.
