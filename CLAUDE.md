@@ -309,6 +309,24 @@ language means (order, duplicates, `async`/`gen`/`rec`, an `unsafe` written *aft
 **`extern` is a keyword only in declaration position**, exactly like `type`: `let extern = 5`
 still parses, and reserving it would be a gratuitous break.
 
+**`...` is the C variadic marker** — `unsafe extern printf: (^u8, ...) -> i32` — and it is a
+member of `parameter_type_list`, not a trailing `optional` on `lambda_type`. That is what
+makes it **+1 state** (7,866 → 7,867): no new sequence wraps the parenthesized list, so the
+tables grow by the marker alone.
+
+It is therefore admitted **wherever a function type is written**, and refused everywhere but
+an extern by the collector (`lyra-E065`), along with its position rules — last, and after at
+least one named parameter. The same trade this file's modifier table describes: giving the
+extern its own signature rule would mean a second copy of `lambda_type` free to drift from
+the first, for a diagnostic the collector gives better than a syntax error pointing at
+whichever token failed to shift. The extern rule already aliases `lambda_type` to
+`extern_signature`, so the collector's discriminator is free.
+
+**Lyra has no variadic functions, and this did not give it any.** Two features share the
+spelling: *calling* a C variadic needs nothing from the language, since every argument is
+known at the call site, while *defining* one needs an argument pack nothing else here would
+use.
+
 `attribute_args` gained `string_literal` so `@link("m")` can name a library — the first
 attribute argument that is *data* rather than a name or a size. It stays a plain
 `string_literal`: an attribute argument is read by the collector, not evaluated, so

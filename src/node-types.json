@@ -5909,6 +5909,10 @@
         {
           "type": "parameter_type",
           "named": true
+        },
+        {
+          "type": "variadic_parameter",
+          "named": true
         }
       ]
     }
@@ -7957,6 +7961,11 @@
         }
       ]
     }
+  },
+  {
+    "type": "variadic_parameter",
+    "named": true,
+    "fields": {}
   },
   {
     "type": "weak_type",

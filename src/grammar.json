@@ -6181,8 +6181,17 @@
       "type": "SEQ",
       "members": [
         {
-          "type": "SYMBOL",
-          "name": "parameter_type"
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "SYMBOL",
+              "name": "parameter_type"
+            },
+            {
+              "type": "SYMBOL",
+              "name": "variadic_parameter"
+            }
+          ]
         },
         {
           "type": "REPEAT",
@@ -6194,8 +6203,17 @@
                 "value": ","
               },
               {
-                "type": "SYMBOL",
-                "name": "parameter_type"
+                "type": "CHOICE",
+                "members": [
+                  {
+                    "type": "SYMBOL",
+                    "name": "parameter_type"
+                  },
+                  {
+                    "type": "SYMBOL",
+                    "name": "variadic_parameter"
+                  }
+                ]
               }
             ]
           }
@@ -6242,6 +6260,10 @@
           }
         }
       ]
+    },
+    "variadic_parameter": {
+      "type": "STRING",
+      "value": "..."
     },
     "type_modifier": {
       "type": "CHOICE",

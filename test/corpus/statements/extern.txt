@@ -121,3 +121,43 @@ let extern = 5
     name: (identifier)
     value: (integer_literal
       (decimal_int))))
+
+===========================================
+A variadic extern
+===========================================
+
+unsafe extern printf: (^u8, ...) -> i32
+
+---
+
+(program
+  (extern_declaration
+    is_unsafe: (unsafe_modifier)
+    name: (identifier)
+    signature: (extern_signature
+      parameter_types: (parameter_type_list
+        (parameter_type
+          type: (raw_pointer_type
+            pointee: (unsigned_integer_type)))
+        (variadic_parameter))
+      return_type: (signed_integer_type))))
+
+===========================================
+A variadic marker parses wherever a function type is written
+===========================================
+
+let f: (i32, ...) -> i32 = g
+
+---
+
+(program
+  (declaration
+    name: (identifier)
+    type_annotation: (type_annotation
+      type: (lambda_type
+        parameter_types: (parameter_type_list
+          (parameter_type
+            type: (signed_integer_type))
+          (variadic_parameter))
+        return_type: (signed_integer_type)))
+    value: (identifier)))
