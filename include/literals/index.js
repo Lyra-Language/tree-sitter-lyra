@@ -30,9 +30,13 @@ module.exports = {
   //     that is a reduce-reduce at every operand position. It **is** listed in
   //     `_math_operand` as of 08/07 (math.js), which is the one position it was
   //     missing: `Cents(1) + Cents(2)` did not parse while `f(1) + f(2)` did;
-  //   - `anonymous_struct_literal` — a bare `{ … }` head would contest the block;
-  //   - `array_repeat_init` (`[0; 5]`) is left out only because nothing wants a
-  //     method on one yet, and every addition here costs parser states.
+  //   - `anonymous_struct_literal` — a bare `{ … }` head would contest the block.
+  //
+  // `array_repeat_init` (`[0; 5]`) **moved to `_primary_expr` on 08/28**, mirroring the
+  // comma form exactly: `["x"; 3].join("-")` was a parse error while `["x", "x"].join("-")`
+  // parsed, which is the two spellings of one construct disagreeing. It is a move rather
+  // than an addition — `array_literal` lives only in `_primary_expr` too — so the kind
+  // keeps its single derivation and needs no conflict entry.
   //
   // A kind must be in exactly one of the two. Listing it in both makes a bare
   // literal derivable two ways, which is an unresolved reduce-reduce at every
@@ -41,7 +45,6 @@ module.exports = {
     prec.right(
       PREC.LITERAL,
       choice(
-        $.array_repeat_init,
         $.regex_literal,
         $.named_struct_literal,
         $.anonymous_struct_literal,

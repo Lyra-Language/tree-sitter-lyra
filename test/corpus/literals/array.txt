@@ -151,3 +151,46 @@ let arr = [1, 2, 3
       (integer_literal
         (decimal_int))
       (MISSING "]"))))))
+
+=========================================================
+A repeat literal is a postfix head
+=========================================================
+
+let a = ["x"; 3].join("-")
+
+---------------------------------
+
+(program
+  (declaration
+    (identifier)
+    (call_expr
+      (member_expr
+        (array_repeat_init
+          (string_literal
+            (string_content))
+          (array_repeat_count
+            (integer_literal
+              (decimal_int))))
+        (identifier))
+      (argument_list
+        (value
+          (string_literal
+            (string_content)))))))
+
+=========================================================
+A repeat literal is still an ordinary value
+=========================================================
+
+let d = [7; 2]
+
+---------------------------------
+
+(program
+  (declaration
+    (identifier)
+    (array_repeat_init
+      (integer_literal
+        (decimal_int))
+      (array_repeat_count
+        (integer_literal
+          (decimal_int))))))

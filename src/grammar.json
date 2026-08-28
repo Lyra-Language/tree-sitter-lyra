@@ -79,10 +79,6 @@
         "members": [
           {
             "type": "SYMBOL",
-            "name": "array_repeat_init"
-          },
-          {
-            "type": "SYMBOL",
             "name": "regex_literal"
           },
           {
@@ -3653,6 +3649,10 @@
         {
           "type": "SYMBOL",
           "name": "array_literal"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "array_repeat_init"
         },
         {
           "type": "SYMBOL",
