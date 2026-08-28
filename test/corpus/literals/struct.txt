@@ -399,3 +399,57 @@ let s = S { v: 1 }
             (field_value
               (integer_literal
                 (decimal_int)))))))))
+
+=========================================================
+An empty body is a named struct literal
+=========================================================
+
+let p = Person {}
+
+---------------------------------
+
+(program
+  (declaration
+    (identifier)
+    (named_struct_literal
+      (struct_name)
+      (struct_body))))
+
+=========================================================
+An empty body after a name in an if header is still a block
+=========================================================
+
+let n = if ready { 1 } else { 0 }
+
+---------------------------------
+
+(program
+  (declaration
+    (identifier)
+    (if_block_expr
+      (identifier)
+      (block
+        (expression_statement
+          (integer_literal
+            (decimal_int))))
+      (block
+        (expression_statement
+          (integer_literal
+            (decimal_int)))))))
+
+=========================================================
+A bare empty brace is a block, not an anonymous struct literal
+=========================================================
+
+let f = () -> void => {}
+
+---------------------------------
+
+(program
+  (declaration
+    (identifier)
+    (lambda_expr
+      (parameter_list)
+      (return_type
+        (void_type))
+      (block))))

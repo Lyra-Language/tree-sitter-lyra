@@ -539,7 +539,7 @@
                 "name": "struct_body",
                 "content": {
                   "type": "SYMBOL",
-                  "name": "struct_body"
+                  "name": "_literal_struct_body"
                 }
               }
             ]
@@ -578,11 +578,42 @@
                 "name": "struct_body",
                 "content": {
                   "type": "SYMBOL",
-                  "name": "struct_body"
+                  "name": "_literal_struct_body"
                 }
               }
             ]
           }
+        }
+      ]
+    },
+    "_literal_struct_body": {
+      "type": "CHOICE",
+      "members": [
+        {
+          "type": "SYMBOL",
+          "name": "struct_body"
+        },
+        {
+          "type": "ALIAS",
+          "content": {
+            "type": "SYMBOL",
+            "name": "empty_struct_body"
+          },
+          "named": true,
+          "value": "struct_body"
+        }
+      ]
+    },
+    "empty_struct_body": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "{"
+        },
+        {
+          "type": "STRING",
+          "value": "}"
         }
       ]
     },

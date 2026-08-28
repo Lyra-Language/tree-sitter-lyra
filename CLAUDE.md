@@ -178,6 +178,8 @@ A single `prec.left(PREC.STRUCT_LITERAL)` over the whole rule resolves the decis
 
 Corpus: `A Name Followed by a Non-Struct Block Is a Block` and its type-name twin (literals/struct.txt) pin the reading a careless change here inverts.
 
+**An empty body (`Person {}`) is admitted for the *named* form only** (`_literal_struct_body`, 08/28, +22 states). That restriction is the whole care: `anonymous_struct_literal` is a bare `struct_body`, so admitting an empty one there would make every empty block `{}` an anonymous struct literal — the two readings would have identical text, which is the one case the brace's-contents rule above cannot settle. A named literal is safe because the *name* disambiguates instead of the contents, and `if ready {}` still reads as a condition and an empty block: GLR keeps both alive and only that reading completes, since an `if` body is mandatory and the literal reading dead-ends with nothing left to be the body. The empty alternative is aliased back to `struct_body`, so a consumer reads the same field and an empty body is simply one with no `struct_fields` child — which the Go collector must nil-guard (hazard 2: the accessor *hangs* rather than panicking). Corpus: the three `empty body` / `bare empty brace` tests.
+
 Data values have **two spellings** and the grammar keeps them apart on purpose. Juxtaposition (`Some 42`, `Err -1`) is `data_constructor_expr`; the parenthesized form (`Some(42)`, `Rect(3, 4)`) parses as a named `tuple_literal`, and the Go typechecker resolves a tuple-literal name that is a data constructor to its data type. The collector erases the difference, so no pass after collection knows which was written.
 
 ### `::` is settled in the lexer, not by GLR

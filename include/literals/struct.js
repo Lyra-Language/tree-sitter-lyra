@@ -29,7 +29,7 @@ module.exports = {
         seq(
           field("struct_name", alias(typeNameInExpr($), $.struct_name)),
           field("generic_arguments", $.generic_arguments),
-          field("struct_body", $.struct_body),
+          field("struct_body", $._literal_struct_body),
         ),
       ),
       prec.dynamic(
@@ -38,10 +38,31 @@ module.exports = {
           // typeNameInExpr, not user_defined_type_name: an all-caps name lexes as
           // const_identifier, which made `S { v: 1 }` a syntax error everywhere.
           field("struct_name", alias(typeNameInExpr($), $.struct_name)),
-          field("struct_body", $.struct_body),
+          field("struct_body", $._literal_struct_body),
         ),
       ),
     ),
+
+  // `Person {}` — every field defaulted — is admitted for a **named** literal only,
+  // and that restriction is the whole of the care here. `anonymous_struct_literal` is
+  // a bare `struct_body`, so admitting an empty one there would make every empty
+  // block `{}` an anonymous struct literal too: the block reading and the literal
+  // reading would have identical text with nothing to choose between them, which is
+  // the one shape the brace's-contents rule below cannot settle.
+  //
+  // A named literal is safe because the *name* disambiguates instead of the contents.
+  // `if Point {}` still reads as a condition and an empty block, because GLR keeps
+  // both alive and only that reading completes — an `if` body is mandatory, so the
+  // struct-literal reading dead-ends with nothing to be the body. Pinned by
+  // `An empty body after a name in an if header is still a block`.
+  //
+  // The empty alternative is aliased back to `struct_body`, so the field a consumer
+  // reads is unchanged and an empty body is simply one with no `struct_fields` child
+  // (the collector's nil guard, hazard 2).
+  _literal_struct_body: ($) =>
+    choice($.struct_body, alias($.empty_struct_body, $.struct_body)),
+
+  empty_struct_body: ($) => seq("{", "}"),
 
   anonymous_struct_literal: ($) =>
     prec.left(PREC.STRUCT_LITERAL, field("struct_body", $.struct_body)),
