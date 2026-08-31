@@ -223,7 +223,8 @@
               },
               {
                 "type": "PATTERN",
-                "value": "\\\\[0abefnrtv\\\\'\"]"
+                "value": "\\\\.",
+                "flags": "u"
               },
               {
                 "type": "PATTERN",

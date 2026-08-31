@@ -100,3 +100,42 @@ let nul = '\0'
   (declaration
     (identifier)
     (char_literal)))
+
+=======================================
+Char literal holding an escaped quote
+=======================================
+
+let quote = '\''
+
+---
+
+(program
+  (declaration
+    (identifier)
+    (char_literal)))
+
+===========================================
+Char literal holding an escaped backslash
+===========================================
+
+let backslash = '\\'
+
+---
+
+(program
+  (declaration
+    (identifier)
+    (char_literal)))
+
+===============================================
+Char literal holding an escape the compiler rejects
+===============================================
+
+let bad = '\q'
+
+---
+
+(program
+  (declaration
+    (identifier)
+    (char_literal)))
