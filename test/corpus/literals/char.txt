@@ -88,3 +88,15 @@ let grinning_face = '\U0001F600'
   (declaration
     (identifier)
     (char_literal)))   
+===================================
+Simple char literal with NUL escape
+===================================
+
+let nul = '\0'
+
+---
+
+(program
+  (declaration
+    (identifier)
+    (char_literal)))

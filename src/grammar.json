@@ -223,7 +223,7 @@
               },
               {
                 "type": "PATTERN",
-                "value": "\\\\[abefnrtv\\\\'\"]"
+                "value": "\\\\[0abefnrtv\\\\'\"]"
               },
               {
                 "type": "PATTERN",

@@ -16117,6 +16117,7 @@ static bool ts_lex(TSLexer *lexer, TSStateId state) {
         'x', 279,
         '"', 23,
         '\'', 23,
+        '0', 23,
         '\\', 23,
         'a', 23,
         'b', 23,
