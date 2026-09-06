@@ -4885,22 +4885,31 @@
         "type": "SEQ",
         "members": [
           {
-            "type": "ALIAS",
-            "content": {
-              "type": "CHOICE",
-              "members": [
-                {
-                  "type": "SYMBOL",
-                  "name": "identifier"
+            "type": "CHOICE",
+            "members": [
+              {
+                "type": "ALIAS",
+                "content": {
+                  "type": "CHOICE",
+                  "members": [
+                    {
+                      "type": "SYMBOL",
+                      "name": "identifier"
+                    },
+                    {
+                      "type": "STRING",
+                      "value": "_"
+                    }
+                  ]
                 },
-                {
-                  "type": "STRING",
-                  "value": "_"
-                }
-              ]
-            },
-            "named": true,
-            "value": "for_variable_or_key"
+                "named": true,
+                "value": "for_variable_or_key"
+              },
+              {
+                "type": "SYMBOL",
+                "name": "tuple_pattern"
+              }
+            ]
           },
           {
             "type": "CHOICE",
@@ -4913,22 +4922,31 @@
                     "value": ","
                   },
                   {
-                    "type": "ALIAS",
-                    "content": {
-                      "type": "CHOICE",
-                      "members": [
-                        {
-                          "type": "SYMBOL",
-                          "name": "identifier"
+                    "type": "CHOICE",
+                    "members": [
+                      {
+                        "type": "ALIAS",
+                        "content": {
+                          "type": "CHOICE",
+                          "members": [
+                            {
+                              "type": "SYMBOL",
+                              "name": "identifier"
+                            },
+                            {
+                              "type": "STRING",
+                              "value": "_"
+                            }
+                          ]
                         },
-                        {
-                          "type": "STRING",
-                          "value": "_"
-                        }
-                      ]
-                    },
-                    "named": true,
-                    "value": "for_index_or_value"
+                        "named": true,
+                        "value": "for_index_or_value"
+                      },
+                      {
+                        "type": "SYMBOL",
+                        "name": "tuple_pattern"
+                      }
+                    ]
                   }
                 ]
               },

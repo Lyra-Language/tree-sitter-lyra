@@ -3844,6 +3844,10 @@
         {
           "type": "for_variable_or_key",
           "named": true
+        },
+        {
+          "type": "tuple_pattern",
+          "named": true
         }
       ]
     }

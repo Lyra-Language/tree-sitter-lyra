@@ -287,3 +287,83 @@ for k, _ in xs {
                 (string_literal
                   (string_interpolation
                     (identifier)))))))))))
+
+==================
+Destructuring a tuple element
+==================
+
+for (k, v) in entries { println(k) }
+
+---
+
+(program
+  (expression_statement
+    (for_in_loop
+      (for_in_condition
+        (tuple_pattern
+          (identifier)
+          (identifier))
+        (identifier))
+      (for_in_body
+        (expression_statement
+          (call_expr
+            function: (identifier)
+            arguments: (argument_list
+              value: (value
+                (identifier)))))))))
+
+==================
+Destructuring alongside an index binding
+==================
+
+for (k, v), i in entries { }
+
+---
+
+(program
+  (expression_statement
+    (for_in_loop
+      (for_in_condition
+        (tuple_pattern
+          (identifier)
+          (identifier))
+        (for_index_or_value)
+        (identifier))
+      (for_in_body))))
+
+==================
+A destructuring binding does not disturb the readings it contests
+==================
+
+for x in xs { }
+for x, i in xs { }
+for _ in xs { }
+for done { }
+
+---
+
+(program
+  (expression_statement
+    (for_in_loop
+      (for_in_condition
+        (for_variable_or_key)
+        (identifier))
+      (for_in_body)))
+  (expression_statement
+    (for_in_loop
+      (for_in_condition
+        (for_variable_or_key)
+        (for_index_or_value)
+        (identifier))
+      (for_in_body)))
+  (expression_statement
+    (for_in_loop
+      (for_in_condition
+        (for_variable_or_key)
+        (identifier))
+      (for_in_body)))
+  (expression_statement
+    (for_loop
+      for_condition: (for_condition
+        condition_expr: (identifier))
+      for_body: (for_body))))
