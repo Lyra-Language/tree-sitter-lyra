@@ -39,7 +39,7 @@ After regenerating, the sibling Go project also needs `go clean -cache` before `
 | `include/expressions/` | all expressions (math, boolean, postfix, lambdas, match, if, range, array comprehensions, async/await, compose `->>`), string interpolation |
 | `include/expressions/functions.js` | function/lambda definitions, guards |
 | `include/types/` | `struct`, `data`, `tuple`, `newtype`, `type` aliases, trait declarations, trait implementations, generics, `where` clauses, allocation modifiers |
-| `include/statements/` | assignments (`let`/`var`/`const`), math-assign ops (`+=`, etc.), `for`, `for-in`, `arena`/`with`, `return`/`break`/`continue` |
+| `include/statements/` | assignments (`let`/`var`/`const`, `(a, b) = …` tuple assignment), math-assign ops (`+=`, etc.), `for`, `for-in`, `arena`/`with`, `return`/`break`/`continue` |
 | `include/literals/` | struct literals, tuple literals, array literals |
 | `include/literals/numbers.js` | integer (decimal, hex `0x`, binary `0b`, octal `0o`), float |
 | `include/patterns/` | destructuring patterns used in `match` arms and `if let` |
@@ -400,7 +400,7 @@ Add `:error` after the test name line to assert that the source produces a parse
 
 ```
 test/corpus/
-  assignments.txt        let/var/const, math-assign ops
+  assignments.txt        let/var/const, math-assign ops, tuple assignment
   comments.txt
   destructuring.txt
   math_operators.txt

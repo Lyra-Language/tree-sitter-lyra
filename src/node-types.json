@@ -312,6 +312,10 @@
         "named": true
       },
       {
+        "type": "tuple_assignment",
+        "named": true
+      },
+      {
         "type": "type_declaration",
         "named": true
       },
@@ -7720,6 +7724,32 @@
           },
           {
             "type": "user_defined_type_name",
+            "named": true
+          }
+        ]
+      }
+    }
+  },
+  {
+    "type": "tuple_assignment",
+    "named": true,
+    "fields": {
+      "target": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "tuple_literal",
+            "named": true
+          }
+        ]
+      },
+      "value": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "expression",
             "named": true
           }
         ]

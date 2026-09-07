@@ -8308,6 +8308,10 @@
         },
         {
           "type": "SYMBOL",
+          "name": "tuple_assignment"
+        },
+        {
+          "type": "SYMBOL",
           "name": "return_statement"
         },
         {
@@ -9142,15 +9146,15 @@
         }
       ]
     },
-    "var_destructuring_reassignment": {
+    "tuple_assignment": {
       "type": "SEQ",
       "members": [
         {
           "type": "FIELD",
-          "name": "pattern",
+          "name": "target",
           "content": {
             "type": "SYMBOL",
-            "name": "destructuring_pattern"
+            "name": "tuple_literal"
           }
         },
         {

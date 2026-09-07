@@ -16,6 +16,7 @@ module.exports = {
       $.deref_assignment,
       $.member_assignment,
       $.index_assignment,
+      $.tuple_assignment,
       $.return_statement,
       $.break_statement,
       $.continue_statement,

@@ -417,3 +417,67 @@ let ubig: u128 = 5
       (unsigned_integer_type))
     (integer_literal
       (decimal_int))))
+
+==========================================
+Tuple assignment: swap two bindings
+==========================================
+
+(a, b) = (b, a)
+
+---
+
+(program
+  (tuple_assignment
+    target: (tuple_literal
+      (tuple_value
+        (identifier))
+      (tuple_value
+        (identifier)))
+    value: (tuple_literal
+      (tuple_value
+        (identifier))
+      (tuple_value
+        (identifier)))))
+
+==========================================
+Tuple assignment: swap two elements, and a pair from a call
+==========================================
+
+(xs[i], xs[j]) = (xs[j], xs[i])
+(q, r) = divmod(n, d)
+
+---
+
+(program
+  (tuple_assignment
+    target: (tuple_literal
+      (tuple_value
+        (index_expr
+          object: (identifier)
+          index: (identifier)))
+      (tuple_value
+        (index_expr
+          object: (identifier)
+          index: (identifier))))
+    value: (tuple_literal
+      (tuple_value
+        (index_expr
+          object: (identifier)
+          index: (identifier)))
+      (tuple_value
+        (index_expr
+          object: (identifier)
+          index: (identifier)))))
+  (tuple_assignment
+    target: (tuple_literal
+      (tuple_value
+        (identifier))
+      (tuple_value
+        (identifier)))
+    value: (call_expr
+      function: (identifier)
+      arguments: (argument_list
+        value: (value
+          (identifier))
+        value: (value
+          (identifier))))))

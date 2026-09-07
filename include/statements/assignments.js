@@ -168,10 +168,14 @@ module.exports = {
   index_assignment: ($) =>
     seq(field("target", $.index_expr), "=", field("value", $.expression)),
 
-  var_destructuring_reassignment: ($) =>
-    seq(
-      field("pattern", $.destructuring_pattern),
-      "=",
-      field("value", $.expression),
-    ),
+  // Tuple assignment — several places written from one tuple:
+  //   (a, b) = (b, a)        (xs[i], xs[j]) = (xs[j], xs[i])        (q, r) = divmod(n, d)
+  // The target is parsed as an ordinary `tuple_literal` and the *collector* refuses any
+  // element that is not a place (a name, a member, an index or a deref). A separate
+  // place-tuple rule beside `tuple_literal` would be a reduce-reduce conflict at every
+  // element, since the two read identically until the `=` — the same reason
+  // `const_declaration` accepts a lowercase name and lets the collector reject it. The
+  // right side is any expression of tuple type, so a call answering a pair works too.
+  tuple_assignment: ($) =>
+    seq(field("target", $.tuple_literal), "=", field("value", $.expression)),
 };
