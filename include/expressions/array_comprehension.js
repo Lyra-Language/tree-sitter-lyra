@@ -44,9 +44,17 @@ module.exports = {
     seq(
       field("identifier", $.identifier),
       "in",
+      // A call is a source too — `[p in naturals().take(10) | p]`, and before that
+      // `[y in xs.map(f) | y]`, which was a *syntax error* for as long as this list was
+      // the four literal-shaped forms. A method chain is a call whose callee is a
+      // member access, so the one alternative admits both. It needs the
+      // `generator`/`_postfix_expr` conflict in grammar.js: an identifier here may be
+      // the whole source or the head of a call, and only the next token says which
+      // (09/08). Making the source a bare `_postfix_expr` was tried first and collides
+      // with a range's operand instead, since that operand is a full expression.
       field(
         "value",
-        choice($.range_expr, $.array_literal, $.string_literal, $.identifier),
+        choice($.range_expr, $.array_literal, $.string_literal, $.identifier, $.call_expr),
       ),
     ),
 

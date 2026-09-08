@@ -216,7 +216,8 @@ let a = [x in xs | "n" ++ x]
         value: (identifier))
       result_expr: (result_expr
         (string_concat_expr
-          left: (string_literal (string_content))
+          left: (string_literal
+            (string_content))
           operator: (string_concat_operator)
           right: (identifier))))))
 
@@ -235,8 +236,10 @@ let a = [x in xs | y | z]
       (generator
         identifier: (identifier)
         value: (identifier))
-      guards: (comprehension_guard (identifier))
-      result_expr: (result_expr (identifier)))))
+      guards: (comprehension_guard
+        (identifier))
+      result_expr: (result_expr
+        (identifier)))))
 
 ==================
 Array comprehension - a parenthesized bitwise-or is a value
@@ -259,3 +262,54 @@ let a = [x in xs | (y | z)]
             left: (identifier)
             operator: (bitor_operator)
             right: (identifier)))))))
+
+===================================
+A call as the source (09/08)
+===================================
+
+let firsts = [ p in naturals().take(10) | p ]
+
+---
+
+(program
+  (declaration
+    (identifier)
+    (array_comp_expr
+      (generator
+        (identifier)
+        (call_expr
+          (member_expr
+            (call_expr
+              (identifier)
+              (argument_list))
+            (identifier))
+          (argument_list
+            (value
+              (integer_literal
+                (decimal_int))))))
+      (result_expr
+        (identifier)))))
+
+===================================
+A method chain as the source (09/08)
+===================================
+
+let ys = [ y in xs.map(f) | y ]
+
+---
+
+(program
+  (declaration
+    (identifier)
+    (array_comp_expr
+      (generator
+        (identifier)
+        (call_expr
+          (member_expr
+            (identifier)
+            (identifier))
+          (argument_list
+            (value
+              (identifier)))))
+      (result_expr
+        (identifier)))))

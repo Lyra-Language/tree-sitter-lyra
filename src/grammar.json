@@ -3462,6 +3462,10 @@
               {
                 "type": "SYMBOL",
                 "name": "identifier"
+              },
+              {
+                "type": "SYMBOL",
+                "name": "call_expr"
               }
             ]
           }
@@ -10392,6 +10396,10 @@
       "pattern",
       "for_loop",
       "for_in_loop"
+    ],
+    [
+      "generator",
+      "_postfix_expr"
     ],
     [
       "_primary_expr",

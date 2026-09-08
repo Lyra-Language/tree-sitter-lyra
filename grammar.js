@@ -102,6 +102,9 @@ module.exports = grammar({
     // param, or to `_primary_expr` for the tuple element).
     [$.pattern, $._primary_expr],
     [$.pattern, $.for_loop, $.for_in_loop],
+    // A comprehension source that is an identifier or a call beginning with one: see
+    // array_comprehension.js.
+    [$.generator, $._postfix_expr],
     [$._primary_expr, $.for_loop, $.for_in_loop],
     [$._primary_expr, $.data_pattern],
     // The literal analogue of the two entries above, and new on 08/06 with
