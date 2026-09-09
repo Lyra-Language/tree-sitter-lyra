@@ -549,6 +549,26 @@ Both highlight query files capture it — `@constant.builtin` for nvim, `@consta
 Corpus: the four `null pointer` tests in `test/corpus/expressions/unsafe.txt`, including
 the one pinning the name-position reading a careless change here would invert.
 
+## `union` — a C union (`include/types/union_type.js`)
+
+`union Ev { kind: u32, code: i64 }`, a fifth alternative of `type_declaration`. **+30
+states.**
+
+**The body reuses `struct_member`**, and that is the decision worth keeping: a union
+member *is* a name and a type, and a second member rule would be free to drift from the
+first — which is exactly what `struct_type_body`'s own note warns about for its anonymous
+twin. What that admits and the language does not — a `readonly` member, a member with a
+default value — is refused by the Go collector (`lyra-E072`), the admit-then-report trade
+the extern modifiers already make.
+
+`union_type_body` is nonetheless **its own rule** rather than a reuse of
+`struct_type_body`, for the reason that rule gives about *its* twin: the collector reads
+a declaration's body by node kind, and one kind where it needs two is a distinction it
+cannot recover.
+
+Corpus: `test/corpus/types/union.txt`, including the `:error` test that an empty body does
+not parse.
+
 ## Type Aliases vs `newtype`
 
 Two declarations that look alike and mean opposite things:

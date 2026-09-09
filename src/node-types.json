@@ -8160,6 +8160,10 @@
         {
           "type": "type_alias",
           "named": true
+        },
+        {
+          "type": "union_type",
+          "named": true
         }
       ]
     }
@@ -8183,6 +8187,76 @@
         },
         {
           "type": "suffix_operator",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "union_name",
+    "named": true,
+    "fields": {}
+  },
+  {
+    "type": "union_type",
+    "named": true,
+    "fields": {
+      "attributes": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "attribute_list",
+            "named": true
+          }
+        ]
+      },
+      "union_name": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "union_name",
+            "named": true
+          }
+        ]
+      },
+      "visibility": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "visibility",
+            "named": true
+          }
+        ]
+      }
+    },
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "generic_parameters",
+          "named": true
+        },
+        {
+          "type": "union_type_body",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "union_type_body",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "struct_member",
           "named": true
         }
       ]
@@ -8964,6 +9038,10 @@
   },
   {
     "type": "u8",
+    "named": false
+  },
+  {
+    "type": "union",
     "named": false
   },
   {

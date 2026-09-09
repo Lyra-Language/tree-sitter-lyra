@@ -1,0 +1,96 @@
+==================
+A union declaration
+==================
+
+union Ev {
+  kind: u32,
+  code: i64,
+}
+
+---
+
+(program
+  (type_declaration
+    (union_type
+      union_name: (union_name)
+      (union_type_body
+        (struct_member
+          field_name: (field_name)
+          field_type: (field_type
+            (unsigned_integer_type)))
+        (struct_member
+          field_name: (field_name)
+          field_type: (field_type
+            (signed_integer_type)))))))
+
+==================
+A union on one line, and a public one
+==================
+
+union Small { a: u32, b: f64 }
+pub union Big { x: [128]u8 }
+
+---
+
+(program
+  (type_declaration
+    (union_type
+      union_name: (union_name)
+      (union_type_body
+        (struct_member
+          field_name: (field_name)
+          field_type: (field_type
+            (unsigned_integer_type)))
+        (struct_member
+          field_name: (field_name)
+          field_type: (field_type
+            (float_type))))))
+  (type_declaration
+    (union_type
+      visibility: (visibility)
+      union_name: (union_name)
+      (union_type_body
+        (struct_member
+          field_name: (field_name)
+          field_type: (field_type
+            (array_type
+              size: (array_size
+                (integer_literal
+                  (decimal_int)))
+              element_type: (unsigned_integer_type))))))))
+
+==================
+A union member may name another declared type
+==================
+
+union Ev { kind: u32, user: UserEvent }
+
+---
+
+(program
+  (type_declaration
+    (union_type
+      union_name: (union_name)
+      (union_type_body
+        (struct_member
+          field_name: (field_name)
+          field_type: (field_type
+            (unsigned_integer_type)))
+        (struct_member
+          field_name: (field_name)
+          field_type: (field_type
+            (user_defined_type_name)))))))
+
+==================
+A union body is not empty
+==================
+:error
+
+union Nothing { }
+
+---
+
+(program
+  (ERROR
+    (UNEXPECTED 'r')
+    (user_defined_type_name)))

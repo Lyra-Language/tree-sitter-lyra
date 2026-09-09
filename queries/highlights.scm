@@ -20,6 +20,7 @@
 ; =============================================================================
 
 "struct"  @keyword.type
+"union"   @keyword.type
 "data"    @keyword.type
 "newtype" @keyword.type
 "tuple"   @keyword.type
@@ -117,6 +118,7 @@
 
 ; Names being *defined* (declaration sites)
 (struct_type struct_name: (struct_name) @type.definition)
+(union_type   union_name:  (union_name)  @type.definition)
 (data_type                (data_type_name) @type.definition)
 (named_tuple_type name:   (tuple_type_name) @type.definition)
 (trait_declaration name:  (trait_name) @type.definition)
@@ -124,6 +126,7 @@
 
 ; Same aliased nodes in non-definition positions get plain @type
 (struct_name)           @type
+(union_name)            @type
 (tuple_type_name)       @type
 (constrained_type_name) @type
 (trait_name)            @type
