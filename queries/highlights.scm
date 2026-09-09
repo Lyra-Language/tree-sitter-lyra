@@ -175,10 +175,6 @@
 ; =============================================================================
 
 (call_expr function: (identifier) @function.call)
-(call_expr
-  function: (member_expr
-    property: (identifier) @function.method.call))
-
 ; =============================================================================
 ; Member access / struct fields
 ; =============================================================================
@@ -190,6 +186,13 @@
 ; Field names in struct type declarations and struct literal bodies
 (struct_member field_name: (field_name) @variable.member)
 (struct_field  field_name: (field_name) @variable.member)
+
+; After the four rules above, not up with `@function.call`: a method call's property is
+; also a `member_expr` property, so both match it. Later wins, so placed before them this
+; rule was dead and `n.weak()` painted as a field.
+(call_expr
+  function: (member_expr
+    property: (identifier) @function.method.call))
 
 ; =============================================================================
 ; Modules
