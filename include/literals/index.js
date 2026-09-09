@@ -1,6 +1,7 @@
 const array_literals = require("./array");
 const boolean_literal = require("./boolean");
 const char_literal = require("./char");
+const nullptr_literal = require("./nullptr");
 const number_literals = require("./numbers");
 const regex_literal = require("./regex");
 const string_literals = require("./string");
@@ -54,6 +55,7 @@ module.exports = {
   ...array_literals,
   ...boolean_literal,
   ...char_literal,
+  ...nullptr_literal,
   ...number_literals,
   ...regex_literal,
   ...string_literals,

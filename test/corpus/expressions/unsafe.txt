@@ -177,3 +177,79 @@ let sum = a^ + b^
       (add_operator)
       (deref_expr
         (identifier)))))
+
+=====================================
+A null pointer literal
+=====================================
+
+let p = nullptr
+
+---
+
+(program
+  (declaration
+    (identifier)
+    (nullptr_literal)))
+
+=====================================
+A null pointer is compared with == and !=
+=====================================
+
+let missing = p == nullptr
+let present = p != nullptr
+
+---
+
+(program
+  (declaration
+    (identifier)
+    (boolean_expr
+      (identifier)
+      (equals_operator)
+      (nullptr_literal)))
+  (declaration
+    (identifier)
+    (boolean_expr
+      (identifier)
+      (not_equals_operator)
+      (nullptr_literal))))
+
+=====================================
+A null pointer is an argument, and an annotated binding
+=====================================
+
+let q: ^mut u8 = nullptr
+let r = create(name, nullptr)
+
+---
+
+(program
+  (declaration
+    (identifier)
+    (type_annotation
+      (raw_pointer_type
+        (unsigned_integer_type)))
+    (nullptr_literal))
+  (declaration
+    (identifier)
+    (call_expr
+      (identifier)
+      (argument_list
+        (value
+          (identifier))
+        (value
+          (nullptr_literal))))))
+
+=====================================
+nullptr is a keyword only in value position
+=====================================
+
+let nullptr = 5
+
+---
+
+(program
+  (declaration
+    (identifier)
+    (integer_literal
+      (decimal_int))))

@@ -251,6 +251,10 @@
         ]
       }
     },
+    "nullptr_literal": {
+      "type": "STRING",
+      "value": "nullptr"
+    },
     "_number_literal": {
       "type": "CHOICE",
       "members": [
@@ -3650,6 +3654,10 @@
         {
           "type": "SYMBOL",
           "name": "boolean_literal"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "nullptr_literal"
         },
         {
           "type": "SYMBOL",

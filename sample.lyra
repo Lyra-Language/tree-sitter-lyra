@@ -45,3 +45,6 @@ let main = () -> u8 => {
   print(s)
   u8(total)
 }
+
+let check = (p: ^u8) -> bool => p == nullptr
+let none: ^i64 = nullptr

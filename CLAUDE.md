@@ -132,6 +132,10 @@ stack  shared  weak  with  pure  det  noalloc  gen  rec  yield
 fixed  unsafe  mut  ref  own  void
 ```
 
+`nullptr` is a keyword too, but only in **value** position, and it is enforced by the
+lexer rather than by this list — see its own section below for why `let nullptr = 5`
+still parses and what refuses it.
+
 `rec` is reserved so it can lead a function-definition binding's name — it is one of the seven `fn_modifiers`, so `let rec = 5` and `foo(rec)` do not parse.
 
 Effect bounds on functions/methods: `pure` (no observable effect), `det` (deterministic — permits mutation/allocation, forbids ambient rand/time/io), and `noalloc` (heap-allocation-free, orthogonal — stacks with any purity rung). All three are `optional(field(...))` modifiers in `lambda_expr`, `trait_method_implementation`, and — leading the name — a `trait_method` *declaration* (`trait Show { pure show: (Self) -> string }`, a contract every impl must satisfy). Mutual exclusion of `pure`/`det` is a checker rule, not a grammar one (`checker/effect_bounds.go`, `lyra-E015`).
@@ -514,6 +518,36 @@ Corpus: the open-ended tests in `test/corpus/expressions/control_flow/match.txt`
 **In this region tree-sitter's "unnecessary conflict" warning is unreliable — verify against the corpus.** During this change it reported entries as unnecessary that were load-bearing (dropping `[_tuple_name, _primary_expr, data_pattern]` broke the parameter case) *and* reported one as unnecessary that genuinely was.
 
 Juxtaposition is genuinely expensive in an LR automaton (+19% states) — run `--report-states-for-rule -` before adding anything else here.
+
+## `nullptr` — a keyword only in value position (`include/literals/nullptr.js`)
+
+The null raw pointer, and the only pointer value that does not come from `&`. A plain
+string token, like `true`/`false`: `identifier` carries `PREC.IDENTIFIER_TOKEN` of 0, so
+on an equal-length match tree-sitter prefers the string over the regex.
+
+It lives in `_primary_expr` and **nowhere else** — the partition rule above — which is
+also what puts it in every position it needs without naming any of them: `p == nullptr`
+reaches it through `_comparison_operand`'s `_postfix_expr`, an argument through the same.
+
+**Zero new states** (7899 → 7899), +89 KB of `parser.c`, all lex tables. Measured because
+this file says to. A literal in `_primary_expr` adds no derivation an operand position has
+to choose between, which is why it is free where juxtaposition cost 19%.
+
+**`let nullptr = 5` parses, and that is not a bug here.** tree-sitter lexes against the
+tokens valid in the current parse state, so in *name* position the string is an ordinary
+identifier — the same context-sensitivity that keeps `let type = 5` and `let extern = 5`
+legal, and that the *Foreign functions* section above records as "the `reserved` block
+reserves nothing". What makes this one different is that the binding could never be
+**read**, since every later mention sits in value position where the literal is valid, so
+the Go collector refuses it (`lyra-E070`). A *parameter* of the name is already a syntax
+error, because parameter position admits the literal and `: i64` then does not fit.
+
+Both highlight query files capture it — `@constant.builtin` for nvim, `@constant` for Zed
+— styled with the literals rather than as a keyword, the call every language makes for
+`true`/`false`.
+
+Corpus: the four `null pointer` tests in `test/corpus/expressions/unsafe.txt`, including
+the one pinning the name-position reading a careless change here would invert.
 
 ## Type Aliases vs `newtype`
 

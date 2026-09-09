@@ -63,6 +63,7 @@ module.exports = {
     $.raw_string_literal,
     $.char_literal,
     $.boolean_literal,
+    $.nullptr_literal,
     $.array_literal,
     // The repeat form is the comma form's variant and is a head for the same reason
     // (08/28): `["x"; 3].join("-")` must parse where `["x", "x"].join("-")` does. Moved
