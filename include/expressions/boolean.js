@@ -94,6 +94,7 @@ module.exports = {
       $._postfix_expr,
       $._math_expr,
       $.address_of_expr,
+      $.unsafe_block,
     ),
 
   // Keep these for backwards compatibility if used elsewhere

@@ -253,3 +253,27 @@ let nullptr = 5
     (identifier)
     (integer_literal
       (decimal_int))))
+
+=====================================
+An unsafe block is a comparison operand
+=====================================
+
+let ok = unsafe { init(flags) } != 0
+
+---
+
+(program
+  (declaration
+    (identifier)
+    (boolean_expr
+      (unsafe_block
+        (block
+          (expression_statement
+            (call_expr
+              (identifier)
+              (argument_list
+                (value
+                  (identifier)))))))
+      (not_equals_operator)
+      (integer_literal
+        (decimal_int)))))

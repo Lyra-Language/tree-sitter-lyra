@@ -85,7 +85,7 @@ import std.collections.{ HashMap as HM, Set }
         (importable_name
           (user_defined_type_name))
         (alias_name
-          (user_defined_type_name)))
+          (const_identifier)))
       (import_member
         (importable_name
           (user_defined_type_name))))))
@@ -136,7 +136,7 @@ import math.{ sin, cos, PI }
           (identifier)))
       (import_member
         (importable_name
-          (user_defined_type_name))))))
+          (const_identifier))))))
 
 ==========================
 Public Function Definition
@@ -276,3 +276,47 @@ let helper = () -> void => 42
         (void_type))
       (integer_literal
         (decimal_int)))))
+
+==========================
+A constant is importable
+==========================
+
+import lib.{ MAX_SIZE, Point, helper }
+
+---
+
+(program
+  (import_statement
+    (module_path
+      (module_name))
+    (import_members
+      (import_member
+        (importable_name
+          (const_identifier)))
+      (import_member
+        (importable_name
+          (user_defined_type_name)))
+      (import_member
+        (importable_name
+          (identifier))))))
+
+==========================
+A module declaration takes attributes
+==========================
+
+@link("SDL3")
+module bindings.sdl3
+
+---
+
+(program
+  (module_declaration
+    (attribute_list
+      (attribute
+        (identifier)
+        (attribute_args
+          (string_literal
+            (string_content)))))
+    (module_path
+      (module_name)
+      (module_name))))

@@ -455,6 +455,10 @@
       "required": true,
       "types": [
         {
+          "type": "const_identifier",
+          "named": true
+        },
+        {
           "type": "identifier",
           "named": true
         },
@@ -1741,6 +1745,10 @@
             "named": true
           },
           {
+            "type": "unsafe_block",
+            "named": true
+          },
+          {
             "type": "user_defined_type_name",
             "named": true
           }
@@ -1922,6 +1930,10 @@
           },
           {
             "type": "tuple_literal",
+            "named": true
+          },
+          {
+            "type": "unsafe_block",
             "named": true
           },
           {
@@ -4533,6 +4545,10 @@
       "required": true,
       "types": [
         {
+          "type": "const_identifier",
+          "named": true
+        },
+        {
           "type": "identifier",
           "named": true
         },
@@ -5333,6 +5349,16 @@
     "type": "module_declaration",
     "named": true,
     "fields": {
+      "attributes": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "attribute_list",
+            "named": true
+          }
+        ]
+      },
       "path": {
         "multiple": false,
         "required": true,

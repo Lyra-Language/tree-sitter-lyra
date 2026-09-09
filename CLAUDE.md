@@ -569,6 +569,44 @@ cannot recover.
 Corpus: `test/corpus/types/union.txt`, including the `:error` test that an empty body does
 not parse.
 
+## Two operand/name widenings, both found by writing a binding module
+
+**An `unsafe` block is a comparison operand** (`_comparison_operand`, boolean.js).
+`unsafe { f() } != 0` parses. **+49 states**, no new conflicts, corpus clean.
+
+It was left out deliberately at first and added when the arithmetic changed: in an example
+the workaround is one `let` per call, while in `lyra/bindings/sdl3` *every* wrapper over a
+C predicate is that shape, so it was about to be repeated a dozen times in the one file
+whose job is to stop callers repeating things. This is the finely-balanced operand region,
+so the check was the corpus rather than the generator's silence.
+
+**A constant is importable** (`importable_name`, modules/index.js). `const_identifier`
+joined `identifier` and `user_defined_type_name`; **zero new states**.
+
+Without it `import lib.{ INIT_VIDEO }` lexed as the type name `INIT` followed by a stray
+`_VIDEO` — a syntax error pointing at an underscore, for a name the module genuinely
+exports. A `pub const` was exportable and unimportable.
+
+The two patterns overlap on an all-caps name with no underscore (`MAX` matches both), and
+that tie is **lexical** — settled by token precedence, not reachable by a `conflicts:`
+entry, the same situation `literals/struct.js` records for a struct literal's type name.
+Two corpus expectations shifted rather than broke: an all-caps alias (`HashMap as HM`) and
+`math.{ …, PI }` now lex as `const_identifier`, which for `PI` is the more accurate
+reading.
+
+## A module declaration takes attributes
+
+`@link("SDL3")` above the `module` line, where attributes lead a `struct` and an `extern`
+too. **+3 states.**
+
+The fact is the module's rather than each declaration's: a binding module links one library
+and declares a dozen externs against it, so `lyra/bindings/sdl3` carried fourteen
+`@link("SDL3")` lines. The per-extern form stays legal — a lone `extern` in a module-less
+program has no header to put it on — and the Go driver unions the two.
+
+The grammar admits *any* attribute here; the collector refuses everything but `@link` by
+name, which is the admit-then-report trade the extern modifiers already make.
+
 ## Type Aliases vs `newtype`
 
 Two declarations that look alike and mean opposite things:
