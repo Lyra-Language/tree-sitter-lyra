@@ -14,6 +14,18 @@ pub tuple Pair<t>(t, t)
 newtype Volume = u8 where range(0..<=100)
 type Op = ((i64, i64)) -> i64
 
+/// A documented union — every member sits at offset 0.
+pub union Ev {
+  /// The tag member, which says who else is live.
+  kind: u32,
+  /// A struct member, the shape every real C union takes.
+  user: Node,
+  /// An array member, which is what fixes the size.
+  padding: [128]u8,
+}
+
+union Bits { whole: u32, bytes: [4]u8 }
+
 trait Area {
   pure area: (Self) -> f64
 }
@@ -42,6 +54,9 @@ let main = () -> u8 => {
   let neg = !ok
   let p = Pair(1, 2)
   let v = n.value
+  let e = Ev { user: n }
+  let k = unsafe { e.kind }
+  let byte = unsafe { Bits { whole: 0xdeadbeef }.bytes[3] }
   print(s)
   u8(total)
 }
@@ -49,4 +64,5 @@ let main = () -> u8 => {
 let check = (p: ^u8) -> bool => p == nullptr
 let none: ^i64 = nullptr
 
-union Ev { kind: u32, code: i64 }
+let tag = pure (e: Ev) -> u32 => unsafe { e.kind }
+let deref = pure (p: ^mut Ev) -> u32 => unsafe { p^.kind }
