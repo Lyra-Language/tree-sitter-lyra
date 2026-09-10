@@ -918,6 +918,10 @@
             "named": true
           },
           {
+            "type": "identifier",
+            "named": true
+          },
+          {
             "type": "integer_literal",
             "named": true
           },

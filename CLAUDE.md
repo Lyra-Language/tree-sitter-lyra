@@ -594,6 +594,26 @@ Two corpus expectations shifted rather than broke: an all-caps alias (`HashMap a
 `math.{ …, PI }` now lex as `const_identifier`, which for `PI` is the more accurate
 reading.
 
+## An attribute argument may be a lowercase name
+
+`attribute_args` is a `choice` of `_number_literal | user_defined_type_name |
+string_literal | identifier`. The fourth arrived with `@must_release(unload_sound)` at
+**zero new states**.
+
+It is free because `identifier` is lowercase/underscore-leading and
+`user_defined_type_name` is capital-leading, so the two are **lexically disjoint** and no
+state has to choose between them — the same reason `nullptr` cost nothing and juxtaposition
+cost 19%.
+
+**Why a name and not a string, given `@link("SDL3")` is right there.** The existing string
+arguments are *foreign* text: `@link`'s is the linker's, `@symbol`'s is C's, and both are
+taken verbatim precisely because anything the compiler did to them would be a mangling the
+header does not know about. `@must_release`'s argument names a function in **Lyra's own**
+namespace, which the Go side resolves through the module system from the declaring type's
+location. Spelling it as a string would say it does not resolve.
+
+Corpus: `An attribute argument may be a lowercase name` in `test/corpus/types/struct.txt`.
+
 ## A module declaration takes attributes
 
 `@link("SDL3")` above the `module` line, where attributes lead a `struct` and an `extern`

@@ -201,6 +201,29 @@ Packed struct attribute
           (field_type
             (unsigned_integer_type)))))))
 
+=============================================
+An attribute argument may be a lowercase name
+=============================================
+
+@must_release(unload_sound) struct Sound { frame_count: u32 }
+
+---
+
+(program
+  (type_declaration
+    (struct_type
+      (attribute_list
+        (attribute
+          (identifier)
+          (attribute_args
+            (identifier))))
+      (struct_name)
+      (struct_type_body
+        (struct_member
+          (field_name)
+          (field_type
+            (unsigned_integer_type)))))))
+
 ==========================
 Align struct attribute
 ==========================
