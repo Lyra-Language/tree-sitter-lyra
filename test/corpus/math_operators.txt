@@ -280,3 +280,63 @@ let c = -Cents(1)
         (tuple_value
           (integer_literal
             (decimal_int)))))))
+
+==========================================
+Compound assignment with a block-bodied right side
+==========================================
+
+x += if wide { 1 } else { 2 }
+x += match wide { true => 1, false => 2 }
+counts[i].n += if wide { 1 } else { 2 }
+
+---
+
+(program
+  (expression_statement
+    (compound_assignment
+      left: (identifier)
+      operator: (add_assign_operator)
+      right: (if_block_expr
+        condition: (identifier)
+        then_block: (block
+          (expression_statement
+            (integer_literal
+              (decimal_int))))
+        else_branch: (block
+          (expression_statement
+            (integer_literal
+              (decimal_int)))))))
+  (expression_statement
+    (compound_assignment
+      left: (identifier)
+      operator: (add_assign_operator)
+      right: (match_expr
+        value: (identifier)
+        (match_arm
+          pattern: (literal_pattern
+            (boolean_literal))
+          body: (integer_literal
+            (decimal_int)))
+        (match_arm
+          pattern: (literal_pattern
+            (boolean_literal))
+          body: (integer_literal
+            (decimal_int))))))
+  (expression_statement
+    (compound_assignment
+      left: (member_expr
+        object: (index_expr
+          object: (identifier)
+          index: (identifier))
+        property: (identifier))
+      operator: (add_assign_operator)
+      right: (if_block_expr
+        condition: (identifier)
+        then_block: (block
+          (expression_statement
+            (integer_literal
+              (decimal_int))))
+        else_branch: (block
+          (expression_statement
+            (integer_literal
+              (decimal_int))))))))

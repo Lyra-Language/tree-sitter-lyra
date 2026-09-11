@@ -131,7 +131,27 @@ module.exports = {
             $.shr_assign_operator,
           ),
         ),
-        field("right", $._math_operand),
+        // The right side takes what `=`'s does, minus the ambiguity: a compound
+        // assignment is the shorter spelling of `place = place op rhs`, so refusing
+        // what that statement accepts makes the two differ by spelling alone —
+        // `total += if wide { 2 } else { 1 }` was a syntax error while the long form
+        // parsed. The *left* stays a `_math_operand`: it is a place, not a value.
+        //
+        // Listed as the block-bodied forms rather than as `$.expression` because the
+        // operand tier is what keeps `x += 1 + 2` unambiguous — with the whole
+        // expression here, the `+ 2` could attach to either operator (grammar.js's
+        // `[expression, _math_operand]` conflict is that race, one level up). None of
+        // these can begin an arithmetic operand, so none of them races with it.
+        field(
+          "right",
+          choice(
+            $._math_operand,
+            $.if_block_expr,
+            $.match_expr,
+            $.block,
+            $.unsafe_block,
+          ),
+        ),
       ),
     ),
 

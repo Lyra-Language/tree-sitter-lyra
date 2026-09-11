@@ -2714,8 +2714,29 @@
             "type": "FIELD",
             "name": "right",
             "content": {
-              "type": "SYMBOL",
-              "name": "_math_operand"
+              "type": "CHOICE",
+              "members": [
+                {
+                  "type": "SYMBOL",
+                  "name": "_math_operand"
+                },
+                {
+                  "type": "SYMBOL",
+                  "name": "if_block_expr"
+                },
+                {
+                  "type": "SYMBOL",
+                  "name": "match_expr"
+                },
+                {
+                  "type": "SYMBOL",
+                  "name": "block"
+                },
+                {
+                  "type": "SYMBOL",
+                  "name": "unsafe_block"
+                }
+              ]
             }
           }
         ]
