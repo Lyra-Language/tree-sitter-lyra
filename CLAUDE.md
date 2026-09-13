@@ -1,127 +1,81 @@
 # tree-sitter-lyra — Project Context
 
-This is the tree-sitter grammar for the Lyra programming language. It produces a C parser (`src/parser.c`) consumed via CGO by the sibling `lyra/` Go project.
+The tree-sitter grammar for Lyra. Produces `src/parser.c`, consumed via CGO by the sibling `lyra/` Go project.
 
-**This file records rules, not history.** Each section says what holds today and what breaks if it is changed; the dated account of how a rule came about lives in `lyra/COMPLETED.md`, and open work in `todo.md`.
-
-## Key Files
-
-```
-grammar.js               — entry point; spreads all rule modules
-include/                 — grammar rule modules (see Architecture below)
-src/parser.c             — generated; do not edit by hand
-src/scanner.c            — hand-written external scanner (string interpolation, block
-                           comments, the statement terminator)
-test/corpus/**/*.txt     — all parser corpus tests
-queries/highlights.scm   — tree-sitter syntax highlight queries (minimal, WIP)
-```
+This file records rules, not history: how a rule came about lives in `lyra/COMPLETED.md`, open work in `todo.md`.
 
 ## Commands
 
 ```bash
-npx tree-sitter generate             # regenerate src/parser.c from grammar.js
-npx tree-sitter test                 # run all corpus tests
-npx tree-sitter test --include "Test Name"  # run a single test by name
+npx tree-sitter generate                      # regenerate src/parser.c
+npx tree-sitter test                          # all corpus tests
+npx tree-sitter test --include "Test Name"    # one test
+npx tree-sitter generate --report-states-for-rule -   # per-rule state attribution
 ```
 
-**Always run `npx tree-sitter generate` before `npx tree-sitter test` after changing any `.js` grammar file.**
+- **Always `generate` before `test`** after changing any grammar `.js` file.
+- After regenerating, `lyra/` needs **`go clean -cache`** before `go test`, or Go serves the stale compiled parser.
+- **Verify against the corpus and the Go suite, not generation warnings.** In the conflict-heavy regions below, tree-sitter reports load-bearing conflict entries as "unnecessary" (and vice versa).
 
-After regenerating, the sibling Go project also needs `go clean -cache` before `go test` — otherwise Go's build cache serves the stale compiled parser.
+## Layout
 
-**Verify a grammar change against the corpus, not against generation warnings**, and run the sibling Go suite too. In the conflict-heavy regions below, tree-sitter has reported load-bearing conflict entries as "unnecessary" and vice versa, and at least one breakage was caught only by the Go suite.
-
-## Architecture
-
-`grammar.js` imports and spreads rule modules from `include/`:
-
-| Module path | Handles |
+| Path | Handles |
 |---|---|
-| `include/expressions/` | all expressions (math, boolean, postfix, lambdas, match, if, range, array comprehensions, async/await, compose `->>`), string interpolation |
+| `include/expressions/` | expressions (math, boolean, postfix, lambdas, match, if, range, comprehensions, async/await, compose `->>`), string interpolation |
 | `include/expressions/functions.js` | function/lambda definitions, guards |
-| `include/types/` | `struct`, `data`, `tuple`, `newtype`, `type` aliases, trait declarations, trait implementations, generics, `where` clauses, allocation modifiers |
-| `include/statements/` | assignments (`let`/`var`/`const`, `(a, b) = …` tuple assignment), math-assign ops (`+=`, etc.), `for`, `for-in`, `arena`/`with`, `return`/`break`/`continue` |
-| `include/literals/` | struct literals, tuple literals, array literals |
-| `include/literals/numbers.js` | integer (decimal, hex `0x`, binary `0b`, octal `0o`), float |
-| `include/patterns/` | destructuring patterns used in `match` arms and `if let` |
-| `include/destructuring/` | destructuring declarations (`let {x, y} = ...`) |
-| `include/modules/` | `module` declarations, `import` statements |
-| `include/attributes.js` | `@attr` / `@attr(args)` attribute syntax |
-| `include/comments.js` | `//` line comments, `///` doc comments, `//!` inner doc comments, `/* */` block comments |
-| `include/helpers.js` | shared utilities: `commaSep1`, `commaSep`, `memberList`, `statementList`, `parameterList`, `rangeBounds` |
-| `include/prec.js` | all `PREC.*` operator precedence constants |
-
-## Grammar Configuration
+| `include/types/` | `struct`, `data`, `tuple`, `newtype`, `union`, `type` aliases, traits, impls, generics, `where`, allocation modifiers |
+| `include/statements/` | `let`/`var`/`const`, tuple assignment, compound assignment, `for`/`for-in`, `arena`/`with`, jumps, `extern` |
+| `include/literals/` | struct, tuple, array literals; `numbers.js` (dec/`0x`/`0b`/`0o`, float), `regex.js`, `nullptr.js` |
+| `include/patterns/` | patterns for `match` arms and `if let` |
+| `include/destructuring/` | destructuring declarations |
+| `include/modules/` | `module`, `import` |
+| `include/attributes.js` | `@attr` / `@attr(args)` |
+| `include/comments.js` | `//`, `///`, `//!`, `/* */` |
+| `include/helpers.js` | `commaSep1`, `commaSep`, `memberList`, `statementList`, `parameterList`, `rangeBounds` |
+| `include/prec.js` | all `PREC.*` constants |
+| `src/parser.c` | generated — never edit by hand |
+| `src/scanner.c` | external scanner: string interpolation, block comments, statement terminator |
+| `test/corpus/**/*.txt` | corpus tests |
+| `queries/highlights.scm` | highlight queries (nvim capture names; WIP) |
 
 ```js
 supertypes: [$.expression, $.statement, $.pattern, $.type]
-extras:     [/\s/, $.doc_comment, $.inner_doc_comment, $.comment]   // whitespace and comments ignored everywhere
+extras:     [/\s/, $.doc_comment, $.inner_doc_comment, $.comment]
 externals:  [$._BLOCK_COMMENT, $._string_start, $._string_content,
              $._interpolation_start, $._interpolation_end,
              $._string_end, $._raw_string_literal, $._newline]
 ```
 
-The external scanner (`src/scanner.c`) handles block comments, the string interpolation protocol, and the statement terminator, because these require stateful or context-sensitive lexing that tree-sitter's declarative DSL cannot express.
+## Parser Size
+
+`src/parser.c` is ~15 MB (~8,000 states). If it grows unexpectedly, run `--report-states-for-rule -` first.
+
+- **Never stack independent `optional()` modifiers before a name or parameter list.** Seven stacked optionals in `lambda_expr` made 62,663 states / 116 MB (and broke `let x = 42`); `repeat1(choice(…))` (`fn_modifiers`) made it 6,475. Order and duplicates are the collector's to report (`lyra-E029`). The same applies to `extern`'s modifiers and to the `let` sugar.
+- `parser.c` is ordinary tracked text, not Git LFS. Do not re-add the LFS filter without re-measuring.
+- Juxtaposition (+19%) and bitwise operators (+1,576 states) are the expensive features. A token lexically disjoint from its neighbours, or a node added to `_primary_expr` only, is usually free.
+- **If a `conflicts:` entry changes no state count and fixes no test, the ambiguity is lexical** — fix it with a token, not a conflict.
 
 ## Statement Terminators
 
-**A line break ends a statement; `;` is the explicit form** for putting several on one line. Statements are a separated list (`statementList` in `include/helpers.js`, used by `block` and `program`), with the separator after the last one optional.
+A line break ends a statement; `;` is the explicit form. `statementList` (used by `block` and `program`) is a separated list with an optional trailing separator. Without it, `let b = a` ⏎ `-2`, `let f = add3` ⏎ `(4)` and `let n = xs` ⏎ `[1]` would each silently be one statement.
 
-Without a terminator the parser is maximally greedy and a line break means nothing, so all three of these are *one* statement (`a - 2`, `add3(4)`, `xs[1]`) with no diagnostic:
+- **The scanner asks the parser.** `scan_newline` only runs where `valid_symbols[NEWLINE]` is set, i.e. where a terminator is grammatical — so trailing-operator continuation (`1 +` ⏎ `2`) needs no rule.
+- **Continuation tokens** (a line starting with one continues the previous statement): `.`, `|`, `else`, `where`. **Rule: only a token that cannot begin a statement may be added.** `-`, `(`, `[`, `*` must never be.
+- **Comments:** a trailing comment does not suppress its line's terminator; a whole-line comment (line or block) does not break a continuation (`data Dir =` / `North` / `/// doc` / `| South`). `scan_newline` skips whole-line comments without consuming them (returns false → tree-sitter re-lexes, so the comment remains an extra node the Go doc attachment needs). Both pinned in `test/corpus/comments.txt` — **keep both tests**.
+- Known gap: a block comment holding the only newline (`a = 1 /*` ⏎ `*/ b = 2`) joins the statements.
+- **`memberList`** (trait/impl methods) and struct *declaration* fields (`struct_type_body`, `anonymous_struct_type`) take `_statement_separator` too; commas still work, the list stays non-empty (`trait C { , }` is an error). Struct **literal** fields (`struct_fields`) still require commas — they sit inside the literal-vs-block conflict; changing that needs its own measurement.
+- **Comment scanning is gated on `!in_string(scanner)` — do not remove.** Otherwise a string whose content chunk begins with `/*` (after the quote, after `${…}`, or after leading whitespace) lexes as a comment to the next `*/` in the file, silently. Interpolations (`CTX_INTERPOLATION`) are not "in string", so comments still work there. Pinned in `test/corpus/literals/string.txt`.
 
-```
-let b = a          let f = add3        let n = xs
--2                 (4)                 [1]
-```
-
-**The scanner asks the parser, not a token table.** `scan_newline` only runs where `valid_symbols[NEWLINE]` is set, and tree-sitter sets it exactly in states where the grammar accepts a terminator. So a newline inside an unfinished expression never reaches the scanner, and trailing-operator continuation (`let a = 1 +` ⏎ `2`) works with no rule of its own. Go needs its list of "tokens that may end a statement" because its insertion happens in the lexer, where there is no parse state to consult.
-
-What the scanner *does* decide is the forward half — a line beginning with something that continues the previous statement. **The rule for what may go on that list: a token that cannot begin a statement.** That is what makes suppression safe; if a line could not have been a new statement, treating it as a continuation cannot hide a misparse. Currently `.` (method chains), `|` (leading-bar `data` declarations), and the keywords `else` and `where`. Deliberately **not** on it: `-`, `(`, `[`, `*` — each can start a statement, and treating them as continuations is the exact bug above.
-
-**A trailing comment does not suppress its line's terminator; a comment on a line of its own does not break a continuation.** `a = 1 // note` reaches `scan_newline` with no newline seen yet, so it returns early and tree-sitter's lexer takes the comment as an extra. `scan_newline` skips whole-line comments (line and block) before testing for a continuation, which is what keeps this parsing:
-
-```lyra
-data Dir =
-  North
-  /// Towards the bottom of the map.
-  | South
-```
-
-Skipping is safe because nothing is consumed for real: on a continuation the function returns false and tree-sitter re-lexes from the token start, so the comment still becomes an ordinary extra node — which the Go side's doc-comment attachment depends on. On a terminator, `mark_end` has already fixed the token's end before the comment. Pinned by `A comment on its own line does not break a continuation` and its trailing-comment twin in `test/corpus/comments.txt`; **keep both**, since the fix and the thing it must not break are one line apart in the scanner.
-
-Known gap: a *block* comment holding the only newline (`a = 1 /*` ⏎ `*/ b = 2`) joins the two statements.
-
-**Member lists take the same terminator** (`memberList`, `include/helpers.js`), so a trait's and an impl's methods may be written one per line as well as comma-separated. The separator is `_statement_separator` rather than a bare `_newline`, so `;` works here too. Commas keep working, including mixed with newlines and as a trailing separator, and the list itself stays non-empty — `trait C { , }` is a syntax error. A signature wrapped across lines is unaffected, for the reason the scanner section gives.
-
-**A struct declaration's fields take it too** (`struct_type_body`, `anonymous_struct_type`). A struct **literal**'s fields deliberately still require commas (`struct_fields`, `include/literals/struct.js`): that list sits inside the literal-vs-block ambiguity the conflict notes below describe, so a newline separator there is a question about that conflict rather than the same one-word change. It wants its own measurement, not this reflex.
-
-**Comment scanning is gated on `!in_string(scanner)` — do not remove that guard.** Comments are `extras`, so `BLOCK_COMMENT` is valid almost everywhere, including at every string content-chunk boundary, and the comment branch runs *before* the in-string branch. Unguarded, a string whose content began with `/*` lexed as a comment running to the next `*/` **anywhere later in the file**, and no later pass reported anything (`lyrac check` exited 0). It fires wherever a fresh content chunk starts: after the opening quote, right after a `${…}` interpolation, and — since `scan_block_comment` skips leading whitespace as token padding — after a leading space. An *interpolation* is an expression context where comments remain valid, and `in_string()` is false for `CTX_INTERPOLATION`, which is exactly the line this guard draws. Coverage: the comment-delimiter tests in `test/corpus/literals/string.txt`.
-
-## Three Comment Tokens, Settled by Token Precedence (`include/comments.js`)
+## Comment Tokens (`include/comments.js`)
 
 ```
-/// x    doc_comment        prec 1   documents the declaration below it
-//! x    inner_doc_comment  prec 1   documents the module the file belongs to
-//// …   comment            prec 2   a divider rule, deliberately NOT documentation
+/// x    doc_comment        prec 1   documents the declaration below
+//! x    inner_doc_comment  prec 1   documents the module
+//// …   comment            prec 2   divider, NOT documentation
 // x     comment            prec 0
 ```
 
-All four share the `//` prefix, so **every one is decided by explicit token precedence, not by match length** — tree-sitter compares precedence first, which is the only reason `/// x` is not simply eaten by the longer `comment` match. Both doc tokens are in `extras` so they may appear anywhere; `//!` has to reach the top of a file, above the `module` line.
-
-**The divider needs the highest precedence of the four, and that is the subtle one.** Precedence outranking length cuts the wrong way for `////////`: `doc_comment` matches its first three characters at prec 1 and beats the whole-line `comment` at prec 0, so a rule line above a declaration silently becomes its documentation — or, once the remaining `/////` fails to lex, a syntax error pointing at a comment. Making `doc_comment` refuse a fourth slash is **not enough on its own**, for the same reason: the shorter high-precedence token still wins unless something outbids it. Both halves are needed — `doc_comment` excludes the fourth slash, and `comment` bids `prec(2)` for it.
-
-A bare `///` with nothing after it stays legal (it separates paragraphs inside a doc block), so the no-fourth-slash rule is a `choice` applying only to a line with content.
-
-Corpus: the four doc-comment tests in `test/corpus/comments.txt`, including `A divider rule is a comment, not a doc comment`, which inverts if the precedences are disturbed.
-
-## Regex Literals (`include/literals/regex.js`)
-
-A regex literal is **`r"…"`** — the `r` sigil plus *string* delimiters — as one `token(prec(1, …))` that outranks the bare identifier `r`.
-
-Slash delimiters (`r/…/`) cannot be disambiguated lexically: `r` is an ordinary identifier and `/` is division, so `let ratio = r/2 + a/b` lexes as a regex followed by a stray `b`, silently. The deciding context is arbitrarily far right and a regex may legally contain spaces, digits and operators, so no heuristic on the content separates the readings.
-
-**The property this depends on:** a `"` cannot follow a **lowercase** `identifier` in any valid Lyra expression, so `r"` can only begin a regex and `r/2` is unambiguously division. Juxtaposition means a `"` *can* follow an **uppercase** name (`Some "hi"`), but `identifier` is lowercase-leading by lexer rule and a constructor name is not. **If juxtaposition is ever extended to lowercase names, this rationale dies with it.** Newlines stay excluded from the content classes, so an unterminated literal degrades to an identifier plus an unterminated string — a loud parse error — instead of consuming the file. The delimiter escapes as `\"`.
-
-Don't delete the rule as "unused": it backs `pattern(r"…")` constraints on `newtype` (`include/types/constrained_type.js`) and `regex_pattern` in match arms, and the constraint path is implemented downstream (`lyra/pkg/regex` is a full DFA engine). Only the match-arm *pattern* form is unlowered in the backend.
+All share `//`, so they are decided by **token precedence, not match length**. The divider needs both halves: `doc_comment` refuses a fourth slash **and** `comment` bids prec 2 for it — otherwise `////////` becomes a doc comment or a syntax error. A bare `///` stays legal (paragraph break), so the no-fourth-slash rule applies only to a line with content. Pinned by `A divider rule is a comment, not a doc comment`.
 
 ## Reserved Keywords
 
@@ -132,510 +86,167 @@ stack  shared  weak  with  pure  det  noalloc  gen  rec  yield
 fixed  unsafe  mut  ref  own  void
 ```
 
-`nullptr` is a keyword too, but only in **value** position, and it is enforced by the
-lexer rather than by this list — see its own section below for why `let nullptr = 5`
-still parses and what refuses it.
-
-`rec` is reserved so it can lead a function-definition binding's name — it is one of the seven `fn_modifiers`, so `let rec = 5` and `foo(rec)` do not parse.
-
-Effect bounds on functions/methods: `pure` (no observable effect), `det` (deterministic — permits mutation/allocation, forbids ambient rand/time/io), and `noalloc` (heap-allocation-free, orthogonal — stacks with any purity rung). All three are `optional(field(...))` modifiers in `lambda_expr`, `trait_method_implementation`, and — leading the name — a `trait_method` *declaration* (`trait Show { pure show: (Self) -> string }`, a contract every impl must satisfy). Mutual exclusion of `pure`/`det` is a checker rule, not a grammar one (`checker/effect_bounds.go`, `lyra-E015`).
+- **The `reserved` block enforces nothing**: `let with = 5` and `let yield = 5` parse. (`let unsafe = 5` is refused by `declaration`'s modifier-led arm; `let rec = 5` because `rec` is in `fn_modifiers`.) Adding a word to the list does nothing on its own.
+- `type`, `extern` and `nullptr` are keywords only in their positions; `let type = 5` / `let extern = 5` parse and must keep parsing. `let nullptr = 5` parses too and is refused by the collector (`lyra-E070`).
+- `pure`/`det`/`noalloc` are accepted on `lambda_expr`, `trait_method_implementation`, leading a `trait_method` name, and on `lambda_type`; `pure`+`det` exclusion is a checker rule (`lyra-E015`).
 
 ## Known GLR Conflicts
 
-Several ambiguities are resolved at parse time via GLR (listed in the `conflicts:` array of `grammar.js`):
+Listed in `grammar.js`'s `conflicts:` array:
 
-- `named_struct_literal` vs `_tuple_name` vs `_primary_expr` — `Point { ... }` could be a struct literal or an identifier followed by a block
-- `_primary_expr` vs `data_pattern` — a capitalized name in expression vs pattern position
-- `expression` vs `_math_operand` / `_bool_operand` / `_comparison_operand` — operator precedence lookahead conflicts
-- `result_expr` vs `_primary_expr` — inside an array comprehension, `[ Node { n: x } for x in xs ]`'s literal is both the result and a primary expression
+- `named_struct_literal` / `_tuple_name` / `_primary_expr` — `Point { … }` literal vs name + block
+- `_primary_expr` / `data_pattern` — capitalized name in expression vs pattern position
+- `expression` / `_math_operand` / `_bool_operand` / `_comparison_operand` — precedence lookahead
+- `result_expr` / `_primary_expr` — a struct literal in a comprehension result (generation *fails* without it)
 - `for_loop` / `for_in_loop` with and without a label
 - `pattern` / `_primary_expr` / `data_pattern` vs a name-leading `(…)`
-- `_primary_expr` vs `rest_pattern` — `[...xs, 1]` is a spread *expression* in an array
-  literal or a rest *pattern* in an array destructuring, both spelled `'...' identifier`,
-  and only what follows the list decides. It became a conflict on 08/27 when
-  `spread_expr`'s operand widened from the `identifier` **token** to the postfix tier: with
-  both readings holding the token directly the reduction could be deferred, and with one of
-  them wrapping it the parser has to commit. **+9 states (+0.1%)** for the widening and the
-  entry together — measured, as this region's note says to.
+- `_primary_expr` / `rest_pattern` — `[...xs, 1]` spread vs rest pattern, decided after the list
+- `_primary_expr` vs `literal_pattern`, `_signed_number_literal`, `_negated_number_literal` — `('a', 'b')`, `(1, 2)`, `(-1, 2)` as lambda params vs tuple
+- `expression` / `_signed_number_literal` and `_math_operand` / `_negated_number_literal` — signed pattern literals
+- entries for `|` as struct-update separator (`Player { base | f: v }`) and both comprehension uses; only the token after `|` decides
+
+Entries generation calls "unnecessary" here are left in place deliberately.
 
 ### A name-leading `(…)` has three readings
 
-`(a, b)`, `(a)` and `(None, 7)` can each begin a **lambda parameter list** (`(a, b) => …`), an **anonymous tuple**, or a **parenthesized expression**. A bare `identifier` is both a `pattern` and a `_primary_expr`; a bare capitalized name is both a nullary `data_pattern` and a `_primary_expr`. GLR must keep both alive until `=>` (or its absence) decides. Two pieces are required, and dropping either breaks name-leading tuple literals entirely:
+`(a, b)`, `(a)`, `(None, 7)` may each begin a lambda parameter list, an anonymous tuple, or a parenthesized expression; `=>` decides. Both are required, or name-leading tuple literals break:
 
-1. the `[pattern, _primary_expr]`, `[pattern, for_loop, for_in_loop]` and `[_primary_expr, data_pattern]` conflict entries, **and**
-2. `pattern`/`data_pattern` restructured so the **bare-name alternative sits outside** `prec.left(PREC.PATTERN)` / `prec.left(PREC.DATA_PATTERN)` — otherwise the higher pattern precedence silently resolves the reduce-reduce toward the pattern and the conflict entry is reported "unnecessary". A payload-bearing `data_pattern` (`Some(x)`) keeps `PREC.DATA_PATTERN`, since it must still beat the constructor-call expression reading.
+1. the `[pattern, _primary_expr]`, `[pattern, for_loop, for_in_loop]` and `[_primary_expr, data_pattern]` entries, **and**
+2. the **bare-name alternative of `pattern`/`data_pattern` sits outside** `prec.left(PREC.PATTERN)` / `prec.left(PREC.DATA_PATTERN)`, or precedence resolves toward the pattern statically. A payload-bearing `data_pattern` (`Some(x)`) keeps `PREC.DATA_PATTERN`.
 
-`tuple_pattern` is **anonymous-only** — it must not carry a leading name. It once did, aliased from `$.identifier`, which no legal program could use (a named tuple type is PascalCase, `identifier` is lowercase-leading) but which outbid the expression reading of the same tokens, so **a call could not be the first thing inside parentheses**: `(f(7))`, `(f(7), 1)` and `((f(7)), 1)` were syntax errors while `(1, f(7))` was fine.
+`tuple_pattern` is **anonymous-only**; a leading name on it outbids the expression reading and makes `(f(7), 1)` a syntax error.
 
 ### A struct literal is a postfix head
 
-`Node { n: 7 }.n`, `Node { n: 7 }.a()` and `Grid { cells: […] }.cells[0]` parse — `named_struct_literal` is in `_primary_expr` (`include/expressions/postfix.js`), the head of every postfix form. It needs the `[$.result_expr, $._primary_expr]` conflict entry; generation *fails* without it, so it is not the unreliable "unnecessary conflict" kind.
+`named_struct_literal` is in `_primary_expr`, so `Node { n: 7 }.n` parses. Lyra needs no "no struct literal in an `if` header" rule: GLR keeps both readings and **the brace's contents decide** (`{ n: 7 }` fields → literal, `{ 1 }` statement → block). This works only because `named_struct_literal` is a choice of two alternatives with different precedence kinds:
 
-**Lyra needs no "no struct literal in an `if` header" rule**, which both Rust and Go impose. There the `{` of `if Node { n: 7 }.n > 0 {` cannot be told from the body's opening brace. Here GLR keeps both readings alive and **the brace's contents decide**: `{ n: 7 }` holds fields, so it is a struct body; `{ 1 }` holds a statement, so it is a block.
+- **With generic args** (`Point::<f64> { … }`) the rival is `_tuple_name`; static `prec`, with `PREC.TUPLE_NAME == PREC.STRUCT_LITERAL` on purpose so `{` vs `(` decides.
+- **Without** the rival is name + block (`if Point { 1 }`); this alternative uses `prec.dynamic`.
 
-**That only works because `named_struct_literal` is a choice of two alternatives with different precedence *kinds*.** The name is contested by two rivals wanting opposite resolutions:
+Don't: wrap the whole rule in `prec.left` (breaks `if Point { 1 } else { 0 }`), make the whole rule dynamic (breaks `Point::<f64> { … }`), or make `_tuple_name` dynamic (breaks `(f(7), 1)`). Pinned by `A Name Followed by a Non-Struct Block Is a Block` and its twin (literals/struct.txt).
 
-- **With generic arguments** (`Point::<f64> { … }`) the rival is `_tuple_name` (`Point::<f64>(…)`). That contest is settled by the *static* precedence the two share — `PREC.TUPLE_NAME` and `PREC.STRUCT_LITERAL` are equal on purpose so neither wins outright and GLR decides on `{` vs `(`. This alternative keeps `prec`.
-- **Without them** the rival is the bare-name reading (`if Point { 1 }`). This alternative takes `prec.dynamic`, so it is not statically resolved and GLR settles it, with three declared conflicts.
+**Empty body `Person {}` is for the named form only** (`_literal_struct_body`, aliased to `struct_body` with no `struct_fields` child — the Go collector must nil-guard). An empty *anonymous* literal would be textually identical to an empty block. `if ready {}` still reads as condition + block since the literal reading leaves no body.
 
-A single `prec.left(PREC.STRUCT_LITERAL)` over the whole rule resolves the decision statically toward the struct, and `if Point { 1 } else { 0 }` becomes a syntax error; a conflict entry cannot fix that, because while the precedence is there the decision never becomes a conflict. Two dead ends not to repeat: putting the whole rule on `prec.dynamic` breaks the first contest (`Point::<f64> { … }` stops parsing), and making `_tuple_name` dynamic to match breaks parenthesized forms far afield, down to `(f(7), 1)` — its static precedence is load-bearing.
+### `::` is settled in the lexer
 
-Corpus: `A Name Followed by a Non-Struct Block Is a Block` and its type-name twin (literals/struct.txt) pin the reading a careless change here inverts.
+`trait_method_path` (`T::method`) and turbofish both start `T ::`; static resolution commits before `<` vs identifier is visible. **`"::<"` is one atomic token — keep it combined.**
 
-**An empty body (`Person {}`) is admitted for the *named* form only** (`_literal_struct_body`, 08/28, +22 states). That restriction is the whole care: `anonymous_struct_literal` is a bare `struct_body`, so admitting an empty one there would make every empty block `{}` an anonymous struct literal — the two readings would have identical text, which is the one case the brace's-contents rule above cannot settle. A named literal is safe because the *name* disambiguates instead of the contents, and `if ready {}` still reads as a condition and an empty block: GLR keeps both alive and only that reading completes, since an `if` body is mandatory and the literal reading dead-ends with nothing left to be the body. The empty alternative is aliased back to `struct_body`, so a consumer reads the same field and an empty body is simply one with no `struct_fields` child — which the Go collector must nil-guard (hazard 2: the accessor *hangs* rather than panicking). Corpus: the three `empty body` / `bare empty brace` tests.
+## Postfix Heads and the One-Derivation Rule
 
-Data values have **two spellings** and the grammar keeps them apart on purpose. Juxtaposition (`Some 42`, `Err -1`) is `data_constructor_expr`; the parenthesized form (`Some(42)`, `Rect(3, 4)`) parses as a named `tuple_literal`, and the Go typechecker resolves a tuple-literal name that is a data constructor to its data type. The collector erases the difference, so no pass after collection knows which was written.
+> **A node kind must have exactly one derivation path.** `expression` reaches `_literal` directly and `_postfix_expr` (→ `_primary_expr`); a kind in both is an unresolved reduce-reduce at every operand position.
 
-### `::` is settled in the lexer, not by GLR
+- **`tuple_literal` is in both `_literal` and `_primary_expr`** (so `Some(1).unwrap_or(0)` parses) — a real double derivation carried by conflict entries, the same exception as `named_struct_literal`. Consequently it must **not** be listed in `_math_operand`, which reaches it via `_postfix_expr`.
+- **Stay in `_literal` only:** `anonymous_struct_literal` (a bare `{` contests the block) and `regex_literal` (removing it from `_literal` leaves it reachable only as a constructor operand, and `let phone = r"…"` misparses).
+- **In `_primary_expr` only:** `array_literal`, `array_repeat_init`, `array_comp_expr`, `nullptr`, `group`. When a kind needs to become a head, **move** it rather than adding a second path (a move often shrinks the parser).
+- **`group` (`(x + y)`) is in `_primary_expr`, not `_math_expr`.** `(x)` is `parenthesized_expr`, a different node.
+- Operand rules must not list a literal *and* `_postfix_expr` that already reaches it: `_string_concat_operand`, `_math_operand`, `_not_operand`, `_bool_operand`, `_comparison_operand`.
+- `prec.right(PREC.LITERAL)` on `_literal` is what makes a plain literal outrank juxtaposition.
+- **Standing regression: `0 - 200` must be a `binary_expr` with `sub_operator`**, not `0` + dangling `negation(-200)`. Pinned by corpus and a `lyra` execution test.
 
-`trait_method_path` (`TraitName::method`) and turbofish generic args (`generic_arguments`) both start with `TypeName ::`. This is *not* resolvable via `conflicts:`/precedence — tree-sitter's static shift/reduce resolution commits to one production before either's deciding token (`<` vs an identifier) is visible, regardless of which side wins the precedence comparison. `generic_arguments` uses **`"::<"` as one atomic string token**, so ordinary maximal-munch picks the right token before the parser has to choose. **Keep the combined token** — splitting it back into two literals reintroduces the ambiguity.
+Corpus guards: `A comprehension is a postfix head` (expressions/array_comprehension.txt); `A literal is a postfix head`, `Literal heads do not disturb the readings they contest`, `A constructor call is a postfix head`, `A constructor head does not disturb the readings it contests` (expressions/postfix.txt); `A parenthesized expression is a postfix head`, `A constructor call is a math operand` (math_operators.txt). The constructor-head test pins `Some(42)` → `tuple_literal`, `Some 42` → `data_constructor_expr`, `Cents(150) + Cents(275)` → `binary_expr`, `(Some(x): Maybe<i64>) -> i64` → lambda with `data_pattern` parameter.
+
+## Juxtaposition (`data_constructor_expr`)
+
+`Some 42` is `data_constructor_expr`, `Some(42)` a named `tuple_literal`; the collector erases the difference. Depends on the statement terminator (else a nullary constructor eats the next statement). Costs +19% states — run `--report-states-for-rule -` before adding anything here.
+
+- **One operand, never curried** — no `Rect 3 4`. Parenthesized operands are outside `_constructor_value` so `Rect(3, 4)` stays a named `tuple_literal`.
+- **`Some -1` is `Some(-1)`**: a PascalCase name in expression position is always a constructor (`identifier` is lowercase-leading, `const_identifier` SCREAMING_CASE), so no subtraction reading exists. `MAX - 1` is arithmetic.
+- **The operand must be atomic** (literal, name, nullary constructor, negated literal, struct/array literal, another application). Admitting any postfix form (`call_expr`, `member_expr`, …) reaches `parenthesized_expr` and breaks `(Some(x): Maybe<i64>) -> i64`; no conflict entry fixes it.
+- `[_tuple_name, _primary_expr, data_pattern]` is load-bearing for the parameter case even if generation calls it unnecessary.
 
 ## Function-Definition Sugar (`declaration`, `include/statements/assignments.js`)
 
-A function is a `let`/`var` binding whose value is a `lambda_expr`. Three spellings, all producing an identical binding (`VarDeclStmt{Value: LambdaExpr}`):
-
 ```lyra
-let add = pure (a: i32, b: i32) -> i32 => a + b   // explicit: value is a lambda (modifiers inside it)
-let add(a: i32, b: i32) -> i32 => a + b            // ML-style sugar: params attach to the name, no `=`
-let pure add(a: i32, b: i32) -> i32 => a + b       // sugar with modifiers leading the name
+let add = pure (a: i32, b: i32) -> i32 => a + b   // explicit lambda
+let add(a: i32, b: i32) -> i32 => a + b            // sugar: params on the name, no `=`
+let pure add(a: i32, b: i32) -> i32 => a + b       // sugar with leading modifiers
 ```
 
-`declaration` has three identifier arms: a **modifier-led function** (entered as soon as a modifier follows the keyword; the collector's `applyFunctionModifiers` lifts the flags onto the collected `LambdaExpr`), a **plain identifier binding** (`= <expression>`, the modifier-less lambda sugar, or a value-less `let x` / `let x: T`), and a **pattern binding**.
+All produce `VarDeclStmt{Value: LambdaExpr}`. Three arms: modifier-led function (collector's `applyFunctionModifiers` lifts flags), plain identifier binding (value, sugar, or value-less `let x: T`), pattern binding. Invariants — **do not weaken**:
 
-Two invariants keep the parse unambiguous — **do not weaken either**:
+- **A `where` clause requires a value, and the modifier-led arm requires its lambda**, else `let f<n> where n: Ord` swallows a following `(…) => …` as a separate statement. Pinned by `Where clause without a value` and `Leading modifier on a non-function` (`:error`).
+- **`fn_modifiers` is one `repeat1(choice(...))`**, not stacked optionals (see Parser Size).
 
-- **A `where` clause requires a value, and the modifier-led arm requires its lambda.** A value-less `let f<n> where n: Ord` (or `let pure add`) would be a complete statement that swallows a following `(…) => …` as a *separate* bare-lambda statement instead of the sugar. Enforced by the `Where clause without a value` and `Leading modifier on a non-function` `:error` corpus tests.
-- **`fn_modifiers` is one `repeat1(choice(...))` rule, not seven separate `optional(field(...))` fields** before the name. Seven stacked optionals ahead of a generic `<` roughly doubled `parser.c` and broke correctness — even `let x = 42` mis-parsed. Order and duplicates are validated in the collector (`lyra-E029`), not the grammar, so `let async pure f(…)` parses but is reported.
+## Operator Precedence (`include/prec.js`)
 
-## Operator Precedence (low → high)
+`BLOCK`/`TYPE`=2 < `LOGICAL_OR`=30 < `LOGICAL_AND`=40 < `EQUALITY`=80 < `RELATIONAL`=90 < `BITWISE_OR`=100 < `BITWISE_XOR`=102 < `BITWISE_AND`=104 < `ADDITIVE`=110 < `SHIFT`=115 < `MULTIPLICATIVE`=120 < `UNARY`=140 < `WITH_STATEMENT`=200 < `MATCH_EXPR`=201 < `AWAIT`=250 < `YIELD_FROM`=251 < `POSTFIX`=300.
 
-| Group | Key constants | Approximate level |
-|---|---|---|
-| Block, type | `BLOCK=2`, `TYPE=2` | lowest |
-| Logical | `LOGICAL_OR=30`, `LOGICAL_AND=40` | low |
-| Equality / relational | `EQUALITY=80`, `RELATIONAL=90` | medium-low |
-| Bitwise | `BITWISE_OR=100`, `BITWISE_XOR=102`, `BITWISE_AND=104` | medium-low |
-| Arithmetic | `ADDITIVE=110`, `SHIFT=115`, `MULTIPLICATIVE=120` | medium |
-| Unary | `UNARY=140` | medium-high |
-| Match / with | `MATCH_EXPR=201`, `WITH_STATEMENT=200` | high |
-| Await / yield-from | `AWAIT=250`, `YIELD_FROM=251` | higher |
-| Postfix (call, `.`, `[]`) | `POSTFIX=300` | highest |
+**A precedence does not bound an operand.** `!` at `PREC.UNARY` still grouped `!a && b` as `!(a && b)` while its operand was `$.expression`. Its operand is `_not_operand` (literals, `_postfix_expr`, nested `!` aliased to `boolean_expr`).
 
-Full table is in `include/prec.js`.
+### Bitwise (`include/expressions/math.js`)
 
-### A precedence does not bound an operand (`!`, `include/expressions/boolean.js`)
+- **Xor is `~`, not `^`** — `^` is pointer type and postfix deref (`ptr^ ^ mask`). Prefix `~` is complement, told apart by position.
+- Bitwise binds tighter than comparison, looser than arithmetic; shifts (115) above addition; `&` > `~` > `|`.
+- **In a comprehension a top-level `|` is a section separator** — `[ x in R | A | B ]` has two complete parses, resolved by `prec.dynamic` toward guard `A`, result `B` (a `conflicts:` entry cannot settle complete-tree ambiguity). Getting it wrong silently turns guards into bitwise-ors. Parenthesize a value `a | b`.
+- `>>` does not break `Maybe<Result<i64, string>>`: it is not a valid token where a type argument list closes.
+- Corpus: `test/corpus/bitwise_operators.txt`.
 
-A rule's precedence settles conflicts *between rules*; it does nothing about how much a **wider operand rule** absorbs. `!`'s alternative in `boolean_expr` carried `PREC.UNARY` and still grouped `!a && b` as `!(a && b)`, because its operand was `$.expression`, which includes `boolean_expr` and so swallowed the `&&`.
+## Signed Literals in Patterns (`_signed_number_literal`, `include/patterns/index.js`)
 
-The operand is `_not_operand` — literals, `_postfix_expr`, and a nested `!` aliased back to `boolean_expr` so `!!x` produces the node the collector already reads. `_postfix_expr` reaches `parenthesized_expr`, so `!(a && b)` still says the other thing.
+`-1 => …`, `-128..<=127 => …`, used by `literal_pattern` and `range_pattern`. Without it an `ERROR` swallows the match and downstream sees nothing wrong.
+- **The sign is not in the token** — `a-1` would lex as `a`, `-1`.
+- **Named rule, then aliased** (`alias($._negated_number_literal, $.negation)`) — an inline `alias(seq(…))` hoists `operator`/`operand` onto `range_pattern`, displacing `start`/`end`.
+- Aliased to the existing `negation` so the collector's `CollectExpr` handles it. After touching it, recheck `0 - 200`.
 
-Worth remembering as a general shape: **an unimplemented feature hides its own grammar bugs** — `!` had no backend lowering, so every program using it failed to build before anyone could be given the wrong answer, and both surfaced together the day it was implemented.
+## Ranges (`rangeBounds`, `include/helpers.js`)
 
-## Bitwise and Shift Operators (`include/expressions/math.js`)
+One shape for expression (`0..<n`, `0..<=10:2`), pattern (`0..<=9`) and `newtype` constraint (`range(0..<=100)`). Only two axes are parameters:
+- **Operand:** pattern = literal, constraint = constant expression, expression = anything.
+- **Open-endedness:** patterns and constraints may be open (`10..`, `range(0..)`); `range_expr` is closed. Both-bounds-absent is refused structurally (`open` is a `choice`, not two optionals).
+- **`range_end_operator` is its own node** (highlight queries must capture it) — optional in the grammar at all three sites, required by the collector (`lyra-E032`).
+- **Grammar vs collector:** refuse in the collector when the form has a plausible meaning to disambiguate (`0..9`); in the grammar when it has none (bare `..`).
+- **A recovered parse is not an absent bound:** `range(..)` yields a zero-width inserted `decimal_int`; Go treats missing-or-empty as absent (`collector_ctx.RangeBound`).
+- Corpus: open-ended tests in `expressions/control_flow/match.txt`, `types/newtype.txt`; `:error` for bare `..`.
 
-`& | ~ << >>` binary, `~` prefix (complement), and the five compound assignments (`&= |= ~= <<= >>=`).
+## `for` Condition (`include/statements/control_flow/for_loop.js`)
+The condition is `$._bool_operand` (`boolean_expr`, literal, `_postfix_expr`). **`$.expression` does not generate**: a `block` is an expression, so `for { … }` becomes condition-without-body vs body-without-condition. No `for_condition_expr` alias — bool-ness is the typechecker's.
 
-**Xor is `~`, not `^`.** `^` is spoken for twice — prefix `^T` raw-pointer types and postfix `ptr^` deref — so a binary `^` would be ambiguous with a deref in operand position, and `ptr^ ^ mask` is the case with no good answer. The complement is the same token in prefix position, exactly as `-` is both subtraction and negation, told apart by position and `prec.right(UNARY)`.
+## Regex Literals (`include/literals/regex.js`)
 
-**Precedence is deliberately not C's.** Bitwise binds *tighter than comparison*, so `flags & MASK == 0` groups as `(flags & MASK) == 0` — in C it means `flags & (MASK == 0)`. It binds *looser than arithmetic* (Python/Ruby, not Go), so `a | b + c` is `a | (b + c)`. Shifts are the exception at 115, above addition, matching Go. `&` > `~` > `|` matches C/Java/Python/Rust. Collapsing the three bitwise bands into Go's two saves only ~5% of states, so the distinct bands are nearly free.
+`r"…"` as one `token(prec(1, …))` outranking identifier `r` (slash delimiters are lexically undecidable: `r/2 + a/b`).
+- **Depends on: a `"` never follows a lowercase `identifier` in valid Lyra.** Juxtaposition allows it only after uppercase names. **If juxtaposition is extended to lowercase names, this breaks.**
+- Newlines are excluded from content, so an unterminated literal is a loud error. Delimiter escapes as `\"`.
+- Not unused: backs `pattern(r"…")` in `include/types/constrained_type.js` and `regex_pattern` in match arms.
 
-**`|` collides with three existing constructs**, all resolved by GLR conflict entries rather than precedence: the struct-update separator (`Player { base | f: v }`), and — twice — the array-comprehension delimiter, which both separates generators from guards and closes the clause. Only the token *after* the `|` tells them apart, so a static resolution would pick one reading and silently break the other.
-
-**The comprehension needed `prec.dynamic`, not a conflict entry.** `[ x in R | A | B ]` fits two *complete* parses — guard `A` with result `B`, or no guard and the single result `A | B` — which is a genuine ambiguity between finished trees, the one thing `prec.dynamic` resolves and `conflicts:` does not. The guarded branch wins, so **inside a comprehension a top-level `|` is a section separator; parenthesize a bitwise-or meant as a value** (`[ x in R | (a | b) ]`). Getting this wrong is not a parse error — every guarded comprehension silently becomes an unguarded one whose result is a bitwise-or.
-
-**`>>` does not break nested generics.** `Maybe<Result<i64, string>>` parses: tree-sitter's lexer only considers tokens valid in the current parse state, and `>>` is not valid where a type argument list is closing.
-
-Corpus: `test/corpus/bitwise_operators.txt`.
-
-## A `for` condition is any bool operand (`include/statements/control_flow/for_loop.js`)
-
-The condition is `$._bool_operand` — a `boolean_expr`, a literal, or any `_postfix_expr` — so `for done { … }`, `for ready(n)` and `for cfg.enabled` all work.
-
-**`$.expression` — matching `if`'s condition — does not generate**, and it looks like the obvious unification. A `block` *is* an expression, so `for { … }` becomes ambiguous between "condition, no body" and "no condition, body":
-
-```
-'for'  block  •  ';'  …
-  1:  'for'  (expression  block)
-  2:  (for_loop  'for'  block)
-```
-
-`if` does not have this problem because its `then_block` is mandatory, so a block after the condition is never optional. `_bool_operand` excludes `block` and sidesteps it entirely.
-
-There is **no `for_condition_expr` alias**: it never meant anything (the collector handled it in the same `case` as `boolean_expr`) and it made the node kind depend on which *form* the condition took, which is a trap for anyone writing a query against it. Bool-ness is entirely the typechecker's, which is the better diagnostic anyway — `for n { }` over an integer used to be a syntax error pointing at the brace.
-
-## Postfix heads, and the one-derivation rule
-
-Three groups of nodes were added to `_primary_expr` (the head of every postfix form) so that `"abc".len()`, `[1, 2, 3].len()`, `1.wrapping_add(2)`, `Node { n: 7 }.n` and `(a + b).x` all parse. The rule that governs every such change:
-
-> **A node kind must have exactly one derivation path.** `expression` reaches `_literal` directly *and* `_postfix_expr` (hence `_primary_expr`), so a kind in both is derivable two ways and every operand position becomes an unresolved reduce-reduce.
-
-That is why these changes *shrink* the parser as often as they grow it — the parenthesized-head and constructor-operand work removed a derivation and lost 19 states. Consequences to preserve:
-
-- **`tuple_literal` is in both** (08/22), which is how `Some(1).unwrap_or(0)` parses. It sat in `_literal` alone until then — a constructor call was not a postfix head — so the juxtaposition rule took `Some` as applied to `(1).unwrap` and left `_or(0)` to start a statement, `_or` being a legal identifier. The reported error was `let _or must be initialized`. A *binding* receiver and a *literal* receiver both worked, which is why every program written until then compiled. Being in both is not a violation of the rule below but the same exception `named_struct_literal` already had: the double derivation is real and is what the conflict entries carry. Cost: **+10 states** (7856 → 7866, +0.13%).
-- **One literal kind stays in `_literal`**, out of `_primary_expr`: `anonymous_struct_literal` (a bare `{ … }` head contests the block). `array_repeat_init` was the other until 08/28, when `["x"; 3].join("-")` needed to parse where `["x", "x"].join("-")` already did; it **moved** to `_primary_expr` beside `array_literal` rather than joining both, so the kind keeps one derivation and needs no conflict entry — and the parser *shrank* by 23 states (7902 → 7879), a move removing a derivation where an addition would have cost some. `array_comp_expr` made the same move on 09/13 — from `expression` into `_primary_expr` — so `[x in xs | x].join(",")` parses; it cost **+7 states** (7990 → 7997), since `expression` still reaches the new path through `_postfix_expr`. `regex_literal` also stays; dropping it from `_literal` without adding it anywhere left it reachable only as a *constructor operand*, so `let phone = r"…"` parsed as a `data_constructor_expr` with a MISSING name. The `prec.right(PREC.LITERAL)` wrapper on `_literal` is what makes a plain literal outrank the juxtaposition reading.
-- **`group` (`(x + y)`) has one arm, in `_primary_expr`, not in `_math_expr`.** Every math operand still finds it because `_math_operand` includes `_postfix_expr`. Adding it to both is an unresolved conflict tree-sitter names outright. (`(x)` is a `parenthesized_expr`, a different node, which is why `(a).x` always worked and `(a + b).x` did not.)
-- **A `tuple_literal` is no longer listed in `_math_operand`** (08/22). It was, so that `Cents(150) + Cents(275)` parsed while the node stayed out of `_primary_expr`; now that it *is* a `_primary_expr`, `_math_operand` reaches it through `_postfix_expr` and naming it again is the duplicate this list forbids — generation says so outright, as an unresolved conflict between `_math_operand` and `_primary_expr`. **Removing it is part of the same change**, not a cleanup that can be deferred.
-- Operand rules that list a literal *and* `_postfix_expr` must not list both: `_string_concat_operand`, `_math_operand`, `_not_operand`, `_bool_operand` and `_comparison_operand` each had duplicates removed.
-
-The literal heads need three conflict entries — `[$._primary_expr, $.literal_pattern]`, `[$._primary_expr, $._signed_number_literal]` and `[$._primary_expr, $._negated_number_literal]` — because `('a', 'b')`, `(1, 2)` and `(-1, 2)` are each a lambda parameter list of patterns or an anonymous tuple of expressions, decided by the `=>` that may or may not follow. Generation reports two related entries as *unnecessary*; they are left in place, since this is the region whose warnings are unreliable.
-
-**`0 - 200` must still be a `binary_expr` with a `sub_operator`** — this region's standing regression, since the failure mode is a *program*, not an error (`0` followed by a dangling `negation(-200)`). Pinned by corpus and by an execution test in `lyra`.
-
-Corpus: `A comprehension is a postfix head` (expressions/array_comprehension.txt), `A literal is a postfix head`, `Literal heads do not disturb the readings they contest`, `A constructor call is a postfix head`, `A constructor head does not disturb the readings it contests` (expressions/postfix.txt), `A parenthesized expression is a postfix head`, `A constructor call is a math operand` (math_operators.txt).
-
-The second of those is the guard that matters for a change in this region, and it pins the four readings a constructor head contests: `Some(42)` stays a `tuple_literal`, `Some 42` stays a `data_constructor_expr`, `Cents(150) + Cents(275)` stays a `binary_expr` over two of them, and `(Some(x): Maybe<i64>) -> i64` stays a lambda whose parameter is a `data_pattern` — the finely-balanced parameter-position race grammar.js's conflict notes warn about.
-
-## Foreign functions (`include/statements/extern_declaration.js`)
-
-A signature with no body, and the effect bound its caller is asked to trust:
+## Foreign Functions (`include/statements/extern_declaration.js`)
 
 ```lyra
 extern getpid: () -> i32
-unsafe extern pure sqrt: (f64) -> f64
-
 @link("m")
 unsafe extern pure log: (f64) -> f64
+unsafe extern printf: (^u8, ...) -> i32
 ```
 
-**`unsafe` before `extern`, the bound after it.** An extern with no bound carries every
-effect and is safe to declare; *narrowing* it asserts something no compiler can check, so
-the keyword marks the claim and the claim follows it. The shape after `extern` is
-`trait_method`'s — leading modifiers, `name`, `:`, a `lambda_type` — because they are the
-same kind of declaration: a signature standing in for a body someone else supplies.
-
-**The modifiers are one `fn_modifiers`, not stacked `optional`s, and the difference was
-measured** (7,822 states before the rule):
-
-| form | states | cost |
-|---|---|---|
-| `extern name: type`, no modifiers | 7,830 | +8 |
-| `unsafe` + `fn_modifiers` | 7,856 | +34 |
-| `unsafe` + three stacked `optional`s | 7,952 | +130 |
-
-The declaration form is nearly free; the modifiers are the whole cost, and the repeated
-choice is four times cheaper than the stacked one — the `lambda_expr` lesson at 1/500th
-the scale, landing the same way. What it costs is that the grammar admits more than the
-language means (order, duplicates, `async`/`gen`/`rec`, an `unsafe` written *after*
-`extern`), all of which is the collector's to report, the same trade `let` makes with
-`lyra-E029`.
-
-**`extern` is a keyword only in declaration position**, exactly like `type`: `let extern = 5`
-still parses, and reserving it would be a gratuitous break.
-
-**`...` is the C variadic marker** — `unsafe extern printf: (^u8, ...) -> i32` — and it is a
-member of `parameter_type_list`, not a trailing `optional` on `lambda_type`. That is what
-makes it **+1 state** (7,866 → 7,867): no new sequence wraps the parenthesized list, so the
-tables grow by the marker alone.
-
-It is therefore admitted **wherever a function type is written**, and refused everywhere but
-an extern by the collector (`lyra-E065`), along with its position rules — last, and after at
-least one named parameter. The same trade this file's modifier table describes: giving the
-extern its own signature rule would mean a second copy of `lambda_type` free to drift from
-the first, for a diagnostic the collector gives better than a syntax error pointing at
-whichever token failed to shift. The extern rule already aliases `lambda_type` to
-`extern_signature`, so the collector's discriminator is free.
-
-**A parameter may carry a name** — `(dest: ^mut u8, destLen: ^mut u64)` — required by the
-collector in an `extern` and refused in a plain function type (`lyra-E067`), on the same
-admit-then-report trade.
-
-**The name and its colon are one token** (`parameter_type_name`), and that is forced rather
-than stylistic. A lowercase name in type position is a *type variable*, whose own leading
-pattern is a bare regex, so `t` in `(t) -> u` and `n` in `(n: i64) -> u` are the same
-lexeme — a **lexical** collision, which a `conflicts:` entry cannot resolve because the
-choice is made before the parser sees it. Lexing `n:` as one token settles it by maximal
-munch. A declared conflict was tried first and did nothing, which is the tell: if adding a
-`conflicts:` entry changes no state count and fixes no test, the ambiguity is in the lexer.
-Whitespace is inside the token, so `(n : i64)` still parses. **+4 states.**
-
-**Lyra has no variadic functions, and this did not give it any.** Two features share the
-spelling: *calling* a C variadic needs nothing from the language, since every argument is
-known at the call site, while *defining* one needs an argument pack nothing else here would
-use.
-
-`attribute_args` gained `string_literal` so `@link("m")` can name a library — the first
-attribute argument that is *data* rather than a name or a size. It stays a plain
-`string_literal`: an attribute argument is read by the collector, not evaluated, so
-interpolation in one would be a value nothing could produce.
-
-**A finding, not a change: the `reserved` block reserves nothing.** `let with = 5` and
-`let yield = 5` both parse, though both words are listed there. `let unsafe = 5` *is*
-refused, but by the "leading modifier on a non-function" arm of `declaration` rather than
-by the list. So the list under [Reserved Keywords](#reserved-keywords) documents intent and
-does not enforce it; adding a word to it does nothing on its own. Left alone here because
-`extern` should not be reserved anyway, but it is a surface that looks like it works.
-
-## Small forms, and what pins them
-
-- **A trait body is optional**, braces and all: `trait Arithmetic: Add + Sub + Mul + Div`, with or without `{}`. The method list stays `memberList`-shaped and therefore non-empty, which is what keeps `trait C { , }` an error — the list is **absent**, never empty. `impl_methods` was already optional, so `impl Arithmetic for Vec2 {}` parses either way. The ambiguity to watch is a `{` on the *next* line: the terminator ends the declaration first, so `trait Marker` ⏎ `{ 1 }` is a trait plus a block statement while `trait Marker { 1 }` is a (malformed) body. Pinned by `A brace on the next line is not a trait body`.
-- **A `newtype` may be generic** — `constrained_type` takes the same `optional(field("generic_parameters", …))` slot every other type declaration has. Without it the `<t>` landed in an ERROR node **and the declaration still collected**, so parameters were silently dropped; the Go golden file recorded the truncation under a test named for the feature, which is how a regenerated golden bakes in a bug and then reads as a specification.
-- **`let _ = expr` discards.** `wildcard_pattern` is one of `destructuring_only_pattern`'s alternatives. Without it a bare `_` fell into `data_pattern` and recovered with an *empty* name, and the must-use warning was recommending a spelling the parser rejected. `_` is still not an *expression*: `let _ = 5; _` does not parse, which is what keeps a discard from being read back.
-- **A loop binding may be `_`.** `for _ in 0..<n` and `for _, v in xs` iterate without
-  naming a counter. `identifier` is `/(_[a-zA-Z0-9_]+|[a-z][a-zA-Z0-9_]*)/` — a leading
-  underscore needs a character after it — so `for _i in` parsed and a bare `_` did not.
-  It is admitted **inside the existing alias** (`alias(choice($.identifier, '_'),
-  $.for_variable_or_key)`) rather than as a `wildcard_pattern` alternative beside it, so
-  the CST shape is unchanged and the collector needed no change; the name it binds is `_`,
-  which no identifier can spell, so the body cannot refer to it.
-- **A match arm may hold a bare jump.** `match_arm`'s body is `choice($.expression, $._arm_jump)`, where `_arm_jump` is `break`/`continue`/`return`. Without it `None => break` parsed `break` as an identifier. The `lyra` collector erases it into the equivalent single-statement block, so no pass after the collector knows the alternative exists — **keep it that way**; the cheap version of this feature lives entirely in those two places.
-
-## Corpus Test Format
-
-Tests live in `test/corpus/**/*.txt`, separated by `===` / `---` delimiters:
-
-```
-==================
-Test Name
-==================
-
-<lyra source code>
-
----
-
-(program
-  (expected_cst_node ...))
-```
-
-**Field name strictness:** if any child uses explicit field names (`field: (node)`), all named fields of that node must be specified. Omitting all field names is lenient. Do not add field names to `alias()` nodes — tree-sitter does not expose those in test output.
-
-Add `:error` after the test name line to assert that the source produces a parse error.
-
-## Corpus Test Organization
-
-```
-test/corpus/
-  assignments.txt        let/var/const, math-assign ops, tuple assignment
-  comments.txt
-  destructuring.txt
-  math_operators.txt
-  modules.txt
-  expressions/
-    array_comprehension.txt
-    async_await.txt
-    boolean.txt
-    compose.txt
-    generators.txt
-    postfix.txt
-    rec.txt
-    string_concat.txt
-    unsafe.txt
-    yield_from.txt
-    control_flow/        if, match, for, break, continue, return
-  literals/
-  statements/
-  types/
-    struct.txt           structs, generics, attributes (@packed, @align)
-    data.txt             data (sum) types
-    traits.txt           trait declarations and implementations
-    tuple.txt            named tuples
-    ...
-```
-
-## Field labels
-
-`visibility` (`pub`) is a **labelled field** on every declaration that accepts it — `optional(field("visibility", $.visibility))`. Labelling it on only some sites split the collector three ways, and reading an *unlabelled* child by field name returns nil **silently**, so the mistake reads as "this declaration is never public" rather than as an error — which is how `pub let` went uncollected.
-
-**The rule: if a collector needs to find something, label it.** An anonymous child is fine only for tokens nothing reads.
-
-## Allocation modifiers on an array *element* (`include/types/allocation.js`)
-
-`[]shared Node`, `[3]weak Observer`, `[16]stack Vec3`, via `_element_type` — a `choice` of `_non_allocated_type | allocated_type | weak_type` that only `array_type` uses.
-
-**Why the element and nowhere else.** Allocation is a *use-site* property, and an array's elements are a use site. Without it `kids: []shared Node`, the obvious spelling for a tree's children, does not parse and the shape has to be bent into a `Maybe<shared Node>` chain.
-
-**Exactly one modifier deep, deliberately.** `_element_type`'s operand stays `_non_allocated_type`, so `[]shared shared Node` is a parse error. And the *other two* users of `_non_allocated_type` — `weak_type`'s `inner_type` and `allocated_type`'s `type` — are deliberately untouched: their operand must stay modifier-free, or `shared weak T` and `weak shared T` become writable everywhere. `weak T` already means "non-owning reference to a `shared T`", so `weak shared T` would say the same thing twice with a different answer.
-
-It is a `choice` of the three rather than `$.type`, which would admit `[]void`. (`[]void` parses anyway, as `generic_type`, since a lowercase name is a type *variable* by the ML lexical rule — pre-existing and unrelated.)
-
-Corpus: `test/corpus/types/allocation.txt`, including the two `:error` tests that pin the no-stacking rule.
-
-## Effect modifiers on a function *type* (`include/types/lambda_type.js`)
-
-`lambda_type` accepts the same `pure`/`det`/`noalloc` modifiers `lambda_expr` does, so a callback parameter can be constrained: `f: pure () -> t`. They are **labelled fields** (`is_pure`/`is_det`/`is_noalloc`), matching the lambda-value rule, so the collector reads presence by field name rather than scanning tokens.
-
-Two things this is *not*. It is not a new node kind — `pure_modifier` and friends already existed for lambda values, so no highlight query gained a case and `lyra-zed-ext`'s queries need no change. And it is not a semantic rule: the grammar accepts `pure det (…) -> t`, which the checker rejects as conflicting bounds.
-
-The consumer is `lyra`'s purity pass: an unconstrained callback makes its function *effect-polymorphic* (purity decided per call site by the argument), while a declared bound makes it unconditional and constrains every caller instead.
-
-## Parser size, and the rule that decides it (`lambda_expr`)
-
-`src/parser.c` is ~14.7 MB (~8,240 states). **If it starts growing again, run `npx tree-sitter generate --report-states-for-rule -` first.** It attributes states per rule, and the answer has been one rule both times anyone has looked.
-
-It was **116 MB and 62,663 states** until `lambda_expr`'s modifiers were rebuilt — that rule alone owned 57,026 states, 91% of the parser. The cause was seven independent `optional()` modifiers in sequence (`unsafe`, `pure`, `det`, `noalloc`, `async`, `gen`, `rec`): an LR automaton tracks every distinct prefix through such a chain — 2^7 = 128 of them before the parameter list — and because the GLR conflicts around `(` keep the lambda-parameter-list, tuple and parenthesized-expression readings alive simultaneously, each prefix grew its own family of states across the whole expression grammar.
-
-Measured alternatives, for anyone tempted to reintroduce ordering here:
-
-| Form | States | `parser.c` |
-|---|---|---|
-| Seven ordered `optional()`s | 62,663 | 116 MB |
-| Ordered, mutually-exclusive ones grouped (5 optionals) | 37,687 | 70 MB |
-| `repeat(choice(…))` — order-free | **6,475** | **12.8 MB** |
-
-**What it cost:** modifier order and repetition stopped being parse errors, and are reported by the collector instead (`lyra-E029`) with a message naming the offending modifier and the canonical order — strictly better than a syntax error pointing at whichever token failed to shift.
-
-**What it bought, beyond size:** `src/parser.c` left Git LFS. `git-lfs` is no longer a prerequisite for cloning this repo, the file is diffable in review, and a grammar change no longer costs 116 MB of LFS quota per revision. **Do not re-add the LFS filter without re-measuring.**
-
-The two most expensive features since are bitwise operators (+1,576 states) and juxtaposition (+19%); everything else in this file cost under 1% each.
-
-## Signed Literals in Patterns
-
-**A pattern's number literal carries an optional `-`** — `-1 => …`, `-128..<=127 => …` — via `_signed_number_literal` (`include/patterns/index.js`), used by both `literal_pattern` and `range_pattern`. Without it the `-` lands in an `ERROR` that swallows the whole `match`, which downstream reads as *nothing being wrong*: the collector sees no match expression, so exhaustiveness never runs and a test asserting "no errors" passes vacuously.
-
-Three constraints shape the rule, each learned by violating it:
-
-- **The sign cannot live in the token.** `decimal_int` swallowing a `-` would lex `a-1` as `a` followed by `-1` rather than as subtraction.
-- **It is a named rule that is then aliased** (`alias($._negated_number_literal, $.negation)`), not `alias(seq(…), $.negation)` inline. An inline sequence is not a node of its own, so its `operator`/`operand` fields hoist onto the enclosing `range_pattern` and displace `start`/`end`, leaving the collector's `ChildByFieldName("start")` empty.
-- **It aliases to `negation` rather than introducing a node kind.** `collectRangePattern` reads `start`/`end` through `CollectExpr`, which already handles a `negation` with an `operand` field.
-
-It needs two declared conflicts, both mirrors of ones already present for the unsigned case: `[expression, _signed_number_literal]` and `[_math_operand, _negated_number_literal]`. This is the region `grammar.js`'s conflict comments call finely balanced, so **check that `0 - 200` still parses as a `binary_expr` with a `sub_operator`** after touching any of it.
-
-## One `..` Notation, Three Sites (`rangeBounds`, `include/helpers.js`)
-
-The `..` range notation appears in three places — an expression (`0..<n`, `0..<=10:2`), a match pattern (`0..<=9`), and a `newtype` range constraint (`range(0..<=100)`). `rangeBounds($, {startOperand, endOperand, open, step})` is the one shape they share. **Two axes are real and stay parameters; everything else that once differed was drift.**
-
-- **The operand legitimately differs.** A pattern needs a compile-time literal (exhaustiveness and the jump-ladder lowering depend on it), a constraint needs a constant *expression* (it is part of a type), an expression takes arbitrary runtime values. Unifying these would either let a match arm hold a function call or break `for i in 0..<n`.
-- **Open-endedness legitimately differs.** `range(0..)` means "bounded below, and above by the base type"; `10..` as a pattern covers a type's tail without naming its maximum. An open-ended *expression* range would need the lazy iterator the language does not have, so `range_expr` stays closed on both sides.
-- **Both bounds absent is refused structurally** (`open` mode is a `choice`, not two independent `optional`s). `range(..)` constrains nothing and a bare `..` pattern is `_`.
-
-**The end operator is its own node** (`range_end_operator`, not part of the `..` token — highlight queries must capture it separately or half of `0..<=9` renders unstyled). It is **optional in the grammar at all three sites and required by the collector at all three** (`lyra-E032`, via `ctx.RangeEndOperator`). It is not a default: every reader of the collected operator tests `== "<"`, so an omitted one silently meant *inclusive* — `0..9` became `0..<=9`, and that extra value is the boundary the exhaustiveness checker and the emitted comparison disagree on.
-
-The line between grammar and collector enforcement, worth keeping: **enforce in the collector when the construct has a plausible intended meaning that must be disambiguated** (`0..9` is what a Rust or Python programmer writes *meaning* something, and deserves a message naming both fixes), **and in the grammar when it has no meaning at all** (a bare `..`).
-
-**A recovered parse is not an absent bound.** Where the grammar requires a bound, tree-sitter can *insert* one to keep going — `range(..)` yields a zero-width `decimal_int` sitting on the `)`. The Go side treats missing-or-empty as absent (`collector_ctx.RangeBound`); a plain nil check reads that insertion as a bound of value zero.
-
-Corpus: the open-ended tests in `test/corpus/expressions/control_flow/match.txt` and `test/corpus/types/newtype.txt`, plus the `:error` test that a bare `..` pattern does not parse.
-
-## Juxtaposition application (`data_constructor_expr`)
-
-`Some 42` and `Some(42)` are both legal. It depends on the statement terminator: without one, a nullary constructor greedily consumes the next statement.
-
-**One operand, never curried.** There is no `Rect 3 4`. A constructor's positional payload is already a single anonymous tuple internally (`Rect(f64, f64)` → one `TupleType` param), so `Rect(3, 4)` reads as "Rect applied to the tuple `(3, 4)`" — the parens are the tuple's, not a call's. Parenthesized operands are outside `_constructor_value` precisely so `Some(42)`, `Rect(3, 4)` and `Some (a + b)` keep their existing named-`tuple_literal` parse.
-
-**`Some -1` is `Some(-1)`.** Application binds tighter than binary operators and `negation` is in the operand set. This is not Haskell's ambiguity: there, any identifier can be a value, so the subtraction reading has an operand. Here `identifier` is lowercase-leading and `const_identifier` is SCREAMING_CASE, so a PascalCase name in expression position is *always* a constructor — never a variable, never a constant — and the subtraction reading has nothing to bind. `MAX - 1` is untouched arithmetic. The residual hazard (a `-` overload on a sum type whose nullary constructor sits bare on the left) is in `lyra/todo.md`.
-
-**The operand must be atomic** — a literal, a name, a nullary constructor, a negated literal, a struct/array literal, or another application. A compound operand is parenthesized (`Ok(f(y))`, `Some(a.b)`). **This is forced, not chosen:** every postfix form is headed by `_postfix_expr`, which reaches `parenthesized_expr`, so admitting `call_expr`/`member_expr`/`index_expr`/`try_expr`/`deref_expr` as operands also admits `Some (x)…` while the parser looks for the `.`/`[`/`?`/`^`. That reopens a third reading of `Some(x)` and tips the pre-existing parameter-position race, so `(Some(x): Maybe<i64>) -> i64` stops parsing as a destructured lambda parameter. No conflict entry fixes it; the reading has to not exist.
-
-**In this region tree-sitter's "unnecessary conflict" warning is unreliable — verify against the corpus.** During this change it reported entries as unnecessary that were load-bearing (dropping `[_tuple_name, _primary_expr, data_pattern]` broke the parameter case) *and* reported one as unnecessary that genuinely was.
-
-Juxtaposition is genuinely expensive in an LR automaton (+19% states) — run `--report-states-for-rule -` before adding anything else here.
-
-## `nullptr` — a keyword only in value position (`include/literals/nullptr.js`)
-
-The null raw pointer, and the only pointer value that does not come from `&`. A plain
-string token, like `true`/`false`: `identifier` carries `PREC.IDENTIFIER_TOKEN` of 0, so
-on an equal-length match tree-sitter prefers the string over the regex.
-
-It lives in `_primary_expr` and **nowhere else** — the partition rule above — which is
-also what puts it in every position it needs without naming any of them: `p == nullptr`
-reaches it through `_comparison_operand`'s `_postfix_expr`, an argument through the same.
-
-**Zero new states** (7899 → 7899), +89 KB of `parser.c`, all lex tables. Measured because
-this file says to. A literal in `_primary_expr` adds no derivation an operand position has
-to choose between, which is why it is free where juxtaposition cost 19%.
-
-**`let nullptr = 5` parses, and that is not a bug here.** tree-sitter lexes against the
-tokens valid in the current parse state, so in *name* position the string is an ordinary
-identifier — the same context-sensitivity that keeps `let type = 5` and `let extern = 5`
-legal, and that the *Foreign functions* section above records as "the `reserved` block
-reserves nothing". What makes this one different is that the binding could never be
-**read**, since every later mention sits in value position where the literal is valid, so
-the Go collector refuses it (`lyra-E070`). A *parameter* of the name is already a syntax
-error, because parameter position admits the literal and `: i64` then does not fit.
-
-Both highlight query files capture it — `@constant.builtin` for nvim, `@constant` for Zed
-— styled with the literals rather than as a keyword, the call every language makes for
-`true`/`false`.
-
-Corpus: the four `null pointer` tests in `test/corpus/expressions/unsafe.txt`, including
-the one pinning the name-position reading a careless change here would invert.
-
-## `union` — a C union (`include/types/union_type.js`)
-
-`union Ev { kind: u32, code: i64 }`, a fifth alternative of `type_declaration`. **+30
-states.**
-
-**The body reuses `struct_member`**, and that is the decision worth keeping: a union
-member *is* a name and a type, and a second member rule would be free to drift from the
-first — which is exactly what `struct_type_body`'s own note warns about for its anonymous
-twin. What that admits and the language does not — a `readonly` member, a member with a
-default value — is refused by the Go collector (`lyra-E072`), the admit-then-report trade
-the extern modifiers already make.
-
-`union_type_body` is nonetheless **its own rule** rather than a reuse of
-`struct_type_body`, for the reason that rule gives about *its* twin: the collector reads
-a declaration's body by node kind, and one kind where it needs two is a distinction it
-cannot recover.
-
-Corpus: `test/corpus/types/union.txt`, including the `:error` test that an empty body does
-not parse.
-
-## Two operand/name widenings, both found by writing a binding module
-
-**An `unsafe` block is a comparison operand** (`_comparison_operand`, boolean.js).
-`unsafe { f() } != 0` parses. **+49 states**, no new conflicts, corpus clean.
-
-It was left out deliberately at first and added when the arithmetic changed: in an example
-the workaround is one `let` per call, while in `lyra/bindings/sdl3` *every* wrapper over a
-C predicate is that shape, so it was about to be repeated a dozen times in the one file
-whose job is to stop callers repeating things. This is the finely-balanced operand region,
-so the check was the corpus rather than the generator's silence.
-
-**A constant is importable** (`importable_name`, modules/index.js). `const_identifier`
-joined `identifier` and `user_defined_type_name`; **zero new states**.
-
-Without it `import lib.{ INIT_VIDEO }` lexed as the type name `INIT` followed by a stray
-`_VIDEO` — a syntax error pointing at an underscore, for a name the module genuinely
-exports. A `pub const` was exportable and unimportable.
-
-The two patterns overlap on an all-caps name with no underscore (`MAX` matches both), and
-that tie is **lexical** — settled by token precedence, not reachable by a `conflicts:`
-entry, the same situation `literals/struct.js` records for a struct literal's type name.
-Two corpus expectations shifted rather than broke: an all-caps alias (`HashMap as HM`) and
-`math.{ …, PI }` now lex as `const_identifier`, which for `PI` is the more accurate
-reading.
-
-## An attribute argument may be a lowercase name
-
-`attribute_args` is a `choice` of `_number_literal | user_defined_type_name |
-string_literal | identifier`. The fourth arrived with `@must_release(unload_sound)` at
-**zero new states**.
-
-It is free because `identifier` is lowercase/underscore-leading and
-`user_defined_type_name` is capital-leading, so the two are **lexically disjoint** and no
-state has to choose between them — the same reason `nullptr` cost nothing and juxtaposition
-cost 19%.
-
-**Why a name and not a string, given `@link("SDL3")` is right there.** The existing string
-arguments are *foreign* text: `@link`'s is the linker's, `@symbol`'s is C's, and both are
-taken verbatim precisely because anything the compiler did to them would be a mangling the
-header does not know about. `@must_release`'s argument names a function in **Lyra's own**
-namespace, which the Go side resolves through the module system from the declaring type's
-location. Spelling it as a string would say it does not resolve.
-
-Corpus: `An attribute argument may be a lowercase name` in `test/corpus/types/struct.txt`.
-
-## A module declaration takes attributes
-
-`@link("SDL3")` above the `module` line, where attributes lead a `struct` and an `extern`
-too. **+3 states.**
-
-The fact is the module's rather than each declaration's: a binding module links one library
-and declares a dozen externs against it, so `lyra/bindings/sdl3` carried fourteen
-`@link("SDL3")` lines. The per-extern form stays legal — a lone `extern` in a module-less
-program has no header to put it on — and the Go driver unions the two.
-
-The grammar admits *any* attribute here; the collector refuses everything but `@link` by
-name, which is the admit-then-report trade the extern modifiers already make.
-
-## Type Aliases vs `newtype`
-
-Two declarations that look alike and mean opposite things:
-
-- **`type Op = ((i64, i64)) -> i64`** (`include/types/type_alias.js`) is **transparent**. The name and the type are interchangeable — no conversion at the boundary, no identity of its own. The collector registers the aliased type *itself* under the alias's name, so the rest of the compiler needs no notion of aliases.
-- **`newtype Volume = u8 where range(0..<=100)`** (`include/types/constrained_type.js`) is **nominal**. It is a distinct type you opt into at a conversion site, which is what lets it carry `where` constraints.
-
-They are not redundant, and neither is a flag on the other: one adds meaning at a boundary, the other removes repetition. The motivating case for an alias is a function type — `(g: ((i64, i64)) -> i64, …)` is where Lyra reads worst, and the double parens (one *tuple* parameter, since single parens would be two arguments) can only be named away, never spelled away. `newtype` cannot serve: it makes the value un-callable without unwrapping.
-
-`type` is **not** a reserved word — it is a keyword only in this position, so `let type = 5` still compiles. Adding it to `reserved` would be a gratuitous break.
-
-Corpus: `test/corpus/types/type_alias.txt`.
+- `unsafe` before `extern`, `fn_modifiers` after, then `trait_method`'s shape. The grammar over-admits (order, `async`/`gen`/`rec`, `unsafe` after `extern`); the collector reports.
+- `lambda_type` is aliased to `extern_signature`.
+- **`...` is a member of `parameter_type_list`**, admitted in every function type and refused outside an extern by the collector (`lyra-E065`, including position rules). Don't give extern its own signature rule — it would drift from `lambda_type`.
+- **Parameter names** (`dest: ^mut u8`): **name + colon is one token** (`parameter_type_name`), because a lowercase name in type position is a type variable — a lexical collision a `conflicts:` entry cannot resolve. Whitespace is inside the token (`n : i64` parses). Required in an extern, refused elsewhere (`lyra-E067`).
+
+## Attributes
+
+`attribute_args` = `_number_literal | user_defined_type_name | string_literal | identifier`.
+- `string_literal` is plain (no interpolation) — for foreign text taken verbatim (`@link`, `@symbol`).
+- `identifier` is for names in Lyra's namespace (`@must_release(unload_sound)`); free because it is lexically disjoint from type names.
+- A **`module` declaration** takes attributes (`@link("SDL3")` above `module`); the grammar admits any, the collector refuses all but `@link`.
+
+## Other Forms and Their Pins
+
+- **`nullptr`** (`include/literals/nullptr.js`): plain string token, wins over identifier on equal length (`PREC.IDENTIFIER_TOKEN` is 0). In `_primary_expr` only. In name position it lexes as an identifier. Highlighted `@constant.builtin` (nvim) / `@constant` (Zed). Corpus: `null pointer` tests in `expressions/unsafe.txt`.
+- **`union`** (`include/types/union_type.js`): body reuses `struct_member` (don't add a second member rule); `union_type_body` is its own rule since the collector reads bodies by node kind. `readonly`/defaults refused by collector (`lyra-E072`). Corpus: `types/union.txt` (empty body is `:error`).
+- **`unsafe { … }` is a `_comparison_operand`** (`unsafe { f() } != 0`).
+- **`const_identifier` is an `importable_name`** (`import lib.{ INIT_VIDEO }`). All-caps no-underscore names (`MAX`, `PI`, `HM`) tie with type names and are settled by token precedence, lexing as `const_identifier`.
+- **Trait body optional** (`trait Arithmetic: Add + Sub`). The method list is absent, never empty. `trait Marker` ⏎ `{ 1 }` is a trait plus block — pinned by `A brace on the next line is not a trait body`.
+- **Generic `newtype`**: `constrained_type` has the `generic_parameters` field. Beware a regenerated Go golden baking in an ERROR-truncated parse.
+- **`let _ = expr`**: `wildcard_pattern` is in `destructuring_only_pattern`. `_` is not an expression.
+- **`for _ in …` / `for _, v in …`**: `_` is admitted inside the existing alias `alias(choice($.identifier, '_'), $.for_variable_or_key)`, keeping the CST shape.
+- **Bare jump in a match arm**: `match_arm` body is `choice($.expression, $._arm_jump)`; the collector erases it into a one-statement block — keep it confined to those two places.
+- **Array element modifiers** (`include/types/allocation.js`): `[]shared Node` via `_element_type` = `_non_allocated_type | allocated_type | weak_type`, used only by `array_type`. Exactly one modifier deep; `weak_type`'s and `allocated_type`'s operands stay `_non_allocated_type` (no `shared weak T`). Not `$.type` (would admit `[]void`). Corpus: `types/allocation.txt`.
+- **Effect modifiers on a function type** (`include/types/lambda_type.js`): `f: pure () -> t`, labelled fields `is_pure`/`is_det`/`is_noalloc`, reusing existing node kinds.
+- **`type` alias vs `newtype`**: `type Op = …` (`include/types/type_alias.js`) is transparent; `newtype` (`include/types/constrained_type.js`) is nominal and carries `where` constraints. Corpus: `types/type_alias.txt`.
+
+## Field Labels and Corpus Tests
+
+- **If a collector needs to find a child, label it.** Reading an unlabelled child by field name returns nil silently. `visibility` (`pub`) is `optional(field("visibility", $.visibility))` on every declaration that accepts it.
+- Corpus format: `===` name `===`, source, `---`, expected S-expression CST. `:error` after the name line asserts a parse error.
+- **Field strictness:** if any child uses a field name, all named fields of that node must be given; omitting all is lenient. Don't add field names to `alias()` nodes — they aren't shown.
+- Files: top-level `*.txt` plus `expressions/` (incl. `control_flow/`), `functions/`, `literals/`, `statements/`, `types/`.

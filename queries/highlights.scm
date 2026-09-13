@@ -98,7 +98,7 @@
 ; `rune` is a primitive like the rest. It was missing here while the sibling
 ; query in lyra-zed-ext had it, so `rune` rendered unstyled among highlighted
 ; neighbours — the drift these two files are warned about in the workspace
-; CLAUDE.md, showing up in the one direction nobody checks.
+; CLAUDE.md (Editor Extensions), showing up in the one direction nobody checks.
 (rune_type)             @type.builtin
 (void_type)             @type.builtin
 (self_type)             @type.builtin

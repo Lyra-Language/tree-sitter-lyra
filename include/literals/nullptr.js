@@ -2,9 +2,8 @@ module.exports = {
   // The null raw pointer, and the only way to make a pointer that does not come
   // from `&`. It exists for the FFI: a C function that answers a pointer answers
   // NULL on failure, and without a literal to compare against there was no way to
-  // ask. See `lyra/CLAUDE.md`'s raw-pointer section for why it is spelled
-  // `nullptr` rather than `null` — Lyra has no null *references*, and a bare
-  // `null` would read as though it did.
+  // ask. It is spelled `nullptr` rather than `null` because Lyra has no null
+  // *references*, and a bare `null` would read as though it did.
   //
   // A plain string token, like `true`/`false`: `identifier` carries
   // PREC.IDENTIFIER_TOKEN of 0, so on an equal-length match tree-sitter prefers

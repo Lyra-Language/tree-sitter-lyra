@@ -26,10 +26,8 @@ npx tree-sitter parse path/to/file.lyra         # parse a file and print its CST
 npx tree-sitter playground                       # interactive browser playground (npm start)
 ```
 
-**Always run `npx tree-sitter generate` before `npx tree-sitter test`** after
-changing any grammar file — the corpus tests run against the generated parser.
-
-The grammar is large: `src/parser.c` is ~120 MB and `generate` takes ~60s.
+**Run `generate` before `test`** after changing any grammar file — the corpus
+tests run against the generated parser. `src/parser.c` (~15 MB) is committed.
 
 ## Layout
 
@@ -37,20 +35,18 @@ The grammar is large: `src/parser.c` is ~120 MB and `generate` takes ~60s.
 grammar.js               entry point; spreads the rule modules from include/
 include/                 grammar rule modules (expressions/, types/, statements/, patterns/, …)
 src/parser.c             GENERATED — do not edit by hand
-src/scanner.c            hand-written external scanner (block comments, string interpolation)
+src/scanner.c            external scanner (block comments, string interpolation, statement terminator)
 test/corpus/**/*.txt     corpus tests (source + expected CST, `===`/`---` delimited)
 queries/highlights.scm   syntax-highlighting queries (WIP)
 ```
 
-The grammar is split into rule modules under `include/`, spread into a single
-`grammar()` call in `grammar.js`. See [`CLAUDE.md`](CLAUDE.md) for the module
-map, precedence table, and notes on the known GLR conflicts.
+See [`CLAUDE.md`](CLAUDE.md) for the module map, precedence table and GLR
+conflict notes.
 
 ## Cross-project dependency
 
-The sibling Go project (`../lyra`) compiles `src/parser.c` through CGO and caches
-the result. **After regenerating the grammar, invalidate that cache before
-running Go tests:**
+`../lyra` compiles `src/parser.c` through CGO, and Go's build cache does not
+notice a regenerated parser. **Clear it before running Go tests:**
 
 ```bash
 npx tree-sitter generate      # here, in tree-sitter-lyra/
@@ -58,9 +54,6 @@ cd ../lyra
 go clean -cache               # otherwise Go serves the STALE compiled parser
 go test ./...
 ```
-
-Skipping `go clean -cache` causes the Go tests to silently run against the old
-grammar.
 
 ## License
 
