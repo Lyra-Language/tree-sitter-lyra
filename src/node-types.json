@@ -981,6 +981,10 @@
             "named": true
           },
           {
+            "type": "array_comp_expr",
+            "named": true
+          },
+          {
             "type": "array_literal",
             "named": true
           },
@@ -1154,6 +1158,10 @@
         "types": [
           {
             "type": "address_of_expr",
+            "named": true
+          },
+          {
+            "type": "array_comp_expr",
             "named": true
           },
           {
@@ -1345,6 +1353,10 @@
             "named": true
           },
           {
+            "type": "array_comp_expr",
+            "named": true
+          },
+          {
             "type": "array_literal",
             "named": true
           },
@@ -1507,6 +1519,10 @@
             "named": true
           },
           {
+            "type": "array_comp_expr",
+            "named": true
+          },
+          {
             "type": "array_literal",
             "named": true
           },
@@ -1626,6 +1642,10 @@
           },
           {
             "type": "anonymous_struct_literal",
+            "named": true
+          },
+          {
+            "type": "array_comp_expr",
             "named": true
           },
           {
@@ -1817,6 +1837,10 @@
             "named": true
           },
           {
+            "type": "array_comp_expr",
+            "named": true
+          },
+          {
             "type": "array_literal",
             "named": true
           },
@@ -1998,6 +2022,10 @@
         "required": true,
         "types": [
           {
+            "type": "array_comp_expr",
+            "named": true
+          },
+          {
             "type": "array_literal",
             "named": true
           },
@@ -2163,6 +2191,10 @@
         "types": [
           {
             "type": "address_of_expr",
+            "named": true
+          },
+          {
+            "type": "array_comp_expr",
             "named": true
           },
           {
@@ -2339,6 +2371,10 @@
         "types": [
           {
             "type": "address_of_expr",
+            "named": true
+          },
+          {
+            "type": "array_comp_expr",
             "named": true
           },
           {
@@ -3298,6 +3334,10 @@
         "required": true,
         "types": [
           {
+            "type": "array_comp_expr",
+            "named": true
+          },
+          {
             "type": "array_literal",
             "named": true
           },
@@ -3760,6 +3800,10 @@
         "types": [
           {
             "type": "anonymous_struct_literal",
+            "named": true
+          },
+          {
+            "type": "array_comp_expr",
             "named": true
           },
           {
@@ -4624,6 +4668,10 @@
         "required": true,
         "types": [
           {
+            "type": "array_comp_expr",
+            "named": true
+          },
+          {
             "type": "array_literal",
             "named": true
           },
@@ -5184,6 +5232,10 @@
         "required": true,
         "types": [
           {
+            "type": "array_comp_expr",
+            "named": true
+          },
+          {
             "type": "array_literal",
             "named": true
           },
@@ -5542,6 +5594,10 @@
             "named": true
           },
           {
+            "type": "array_comp_expr",
+            "named": true
+          },
+          {
             "type": "array_literal",
             "named": true
           },
@@ -5741,6 +5797,10 @@
         "required": true,
         "types": [
           {
+            "type": "array_comp_expr",
+            "named": true
+          },
+          {
             "type": "array_literal",
             "named": true
           },
@@ -5852,6 +5912,10 @@
         "multiple": false,
         "required": true,
         "types": [
+          {
+            "type": "array_comp_expr",
+            "named": true
+          },
           {
             "type": "array_literal",
             "named": true
@@ -6586,6 +6650,10 @@
         "required": true,
         "types": [
           {
+            "type": "array_comp_expr",
+            "named": true
+          },
+          {
             "type": "array_literal",
             "named": true
           },
@@ -6714,6 +6782,10 @@
         "required": true,
         "types": [
           {
+            "type": "array_comp_expr",
+            "named": true
+          },
+          {
             "type": "array_literal",
             "named": true
           },
@@ -6833,6 +6905,10 @@
         "multiple": false,
         "required": true,
         "types": [
+          {
+            "type": "array_comp_expr",
+            "named": true
+          },
           {
             "type": "array_literal",
             "named": true
@@ -7761,6 +7837,10 @@
         "required": true,
         "types": [
           {
+            "type": "array_comp_expr",
+            "named": true
+          },
+          {
             "type": "array_literal",
             "named": true
           },
@@ -7908,6 +7988,10 @@
         "multiple": false,
         "required": true,
         "types": [
+          {
+            "type": "array_comp_expr",
+            "named": true
+          },
           {
             "type": "array_literal",
             "named": true

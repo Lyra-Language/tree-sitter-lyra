@@ -313,3 +313,59 @@ let ys = [ y in xs.map(f) | y ]
               (identifier)))))
       (result_expr
         (identifier)))))
+
+==========================================
+A comprehension is a postfix head
+==========================================
+
+let csv = [x in xs | x].join(",")
+let first = [x in xs | x * 2][0]
+let s = "${[x in xs | x].len()}"
+
+---
+
+(program
+  (declaration
+    (identifier)
+    (call_expr
+      (member_expr
+        (array_comp_expr
+          (generator
+            (identifier)
+            (identifier))
+          (result_expr
+            (identifier)))
+        (identifier))
+      (argument_list
+        (value
+          (string_literal
+            (string_content))))))
+  (declaration
+    (identifier)
+    (index_expr
+      (array_comp_expr
+        (generator
+          (identifier)
+          (identifier))
+        (result_expr
+          (binary_expr
+            (identifier)
+            (mul_operator)
+            (integer_literal
+              (decimal_int)))))
+      (integer_literal
+        (decimal_int))))
+  (declaration
+    (identifier)
+    (string_literal
+      (string_interpolation
+        (call_expr
+          (member_expr
+            (array_comp_expr
+              (generator
+                (identifier)
+                (identifier))
+              (result_expr
+                (identifier)))
+            (identifier))
+          (argument_list))))))

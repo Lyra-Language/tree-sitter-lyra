@@ -1356,10 +1356,6 @@
         },
         {
           "type": "SYMBOL",
-          "name": "array_comp_expr"
-        },
-        {
-          "type": "SYMBOL",
           "name": "spread_expr"
         },
         {
@@ -3711,6 +3707,10 @@
         {
           "type": "SYMBOL",
           "name": "array_repeat_init"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "array_comp_expr"
         },
         {
           "type": "SYMBOL",

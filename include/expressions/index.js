@@ -29,7 +29,6 @@ module.exports = {
       $.if_block_expr,
       $.match_expr,
       $.lambda_expr,
-      $.array_comp_expr,
       $.spread_expr,
       $.null_coalescing_expr,
       $.compose_expr,

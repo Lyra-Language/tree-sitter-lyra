@@ -69,6 +69,10 @@ module.exports = {
     // (08/28): `["x"; 3].join("-")` must parse where `["x", "x"].join("-")` does. Moved
     // here from `_literal` rather than added to both, so it keeps one derivation path.
     $.array_repeat_init,
+    // The comprehension is the third array form and a head for the same reason (09/13):
+    // `[x in xs | x].join(",")` was a syntax error while `[1, 2].join(",")` parsed. Moved
+    // here from `expression`, not added beside it, so it keeps one derivation path.
+    $.array_comp_expr,
     $.tuple_literal,
     $._number_literal,
   ),
