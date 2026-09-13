@@ -142,8 +142,15 @@ const PREC = {
   WITH_STATEMENT: 200,
   MATCH_EXPR: 201,
 
-  AWAIT: 250,
-  YIELD_FROM: 251,
+  // `await`, `yield` and `yield from` take a whole expression as their operand, so they are
+  // the **loosest**-binding forms, below every binary operator. They sat at 250/251 until
+  // 09/13, above everything but postfix, which made each of them stop at the first
+  // operator looser than itself: `yield from 0..<3` parsed as `(yield from 0) ..< 3`,
+  // `yield x ?? y` as `(yield x) ?? y`, and `yield f ->> g` as `(yield f) ->> g`. Arithmetic
+  // happened to work, which is what kept it hidden. YIELD_FROM stays one above AWAIT so
+  // `yield from x` beats `yield` applied to an identifier named `from`.
+  AWAIT: -10,
+  YIELD_FROM: -9,
 
   // Function composition — between logical ops and equality so operands
   // are fully-formed expressions (calls, lambdas, identifiers) and chained

@@ -125,3 +125,52 @@ let pipeline = gen (items: []Item) -> Gen<Result> => {
               (argument_list
                 (value
                   (identifier))))))))))
+
+==========================================
+A yield takes its whole operand, loose operators included
+==========================================
+
+let g = () => {
+  yield from 0..<3
+  yield x ?? y
+  yield f ->> g
+  await a..<b
+}
+
+---
+
+(program
+  (declaration
+    (identifier)
+    (lambda_expr
+      (parameter_list)
+      (block
+        (expression_statement
+          (yield_from_expr
+            (range_expr
+              (range_start
+                (integer_literal
+                  (decimal_int)))
+              (range_end_operator)
+              (range_end
+                (integer_literal
+                  (decimal_int))))))
+        (expression_statement
+          (yield_expr
+            (null_coalescing_expr
+              (identifier)
+              (identifier))))
+        (expression_statement
+          (yield_expr
+            (compose_expr
+              (identifier)
+              (compose_operator)
+              (identifier))))
+        (expression_statement
+          (await_expr
+            (range_expr
+              (range_start
+                (identifier))
+              (range_end_operator)
+              (range_end
+                (identifier)))))))))

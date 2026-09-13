@@ -1448,7 +1448,7 @@
     },
     "await_expr": {
       "type": "PREC_RIGHT",
-      "value": 250,
+      "value": -10,
       "content": {
         "type": "SEQ",
         "members": [
@@ -1469,7 +1469,7 @@
     },
     "yield_expr": {
       "type": "PREC_RIGHT",
-      "value": 250,
+      "value": -10,
       "content": {
         "type": "SEQ",
         "members": [
@@ -1490,7 +1490,7 @@
     },
     "yield_from_expr": {
       "type": "PREC_RIGHT",
-      "value": 251,
+      "value": -9,
       "content": {
         "type": "SEQ",
         "members": [
