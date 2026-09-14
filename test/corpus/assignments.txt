@@ -382,6 +382,40 @@ grid[i].y = 9
       (decimal_int))))
 
 ==========================================
+Tuple index assignment (interior mutation)
+==========================================
+
+p.0 = 9
+b.t.1 = 2
+xs[i].0 = 3
+
+---
+
+(program
+  (tuple_index_assignment
+    target: (tuple_index_expr
+      object: (identifier)
+      index: (decimal_int))
+    value: (integer_literal
+      (decimal_int)))
+  (tuple_index_assignment
+    target: (tuple_index_expr
+      object: (member_expr
+        object: (identifier)
+        property: (identifier))
+      index: (decimal_int))
+    value: (integer_literal
+      (decimal_int)))
+  (tuple_index_assignment
+    target: (tuple_index_expr
+      object: (index_expr
+        object: (identifier)
+        index: (identifier))
+      index: (decimal_int))
+    value: (integer_literal
+      (decimal_int))))
+
+==========================================
 given is a plain identifier (keyword retired)
 ==========================================
 

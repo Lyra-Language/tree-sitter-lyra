@@ -8507,6 +8507,10 @@
         },
         {
           "type": "SYMBOL",
+          "name": "tuple_index_assignment"
+        },
+        {
+          "type": "SYMBOL",
           "name": "tuple_assignment"
         },
         {
@@ -9329,6 +9333,31 @@
           "content": {
             "type": "SYMBOL",
             "name": "index_expr"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": "="
+        },
+        {
+          "type": "FIELD",
+          "name": "value",
+          "content": {
+            "type": "SYMBOL",
+            "name": "expression"
+          }
+        }
+      ]
+    },
+    "tuple_index_assignment": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "FIELD",
+          "name": "target",
+          "content": {
+            "type": "SYMBOL",
+            "name": "tuple_index_expr"
           }
         },
         {

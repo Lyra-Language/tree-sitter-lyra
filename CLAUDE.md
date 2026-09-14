@@ -24,7 +24,7 @@ npx tree-sitter generate --report-states-for-rule -   # per-rule state attributi
 | `include/expressions/` | expressions (math, boolean, postfix, lambdas, match, if, range, comprehensions, async/await, compose `->>`), string interpolation |
 | `include/expressions/functions.js` | function/lambda definitions, guards |
 | `include/types/` | `struct`, `data`, `tuple`, `newtype`, `union`, `type` aliases, traits, impls, generics, `where`, allocation modifiers |
-| `include/statements/` | `let`/`var`/`const`, tuple assignment, compound assignment, `for`/`for-in`, `arena`/`with`, jumps, `extern` |
+| `include/statements/` | `let`/`var`/`const`, place assignment (`p.x`, `xs[i]`, `p.0`, `p^`), tuple assignment, compound assignment, `for`/`for-in`, `arena`/`with`, jumps, `extern` |
 | `include/literals/` | struct, tuple, array literals; `numbers.js` (dec/`0x`/`0b`/`0o`, float), `regex.js`, `nullptr.js` |
 | `include/patterns/` | patterns for `match` arms and `if let` |
 | `include/destructuring/` | destructuring declarations |

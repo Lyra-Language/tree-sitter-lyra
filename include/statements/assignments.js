@@ -168,6 +168,13 @@ module.exports = {
   index_assignment: ($) =>
     seq(field("target", $.index_expr), "=", field("value", $.expression)),
 
+  // A tuple element by position: `p.0 = v`, `b.t.1 = v`, `xs[i].0 = v`. The third place
+  // path beside a member and an element, and the same kind of write — a named or anonymous
+  // tuple is laid out like a struct whose fields are numbered. It had no statement form,
+  // so `p.0 = v` was a syntax error while `p.x = v` on a struct was not.
+  tuple_index_assignment: ($) =>
+    seq(field("target", $.tuple_index_expr), "=", field("value", $.expression)),
+
   // Tuple assignment — several places written from one tuple:
   //   (a, b) = (b, a)        (xs[i], xs[j]) = (xs[j], xs[i])        (q, r) = divmod(n, d)
   // The target is parsed as an ordinary `tuple_literal` and the *collector* refuses any
