@@ -34,7 +34,9 @@ module.exports = grammar({
     $._interpolation_start,
     $._interpolation_end,
     $._string_end,
-    $._raw_string_literal,
+    $._raw_string_start,
+    $._raw_string_content,
+    $._raw_string_end,
     // The statement terminator. Zero-width, emitted by the scanner for a line
     // break that ends a statement — see scan_newline in src/scanner.c for why
     // the parser, not a token table, decides where that is.

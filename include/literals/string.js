@@ -6,7 +6,16 @@ module.exports = {
       alias($._string_end, '"'),
     ),
 
-  raw_string_literal: ($) => $._raw_string_literal,
+  // Three tokens so the content is a node of its own, which an editor can inject
+  // another language into (`/* glsl */ \`…\``) without the delimiters.
+  raw_string_literal: ($) =>
+    seq(
+      $._raw_string_start,
+      optional($.raw_string_content),
+      $._raw_string_end,
+    ),
+
+  raw_string_content: ($) => $._raw_string_content,
 
   string_content: ($) => $._string_content,
 

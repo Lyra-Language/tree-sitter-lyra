@@ -9,7 +9,9 @@ enum TokenType {
   INTERPOLATION_START,
   INTERPOLATION_END,
   STRING_END,
-  RAW_STRING_LITERAL,
+  RAW_STRING_START,
+  RAW_STRING_CONTENT,
+  RAW_STRING_END,
   NEWLINE,
 };
 
@@ -32,6 +34,10 @@ typedef struct {
 typedef struct {
   StackEntry stack[MAX_STACK_DEPTH];
   unsigned stack_size;
+  // Inside a raw string: 0 when not, otherwise one more than the number of '#'
+  // its opener had — which is what its closer must repeat. A raw string holds
+  // no interpolation, so it never nests and one field is the whole state.
+  unsigned raw_hashes_plus_one;
 } Scanner;
 
 // Helper: check if we're currently inside a string context
@@ -136,20 +142,41 @@ static bool scan_block_comment(TSLexer *lexer) {
 // The number of '#' characters preceding the opening backtick determines the
 // number of '#' characters required after the closing backtick. Content is
 // literal: no escape sequences, no interpolation.
-static bool scan_raw_string(TSLexer *lexer) {
+//
+// **It is three tokens, not one**: the opener, the content, and the closer. The
+// content is its own node (`raw_string_content`) so an editor can inject another
+// language into exactly the string's text — Zed's injection queries cannot trim
+// delimiters off a node, so a single token would hand GLSL its backticks. The
+// opener's '#' count is scanner state until the closer is found.
+static bool scan_raw_string_start(Scanner *scanner, TSLexer *lexer) {
   unsigned hash_count = 0;
   while (lexer->lookahead == '#') {
     lexer->advance(lexer, false);
     hash_count++;
   }
 
-  if (lexer->lookahead != '`') {
+  // The count is serialized as one byte, as one more than itself.
+  if (lexer->lookahead != '`' || hash_count > 254) {
     return false;
   }
   lexer->advance(lexer, false);
+  lexer->mark_end(lexer);
+  scanner->raw_hashes_plus_one = hash_count + 1;
+  lexer->result_symbol = RAW_STRING_START;
+  return true;
+}
+
+// The content up to the closer, or the closer itself when no content is left.
+// Returns false at end of file: an unterminated raw string is an error, not a
+// string running to the end of the file.
+static bool scan_raw_string_rest(Scanner *scanner, TSLexer *lexer) {
+  unsigned hash_count = scanner->raw_hashes_plus_one - 1;
+  bool has_content = false;
 
   while (!lexer->eof(lexer)) {
     if (lexer->lookahead == '`') {
+      // The content, if this is the closer, ends before the backtick.
+      lexer->mark_end(lexer);
       lexer->advance(lexer, false);
       unsigned matched = 0;
       while (matched < hash_count && lexer->lookahead == '#') {
@@ -157,16 +184,23 @@ static bool scan_raw_string(TSLexer *lexer) {
         matched++;
       }
       if (matched == hash_count) {
+        if (has_content) {
+          lexer->result_symbol = RAW_STRING_CONTENT;
+          return true;
+        }
         lexer->mark_end(lexer);
-        lexer->result_symbol = RAW_STRING_LITERAL;
+        scanner->raw_hashes_plus_one = 0;
+        lexer->result_symbol = RAW_STRING_END;
         return true;
       }
-      // Not a complete terminator; keep scanning the body.
+      // Not a complete closer; what was read is content. Re-test the lookahead
+      // without advancing, since it may be the backtick of the real closer.
+      has_content = true;
       continue;
     }
     lexer->advance(lexer, false);
+    has_content = true;
   }
-
   return false;
 }
 
@@ -354,12 +388,13 @@ void tree_sitter_lyra_external_scanner_destroy(void *payload) {
 unsigned tree_sitter_lyra_external_scanner_serialize(void *payload, char *buffer) {
   Scanner *scanner = (Scanner *)payload;
   
-  // Serialize stack size
-  if (scanner->stack_size == 0) {
+  // Nothing open: the common case serializes to nothing.
+  if (scanner->stack_size == 0 && scanner->raw_hashes_plus_one == 0) {
     return 0;
   }
   
   unsigned pos = 0;
+  buffer[pos++] = (char)scanner->raw_hashes_plus_one;
   buffer[pos++] = (char)scanner->stack_size;
   
   // Serialize each stack entry
@@ -374,12 +409,14 @@ unsigned tree_sitter_lyra_external_scanner_serialize(void *payload, char *buffer
 void tree_sitter_lyra_external_scanner_deserialize(void *payload, const char *buffer, unsigned length) {
   Scanner *scanner = (Scanner *)payload;
   scanner->stack_size = 0;
+  scanner->raw_hashes_plus_one = 0;
   
-  if (length == 0) {
+  if (length < 2) {
     return;
   }
   
   unsigned pos = 0;
+  scanner->raw_hashes_plus_one = (unsigned char)buffer[pos++];
   scanner->stack_size = (unsigned char)buffer[pos++];
   
   if (scanner->stack_size > MAX_STACK_DEPTH) {
@@ -402,6 +439,16 @@ bool tree_sitter_lyra_external_scanner_scan(void *payload, TSLexer *lexer, const
   //
   // valid_symbols[NEWLINE] is false in the overwhelming majority of states, so
   // the common path is one array read.
+  // Inside a raw string every byte is content, so nothing else may lex: a
+  // newline, a `/*` or a `"` there is text. The parser only ever asks for the
+  // content or the closer in that state; error recovery asks for everything.
+  if (scanner->raw_hashes_plus_one > 0) {
+    if (valid_symbols[RAW_STRING_CONTENT] || valid_symbols[RAW_STRING_END]) {
+      return scan_raw_string_rest(scanner, lexer);
+    }
+    return false;
+  }
+
   if (valid_symbols[NEWLINE] && !in_string(scanner) && !in_interpolation(scanner)) {
     if (scan_newline(lexer)) {
       return true;
@@ -434,9 +481,9 @@ bool tree_sitter_lyra_external_scanner_scan(void *payload, TSLexer *lexer, const
 
   // Handle raw string literal. Only valid outside of regular string content,
   // since inside a "..." string, '#' may start an interpolation.
-  if (valid_symbols[RAW_STRING_LITERAL] && !in_string(scanner)) {
+  if (valid_symbols[RAW_STRING_START] && !in_string(scanner)) {
     if (lexer->lookahead == '#' || lexer->lookahead == '`') {
-      if (scan_raw_string(lexer)) {
+      if (scan_raw_string_start(scanner, lexer)) {
         return true;
       }
     }

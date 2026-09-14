@@ -9,7 +9,8 @@ const URL = `http:\\www.example.com`
 (program
   (const_declaration
     (const_identifier)
-    (raw_string_literal)))
+    (raw_string_literal
+      (raw_string_content))))
 
 =========================================
 Raw String Literal containing a backtick
@@ -22,7 +23,8 @@ const SNIPPET = #`use the ` character`#
 (program
   (const_declaration
     (const_identifier)
-    (raw_string_literal)))
+    (raw_string_literal
+      (raw_string_content))))
 
 ==================================================
 Raw String Literal with two levels of # delimiters
@@ -35,7 +37,8 @@ const SNIPPET = ##`mix of ` and `# inside`##
 (program
   (const_declaration
     (const_identifier)
-    (raw_string_literal)))
+    (raw_string_literal
+      (raw_string_content))))
 
 ====================================================
 Raw String Literal does not process escape sequences
@@ -48,7 +51,8 @@ const PATH = `C:\Users\name\n.txt`
 (program
   (const_declaration
     (const_identifier)
-    (raw_string_literal)))
+    (raw_string_literal
+      (raw_string_content))))
 
 ==============================================
 Raw String Literal does not interpolate values
@@ -61,7 +65,59 @@ const TEMPLATE = `hello ${name}`
 (program
   (const_declaration
     (const_identifier)
+    (raw_string_literal
+      (raw_string_content))))
+
+==========================
+Empty Raw String Literal
+==========================
+
+const NOTHING = ``
+
+---
+
+(program
+  (const_declaration
+    (const_identifier)
     (raw_string_literal)))
+
+=================================================================
+Multi-line Raw String Literal holds newlines, comments and quotes
+=================================================================
+
+const SHADER = `#version 330
+/* not a comment */
+// nor this
+out vec4 "color";
+`
+let after = 1
+
+---
+
+(program
+  (const_declaration
+    (const_identifier)
+    (raw_string_literal
+      (raw_string_content)))
+  (declaration
+    (identifier)
+    (integer_literal
+      (decimal_int))))
+
+=====================================================
+A block comment before a Raw String Literal is a sibling
+=====================================================
+
+let fragment = /* glsl */ `void main() {}`
+
+---
+
+(program
+  (declaration
+    (identifier)
+    (comment)
+    (raw_string_literal
+      (raw_string_content))))
 
 =============================================================
 Unterminated Raw String Literal is an error

@@ -34,16 +34,18 @@ npx tree-sitter generate --report-states-for-rule -   # per-rule state attributi
 | `include/helpers.js` | `commaSep1`, `commaSep`, `memberList`, `statementList`, `parameterList`, `rangeBounds` |
 | `include/prec.js` | all `PREC.*` constants |
 | `src/parser.c` | generated — never edit by hand |
-| `src/scanner.c` | external scanner: string interpolation, block comments, statement terminator |
+| `src/scanner.c` | external scanner: string interpolation, raw strings, block comments, statement terminator |
 | `test/corpus/**/*.txt` | corpus tests |
 | `queries/highlights.scm` | highlight queries (nvim capture names; WIP) |
+| `queries/injections.scm` | `/* glsl */` raw string → GLSL |
 
 ```js
 supertypes: [$.expression, $.statement, $.pattern, $.type]
 extras:     [/\s/, $.doc_comment, $.inner_doc_comment, $.comment]
 externals:  [$._BLOCK_COMMENT, $._string_start, $._string_content,
              $._interpolation_start, $._interpolation_end,
-             $._string_end, $._raw_string_literal, $._newline]
+             $._string_end, $._raw_string_start, $._raw_string_content,
+             $._raw_string_end, $._newline]
 ```
 
 ## Parser Size
@@ -65,6 +67,14 @@ A line break ends a statement; `;` is the explicit form. `statementList` (used b
 - Known gap: a block comment holding the only newline (`a = 1 /*` ⏎ `*/ b = 2`) joins the statements.
 - **`memberList`** (trait/impl methods) and struct *declaration* fields (`struct_type_body`, `anonymous_struct_type`) take `_statement_separator` too; commas still work, the list stays non-empty (`trait C { , }` is an error). Struct **literal** fields (`struct_fields`) still require commas — they sit inside the literal-vs-block conflict; changing that needs its own measurement.
 - **Comment scanning is gated on `!in_string(scanner)` — do not remove.** Otherwise a string whose content chunk begins with `/*` (after the quote, after `${…}`, or after leading whitespace) lexes as a comment to the next `*/` in the file, silently. Interpolations (`CTX_INTERPOLATION`) are not "in string", so comments still work there. Pinned in `test/corpus/literals/string.txt`.
+
+## Raw Strings
+
+`raw_string_literal` is **three external tokens** — opener (`` #*` ``), `raw_string_content`, closer — so the content is a node an editor can inject into without the delimiters (Zed's injection queries cannot trim a node). Keep it that way; `lyra-zed-ext/languages/lyra/injections.scm` depends on the content node.
+
+- The opener's `#` count lives in `Scanner.raw_hashes_plus_one` (serialized as one byte; more than 254 `#` is refused). While it is non-zero **the scanner emits nothing but content or the closer**, ahead of the newline and block-comment branches — otherwise a newline or `/*` inside the string lexes as a token.
+- An empty raw string has no content node. Unterminated is an `ERROR`, not a string to EOF.
+- A `/* glsl */` marker parses as a `comment` sibling of the literal, or of the `value` wrapping a call argument; `queries/injections.scm` matches both.
 
 ## Comment Tokens (`include/comments.js`)
 
