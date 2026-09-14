@@ -127,6 +127,20 @@ module.exports = {
           field("pattern", $.pattern),
         ),
       ),
+      // **An all-caps constructor** (`LOUD`, `CD(x)`), which lexes as a `const_identifier`
+      // wherever a constant is also legal — and one is, since a range pattern may be bounded
+      // by a constant (09/13). Its payload is **parenthesized only**: `CD x` stays
+      // unsupported, as `CD 5` already is in expression position (helpers.js,
+      // typeNameInExpr), and that is what keeps `LOW ..<5` from reading as the constructor
+      // LOW applied to an open range — a `(` is the only way a payload may begin.
+      field("name", alias($.const_identifier, $.data_type_name)),
+      prec.left(
+        PREC.DATA_PATTERN,
+        seq(
+          field("name", alias($.const_identifier, $.data_type_name)),
+          field("pattern", $.tuple_pattern),
+        ),
+      ),
     ),
 
   // A number literal in *pattern* position, with an optional leading `-`.
@@ -178,24 +192,30 @@ module.exports = {
   // a compile-time constant for exhaustiveness and for the jump-ladder lowering.
   // That is a deliberate difference from `range_expr`, not drift — see rangeBounds.
   //
-  // **A `const` bound (`LOW..<=HIGH`) does not parse, and the blocker is lexical
-  // rather than a missing alternative.** Admitting `const_identifier` here is one
-  // line and it generates — but `A`, `MAX` and every other all-uppercase *data
-  // constructor* pattern then misparses as a range bound with a MISSING `..`,
-  // because `const_identifier` and `user_defined_type_name` match that text
-  // identically and the lexer picks the constant once one is legal in the state.
-  // GLR conflict entries do not help (tree-sitter reports them "unnecessary" — the
-  // decision is made in the lexer, not the parser). It is the same ambiguity that
-  // blocks an all-caps struct literal, and it wants that grammar project rather
-  // than this reflex — see `lyra/todo.md`.
+  // **A bound may also be a `const`** (`LOW..<=HIGH`, 09/13); the typechecker folds it to
+  // its literal, so exhaustiveness and lowering still see a number. The obstacle was
+  // lexical: `const_identifier` and `user_defined_type_name` match `LOUD` identically and
+  // the lexer picks the constant wherever one is legal, so every all-caps constructor
+  // pattern misparsed as a range bound. data_pattern now admits a `const_identifier`
+  // constructor (parenthesized payload only), and the conflicts beside `_constant_bound`
+  // in grammar.js keep `(LOW..<HIGH)` an expression.
   range_pattern: ($) =>
     prec.left(
       PREC.RANGE_PATTERN,
       rangeBounds($, {
-        startOperand: $._signed_number_literal,
+        startOperand: choice($._signed_number_literal, $._constant_bound),
         open: true,
       }),
     ),
+
+  // A constant as a range bound. Its own rule rather than a bare `const_identifier` for the
+  // reason `_signed_number_literal` is one: in a `(`-led context the name is also the start
+  // of an expression (`(LOW..<HIGH)` the parenthesized range), and a bare token in the
+  // pattern would be *shifted* on `..` while the expression reading needs it *reduced* —
+  // which the pattern's static precedence settled at generation time, silently dropping the
+  // expression. A rule of its own makes both readings reduce, so GLR keeps them apart until
+  // the context decides.
+  _constant_bound: ($) => $.const_identifier,
 
   // Wildcard pattern
   wildcard_pattern: ($) => prec.left(PREC.WILDCARD_PATTERN, "_"),

@@ -6400,6 +6400,10 @@
         "required": false,
         "types": [
           {
+            "type": "const_identifier",
+            "named": true
+          },
+          {
             "type": "float_literal",
             "named": true
           },
@@ -6427,6 +6431,10 @@
         "multiple": false,
         "required": false,
         "types": [
+          {
+            "type": "const_identifier",
+            "named": true
+          },
           {
             "type": "float_literal",
             "named": true

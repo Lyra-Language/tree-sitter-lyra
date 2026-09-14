@@ -586,7 +586,7 @@ for {
       (for_body
         (expression_statement
           (match_expr
-        (identifier)
+            (identifier)
             (match_arm
               (data_pattern
                 (data_type_name))
@@ -635,3 +635,144 @@ let f = () -> i64 => match m {
           (wildcard_pattern)
           (integer_literal
             (decimal_int)))))))
+
+==============================================
+A range pattern may be bounded by a const
+==============================================
+
+let f = (n: i64) -> i64 => match n {
+  ..<LOW => 0,
+  LOW..<=HIGH => 1,
+  -5..<MAX => 2,
+  (LOW..<HIGH, _) => 3,
+  HIGH.. => 4,
+}
+
+---
+
+(program
+  (declaration
+    (identifier)
+    (lambda_expr
+      (parameter_list
+        (parameter
+          (identifier)
+          (signed_integer_type)))
+      (return_type
+        (signed_integer_type))
+      (match_expr
+        (identifier)
+        (match_arm
+          (range_pattern
+            (range_end_operator)
+            (const_identifier))
+          (integer_literal
+            (decimal_int)))
+        (match_arm
+          (range_pattern
+            (const_identifier)
+            (range_end_operator)
+            (const_identifier))
+          (integer_literal
+            (decimal_int)))
+        (match_arm
+          (range_pattern
+            (negation
+              (integer_literal
+                (decimal_int)))
+            (range_end_operator)
+            (const_identifier))
+          (integer_literal
+            (decimal_int)))
+        (match_arm
+          (tuple_pattern
+            (range_pattern
+              (const_identifier)
+              (range_end_operator)
+              (const_identifier))
+            (wildcard_pattern))
+          (integer_literal
+            (decimal_int)))
+        (match_arm
+          (range_pattern
+            (const_identifier))
+          (integer_literal
+            (decimal_int)))))))
+
+==============================================
+An all-caps constructor pattern, bare or with a parenthesized payload
+==============================================
+
+let f = (s: Sh) -> i64 => match s {
+  LOUD => 0,
+  CD(x) => x,
+  Some(LOW..<=HIGH) => 1,
+}
+
+---
+
+(program
+  (declaration
+    (identifier)
+    (lambda_expr
+      (parameter_list
+        (parameter
+          (identifier)
+          (user_defined_type_name)))
+      (return_type
+        (signed_integer_type))
+      (match_expr
+        (identifier)
+        (match_arm
+          (data_pattern
+            (data_type_name))
+          (integer_literal
+            (decimal_int)))
+        (match_arm
+          (data_pattern
+            (data_type_name)
+            (tuple_pattern
+              (identifier)))
+          (identifier))
+        (match_arm
+          (data_pattern
+            (data_type_name)
+            (tuple_pattern
+              (range_pattern
+                (const_identifier)
+                (range_end_operator)
+                (const_identifier))))
+          (integer_literal
+            (decimal_int)))))))
+
+==============================================
+A parenthesized range of consts is still an expression
+==============================================
+
+let xs = (LOW..<HIGH)
+for i in (LOW..<HIGH) { }
+
+---
+
+(program
+  (declaration
+    (identifier)
+    (parenthesized_expr
+      (range_expr
+        (range_start
+          (const_identifier))
+        (range_end_operator)
+        (range_end
+          (const_identifier)))))
+  (expression_statement
+    (for_in_loop
+      (for_in_condition
+        (for_variable_or_key)
+        (parenthesized_expr
+          (range_expr
+            (range_start
+              (const_identifier))
+            (range_end_operator)
+            (range_end
+              (const_identifier)))))
+      (for_in_body))))

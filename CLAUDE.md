@@ -154,6 +154,12 @@ Corpus guards: `A comprehension is a postfix head` (expressions/array_comprehens
 - **The operand must be atomic** (literal, name, nullary constructor, negated literal, struct/array literal, another application). Admitting any postfix form (`call_expr`, `member_expr`, …) reaches `parenthesized_expr` and breaks `(Some(x): Maybe<i64>) -> i64`; no conflict entry fixes it.
 - `[_tuple_name, _primary_expr, data_pattern]` is load-bearing for the parameter case even if generation calls it unnecessary.
 
+## All-Caps Names in Patterns
+
+- `const_identifier` and `user_defined_type_name` lex `LOUD` identically, and the lexer picks the constant wherever one is legal. A range bound may be a `const`, so `data_pattern` admits a `const_identifier` constructor too, **payload parenthesized only** (`CD(x)`, not `CD x`) so `LOW ..<5` cannot read as a constructor applied to a range.
+- `_constant_bound` is a rule of its own, with conflicts against `_primary_expr` and `_constructor_value`: a bare token would be shifted on `..`, silently dropping the `(LOW..<HIGH)` expression reading.
+- Corpus guards (expressions/control_flow/match.txt): `A range pattern may be bounded by a const`, `An all-caps constructor pattern, bare or with a parenthesized payload`, `A parenthesized range of consts is still an expression`.
+
 ## Function-Definition Sugar (`declaration`, `include/statements/assignments.js`)
 
 ```lyra

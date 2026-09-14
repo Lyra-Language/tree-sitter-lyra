@@ -153,6 +153,16 @@ module.exports = grammar({
     // the `[expression, _math_operand]` entry above, which exists for exactly
     // this reason on the unsigned side.
     [$._math_operand, $._negated_number_literal],
+    // **All-caps names in patterns** (09/13). A range pattern's bound may be a constant
+    // (`LOW..<=HIGH`) and an all-caps constructor pattern (`LOUD`, `CD(x)`) lexes as a
+    // `const_identifier` too. In a `(`-led context the same name also begins an expression —
+    // `(LOW..<HIGH)` the parenthesized range, `(MAX)` — so each reading needs the fork
+    // `[pattern, _primary_expr]` keeps for a plain identifier. A missing entry here does not
+    // always fail generation: a static precedence can settle it and silently drop the
+    // expression reading, which is how `(LOW..<HIGH)` first stopped parsing. Check that form
+    // after any change to these.
+    [$._constructor_value, $._constant_bound],
+    [$._primary_expr, $._constant_bound],
     // An empty `[]` (and, in a `(`-led context, a non-empty `[…]`) is ambiguous
     // between an empty array *literal* (expression) and an empty array *pattern*
     // (a match arm / lambda param). GLR keeps both alive until the surrounding
