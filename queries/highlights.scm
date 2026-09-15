@@ -102,6 +102,8 @@
 (rune_type)             @type.builtin
 (void_type)             @type.builtin
 (self_type)             @type.builtin
+; `_` in an impl target, the position a `Self<…>` argument fills.
+(hole_type)             @type.builtin
 
 ; =============================================================================
 ; User-defined types and type names

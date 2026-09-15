@@ -4431,6 +4431,11 @@
     }
   },
   {
+    "type": "hole_type",
+    "named": true,
+    "fields": {}
+  },
+  {
     "type": "if_block_expr",
     "named": true,
     "fields": {
@@ -6209,6 +6214,10 @@
           {
             "type": ",",
             "named": false
+          },
+          {
+            "type": "hole_type",
+            "named": true
           },
           {
             "type": "type",

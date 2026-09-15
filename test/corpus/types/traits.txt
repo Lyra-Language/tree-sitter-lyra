@@ -148,6 +148,13 @@ impl Functor for Maybe {
   }
 }
 
+impl Functor for Result<_, e> {
+  map = (self, fn) => match self {
+    Ok(v) => Ok(fn(v)),
+    Err(x) => Err(x)
+  }
+}
+
 ---
 
 (program
@@ -242,7 +249,45 @@ impl Functor for Maybe {
             (match_arm
               (data_pattern
                 (data_type_name))
-              (user_defined_type_name))))))))
+              (user_defined_type_name)))))))
+  (trait_implementation
+    (trait_name)
+    (parameterized_type
+      (user_defined_type_name)
+      (hole_type)
+      (generic_type))
+    (impl_methods
+      (trait_method_implementation
+        (method_name
+          (identifier))
+        (method_clause
+          (pattern_parameter_list
+            (identifier)
+            (identifier))
+          (match_expr
+            (identifier)
+            (match_arm
+              (data_pattern
+                (data_type_name)
+                (tuple_pattern
+                  (identifier)))
+              (tuple_literal
+                (tuple_name)
+                (tuple_value
+                  (call_expr
+                    (identifier)
+                    (argument_list
+                      (value
+                        (identifier)))))))
+            (match_arm
+              (data_pattern
+                (data_type_name)
+                (tuple_pattern
+                  (identifier)))
+              (tuple_literal
+                (tuple_name)
+                (tuple_value
+                  (identifier))))))))))
 
 =====================
 Unary Prefix Operator

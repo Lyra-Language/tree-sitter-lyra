@@ -58,14 +58,18 @@ module.exports = {
 
   void_type: ($) => "void",
 
-  // Parameterized types like Maybe<i>, Tree<a>, Self<a>
+  // Parameterized types like Maybe<i>, Tree<a>, Self<a>. An argument may be a hole,
+  // `Result<_, e>`: in an impl target it marks the position a trait's `Self<…>` argument
+  // occupies (the collector refuses a hole anywhere else).
   parameterized_type: ($) =>
     seq(
       field("name", choice("Self", $.user_defined_type_name)),
       "<",
-      field("type_arguments", commaSep1($.type)),
+      field("type_arguments", commaSep1(choice($.type, $.hole_type))),
       ">",
     ),
+
+  hole_type: ($) => "_",
 
   _primitive_type: ($) =>
     choice(
