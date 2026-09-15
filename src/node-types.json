@@ -2165,12 +2165,6 @@
     }
   },
   {
-    "type": "comment",
-    "named": true,
-    "extra": true,
-    "fields": {}
-  },
-  {
     "type": "compose_expr",
     "named": true,
     "fields": {
@@ -8925,6 +8919,11 @@
   {
     "type": "char_literal",
     "named": true
+  },
+  {
+    "type": "comment",
+    "named": true,
+    "extra": true
   },
   {
     "type": "compose_operator",

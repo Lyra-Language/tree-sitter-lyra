@@ -3,7 +3,7 @@
 
 // Token types - must match the order in grammar.js externals
 enum TokenType {
-  BLOCK_COMMENT,
+  COMMENT,
   STRING_START,
   STRING_CONTENT,
   INTERPOLATION_START,
@@ -88,20 +88,50 @@ static void dec_brace_depth(Scanner *scanner) {
   }
 }
 
-// Scan block comments (preserved from original)
-static bool scan_block_comment(TSLexer *lexer) {
+// Scan a comment: `// …` (and the `//// …` divider) to the end of the line, or a nested
+// `/* … */`. Doc comments — `/// …` (not `////`) and `//! …` — are refused here, so the
+// internal lexer produces `doc_comment` and `inner_doc_comment` for them.
+//
+// **Why comments are lexed here and not in grammar.js.** `comment` used to be a rule, a
+// `choice` of two line-comment tokens and this scanner's block-comment token, which makes it
+// a *non-terminal* extra. go-tree-sitter's runtime (0.25.0, and its master as of 11/2025)
+// loops forever recovering from an error at end of input when a non-terminal extra is in
+// play: `let main = () -> void => {` ⏎ `println(x ++ ` spun in parser.Parse, re-entering
+// `recover_to_previous` and reducing an empty `comment` each round, while the tree-sitter
+// CLI's newer runtime finished in a millisecond. One external terminal is the same node
+// kind, `comment`, and gives error recovery nothing to reduce.
+static bool scan_comment(TSLexer *lexer) {
   // Skip whitespace
   while (lexer->lookahead == ' ' || lexer->lookahead == '\t' || 
          lexer->lookahead == '\n' || lexer->lookahead == '\r') {
     lexer->advance(lexer, true);
   }
 
-  // Check if we're at the start of a block comment
   if (lexer->lookahead != '/') {
     return false;
   }
   lexer->advance(lexer, false);
-  
+
+  if (lexer->lookahead == '/') {
+    lexer->advance(lexer, false);
+    if (lexer->lookahead == '!') {
+      return false; // `//!` — inner_doc_comment
+    }
+    if (lexer->lookahead == '/') {
+      lexer->advance(lexer, false);
+      if (lexer->lookahead != '/') {
+        return false; // `///` not followed by a fourth slash — doc_comment
+      }
+    }
+    // `// …`, or the `//// …` divider, which is deliberately not documentation.
+    while (!lexer->eof(lexer) && lexer->lookahead != '\n') {
+      lexer->advance(lexer, false);
+    }
+    lexer->mark_end(lexer);
+    lexer->result_symbol = COMMENT;
+    return true;
+  }
+
   if (lexer->lookahead != '*') {
     return false;
   }
@@ -133,7 +163,7 @@ static bool scan_block_comment(TSLexer *lexer) {
     }
   }
 
-  lexer->result_symbol = BLOCK_COMMENT;
+  lexer->result_symbol = COMMENT;
   lexer->mark_end(lexer);
   return true;
 }
@@ -470,10 +500,10 @@ bool tree_sitter_lyra_external_scanner_scan(void *payload, TSLexer *lexer, const
   //
   // An *interpolation* is an expression context, so comments stay valid there;
   // in_string() is false for CTX_INTERPOLATION, which is exactly the distinction
-  // this guard needs. (`//` line comments are matched by the internal lexer, and
-  // the content scan below already consumes them as ordinary bytes.)
-  if (valid_symbols[BLOCK_COMMENT] && !in_string(scanner)) {
-    if (scan_block_comment(lexer)) {
+  // this guard needs. The same holds for `//` line comments, lexed here too (see
+  // scan_comment); inside a string the content scan consumes them as ordinary bytes.
+  if (valid_symbols[COMMENT] && !in_string(scanner)) {
+    if (scan_comment(lexer)) {
       return true;
     }
   }

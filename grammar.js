@@ -28,7 +28,9 @@ module.exports = grammar({
   extras: ($) => [/\s/, $.doc_comment, $.inner_doc_comment, $.comment],
 
   externals: ($) => [
-    $._BLOCK_COMMENT,
+    // Every ordinary comment, `//` and `/* */`, is one external terminal — see
+    // scan_comment in src/scanner.c for why it must not be a rule.
+    $.comment,
     $._string_start,
     $._string_content,
     $._interpolation_start,

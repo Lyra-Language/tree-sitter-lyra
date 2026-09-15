@@ -34,7 +34,7 @@ npx tree-sitter generate --report-states-for-rule -   # per-rule state attributi
 | `include/helpers.js` | `commaSep1`, `commaSep`, `memberList`, `statementList`, `parameterList`, `rangeBounds` |
 | `include/prec.js` | all `PREC.*` constants |
 | `src/parser.c` | generated — never edit by hand |
-| `src/scanner.c` | external scanner: string interpolation, raw strings, block comments, statement terminator |
+| `src/scanner.c` | external scanner: string interpolation, raw strings, comments (`//` and `/* */`), statement terminator |
 | `test/corpus/**/*.txt` | corpus tests |
 | `queries/highlights.scm` | highlight queries (nvim capture names; WIP) |
 | `queries/injections.scm` | `/* glsl */` raw string → GLSL |
@@ -42,7 +42,7 @@ npx tree-sitter generate --report-states-for-rule -   # per-rule state attributi
 ```js
 supertypes: [$.expression, $.statement, $.pattern, $.type]
 extras:     [/\s/, $.doc_comment, $.inner_doc_comment, $.comment]
-externals:  [$._BLOCK_COMMENT, $._string_start, $._string_content,
+externals:  [$.comment, $._string_start, $._string_content,
              $._interpolation_start, $._interpolation_end,
              $._string_end, $._raw_string_start, $._raw_string_content,
              $._raw_string_end, $._newline]
@@ -84,16 +84,19 @@ A line break ends a statement; `;` is the explicit form. `statementList` (used b
 - An empty raw string has no content node. Unterminated is an `ERROR`, not a string to EOF.
 - A `/* glsl */` marker parses as a `comment` sibling of the literal, or of the `value` wrapping a call argument; `queries/injections.scm` matches both.
 
-## Comment Tokens (`include/comments.js`)
+## Comment Tokens
 
 ```
-/// x    doc_comment        prec 1   documents the declaration below
-//! x    inner_doc_comment  prec 1   documents the module
-//// …   comment            prec 2   divider, NOT documentation
-// x     comment            prec 0
+/// x    doc_comment        internal, prec 1   documents the declaration below
+//! x    inner_doc_comment  internal, prec 1   documents the module
+//// …   comment            external           divider, NOT documentation
+// x     comment            external
+/* … */  comment            external           nests
 ```
 
-All share `//`, so they are decided by **token precedence, not match length**. The divider needs both halves: `doc_comment` refuses a fourth slash **and** `comment` bids prec 2 for it — otherwise `////////` becomes a doc comment or a syntax error. A bare `///` stays legal (paragraph break), so the no-fourth-slash rule applies only to a line with content. Pinned by `A divider rule is a comment, not a doc comment`.
+- **`comment` must stay one external terminal** (`scan_comment` in `src/scanner.c`), never a rule. As a `choice` over tokens it was a *non-terminal extra*, and go-tree-sitter's runtime (0.25.0, and master as of 11/2025) loops forever recovering from an error at end of input with one in play — a program cut off mid-edit, e.g. `Rect { x: x, w: SIDE, `. The tree-sitter CLI's newer runtime does not, so **no corpus test can catch a regression**: `lyra/pkg/parser`'s `TestParse_TerminatesOnTruncatedInput` (a truncation sweep over std, examples and bindings) is the check. An alias in `extras` is not accepted by `generate`, which is why it is not a rule plus alias.
+- The scanner runs before the internal lexer, declines `///` (without a fourth slash) and `//!`, and takes `////`: that is what keeps `////////` from lexing as the doc comment `///` plus `/////`. `doc_comment` still refuses a fourth slash on its own. A bare `///` stays legal (paragraph break). Pinned by `A divider rule is a comment, not a doc comment`.
+- Same guard as before: no comment is lexed inside a string (`in_string`), only in interpolations.
 
 ## Reserved Keywords
 
