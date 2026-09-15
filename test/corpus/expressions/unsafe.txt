@@ -255,6 +255,25 @@ let nullptr = 5
       (decimal_int))))
 
 =====================================
+An unsafe block is a not operand
+=====================================
+
+let off = !unsafe { p^ }
+
+---
+
+(program
+  (declaration
+    (identifier)
+    (boolean_expr
+      (not)
+      (unsafe_block
+        (block
+          (expression_statement
+            (deref_expr
+              (identifier))))))))
+
+=====================================
 An unsafe block is a comparison operand
 =====================================
 

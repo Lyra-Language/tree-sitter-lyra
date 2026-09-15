@@ -2211,6 +2211,10 @@
           "name": "_postfix_expr"
         },
         {
+          "type": "SYMBOL",
+          "name": "unsafe_block"
+        },
+        {
           "type": "ALIAS",
           "content": {
             "type": "SYMBOL",

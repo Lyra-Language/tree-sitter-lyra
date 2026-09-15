@@ -68,10 +68,13 @@ module.exports = {
   // The nested `!` is aliased back to `boolean_expr`, so `!!x` produces exactly
   // the node the collector already reads (kind `boolean_expr`, `operator` field of
   // kind `not`) and nothing downstream learns this rule exists.
+  // An unsafe block is admitted too: `if !unsafe { p^ } { … }` reads as the negation of
+  // the block's value, which is what it says (09/16).
   _not_operand: ($) =>
     choice(
       $._literal,
       $._postfix_expr,
+      $.unsafe_block,
       alias($.boolean_not_expr, $.boolean_expr),
     ),
 

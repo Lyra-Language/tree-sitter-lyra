@@ -1652,6 +1652,10 @@
             "named": true
           },
           {
+            "type": "unsafe_block",
+            "named": true
+          },
+          {
             "type": "user_defined_type_name",
             "named": true
           }
