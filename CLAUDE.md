@@ -68,6 +68,14 @@ A line break ends a statement; `;` is the explicit form. `statementList` (used b
 - **`memberList`** (trait/impl methods) and struct *declaration* fields (`struct_type_body`, `anonymous_struct_type`) take `_statement_separator` too; commas still work, the list stays non-empty (`trait C { , }` is an error). Struct **literal** fields (`struct_fields`) still require commas — they sit inside the literal-vs-block conflict; changing that needs its own measurement.
 - **Comment scanning is gated on `!in_string(scanner)` — do not remove.** Otherwise a string whose content chunk begins with `/*` (after the quote, after `${…}`, or after leading whitespace) lexes as a comment to the next `*/` in the file, silently. Interpolations (`CTX_INTERPOLATION`) are not "in string", so comments still work there. Pinned in `test/corpus/literals/string.txt`.
 
+## Array Literal Flavor
+
+`[…]` and `#[…]` (and `[v; n]` / `#[v; n]`) are the **same node kinds**, `array_literal` and `array_repeat_init`; the `#[` opener is one token exposed as the `fixed` field. The Go collector reads that field, and it is the whole of the flavor — dynamic vs fixed is never inferred.
+
+- **Do not make fixed arrays a second node kind**: it would double every derivation path and every consumer's switch (`lyra/CLAUDE.md` rule 8).
+- `# [1]` is an error, not a fixed array. The raw-string scanner also starts at `#`; it returns false without a backtick, so the internal lexer still sees `#[`.
+- **The corpus cannot pin the flavor**: the 0.25 test runner compares named nodes only, so `#[1]` and `[1]` print the same tree. `test/corpus/literals/fixed_array.txt` pins that `#[` parses everywhere `[` does; the flavor is pinned in `lyra/`'s collector tests.
+
 ## Raw Strings
 
 `raw_string_literal` is **three external tokens** — opener (`` #*` ``), `raw_string_content`, closer — so the content is a node an editor can inject into without the delimiters (Zed's injection queries cannot trim a node). Keep it that way; `lyra-zed-ext/languages/lyra/injections.scm` depends on the content node.

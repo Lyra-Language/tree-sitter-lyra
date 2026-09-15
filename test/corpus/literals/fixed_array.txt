@@ -1,0 +1,117 @@
+================================================================================
+A fixed array literal and repeat open with #[
+================================================================================
+
+let a = #[1, 2]
+let b = #[0; 16]
+let c = #[]
+let d = [1, 2]
+
+--------------------------------------------------------------------------------
+
+(program
+  (declaration
+    (identifier)
+    (array_literal
+      (integer_literal
+        (decimal_int))
+      (integer_literal
+        (decimal_int))))
+  (declaration
+    (identifier)
+    (array_repeat_init
+      (integer_literal
+        (decimal_int))
+      (array_repeat_count
+        (integer_literal
+          (decimal_int)))))
+  (declaration
+    (identifier)
+    (array_literal))
+  (declaration
+    (identifier)
+    (array_literal
+      (integer_literal
+        (decimal_int))
+      (integer_literal
+        (decimal_int)))))
+
+================================================================================
+A fixed array literal is a postfix head, an argument and a loop source
+================================================================================
+
+let n = #[1, 2, 3].len()
+take(#[x, y], #[[1], [2]])
+for k in #[KEY_A, KEY_B] { press(k) }
+
+--------------------------------------------------------------------------------
+
+(program
+  (declaration
+    (identifier)
+    (call_expr
+      (member_expr
+        (array_literal
+          (integer_literal
+            (decimal_int))
+          (integer_literal
+            (decimal_int))
+          (integer_literal
+            (decimal_int)))
+        (identifier))
+      (argument_list)))
+  (expression_statement
+    (call_expr
+      (identifier)
+      (argument_list
+        (value
+          (array_literal
+            (identifier)
+            (identifier)))
+        (value
+          (array_literal
+            (array_literal
+              (integer_literal
+                (decimal_int)))
+            (array_literal
+              (integer_literal
+                (decimal_int))))))))
+  (expression_statement
+    (for_in_loop
+      (for_in_condition
+        (for_variable_or_key)
+        (array_literal
+          (const_identifier)
+          (const_identifier)))
+      (for_in_body
+        (expression_statement
+          (call_expr
+            (identifier)
+            (argument_list
+              (value
+                (identifier)))))))))
+
+================================================================================
+A raw string still opens with # and a backtick
+================================================================================
+
+let s = #`a [b] #[c]`#
+
+--------------------------------------------------------------------------------
+
+(program
+  (declaration
+    (identifier)
+    (raw_string_literal
+      (raw_string_content))))
+
+================================================================================
+A space between # and [ is not a fixed array
+:error
+================================================================================
+
+let a = # [1]
+
+--------------------------------------------------------------------------------
+
+(program)

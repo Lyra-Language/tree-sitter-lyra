@@ -694,7 +694,18 @@
   {
     "type": "array_literal",
     "named": true,
-    "fields": {},
+    "fields": {
+      "fixed": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "#[",
+            "named": false
+          }
+        ]
+      }
+    },
     "children": {
       "multiple": true,
       "required": false,
@@ -751,6 +762,16 @@
           {
             "type": "array_repeat_count",
             "named": true
+          }
+        ]
+      },
+      "fixed": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "#[",
+            "named": false
           }
         ]
       },
@@ -8675,6 +8696,10 @@
   },
   {
     "type": "\"",
+    "named": false
+  },
+  {
+    "type": "#[",
     "named": false
   },
   {
