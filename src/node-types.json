@@ -1152,15 +1152,15 @@
             "named": true
           },
           {
-            "type": "mod_operator",
-            "named": true
-          },
-          {
             "type": "mul_operator",
             "named": true
           },
           {
-            "type": "remainder_operator",
+            "type": "rem_floor_operator",
+            "named": true
+          },
+          {
+            "type": "rem_operator",
             "named": true
           },
           {
@@ -2363,15 +2363,15 @@
             "named": true
           },
           {
-            "type": "mod_assign_operator",
-            "named": true
-          },
-          {
             "type": "mul_assign_operator",
             "named": true
           },
           {
-            "type": "remainder_assign_operator",
+            "type": "rem_assign_operator",
+            "named": true
+          },
+          {
+            "type": "rem_floor_assign_operator",
             "named": true
           },
           {
@@ -2729,15 +2729,15 @@
             "named": true
           },
           {
-            "type": "mod_operator",
-            "named": true
-          },
-          {
             "type": "mul_operator",
             "named": true
           },
           {
-            "type": "remainder_operator",
+            "type": "rem_floor_operator",
+            "named": true
+          },
+          {
+            "type": "rem_operator",
             "named": true
           },
           {
@@ -5441,11 +5441,6 @@
     }
   },
   {
-    "type": "mod_operator",
-    "named": true,
-    "fields": {}
-  },
-  {
     "type": "module_declaration",
     "named": true,
     "fields": {
@@ -6539,6 +6534,11 @@
         }
       ]
     }
+  },
+  {
+    "type": "rem_operator",
+    "named": true,
+    "fields": {}
   },
   {
     "type": "rest_pattern",
@@ -9093,10 +9093,6 @@
     "named": false
   },
   {
-    "type": "mod_assign_operator",
-    "named": true
-  },
-  {
     "type": "module",
     "named": false
   },
@@ -9173,11 +9169,15 @@
     "named": true
   },
   {
-    "type": "remainder_assign_operator",
+    "type": "rem_assign_operator",
     "named": true
   },
   {
-    "type": "remainder_operator",
+    "type": "rem_floor_assign_operator",
+    "named": true
+  },
+  {
+    "type": "rem_floor_operator",
     "named": true
   },
   {

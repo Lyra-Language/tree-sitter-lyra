@@ -2622,11 +2622,11 @@
                     },
                     {
                       "type": "SYMBOL",
-                      "name": "mod_operator"
+                      "name": "rem_operator"
                     },
                     {
                       "type": "SYMBOL",
-                      "name": "remainder_operator"
+                      "name": "rem_floor_operator"
                     }
                   ]
                 }
@@ -2732,11 +2732,11 @@
                 },
                 {
                   "type": "SYMBOL",
-                  "name": "mod_assign_operator"
+                  "name": "rem_assign_operator"
                 },
                 {
                   "type": "SYMBOL",
-                  "name": "remainder_assign_operator"
+                  "name": "rem_floor_assign_operator"
                 },
                 {
                   "type": "SYMBOL",
@@ -2859,11 +2859,11 @@
       "type": "STRING",
       "value": "/"
     },
-    "mod_operator": {
+    "rem_operator": {
       "type": "STRING",
       "value": "%"
     },
-    "remainder_operator": {
+    "rem_floor_operator": {
       "type": "STRING",
       "value": "%%"
     },
@@ -2903,11 +2903,11 @@
       "type": "STRING",
       "value": "/="
     },
-    "mod_assign_operator": {
+    "rem_assign_operator": {
       "type": "STRING",
       "value": "%="
     },
-    "remainder_assign_operator": {
+    "rem_floor_assign_operator": {
       "type": "STRING",
       "value": "%%="
     },
@@ -3229,11 +3229,11 @@
                     },
                     {
                       "type": "SYMBOL",
-                      "name": "mod_operator"
+                      "name": "rem_operator"
                     },
                     {
                       "type": "SYMBOL",
-                      "name": "remainder_operator"
+                      "name": "rem_floor_operator"
                     }
                   ]
                 }

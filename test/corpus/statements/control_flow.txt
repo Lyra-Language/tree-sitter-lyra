@@ -150,7 +150,7 @@ outer: for x in 0..<=10 {
                   (boolean_expr
                     (binary_expr
                       (identifier)
-                      (mod_operator)
+                      (rem_operator)
                       (integer_literal
                         (decimal_int)))
                     (equals_operator)

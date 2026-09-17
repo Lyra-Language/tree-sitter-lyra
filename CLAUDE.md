@@ -200,6 +200,17 @@ All produce `VarDeclStmt{Value: LambdaExpr}`. Three arms: modifier-led function 
 
 **A precedence does not bound an operand.** `!` at `PREC.UNARY` still grouped `!a && b` as `!(a && b)` while its operand was `$.expression`. Its operand is `_not_operand` (literals, `_postfix_expr`, nested `!` aliased to `boolean_expr`).
 
+### The two remainders (`include/expressions/math.js`)
+
+`rem_operator` is `%` (truncated, sign of the dividend) and `rem_floor_operator` is `%%`
+(floored, sign of the divisor); the compound forms are `rem_assign_operator` and
+`rem_floor_assign_operator`. **They were `mod_operator` and `remainder_operator` until
+09/17**, which had those two words backwards from C, Go and Rust — `%` was the "mod" one
+while behaving like everyone's `rem` — and were renamed when `lyra`'s `checked_rem` had to
+pick a meaning. A rename of a rule is a rename of a **node kind**, so it reached
+`queries/highlights.scm`, the corpus, `lyra`'s compound-assignment collector (which
+switches on the kind) and `lyra-zed-ext`'s own queries in the same change.
+
 ### Bitwise (`include/expressions/math.js`)
 
 - **Xor is `~`, not `^`** — `^` is pointer type and postfix deref (`ptr^ ^ mask`). Prefix `~` is complement, told apart by position.

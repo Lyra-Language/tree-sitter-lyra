@@ -69,8 +69,8 @@ function arithmeticRules({ binary, unary, bitnot, operand }) {
     band(PREC.MULTIPLICATIVE, ($) => [
       $.mul_operator,
       $.div_operator,
-      $.mod_operator,
-      $.remainder_operator,
+      $.rem_operator,
+      $.rem_floor_operator,
     ]),
   ];
 
@@ -122,8 +122,8 @@ module.exports = {
             $.sub_assign_operator,
             $.mul_assign_operator,
             $.div_assign_operator,
-            $.mod_assign_operator,
-            $.remainder_assign_operator,
+            $.rem_assign_operator,
+            $.rem_floor_assign_operator,
             $.bitand_assign_operator,
             $.bitor_assign_operator,
             $.bitxor_assign_operator,
@@ -183,8 +183,17 @@ module.exports = {
   sub_operator: ($) => "-",
   mul_operator: ($) => "*",
   div_operator: ($) => "/",
-  mod_operator: ($) => "%",
-  remainder_operator: ($) => "%%",
+  // **`%` is the truncated remainder and `%%` the floored one**, and the names say which:
+  // `%` takes the sign of the dividend (`11 % -3 == 2`) and is the remainder that pairs
+  // with this language's truncating `/`, so `a == (a / b) * b + (a % b)`; `%%` takes the
+  // sign of the divisor (`11 %% -3 == -1`). These rules were `mod_operator` and
+  // `remainder_operator` until 09/17, which had them exactly backwards from the way C, Go
+  // and Rust use those two words — `%` was the "mod" one while behaving like everyone's
+  // `rem`. Renamed rather than documented, because the `checked_rem` method had to pick a
+  // meaning and a grammar that disagrees with the standard library is a trap for whoever
+  // reads both.
+  rem_operator: ($) => "%",
+  rem_floor_operator: ($) => "%%",
   // Bitwise and shift. `~` is xor here and complement in prefix position (see
   // arithmeticRules); `&`/`|` are the single-character forms, so the two-character
   // logical `&&`/`||` still win by longest match.
@@ -198,8 +207,8 @@ module.exports = {
   sub_assign_operator: ($) => "-=",
   mul_assign_operator: ($) => "*=",
   div_assign_operator: ($) => "/=",
-  mod_assign_operator: ($) => "%=",
-  remainder_assign_operator: ($) => "%%=",
+  rem_assign_operator: ($) => "%=",
+  rem_floor_assign_operator: ($) => "%%=",
   bitand_assign_operator: ($) => "&=",
   bitor_assign_operator: ($) => "|=",
   bitxor_assign_operator: ($) => "~=",

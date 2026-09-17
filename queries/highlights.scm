@@ -247,14 +247,14 @@
 (sub_operator)              @operator
 (mul_operator)              @operator
 (div_operator)              @operator
-(mod_operator)              @operator
-(remainder_operator)        @operator
+(rem_operator)              @operator
+(rem_floor_operator)        @operator
 (add_assign_operator)       @operator
 (sub_assign_operator)       @operator
 (mul_assign_operator)       @operator
 (div_assign_operator)       @operator
-(mod_assign_operator)       @operator
-(remainder_assign_operator) @operator
+(rem_assign_operator)       @operator
+(rem_floor_assign_operator) @operator
 
 ; Bitwise and shift. Xor is `~`, which is also the prefix complement operator —
 ; `bitwise_not` covers the prefix position, `bitxor_operator` the infix one.
