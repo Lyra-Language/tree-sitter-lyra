@@ -284,6 +284,28 @@ Player { existing | health: 10 }
                 (decimal_int)))))))))
 
 ==========================================
+A bitwise or in a block is still not a struct update
+==========================================
+
+let mask = () -> i64 => { flags | other }
+
+---
+
+(program
+  (declaration
+    (identifier)
+    (lambda_expr
+      (parameter_list)
+      (return_type
+        (signed_integer_type))
+      (block
+        (expression_statement
+          (binary_expr
+            (identifier)
+            (bitor_operator)
+            (identifier)))))))
+
+==========================================
 A comprehension guard is still not bitwise or
 ==========================================
 

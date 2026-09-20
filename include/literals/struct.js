@@ -78,9 +78,25 @@ module.exports = {
       "}",
     ),
 
+  // The base is any **postfix** expression, not just a name: a call is the natural
+  // base (`Duration { duration() | days: 1 }`), and so is a field or an index
+  // (`Config { self.defaults | width: 80 }`). Before 09/19 it was `identifier` or
+  // `const_identifier`, which made every builder bind a throwaway local first —
+  // `std.temporal` did it eleven times in one file.
+  //
+  // `_postfix_expr` rather than `expression`, because `|` is also bitwise or, and a
+  // postfix form is the largest base that leaves the two apart: it has no top-level
+  // operator, so the `|` that follows it is the only one in question. A base that
+  // needs an operator can be parenthesized, which is a `_primary_expr` and so a
+  // postfix form.
+  //
+  // `{ a | b }` is still bitwise or in a block, and that is GLR's to settle, not a
+  // precedence's — grammar.js declares `[$.struct_update, $._math_operand]`. Both
+  // readings stay alive across the `|` and the text after it decides: a `name: value`
+  // completes only the update, anything else only the or.
   struct_update: ($) =>
     seq(
-      field("base", choice($.identifier, $.const_identifier)),
+      field("base", $._postfix_expr),
       "|",
       field("field_updates", commaSep1($.struct_field)),
     ),

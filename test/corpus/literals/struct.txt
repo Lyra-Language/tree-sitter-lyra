@@ -453,3 +453,77 @@ let f = () -> void => {}
       (return_type
         (void_type))
       (block))))
+
+==========================================
+A record update's base may be a call, a field or an index
+==========================================
+
+let a = Duration { duration() | days: 1 }
+let b = Config { self.defaults | width: 80 }
+let c = Row { rows[i] | seen: true }
+let d = Point { (if flip { p } else { q }) | x: 0 }
+
+---
+
+(program
+  (declaration
+    (identifier)
+    (named_struct_literal
+      (struct_name)
+      (struct_body
+        (struct_update
+          (call_expr
+            (identifier)
+            (argument_list))
+          (struct_field
+            (field_name)
+            (field_value
+              (integer_literal
+                (decimal_int))))))))
+  (declaration
+    (identifier)
+    (named_struct_literal
+      (struct_name)
+      (struct_body
+        (struct_update
+          (member_expr
+            (identifier)
+            (identifier))
+          (struct_field
+            (field_name)
+            (field_value
+              (integer_literal
+                (decimal_int))))))))
+  (declaration
+    (identifier)
+    (named_struct_literal
+      (struct_name)
+      (struct_body
+        (struct_update
+          (index_expr
+            (identifier)
+            (identifier))
+          (struct_field
+            (field_name)
+            (field_value
+              (boolean_literal)))))))
+  (declaration
+    (identifier)
+    (named_struct_literal
+      (struct_name)
+      (struct_body
+        (struct_update
+          (parenthesized_expr
+            (if_block_expr
+              (identifier)
+              (block
+                (expression_statement
+                  (identifier)))
+              (block
+                (expression_statement
+                  (identifier)))))
+          (struct_field
+            (field_name)
+            (field_value
+              (integer_literal
+                (decimal_int)))))))))

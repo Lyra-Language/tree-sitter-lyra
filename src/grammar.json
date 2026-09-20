@@ -730,17 +730,8 @@
           "type": "FIELD",
           "name": "base",
           "content": {
-            "type": "CHOICE",
-            "members": [
-              {
-                "type": "SYMBOL",
-                "name": "identifier"
-              },
-              {
-                "type": "SYMBOL",
-                "name": "const_identifier"
-              }
-            ]
+            "type": "SYMBOL",
+            "name": "_postfix_expr"
           }
         },
         {
@@ -10721,6 +10712,10 @@
     [
       "named_struct_literal",
       "_constructor_value"
+    ],
+    [
+      "struct_update",
+      "_math_operand"
     ],
     [
       "parameter_type",

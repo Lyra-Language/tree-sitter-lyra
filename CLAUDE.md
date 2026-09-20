@@ -125,6 +125,7 @@ Listed in `grammar.js`'s `conflicts:` array:
 - `_primary_expr` vs `literal_pattern`, `_signed_number_literal`, `_negated_number_literal` — `('a', 'b')`, `(1, 2)`, `(-1, 2)` as lambda params vs tuple
 - `expression` / `_signed_number_literal` and `_math_operand` / `_negated_number_literal` — signed pattern literals
 - entries for `|` as struct-update separator (`Player { base | f: v }`) and both comprehension uses; only the token after `|` decides
+- `struct_update` / `_math_operand` — an update's base is a `_postfix_expr` (09/19), so `{ a | …` is also a bitwise or inside a block; `x: 1` after the `|` completes only the update, an operand only the or. A base needing an operator is parenthesized: `expression` there would put both readings of `a | b` in the same place
 
 Entries generation calls "unnecessary" here are left in place deliberately.
 

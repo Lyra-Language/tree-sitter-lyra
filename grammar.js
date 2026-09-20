@@ -94,6 +94,11 @@ module.exports = grammar({
     // is what made `if Point { 1 } else { 0 }` a syntax error.
     [$.named_struct_literal, $._primary_expr],
     [$.named_struct_literal, $._constructor_value],
+    // A record update's base is a postfix expression (09/19), so `{ a | …` is both
+    // the start of an update and a bitwise or of `a` inside a block. Neither the `{`
+    // nor the base says which; the text after the `|` does — `x: 1` completes only
+    // the update, an operand only the or — so GLR carries both until it arrives.
+    [$.struct_update, $._math_operand],
     [$.parameter_type, $.tuple_type_element],
     // A parenthesized name can begin a lambda parameter list (`(a, b) => …`) or
     // an anonymous tuple / parenthesized expression (`(a, b)`, `(a)`). A bare
