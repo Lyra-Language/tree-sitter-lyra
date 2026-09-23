@@ -9857,6 +9857,10 @@
               },
               {
                 "type": "SYMBOL",
+                "name": "or_pattern"
+              },
+              {
+                "type": "SYMBOL",
                 "name": "wildcard_pattern"
               }
             ]
@@ -10354,6 +10358,10 @@
                     },
                     {
                       "type": "SYMBOL",
+                      "name": "char_literal"
+                    },
+                    {
+                      "type": "SYMBOL",
                       "name": "_constant_bound"
                     }
                   ]
@@ -10394,6 +10402,10 @@
                             {
                               "type": "SYMBOL",
                               "name": "_signed_number_literal"
+                            },
+                            {
+                              "type": "SYMBOL",
+                              "name": "char_literal"
                             },
                             {
                               "type": "SYMBOL",
@@ -10449,6 +10461,10 @@
                         },
                         {
                           "type": "SYMBOL",
+                          "name": "char_literal"
+                        },
+                        {
+                          "type": "SYMBOL",
                           "name": "_constant_bound"
                         }
                       ]
@@ -10464,6 +10480,56 @@
     "_constant_bound": {
       "type": "SYMBOL",
       "name": "const_identifier"
+    },
+    "or_pattern": {
+      "type": "PREC_LEFT",
+      "value": 21,
+      "content": {
+        "type": "SEQ",
+        "members": [
+          {
+            "type": "FIELD",
+            "name": "alternative",
+            "content": {
+              "type": "SYMBOL",
+              "name": "_or_alternative"
+            }
+          },
+          {
+            "type": "REPEAT1",
+            "content": {
+              "type": "SEQ",
+              "members": [
+                {
+                  "type": "STRING",
+                  "value": "|"
+                },
+                {
+                  "type": "FIELD",
+                  "name": "alternative",
+                  "content": {
+                    "type": "SYMBOL",
+                    "name": "_or_alternative"
+                  }
+                }
+              ]
+            }
+          }
+        ]
+      }
+    },
+    "_or_alternative": {
+      "type": "CHOICE",
+      "members": [
+        {
+          "type": "SYMBOL",
+          "name": "literal_pattern"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "range_pattern"
+        }
+      ]
     },
     "wildcard_pattern": {
       "type": "PREC_LEFT",

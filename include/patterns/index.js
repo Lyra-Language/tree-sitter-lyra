@@ -24,6 +24,7 @@ module.exports = {
           $.struct_pattern, // struct destructuring: {name, age}
           $.tuple_pattern, // tuple destructuring: (x, y, z)
           $.data_pattern, // data pattern: Some(42)
+          $.or_pattern, // one of several: 'a' | 'e' | 'i', 1 | 2, "x" | "y"
           $.wildcard_pattern, // wildcard: _
         ),
       ),
@@ -203,7 +204,16 @@ module.exports = {
     prec.left(
       PREC.RANGE_PATTERN,
       rangeBounds($, {
-        startOperand: choice($._signed_number_literal, $._constant_bound),
+        // **A `char_literal` bound too** (09/23): classifying a rune is the case that
+        // wanted it, and `'0'..<='9'` says what `48..<=57` means. The bound is still a
+        // compile-time constant, which is all exhaustiveness and the jump ladder require —
+        // a rune literal is as constant as a number, and the collector reads both from
+        // their text.
+        startOperand: choice(
+          $._signed_number_literal,
+          $.char_literal,
+          $._constant_bound,
+        ),
         open: true,
       }),
     ),
@@ -216,6 +226,29 @@ module.exports = {
   // expression. A rule of its own makes both readings reduce, so GLR keeps them apart until
   // the context decides.
   _constant_bound: ($) => $.const_identifier,
+
+  // One of several alternatives: `'a' | 'e' | 'i'`, `1 | 2 | 3`, `"get" | "post"`.
+  //
+  // **Literals and ranges only**, which is a language decision rather than a limit of the
+  // grammar. An alternative that *binds* raises a question every language with or-patterns
+  // has to answer — Rust requires every alternative to bind the same names at the same
+  // types — and nothing here needs it yet: what the collector wanted was a set of node
+  // kinds sharing one arm. Admitting `Some(x) | None` without the binding rule would be
+  // admitting a shape whose meaning is undecided.
+  //
+  // `|` is also `bitor_operator`, so `1 | 2` is a pattern here and an expression in the
+  // scrutinee two lines up. PREC.OR_PATTERN outranks PREC.BITWISE_OR, which is what picks
+  // the pattern reading where a pattern is what is being parsed.
+  or_pattern: ($) =>
+    prec.left(
+      PREC.OR_PATTERN,
+      seq(
+        field("alternative", $._or_alternative),
+        repeat1(seq("|", field("alternative", $._or_alternative))),
+      ),
+    ),
+
+  _or_alternative: ($) => choice($.literal_pattern, $.range_pattern),
 
   // Wildcard pattern
   wildcard_pattern: ($) => prec.left(PREC.WILDCARD_PATTERN, "_"),

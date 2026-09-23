@@ -776,3 +776,106 @@ for i in (LOW..<HIGH) { }
             (range_end
               (const_identifier)))))
       (for_in_body))))
+
+================================================================================
+Match - Rune Range Pattern
+================================================================================
+
+match d {
+  '0'..<='9' => 0,
+  _ => 1,
+}
+
+--------------------------------------------------------------------------------
+
+(program
+  (expression_statement
+    (match_expr
+      (identifier)
+      (match_arm
+        (range_pattern
+          (char_literal)
+          (range_end_operator)
+          (char_literal))
+        (integer_literal
+          (decimal_int)))
+      (match_arm
+        (wildcard_pattern)
+        (integer_literal
+          (decimal_int))))))
+
+================================================================================
+Match - Or Pattern Over Literals
+================================================================================
+
+match s {
+  "get" | "post" => 1,
+  _ => 0,
+}
+
+--------------------------------------------------------------------------------
+
+(program
+  (expression_statement
+    (match_expr
+      (identifier)
+      (match_arm
+        (or_pattern
+          (literal_pattern
+            (string_literal
+              (string_content)))
+          (literal_pattern
+            (string_literal
+              (string_content))))
+        (integer_literal
+          (decimal_int)))
+      (match_arm
+        (wildcard_pattern)
+        (integer_literal
+          (decimal_int))))))
+
+================================================================================
+Match - Or Pattern Mixing Ranges And Literals
+================================================================================
+
+match d {
+  'a'..<='f' | 'A'..<='F' => 1,
+  1 | 2 | 3 => 2,
+  _ => 0,
+}
+
+--------------------------------------------------------------------------------
+
+(program
+  (expression_statement
+    (match_expr
+      (identifier)
+      (match_arm
+        (or_pattern
+          (range_pattern
+            (char_literal)
+            (range_end_operator)
+            (char_literal))
+          (range_pattern
+            (char_literal)
+            (range_end_operator)
+            (char_literal)))
+        (integer_literal
+          (decimal_int)))
+      (match_arm
+        (or_pattern
+          (literal_pattern
+            (integer_literal
+              (decimal_int)))
+          (literal_pattern
+            (integer_literal
+              (decimal_int)))
+          (literal_pattern
+            (integer_literal
+              (decimal_int))))
+        (integer_literal
+          (decimal_int)))
+      (match_arm
+        (wildcard_pattern)
+        (integer_literal
+          (decimal_int))))))

@@ -234,6 +234,10 @@
         "named": true
       },
       {
+        "type": "or_pattern",
+        "named": true
+      },
+      {
         "type": "range_pattern",
         "named": true
       },
@@ -6063,6 +6067,26 @@
     "fields": {}
   },
   {
+    "type": "or_pattern",
+    "named": true,
+    "fields": {
+      "alternative": {
+        "multiple": true,
+        "required": true,
+        "types": [
+          {
+            "type": "literal_pattern",
+            "named": true
+          },
+          {
+            "type": "range_pattern",
+            "named": true
+          }
+        ]
+      }
+    }
+  },
+  {
     "type": "parameter",
     "named": true,
     "fields": {
@@ -6423,6 +6447,10 @@
         "required": false,
         "types": [
           {
+            "type": "char_literal",
+            "named": true
+          },
+          {
             "type": "const_identifier",
             "named": true
           },
@@ -6454,6 +6482,10 @@
         "multiple": false,
         "required": false,
         "types": [
+          {
+            "type": "char_literal",
+            "named": true
+          },
           {
             "type": "const_identifier",
             "named": true

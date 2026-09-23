@@ -84,6 +84,11 @@ const PREC = {
   GENERIC_PARAMETERS: 15,
 
   // Medium binding.
+  // An alternation binds its alternatives together before the enclosing pattern is
+  // considered, so it sits above the pattern forms it composes. It must also beat
+  // BITWISE_OR, since `1 | 2` in a match arm is a pattern and in an expression is an
+  // arithmetic `|` — the same two tokens, told apart by position rather than by spelling.
+  OR_PATTERN: 21,
   WILDCARD_PATTERN: 20,
   SPREAD: 20,
   DESTRUCTURING_IF: 20,
