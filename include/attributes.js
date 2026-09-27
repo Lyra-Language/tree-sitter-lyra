@@ -22,11 +22,23 @@ module.exports = {
   // does not resolve, which is the opposite of what that attribute means. It costs no
   // conflict: `identifier` is lowercase/underscore-leading and `user_defined_type_name`
   // capital-leading, so the two are lexically disjoint and no state has to choose.
+  //
+  // A **named** argument (`pkg: "sdl3"`) is the fifth shape, and has its own field so a
+  // reader of positional `value`s never mistakes one for another: `@link("SDL3", pkg:
+  // "sdl3")` names the library *and* the pkg-config package that says where it lives.
+  // `identifier ":"` is the whole difference from a positional identifier, and one token
+  // of lookahead decides it.
   attribute_args: ($) =>
     commaSep1(
-      field(
-        "value",
-        choice($._number_literal, $.user_defined_type_name, $.string_literal, $.identifier),
+      choice(
+        field("value", $._attribute_value),
+        field("named", $.attribute_named_arg),
       ),
     ),
+
+  attribute_named_arg: ($) =>
+    seq(field("name", $.identifier), ":", field("value", $._attribute_value)),
+
+  _attribute_value: ($) =>
+    choice($._number_literal, $.user_defined_type_name, $.string_literal, $.identifier),
 };

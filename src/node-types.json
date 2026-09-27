@@ -938,9 +938,19 @@
     "type": "attribute_args",
     "named": true,
     "fields": {
+      "named": {
+        "multiple": true,
+        "required": false,
+        "types": [
+          {
+            "type": "attribute_named_arg",
+            "named": true
+          }
+        ]
+      },
       "value": {
         "multiple": true,
-        "required": true,
+        "required": false,
         "types": [
           {
             "type": "float_literal",
@@ -979,6 +989,48 @@
           "named": true
         }
       ]
+    }
+  },
+  {
+    "type": "attribute_named_arg",
+    "named": true,
+    "fields": {
+      "name": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "identifier",
+            "named": true
+          }
+        ]
+      },
+      "value": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "float_literal",
+            "named": true
+          },
+          {
+            "type": "identifier",
+            "named": true
+          },
+          {
+            "type": "integer_literal",
+            "named": true
+          },
+          {
+            "type": "string_literal",
+            "named": true
+          },
+          {
+            "type": "user_defined_type_name",
+            "named": true
+          }
+        ]
+      }
     }
   },
   {

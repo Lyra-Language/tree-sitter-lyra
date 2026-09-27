@@ -209,6 +209,7 @@
 "@sizeof"                     @function.builtin
 (attribute "@"                @punctuation.special)
 (attribute name: (identifier) @attribute)
+(attribute_named_arg name: (identifier) @property)
 
 ; =============================================================================
 ; Literals

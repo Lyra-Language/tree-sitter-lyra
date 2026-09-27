@@ -320,3 +320,52 @@ module bindings.sdl3
     (module_path
       (module_name)
       (module_name))))
+
+
+==========================
+An attribute takes a named argument
+==========================
+
+@link("SDL3", pkg: "sdl3")
+module bindings.sdl3
+
+---
+
+(program
+  (module_declaration
+    (attribute_list
+      (attribute
+        (identifier)
+        (attribute_args
+          (string_literal
+            (string_content))
+          (attribute_named_arg
+            (identifier)
+            (string_literal
+              (string_content))))))
+    (module_path
+      (module_name)
+      (module_name))))
+
+==========================
+A named argument beside a positional identifier
+==========================
+
+@example(release, pkg: "x")
+module m
+
+---
+
+(program
+  (module_declaration
+    (attribute_list
+      (attribute
+        (identifier)
+        (attribute_args
+          (identifier)
+          (attribute_named_arg
+            (identifier)
+            (string_literal
+              (string_content))))))
+    (module_path
+      (module_name))))
