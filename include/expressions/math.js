@@ -240,8 +240,12 @@ module.exports = {
   // here is the duplicate derivation this file's own rule forbids: tree-sitter reports it
   // as an unresolved conflict between `_math_operand` and `_primary_expr` at the first
   // token that could end either.
+  //
+  // An `unsafe` block is an operand too (09/27): `unsafe { raw.wheel.x } * sign` reads as
+  // arithmetic on the block's value, and was a syntax error — a comparison (`!= 0`) and a
+  // `!` already took one, so a binding module had to bind every read before scaling it.
   _math_operand: ($) =>
-    choice($._postfix_expr, $._math_expr, $.address_of_expr),
+    choice($._postfix_expr, $._math_expr, $.address_of_expr, $.unsafe_block),
 
   // ---------------------------------------------------------------------
   // Constraint arithmetic — used inside type-level constraint expressions

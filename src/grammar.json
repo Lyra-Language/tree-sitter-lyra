@@ -2957,6 +2957,10 @@
         {
           "type": "SYMBOL",
           "name": "address_of_expr"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "unsafe_block"
         }
       ]
     },

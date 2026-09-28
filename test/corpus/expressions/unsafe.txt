@@ -296,3 +296,45 @@ let ok = unsafe { init(flags) } != 0
       (not_equals_operator)
       (integer_literal
         (decimal_int)))))
+
+=====================================
+An unsafe block is an arithmetic operand
+=====================================
+
+let x = unsafe { w.x } * sign
+let y = unsafe { a } + unsafe { b }
+let z = -unsafe { a }
+
+---
+
+(program
+  (declaration
+    (identifier)
+    (binary_expr
+      (unsafe_block
+        (block
+          (expression_statement
+            (member_expr
+              (identifier)
+              (identifier)))))
+      (mul_operator)
+      (identifier)))
+  (declaration
+    (identifier)
+    (binary_expr
+      (unsafe_block
+        (block
+          (expression_statement
+            (identifier))))
+      (add_operator)
+      (unsafe_block
+        (block
+          (expression_statement
+            (identifier))))))
+  (declaration
+    (identifier)
+    (negation
+      (unsafe_block
+        (block
+          (expression_statement
+            (identifier)))))))

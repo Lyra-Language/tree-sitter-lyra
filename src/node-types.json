@@ -1178,6 +1178,10 @@
             "named": true
           },
           {
+            "type": "unsafe_block",
+            "named": true
+          },
+          {
             "type": "user_defined_type_name",
             "named": true
           }
@@ -1355,6 +1359,10 @@
           },
           {
             "type": "tuple_literal",
+            "named": true
+          },
+          {
+            "type": "unsafe_block",
             "named": true
           },
           {
@@ -1547,6 +1555,10 @@
           },
           {
             "type": "tuple_literal",
+            "named": true
+          },
+          {
+            "type": "unsafe_block",
             "named": true
           },
           {
@@ -2386,6 +2398,10 @@
           },
           {
             "type": "tuple_literal",
+            "named": true
+          },
+          {
+            "type": "unsafe_block",
             "named": true
           },
           {
@@ -5786,6 +5802,10 @@
           },
           {
             "type": "tuple_literal",
+            "named": true
+          },
+          {
+            "type": "unsafe_block",
             "named": true
           },
           {
