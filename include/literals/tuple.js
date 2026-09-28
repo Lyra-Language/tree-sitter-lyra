@@ -8,14 +8,20 @@ module.exports = {
       choice(
         // Empty tuple: ()
         seq("(", ")"),
-        // Named tuple with parens: Some(x) or Some(x, y)
+        // Named tuple with parens: Some(x) or Some(x, y) — or `Ok()`, a constructor
+        // applied to nothing, which is how a `void` payload is written
+        // (`Result<void, e>` has no value to put in the parentheses).
         seq(
           $._tuple_name,
           optional(field("generic_arguments", $.generic_arguments)),
           "(",
-          $._tuple_value,
           optional(
-            seq(repeat1(seq($._comma, $._tuple_value)), optional($._comma)),
+            seq(
+              $._tuple_value,
+              optional(
+                seq(repeat1(seq($._comma, $._tuple_value)), optional($._comma)),
+              ),
+            ),
           ),
           ")",
         ),

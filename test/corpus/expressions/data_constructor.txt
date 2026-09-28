@@ -84,3 +84,38 @@ let x = Some(1) ?? d
           (integer_literal
             (decimal_int))))
       default: (identifier))))
+
+==================================================
+A constructor applied to nothing, for a void payload
+==================================================
+
+let ok = Ok()
+match ok {
+  Ok() => 1,
+  Err(e) => 0,
+}
+
+---
+
+(program
+  (declaration
+    name: (identifier)
+    value: (tuple_literal
+      tuple_name: (tuple_name)))
+  (expression_statement
+    (match_expr
+      value: (identifier)
+      (match_arm
+        pattern: (data_pattern
+          name: (data_type_name)
+          pattern: (tuple_pattern
+            (unit_pattern)))
+        body: (integer_literal
+          (decimal_int)))
+      (match_arm
+        pattern: (data_pattern
+          name: (data_type_name)
+          pattern: (tuple_pattern
+            (identifier)))
+        body: (integer_literal
+          (decimal_int))))))
