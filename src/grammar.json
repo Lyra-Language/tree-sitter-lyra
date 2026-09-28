@@ -2687,7 +2687,7 @@
     },
     "compound_assignment": {
       "type": "PREC_RIGHT",
-      "value": 110,
+      "value": 99,
       "content": {
         "type": "SEQ",
         "members": [

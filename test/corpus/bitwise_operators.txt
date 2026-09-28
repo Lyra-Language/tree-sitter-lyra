@@ -244,6 +244,34 @@ x >>= 5
         (decimal_int)))))
 
 ==========================================
+A compound assignment's right side takes a bitwise operator
+==========================================
+
+r += x & 96
+r -= y | z
+
+---
+
+(program
+  (expression_statement
+    (compound_assignment
+      (identifier)
+      (add_assign_operator)
+      (binary_expr
+        (identifier)
+        (bitand_operator)
+        (integer_literal
+          (decimal_int)))))
+  (expression_statement
+    (compound_assignment
+      (identifier)
+      (sub_assign_operator)
+      (binary_expr
+        (identifier)
+        (bitor_operator)
+        (identifier)))))
+
+==========================================
 A leading-bar data declaration still parses
 ==========================================
 

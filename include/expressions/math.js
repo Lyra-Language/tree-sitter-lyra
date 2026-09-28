@@ -112,7 +112,7 @@ module.exports = {
 
   compound_assignment: ($) =>
     prec.right(
-      PREC.ADDITIVE,
+      PREC.COMPOUND_ASSIGN,
       seq(
         field("left", $._math_operand),
         field(

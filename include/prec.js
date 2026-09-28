@@ -126,6 +126,11 @@ const PREC = {
   // Shifts are the exception and sit *above* addition (115), matching Go: `a + b
   // << c` is `a + (b << c)` and `a * b << c` is `(a * b) << c`. C puts shifts
   // below addition, which is the other classic parenthesise-everything trap.
+  // A compound assignment binds looser than every arithmetic and bitwise operator, so its
+  // right side takes them all: `r += x & 0x60` is `r += (x & 0x60)`. It sat at ADDITIVE
+  // until 09/28, so `+` and `*` joined the right side but `&`, `|` and `~` closed the
+  // assignment first — `(r += x) & 0x60` — found in Sheliak's BCD correction.
+  COMPOUND_ASSIGN: 99,
   BITWISE_OR: 100,
   BITWISE_XOR: 102,
   BITWISE_AND: 104,
