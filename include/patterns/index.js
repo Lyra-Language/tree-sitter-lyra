@@ -248,7 +248,19 @@ module.exports = {
       ),
     ),
 
-  _or_alternative: ($) => choice($.literal_pattern, $.range_pattern),
+  // A **nullary constructor** is an alternative too (09/29): `Pencil | Eraser`, `None |
+  // Empty`. It binds nothing, so the binding question above does not arise; a constructor
+  // with a payload stays out, bindings or not, until that question is answered. Aliased to
+  // `data_pattern` so the collector reads it as the nullary constructor it is everywhere
+  // else.
+  _or_alternative: ($) =>
+    choice($.literal_pattern, $.range_pattern, alias($._nullary_constructor, $.data_pattern)),
+
+  _nullary_constructor: ($) =>
+    choice(
+      field("name", alias($.user_defined_type_name, $.data_type_name)),
+      field("name", alias($.const_identifier, $.data_type_name)),
+    ),
 
   // Wildcard pattern
   wildcard_pattern: ($) => prec.left(PREC.WILDCARD_PATTERN, "_"),

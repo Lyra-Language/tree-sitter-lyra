@@ -367,3 +367,28 @@ for done { }
       for_condition: (for_condition
         condition_expr: (identifier))
       for_body: (for_body))))
+
+==========================================
+For in loop with a typed loop variable
+==========================================
+
+for i: u16 in 0..<100 { }
+
+---
+
+(program
+  (expression_statement
+    (for_in_loop
+      (for_in_condition
+        (for_variable_or_key)
+        (type_annotation
+          (unsigned_integer_type))
+        (range_expr
+          (range_start
+            (integer_literal
+              (decimal_int)))
+          (range_end_operator)
+          (range_end
+            (integer_literal
+              (decimal_int)))))
+      (for_in_body))))

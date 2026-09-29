@@ -52,9 +52,24 @@ module.exports = {
       // the whole source or the head of a call, and only the next token says which
       // (09/08). Making the source a bare `_postfix_expr` was tried first and collides
       // with a range's operand instead, since that operand is a full expression.
+      // A field and an element are sources too (09/29) — `[x in game.sprites | …]`,
+      // `[c in grid[0] | …]` — which Vega's editors write constantly, and which were a
+      // syntax error beside the identifier and the call; and so is anything in parentheses.
       field(
         "value",
-        choice($.range_expr, $.array_literal, $.string_literal, $.identifier, $.call_expr),
+        choice(
+          $.range_expr,
+          $.array_literal,
+          $.string_literal,
+          $.identifier,
+          $.call_expr,
+          $.member_expr,
+          $.index_expr,
+          // Anything else, parenthesized: `[x in (a ++ b) | x]`. A `group` is the
+          // parenthesized arithmetic (`(a + b)`), a parenthesized_expr everything else.
+          $.parenthesized_expr,
+          $.group,
+        ),
       ),
     ),
 

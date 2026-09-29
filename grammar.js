@@ -116,6 +116,10 @@ module.exports = grammar({
     [$.generator, $._postfix_expr],
     [$._primary_expr, $.for_loop, $.for_in_loop],
     [$._primary_expr, $.data_pattern],
+    // The same race for a nullary constructor as an or-pattern alternative (09/29):
+    // `(LOUD | QUIET) => …` is a lambda's parameter pattern or a parenthesized bitwise
+    // or, decided by what follows.
+    [$._primary_expr, $._nullary_constructor],
     // The literal analogue of the two entries above, and new on 08/06 with
     // literals becoming postfix heads (`"abc".len()`). `('a', 'b')` is a lambda
     // parameter list of `literal_pattern`s or an anonymous tuple of

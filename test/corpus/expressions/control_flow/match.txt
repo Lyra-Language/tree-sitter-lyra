@@ -879,3 +879,40 @@ match d {
         (wildcard_pattern)
         (integer_literal
           (decimal_int))))))
+
+================================================================================
+Match - Or Pattern Over Nullary Constructors
+================================================================================
+
+match tool {
+  Pencil | Eraser => 1,
+  LOUD | QUIET => 2,
+  _ => 0,
+}
+
+--------------------------------------------------------------------------------
+
+(program
+  (expression_statement
+    (match_expr
+      (identifier)
+      (match_arm
+        (or_pattern
+          (data_pattern
+            (data_type_name))
+          (data_pattern
+            (data_type_name)))
+        (integer_literal
+          (decimal_int)))
+      (match_arm
+        (or_pattern
+          (data_pattern
+            (data_type_name))
+          (data_pattern
+            (data_type_name)))
+        (integer_literal
+          (decimal_int)))
+      (match_arm
+        (wildcard_pattern)
+        (integer_literal
+          (decimal_int))))))

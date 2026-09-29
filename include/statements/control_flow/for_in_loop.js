@@ -51,9 +51,18 @@ module.exports = {
   // is an expression, so nothing later in the header gets to decide. Reaching it would
   // mean reopening the named-literal-vs-block resolution, which that section documents two
   // dead ends for — a large risk for a spelling a tuple already covers.
+  //
+  // **A single loop variable may name its type** (09/29): `for i: u16 in 0..<100`. Without
+  // one, a variable over literal bounds is an `i64`, as `let n = 5` is; with one, the bounds
+  // are checked against it (`for b: u8 in 0..<300` is refused) and the loop runs at that
+  // width. Only the one-binding form takes it — in `for i, x in xs` the index is always an
+  // `i64` and the element's type is the collection's.
   for_in_condition: $ => prec.left(PREC.FOR_IN_CONDITION, seq(
     choice(
-      alias(choice($.identifier, '_'), $.for_variable_or_key),
+      seq(
+        alias(choice($.identifier, '_'), $.for_variable_or_key),
+        optional(field('type_annotation', $.type_annotation)),
+      ),
       $.tuple_pattern,
     ),
     // …and in the **second** slot too, which is where it belongs when an index is also

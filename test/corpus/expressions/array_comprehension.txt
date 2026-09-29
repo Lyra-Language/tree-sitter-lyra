@@ -369,3 +369,50 @@ let s = "${[x in xs | x].len()}"
                 (identifier)))
             (identifier))
           (argument_list))))))
+
+================================================================================
+Array Comprehension - Field And Element Sources
+================================================================================
+
+let names = [s in game.sprites | s.name]
+let row = [c in grid[0] | c]
+let both = [x in (a ++ b) | x]
+
+--------------------------------------------------------------------------------
+
+(program
+  (declaration
+    (identifier)
+    (array_comp_expr
+      (generator
+        (identifier)
+        (member_expr
+          (identifier)
+          (identifier)))
+      (result_expr
+        (member_expr
+          (identifier)
+          (identifier)))))
+  (declaration
+    (identifier)
+    (array_comp_expr
+      (generator
+        (identifier)
+        (index_expr
+          (identifier)
+          (integer_literal
+            (decimal_int))))
+      (result_expr
+        (identifier))))
+  (declaration
+    (identifier)
+    (array_comp_expr
+      (generator
+        (identifier)
+        (parenthesized_expr
+          (string_concat_expr
+            (identifier)
+            (string_concat_operator)
+            (identifier))))
+      (result_expr
+        (identifier)))))
