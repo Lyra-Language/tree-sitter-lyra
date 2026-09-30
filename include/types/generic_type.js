@@ -23,11 +23,23 @@ module.exports = {
       ),
     ),
 
+  // A type parameter (`t`, `t: Ord`), or a **value** parameter: `const N: i64`, a
+  // compile-time integer a fixed array's size is written in terms of — `let sum<const N:
+  // i64> = (xs: [N]i64) -> i64`. Its name is a const_identifier because that is what an
+  // array size already accepts (`array_size`), so `[N]t` needs nothing new.
   generic_parameter: ($) =>
     prec(PREC.GENERIC_PARAMETERS,
-      seq(
-        field("name", $.generic_type),
-        optional(seq(":", field("bounds", $.generic_bounds))),
+      choice(
+        seq(
+          field("name", $.generic_type),
+          optional(seq(":", field("bounds", $.generic_bounds))),
+        ),
+        seq(
+          "const",
+          field("name", $.const_identifier),
+          ":",
+          field("value_type", $.type),
+        ),
       ),
     ),
 

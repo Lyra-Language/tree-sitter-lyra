@@ -868,3 +868,36 @@ Leading modifier on a non-function is an error
 let pure x = 42
 
 ---
+
+==================================================
+Function declaration with a const generic parameter
+==================================================
+
+let first<t, const N: i64> = (xs: ref [N]t) -> t => xs[0]
+
+---
+
+(program
+  (declaration
+    (identifier)
+    (generic_parameters
+      (generic_parameter
+        (generic_type))
+      (generic_parameter
+        (const_identifier)
+        (signed_integer_type)))
+    (lambda_expr
+      (parameter_list
+        (parameter
+          (identifier)
+          (type_modifier)
+          (array_type
+            (array_size
+              (const_identifier))
+            (generic_type))))
+      (return_type
+        (generic_type))
+      (index_expr
+        (identifier)
+        (integer_literal
+          (decimal_int))))))

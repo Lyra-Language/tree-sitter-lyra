@@ -4372,7 +4372,21 @@
         "required": true,
         "types": [
           {
+            "type": "const_identifier",
+            "named": true
+          },
+          {
             "type": "generic_type",
+            "named": true
+          }
+        ]
+      },
+      "value_type": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "type",
             "named": true
           }
         ]
