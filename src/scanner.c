@@ -530,6 +530,9 @@ bool tree_sitter_lyra_external_scanner_scan(void *payload, TSLexer *lexer, const
       return true;
     }
 
+    // A `$` already consumed below, and not the start of `${`, is content.
+    bool has_content = false;
+
     // Check for interpolation start: ${
     if (valid_symbols[INTERPOLATION_START] && lexer->lookahead == '$') {
       lexer->advance(lexer, false);
@@ -540,15 +543,15 @@ bool tree_sitter_lyra_external_scanner_scan(void *payload, TSLexer *lexer, const
         push_context(scanner, CTX_INTERPOLATION);
         return true;
       }
-      // Not an interpolation, backtrack by scanning as content
-      // Actually, we can't backtrack in tree-sitter, so we need to handle this differently
-      // We'll scan this # as part of string_content below
+      // A lone `$`. The lexer cannot rewind, so it is already part of the
+      // content token scanned below — and must count as content, or a chunk
+      // that is only this `$` (`"$"`, `"${n}$"`, `"$${n}"`) emits nothing.
+      has_content = true;
     }
 
     // Scan string content
     if (valid_symbols[STRING_CONTENT]) {
-      bool has_content = false;
-      
+
       while (!lexer->eof(lexer)) {
         if (lexer->lookahead == '"') {
           // End of string
@@ -568,7 +571,7 @@ bool tree_sitter_lyra_external_scanner_scan(void *payload, TSLexer *lexer, const
             // No content before interpolation, let the interpolation handler deal with it
             return false;
           }
-          // Not interpolation, continue (# is part of content)
+          // Not interpolation, continue ($ is part of content)
           has_content = true;
           continue;
         }

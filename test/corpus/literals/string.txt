@@ -246,3 +246,92 @@ let i = 2
     name: (identifier)
     value: (integer_literal
       (decimal_int))))
+
+=================================================
+A lone dollar sign before the closing quote is content
+=================================================
+
+let a = "$"
+let b = "${n}$"
+let c = "5$"
+
+---
+
+(program
+  (declaration
+    name: (identifier)
+    value: (string_literal
+      (string_content)))
+  (declaration
+    name: (identifier)
+    value: (string_literal
+      (string_interpolation
+        (identifier))
+      (string_content)))
+  (declaration
+    name: (identifier)
+    value: (string_literal
+      (string_content))))
+
+=================================================
+A lone dollar sign before an interpolation is content
+=================================================
+
+let a = "$${n}"
+let b = "cost: $${n}"
+let c = "$${a}$${b}$"
+
+---
+
+(program
+  (declaration
+    name: (identifier)
+    value: (string_literal
+      (string_content)
+      (string_interpolation
+        (identifier))))
+  (declaration
+    name: (identifier)
+    value: (string_literal
+      (string_content)
+      (string_interpolation
+        (identifier))))
+  (declaration
+    name: (identifier)
+    value: (string_literal
+      (string_content)
+      (string_interpolation
+        (identifier))
+      (string_content)
+      (string_interpolation
+        (identifier))
+      (string_content))))
+
+=================================================
+A dollar sign not followed by a brace is content
+=================================================
+
+let a = "$5"
+let b = "a$b"
+let c = "$$"
+let d = "$$$"
+
+---
+
+(program
+  (declaration
+    name: (identifier)
+    value: (string_literal
+      (string_content)))
+  (declaration
+    name: (identifier)
+    value: (string_literal
+      (string_content)))
+  (declaration
+    name: (identifier)
+    value: (string_literal
+      (string_content)))
+  (declaration
+    name: (identifier)
+    value: (string_literal
+      (string_content))))
