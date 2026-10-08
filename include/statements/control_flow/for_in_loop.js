@@ -44,13 +44,11 @@ module.exports = {
   // `data_pattern` (`for Some(x) in …` would have to silently skip or trap on a `None`)
   // and `array_pattern`, whose arity the element type does not guarantee.
   //
-  // **`struct_pattern` is irrefutable and still not here**, because it does not survive
-  // the contest this grammar's struct-literal notes describe: `for Pt { x, y } in points`
-  // is read as a C-style `for` whose condition is the *literal* `Pt { x, y }`, and the
-  // remaining `in points` is an ERROR. The literal reading wins because a `for` condition
-  // is an expression, so nothing later in the header gets to decide. Reaching it would
-  // mean reopening the named-literal-vs-block resolution, which that section documents two
-  // dead ends for — a large risk for a spelling a tuple already covers.
+  // **`struct_pattern` is irrefutable and still not here.** Until 10/08/26 it could not
+  // survive the struct-literal contest: `for Pt { x, y } in points` read as a conditional
+  // `for` whose condition was the *literal* `Pt { x, y }`. `for` now begins only this
+  // rule (the conditional loop is `while`), so that rival is gone; admitting the pattern
+  // is untried (lyra/todo.md), and a tuple already covers the spelling.
   //
   // **A single loop variable may name its type** (09/29): `for i: u16 in 0..<100`. Without
   // one, a variable over literal bounds is an `i64`, as `let n = 5` is; with one, the bounds

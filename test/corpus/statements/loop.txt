@@ -1,0 +1,164 @@
+=============
+Infinite loop
+=============
+
+loop {
+  println("foo")
+}
+
+---
+
+(program
+  (expression_statement
+    (infinite_loop
+      (loop_body
+        (expression_statement
+          (call_expr
+            (identifier)
+            (argument_list
+              (value
+                (string_literal
+                  (string_content))))))))))
+
+==========
+While loop
+==========
+
+var i = 0
+while i < 10 {
+  println("i == ${i}")
+}
+
+---
+
+(program
+  (declaration
+    (identifier)
+    (integer_literal
+      (decimal_int)))
+  (expression_statement
+    (while_loop
+      (boolean_expr
+        (identifier)
+        (less_than_operator)
+        (integer_literal
+          (decimal_int)))
+      (while_body
+        (expression_statement
+          (call_expr
+            (identifier)
+            (argument_list
+              (value
+                (string_literal
+                  (string_content)
+                  (string_interpolation
+                    (identifier)))))))))))
+
+===================================
+While loop over a bare bool binding
+===================================
+
+while done {
+  println("waiting")
+}
+
+---
+
+(program
+  (expression_statement
+    (while_loop
+      (identifier)
+      (while_body
+        (expression_statement
+          (call_expr
+            (identifier)
+            (argument_list
+              (value
+                (string_literal
+                  (string_content))))))))))
+
+==========================================
+While loop over a call and a member access
+==========================================
+
+while ready(n) {
+  println("a")
+}
+while cfg.enabled {
+  println("b")
+}
+
+---
+
+(program
+  (expression_statement
+    (while_loop
+      (call_expr
+        (identifier)
+        (argument_list
+          (value
+            (identifier))))
+      (while_body
+        (expression_statement
+          (call_expr
+            (identifier)
+            (argument_list
+              (value
+                (string_literal
+                  (string_content)))))))))
+  (expression_statement
+    (while_loop
+      (member_expr
+        (identifier)
+        (identifier))
+      (while_body
+        (expression_statement
+          (call_expr
+            (identifier)
+            (argument_list
+              (value
+                (string_literal
+                  (string_content))))))))))
+
+==================================================
+A labeled loop and a labeled while
+==================================================
+
+outer: loop {
+  inner: while ready {
+    break outer
+  }
+}
+
+---
+
+(program
+  (expression_statement
+    (infinite_loop
+      (label)
+      (loop_body
+        (expression_statement
+          (while_loop
+            (label)
+            (identifier)
+            (while_body
+              (break_statement
+                (identifier)))))))))
+
+==================================================
+The C-style header is gone
+:error
+==================================================
+
+while var i = 0; i < 10; i += 1 {
+  println("x")
+}
+
+==================================================
+A bare for is not a loop
+:error
+==================================================
+
+for {
+  println("x")
+}

@@ -338,7 +338,7 @@ A destructuring binding does not disturb the readings it contests
 for x in xs { }
 for x, i in xs { }
 for _ in xs { }
-for done { }
+while done { }
 
 ---
 
@@ -363,10 +363,9 @@ for done { }
         (identifier))
       (for_in_body)))
   (expression_statement
-    (for_loop
-      for_condition: (for_condition
-        condition_expr: (identifier))
-      for_body: (for_body))))
+    (while_loop
+      condition: (identifier)
+      while_body: (while_body))))
 
 ==========================================
 For in loop with a typed loop variable

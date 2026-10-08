@@ -570,7 +570,7 @@ match n {
 An arm body may be a bare break or continue
 ==============================================
 
-for {
+loop {
   match m {
     A => break,
     B => continue,
@@ -582,8 +582,8 @@ for {
 
 (program
   (expression_statement
-    (for_loop
-      (for_body
+    (infinite_loop
+      (loop_body
         (expression_statement
           (match_expr
             (identifier)

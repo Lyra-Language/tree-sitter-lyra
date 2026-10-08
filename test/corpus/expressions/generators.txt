@@ -4,7 +4,7 @@ Basic generator with yield
 
 let counter = gen (start: i32) -> Gen<i32> => {
   var i = start
-  for {
+  loop {
     yield i
     i += 1
   }
@@ -30,8 +30,8 @@ let counter = gen (start: i32) -> Gen<i32> => {
           (identifier)
           (identifier))
         (expression_statement
-          (for_loop
-            (for_body
+          (infinite_loop
+            (loop_body
               (expression_statement
                 (yield_expr
                   (identifier)))
@@ -85,7 +85,7 @@ Pure generator (frame suspension)
 ===================================
 
 let frames = pure gen () -> Gen<void> => {
-  for {
+  loop {
     yield ()
   }
 }
@@ -105,8 +105,8 @@ let frames = pure gen () -> Gen<void> => {
           (void_type)))
       (block
         (expression_statement
-          (for_loop
-            (for_body
+          (infinite_loop
+            (loop_body
               (expression_statement
                 (yield_expr
                   (tuple_literal))))))))))

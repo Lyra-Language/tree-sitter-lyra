@@ -7,7 +7,7 @@ const postfix = require("./postfix");
 const functions = require("./functions");
 const unsafe = require("./unsafe");
 const builtins = require("./builtins");
-const for_loop = require("../statements/control_flow/for_loop");
+const loop = require("../statements/control_flow/loop");
 const for_in_loop = require("../statements/control_flow/for_in_loop");
 const { PREC } = require("../prec");
 const { statementList } = require("../helpers");
@@ -34,7 +34,8 @@ module.exports = {
       $.compose_expr,
       $.address_of_expr,
       $.sizeof_expr,
-      $.for_loop,
+      $.infinite_loop,
+      $.while_loop,
       $.for_in_loop,
       $.data_constructor_expr,
       // Note: user_defined_type_name is accessed via _postfix_expression -> _primary_expression
@@ -209,6 +210,6 @@ module.exports = {
   ...functions,
   ...unsafe,
   ...builtins,
-  ...for_loop,
+  ...loop,
   ...for_in_loop,
 };

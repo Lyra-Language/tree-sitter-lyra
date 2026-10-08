@@ -35,6 +35,8 @@
 "if"       @keyword.control.conditional
 "else"     @keyword.control.conditional
 "match"    @keyword.control.conditional
+"loop"     @keyword.control.repeat
+"while"    @keyword.control.repeat
 "for"      @keyword.control.repeat
 "in"       @keyword.control.repeat
 "return"   @keyword.control.return

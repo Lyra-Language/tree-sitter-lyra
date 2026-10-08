@@ -24,7 +24,7 @@ npx tree-sitter generate --report-states-for-rule -   # per-rule state attributi
 | `include/expressions/` | expressions (math, boolean, postfix, lambdas, match, if, range, comprehensions, async/await, compose `->>`), string interpolation |
 | `include/expressions/functions.js` | function/lambda definitions, guards |
 | `include/types/` | `struct`, `data`, `tuple`, `newtype`, `union`, `type` aliases, traits, impls, generics, `where`, allocation modifiers |
-| `include/statements/` | `let`/`var`/`const`, place assignment (`p.x`, `xs[i]`, `p.0`, `p^`), tuple assignment, compound assignment, `for`/`for-in`, `arena`/`with`, jumps, `extern` |
+| `include/statements/` | `let`/`var`/`const`, place assignment (`p.x`, `xs[i]`, `p.0`, `p^`), tuple assignment, compound assignment, `loop`/`while`/`for-in`, `arena`/`with`, jumps, `extern` |
 | `include/literals/` | struct, tuple, array literals; `numbers.js` (dec/`0x`/`0b`/`0o`, float), `regex.js`, `nullptr.js` |
 | `include/patterns/` | patterns for `match` arms and `if let` |
 | `include/destructuring/` | destructuring declarations |
@@ -101,7 +101,7 @@ A line break ends a statement; `;` is the explicit form. `statementList` (used b
 ## Reserved Keywords
 
 ```
-for  if  else  match  let  var  const  readonly  true  false
+loop  while  for  if  else  match  let  var  const  readonly  true  false
 import  module  as  pub  async  await  Self
 stack  shared  weak  with  pure  det  noalloc  gen  rec  yield
 fixed  unsafe  mut  ref  own  void
@@ -119,7 +119,7 @@ Listed in `grammar.js`'s `conflicts:` array:
 - `_primary_expr` / `data_pattern` — capitalized name in expression vs pattern position
 - `expression` / `_math_operand` / `_bool_operand` / `_comparison_operand` — precedence lookahead
 - `result_expr` / `_primary_expr` — a struct literal in a comprehension result (generation *fails* without it)
-- `for_loop` / `for_in_loop` with and without a label
+- `infinite_loop` / `while_loop` / `for_in_loop` with and without a label
 - `pattern` / `_primary_expr` / `data_pattern` vs a name-leading `(…)`
 - `_primary_expr` / `rest_pattern` — `[...xs, 1]` spread vs rest pattern, decided after the list
 - `_primary_expr` vs `literal_pattern`, `_signed_number_literal`, `_negated_number_literal` — `('a', 'b')`, `(1, 2)`, `(-1, 2)` as lambda params vs tuple
@@ -134,7 +134,7 @@ Entries generation calls "unnecessary" here are left in place deliberately.
 
 `(a, b)`, `(a)`, `(None, 7)` may each begin a lambda parameter list, an anonymous tuple, or a parenthesized expression; `=>` decides. Both are required, or name-leading tuple literals break:
 
-1. the `[pattern, _primary_expr]`, `[pattern, for_loop, for_in_loop]` and `[_primary_expr, data_pattern]` entries, **and**
+1. the `[pattern, _primary_expr]`, `[pattern, infinite_loop, while_loop, for_in_loop]` and `[_primary_expr, data_pattern]` entries, **and**
 2. the **bare-name alternative of `pattern`/`data_pattern` sits outside** `prec.left(PREC.PATTERN)` / `prec.left(PREC.DATA_PATTERN)`, or precedence resolves toward the pattern statically. A payload-bearing `data_pattern` (`Some(x)`) keeps `PREC.DATA_PATTERN`.
 
 `tuple_pattern` is **anonymous-only**; a leading name on it outbids the expression reading and makes `(f(7), 1)` a syntax error.
@@ -238,8 +238,11 @@ One shape for expression (`0..<n`, `0..<=10:2`), pattern (`0..<=9`) and `newtype
 - **A recovered parse is not an absent bound:** `range(..)` yields a zero-width inserted `decimal_int`; Go treats missing-or-empty as absent (`collector_ctx.RangeBound`).
 - Corpus: open-ended tests in `expressions/control_flow/match.txt`, `types/newtype.txt`; `:error` for bare `..`.
 
-## `for` Condition (`include/statements/control_flow/for_loop.js`)
-The condition is `$._bool_operand` (`boolean_expr`, literal, `_postfix_expr`). **`$.expression` does not generate**: a `block` is an expression, so `for { … }` becomes condition-without-body vs body-without-condition. No `for_condition_expr` alias — bool-ness is the typechecker's.
+## Loops (`include/statements/control_flow/loop.js`, `for_in_loop.js`)
+
+Three keywords, three rules, each with an optional `label:`: `loop { … }` (`infinite_loop`), `while cond { … }` (`while_loop`), `for x in xs { … }` (`for_in_loop`). `for` begins only the last. **There is no C-style `init; cond; post` header**, and no condition on `loop`.
+
+The `while` condition is `$._bool_operand` (`boolean_expr`, literal, `_postfix_expr`). **`$.expression` does not generate**: a `block` is an expression, so the condition would contest the body. No condition alias — bool-ness is the typechecker's.
 
 ## Regex Literals (`include/literals/regex.js`)
 

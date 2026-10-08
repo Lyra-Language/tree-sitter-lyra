@@ -110,11 +110,11 @@ module.exports = grammar({
     // name-leading one (a bare `identifier` reduces to `pattern` for the lambda
     // param, or to `_primary_expr` for the tuple element).
     [$.pattern, $._primary_expr],
-    [$.pattern, $.for_loop, $.for_in_loop],
+    [$.pattern, $.infinite_loop, $.while_loop, $.for_in_loop],
     // A comprehension source that is an identifier or a call beginning with one: see
     // array_comprehension.js.
     [$.generator, $._postfix_expr],
-    [$._primary_expr, $.for_loop, $.for_in_loop],
+    [$._primary_expr, $.infinite_loop, $.while_loop, $.for_in_loop],
     [$._primary_expr, $.data_pattern],
     // The same race for a nullary constructor as an or-pattern alternative (09/29):
     // `(LOUD | QUIET) => …` is a lambda's parameter pattern or a parenthesized bitwise
@@ -220,9 +220,10 @@ module.exports = grammar({
     // without it, so it is not the "unnecessary conflict" kind this file warns about.
     [$._bool_operand, $._comparison_operand],
     // A bare identifier can be either a primary expression or the label
-    // prefix of a labeled for/for-in loop expression.
-    // for_loop/for_in_loop with and without a label over the same token sequence.
-    [$.for_loop],
+    // prefix of a labeled loop expression.
+    // Each loop rule with and without a label over the same token sequence.
+    [$.infinite_loop],
+    [$.while_loop],
     [$.for_in_loop],
     // `impl Name<a, b` is a trait with arguments (`impl From<E> for Error`) or a generic
     // type taking inherent methods (`impl Box<t> { … }`); `for` or `{` after the `>`
@@ -233,6 +234,8 @@ module.exports = grammar({
   reserved: {
     identifier: () => [
       "for",
+      "loop",
+      "while",
       "if",
       "else",
       "match",

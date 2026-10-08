@@ -1431,7 +1431,11 @@
         },
         {
           "type": "SYMBOL",
-          "name": "for_loop"
+          "name": "infinite_loop"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "while_loop"
         },
         {
           "type": "SYMBOL",
@@ -4825,7 +4829,7 @@
         }
       ]
     },
-    "for_loop": {
+    "infinite_loop": {
       "type": "SEQ",
       "members": [
         {
@@ -4860,27 +4864,11 @@
         },
         {
           "type": "STRING",
-          "value": "for"
-        },
-        {
-          "type": "CHOICE",
-          "members": [
-            {
-              "type": "FIELD",
-              "name": "for_condition",
-              "content": {
-                "type": "SYMBOL",
-                "name": "for_condition"
-              }
-            },
-            {
-              "type": "BLANK"
-            }
-          ]
+          "value": "loop"
         },
         {
           "type": "FIELD",
-          "name": "for_body",
+          "name": "loop_body",
           "content": {
             "type": "ALIAS",
             "content": {
@@ -4888,12 +4876,12 @@
               "name": "block"
             },
             "named": true,
-            "value": "for_body"
+            "value": "loop_body"
           }
         }
       ]
     },
-    "for_condition": {
+    "while_loop": {
       "type": "SEQ",
       "members": [
         {
@@ -4904,20 +4892,20 @@
               "members": [
                 {
                   "type": "FIELD",
-                  "name": "initial_expr",
+                  "name": "label",
                   "content": {
                     "type": "ALIAS",
                     "content": {
                       "type": "SYMBOL",
-                      "name": "declaration"
+                      "name": "identifier"
                     },
                     "named": true,
-                    "value": "for_initial_expr"
+                    "value": "label"
                   }
                 },
                 {
                   "type": "STRING",
-                  "value": ";"
+                  "value": ":"
                 }
               ]
             },
@@ -4927,42 +4915,29 @@
           ]
         },
         {
+          "type": "STRING",
+          "value": "while"
+        },
+        {
           "type": "FIELD",
-          "name": "condition_expr",
+          "name": "condition",
           "content": {
             "type": "SYMBOL",
             "name": "_bool_operand"
           }
         },
         {
-          "type": "CHOICE",
-          "members": [
-            {
-              "type": "SEQ",
-              "members": [
-                {
-                  "type": "STRING",
-                  "value": ";"
-                },
-                {
-                  "type": "FIELD",
-                  "name": "post_expr",
-                  "content": {
-                    "type": "ALIAS",
-                    "content": {
-                      "type": "SYMBOL",
-                      "name": "expression"
-                    },
-                    "named": true,
-                    "value": "for_post_expr"
-                  }
-                }
-              ]
+          "type": "FIELD",
+          "name": "while_body",
+          "content": {
+            "type": "ALIAS",
+            "content": {
+              "type": "SYMBOL",
+              "name": "block"
             },
-            {
-              "type": "BLANK"
-            }
-          ]
+            "named": true,
+            "value": "while_body"
+          }
         }
       ]
     },
@@ -11078,7 +11053,8 @@
     ],
     [
       "pattern",
-      "for_loop",
+      "infinite_loop",
+      "while_loop",
       "for_in_loop"
     ],
     [
@@ -11087,7 +11063,8 @@
     ],
     [
       "_primary_expr",
-      "for_loop",
+      "infinite_loop",
+      "while_loop",
       "for_in_loop"
     ],
     [
@@ -11171,7 +11148,10 @@
       "_comparison_operand"
     ],
     [
-      "for_loop"
+      "infinite_loop"
+    ],
+    [
+      "while_loop"
     ],
     [
       "for_in_loop"
@@ -11238,6 +11218,14 @@
       {
         "type": "STRING",
         "value": "for"
+      },
+      {
+        "type": "STRING",
+        "value": "loop"
+      },
+      {
+        "type": "STRING",
+        "value": "while"
       },
       {
         "type": "STRING",
