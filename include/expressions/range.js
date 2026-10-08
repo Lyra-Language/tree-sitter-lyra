@@ -11,7 +11,7 @@ module.exports = {
   // The step is expression-only. A step in a *pattern* would be a set-membership
   // test the exhaustiveness checker cannot reason about, and in a *constraint* the
   // idea already has its own spelling (`step(0.25)`), which composes with
-  // `precision()` and the newtype's domain in a way an inline `:step` does not.
+  // `precision()` and the type's domain in a way an inline `:step` does not.
   range_expr: ($) =>
     prec.right(
       PREC.RANGE_EXPR,
@@ -41,7 +41,7 @@ module.exports = {
   // error (`types.InvalidStepReason`).
   //
   // **Descending is meaningful only where a range is *iterated*.** As a match pattern or
-  // a `newtype` constraint a range is a **set**, and a set has no direction — `5..>1`
+  // a `type` constraint a range is a **set**, and a set has no direction — `5..>1`
   // describes exactly the members `1..<5` does. `>` and `>=` are accepted here in all
   // three sites and refused by the collector where they do not belong, following the rule
   // rangeBounds already states: the grammar refuses what has no meaning at all, the

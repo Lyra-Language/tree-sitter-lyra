@@ -2,7 +2,7 @@
 Type alias with function type
 =============================
 
-newtype Callback = () -> int
+type Callback = () -> int
 
 ---
 

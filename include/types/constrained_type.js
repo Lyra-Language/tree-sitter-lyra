@@ -1,12 +1,15 @@
 const { commaSep1, rangeBounds } = require("../helpers");
 
 module.exports = {
+  // `type Meters = f64`: a nominal type over a structural base, optionally constrained
+  // (`type Percent = u8 where range(0..<=100)`). The keyword was `newtype` until 10/08;
+  // the node keeps the name `constrained_type` (see type_alias.js for why).
   constrained_type: ($) =>
     seq(
       optional(field("visibility", $.visibility)),
-      "newtype",
+      "type",
       field("name", alias($.user_defined_type_name, $.constrained_type_name)),
-      // A `newtype` may be generic — `newtype Meters<t> = t`. It was the one type
+      // A `type` may be generic — `type Meters<t> = t`. It was the one type
       // declaration without this: struct, data, tuple and trait all take it, and the
       // omission put the `<t>` in an ERROR node while the declaration still collected,
       // silently dropping the parameters.

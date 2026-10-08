@@ -11,7 +11,7 @@ pub struct Node {
 
 pub data Shape = Circle(f64) | Rect(f64, f64)
 pub tuple Pair<t>(t, t)
-newtype Volume = u8 where range(0..<=100)
+type Volume = u8 where range(0..<=100)
 type Op = ((i64, i64)) -> i64
 
 /// A documented union — every member sits at offset 0.

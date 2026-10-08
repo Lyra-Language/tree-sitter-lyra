@@ -2,7 +2,7 @@
 Type alias of a function type
 ================================================================
 
-type Op = ((i64, i64)) -> i64
+alias Op = ((i64, i64)) -> i64
 
 ---
 
@@ -25,7 +25,7 @@ type Op = ((i64, i64)) -> i64
 Type alias of a named type
 ================================================================
 
-type Point = Pt
+alias Point = Pt
 
 ---
 
@@ -39,7 +39,7 @@ type Point = Pt
 Public type alias
 ================================================================
 
-pub type Id = i64
+pub alias Id = i64
 
 ---
 
@@ -49,3 +49,37 @@ pub type Id = i64
       (visibility)
       (type_alias_name)
       (signed_integer_type))))
+
+================================================================
+alias and type are keywords only where a declaration starts
+================================================================
+
+let alias = 5
+let type = 6
+let release = (alias: Sound) -> void => unload(alias)
+
+---
+
+(program
+  (declaration
+    (identifier)
+    (integer_literal
+      (decimal_int)))
+  (declaration
+    (identifier)
+    (integer_literal
+      (decimal_int)))
+  (declaration
+    (identifier)
+    (lambda_expr
+      (parameter_list
+        (parameter
+          (identifier)
+          (user_defined_type_name)))
+      (return_type
+        (void_type))
+      (call_expr
+        (identifier)
+        (argument_list
+          (value
+            (identifier)))))))

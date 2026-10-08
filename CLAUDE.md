@@ -23,7 +23,7 @@ npx tree-sitter generate --report-states-for-rule -   # per-rule state attributi
 |---|---|
 | `include/expressions/` | expressions (math, boolean, postfix, lambdas, match, if, range, comprehensions, async/await, compose `->>`), string interpolation |
 | `include/expressions/functions.js` | function/lambda definitions, guards |
-| `include/types/` | `struct`, `data`, `tuple`, `newtype`, `union`, `type` aliases, traits, impls, generics, `where`, allocation modifiers |
+| `include/types/` | `struct`, `data`, `tuple`, `type` (nominal), `union`, `alias`, traits, impls, generics, `where`, allocation modifiers |
 | `include/statements/` | `let`/`var`/`const`, place assignment (`p.x`, `xs[i]`, `p.0`, `p^`), tuple assignment, compound assignment, `loop`/`while`/`for-in`, `arena`/`with`, jumps, `extern` |
 | `include/literals/` | struct, tuple, array literals; `numbers.js` (dec/`0x`/`0b`/`0o`, float), `regex.js`, `nullptr.js` |
 | `include/patterns/` | patterns for `match` arms and `if let` |
@@ -108,7 +108,7 @@ fixed  unsafe  mut  ref  own  void
 ```
 
 - **The `reserved` block enforces nothing**: `let with = 5` and `let yield = 5` parse. (`let unsafe = 5` is refused by `declaration`'s modifier-led arm; `let rec = 5` because `rec` is in `fn_modifiers`.) Adding a word to the list does nothing on its own.
-- `type`, `extern` and `nullptr` are keywords only in their positions; `let type = 5` / `let extern = 5` parse and must keep parsing. `let nullptr = 5` parses too and is refused by the collector (`lyra-E070`).
+- `type`, `alias`, `extern` and `nullptr` are keywords only in their positions; `let type = 5` / `let alias = 5` / `let extern = 5` parse and must keep parsing (`alias` is a parameter name in `bindings/raylib`; pinned in `types/type_alias.txt`). `let nullptr = 5` parses too and is refused by the collector (`lyra-E070`).
 - `pure`/`det`/`noalloc` are accepted on `lambda_expr`, `trait_method_implementation`, leading a `trait_method` name, and on `lambda_type`; `pure`+`det` exclusion is a checker rule (`lyra-E015`).
 
 ## Known GLR Conflicts
@@ -230,7 +230,7 @@ switches on the kind) and `lyra-zed-ext`'s own queries in the same change.
 
 ## Ranges (`rangeBounds`, `include/helpers.js`)
 
-One shape for expression (`0..<n`, `0..<=10:2`), pattern (`0..<=9`) and `newtype` constraint (`range(0..<=100)`). Only two axes are parameters:
+One shape for expression (`0..<n`, `0..<=10:2`), pattern (`0..<=9`) and `type` constraint (`range(0..<=100)`). Only two axes are parameters:
 - **Operand:** pattern = literal, constraint = constant expression, expression = anything.
 - **Open-endedness:** patterns and constraints may be open (`10..`, `range(0..)`); `range_expr` is closed. Both-bounds-absent is refused structurally (`open` is a `choice`, not two optionals).
 - **`range_end_operator` is its own node** (highlight queries must capture it) — optional in the grammar at all three sites, required by the collector (`lyra-E032`).
@@ -280,14 +280,14 @@ unsafe extern printf: (^u8, ...) -> i32
 - **`const_identifier` is an `importable_name`** (`import lib.{ INIT_VIDEO }`). All-caps no-underscore names (`MAX`, `PI`, `HM`) tie with type names and are settled by token precedence, lexing as `const_identifier`.
 - **`inherent_implementation`** (`impl Person { let f = (self) => … }`, in `include/types/trait_implementation.js`): members are the `declaration` rule itself, so they take everything a top-level `let` takes; the collector erases the block and refuses what is not a method. Braces required, body may be empty; an optional `where` (`generic_parameter_constraints`, as a declaration's) bounds every member. Corpus: `types/inherent_impl.txt`.
 - **Trait body optional** (`trait Arithmetic: Add + Sub`). The method list is absent, never empty. `trait Marker` ⏎ `{ 1 }` is a trait plus block — pinned by `A brace on the next line is not a trait body`.
-- **Generic `newtype`**: `constrained_type` has the `generic_parameters` field. Beware a regenerated Go golden baking in an ERROR-truncated parse.
+- **Generic `type`**: `constrained_type` has the `generic_parameters` field. Beware a regenerated Go golden baking in an ERROR-truncated parse.
 - **`const` generic parameters**: `generic_parameter` has a second form, `const NAME: type` (fields `name`, a `const_identifier`, and `value_type`), for an array size (`let f<const N: i64> = (xs: ref [N]t)`). The size side needed nothing: `array_size` already took a `const_identifier`.
 - **`let _ = expr`**: `wildcard_pattern` is in `destructuring_only_pattern`. `_` is not an expression.
 - **`for _ in …` / `for _, v in …`**: `_` is admitted inside the existing alias `alias(choice($.identifier, '_'), $.for_variable_or_key)`, keeping the CST shape.
 - **Bare jump in a match arm**: `match_arm` body is `choice($.expression, $._arm_jump)`; the collector erases it into a one-statement block — keep it confined to those two places.
 - **Array element modifiers** (`include/types/allocation.js`): `[]shared Node` via `_element_type` = `_non_allocated_type | allocated_type | weak_type`, used only by `array_type`. Exactly one modifier deep; `weak_type`'s and `allocated_type`'s operands stay `_non_allocated_type` (no `shared weak T`). Not `$.type` (would admit `[]void`). Corpus: `types/allocation.txt`.
 - **Effect modifiers on a function type** (`include/types/lambda_type.js`): `f: pure () -> t`, labelled fields `is_pure`/`is_det`/`is_noalloc`, reusing existing node kinds.
-- **`type` alias vs `newtype`**: `type Op = …` (`include/types/type_alias.js`) is transparent; `newtype` (`include/types/constrained_type.js`) is nominal and carries `where` constraints. Corpus: `types/type_alias.txt`.
+- **`type` vs `alias`**: `type Meters = f64` (`include/types/constrained_type.js`) is nominal and carries `where` constraints; `alias Op = …` (`include/types/type_alias.js`) is transparent. Corpus: `types/newtype.txt`, `types/type_alias.txt`. **The keywords were `newtype` and `type` until 10/08; the node names (`constrained_type`, `type_alias`, and the corpus file names) kept the old ones** — a contract with the collector, lyrafmt and both editors' queries. Old source with `type X = Y` still parses, as the nominal form: a silent change of meaning, so migrate aliases to `alias` in the same change as the grammar.
 
 ## Field Labels and Corpus Tests
 

@@ -9119,6 +9119,10 @@
     "named": true
   },
   {
+    "type": "alias",
+    "named": false
+  },
+  {
     "type": "argument_name",
     "named": true
   },
@@ -9344,10 +9348,6 @@
   {
     "type": "new_name",
     "named": true
-  },
-  {
-    "type": "newtype",
-    "named": false
   },
   {
     "type": "noalloc_modifier",

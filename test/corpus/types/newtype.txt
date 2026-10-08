@@ -1,8 +1,8 @@
 ======================================
-Basic Type without constraints (alias)
+Basic type without constraints
 ======================================
 
-newtype Turn = f32
+type Turn = f32
 
 ---
 
@@ -16,8 +16,8 @@ newtype Turn = f32
 Type with literal union
 =======================
 
-newtype CSSColorName = string where values("red", "green", "blue", "rebeccapurple", "aliceblue")
-newtype Status = int16 where values(200, 404, 500)
+type CSSColorName = string where values("red", "green", "blue", "rebeccapurple", "aliceblue")
+type Status = int16 where values(200, 404, 500)
 
 ---
 
@@ -63,9 +63,9 @@ newtype Status = int16 where values(200, 404, 500)
 Type with range constraints
 =================================
 
-newtype Angle = f64 where range(0..<360), precision(6, round_up)
-newtype Radian = f64 where range(0..<=2*PI), precision(2, round_trunc)
-newtype Alpha = f32 where range(0..<=1)
+type Angle = f64 where range(0..<360), precision(6, round_up)
+type Radian = f64 where range(0..<=2*PI), precision(2, round_trunc)
+type Alpha = f32 where range(0..<=1)
 
 ---
 
@@ -131,7 +131,7 @@ newtype Alpha = f32 where range(0..<=1)
 Type with pattern constraint
 ==================================
 
-newtype HexStr = string where pattern(r"^#(?:[0-9a-fA-F]{3}){1,2}$")
+type HexStr = string where pattern(r"^#(?:[0-9a-fA-F]{3}){1,2}$")
 
 ---
 
@@ -149,11 +149,11 @@ Type with step constraint
 =========================
 
 // Only multiples of 0.25 (for currency with quarter precision)
-newtype Quarter = f32 where range(0..<=100), step(0.25)
+type Quarter = f32 where range(0..<=100), step(0.25)
 // Valid: 0, 0.25, 0.5, 0.75, 1.0, 1.25, ...
 
 // Degrees in 15° increments
-newtype CompassHeading = u32 where range(0..<360), step(15)
+type CompassHeading = u32 where range(0..<360), step(15)
 // Valid: 0, 15, 30, 45, ..., 345
 
 ---
@@ -202,7 +202,7 @@ Type without right side is an error
 :error
 ===================================
 
-newtype Foo =
+type Foo =
 
 ---
 
@@ -218,7 +218,7 @@ Type without a constraint after "where" is an error
 :error
 ===================================================
 
-newtype Foo = float where
+type Foo = float where
 
 ---
 
@@ -233,7 +233,7 @@ newtype Foo = float where
 Type with unclosed range is an error
 ====================================
 
-newtype Alpha = f32 where range(0..<=1
+type Alpha = f32 where range(0..<=1
 
 ---
 
@@ -257,8 +257,8 @@ newtype Alpha = f32 where range(0..<=1
 Newtype with open-ended range constraints
 ====================================
 
-newtype AtLeastZero = i64 where range(0..)
-newtype BelowFullTurn = f64 where range(..<360)
+type AtLeastZero = i64 where range(0..)
+type BelowFullTurn = f64 where range(..<360)
 
 ---
 
@@ -287,7 +287,7 @@ newtype BelowFullTurn = f64 where range(..<360)
 Newtype over a fixed-size array
 =========================================
 
-newtype Grid = [3]i64
+type Grid = [3]i64
 
 ---
 
@@ -305,7 +305,7 @@ newtype Grid = [3]i64
 Newtype over a dynamic array
 =========================================
 
-newtype Buf = []u8
+type Buf = []u8
 
 ---
 
@@ -320,7 +320,7 @@ newtype Buf = []u8
 Newtype over a nested array
 =========================================
 
-newtype Matrix = [2][2]f64
+type Matrix = [2][2]f64
 
 ---
 
@@ -342,7 +342,7 @@ newtype Matrix = [2][2]f64
 Newtype over an anonymous tuple
 =========================================
 
-newtype Rgb = (u8, u8, u8)
+type Rgb = (u8, u8, u8)
 
 ---
 
@@ -363,7 +363,7 @@ newtype Rgb = (u8, u8, u8)
 Newtype over a raw pointer
 =========================================
 
-newtype Handle = ^u8
+type Handle = ^u8
 
 ---
 
@@ -378,7 +378,7 @@ newtype Handle = ^u8
 Newtype over a function type
 =========================================
 
-newtype Callback = (i64) -> bool
+type Callback = (i64) -> bool
 
 ---
 
@@ -396,8 +396,8 @@ newtype Callback = (i64) -> bool
 Newtype naming another type
 =========================================
 
-newtype Meters = f64
-newtype Distance = Meters
+type Meters = f64
+type Distance = Meters
 
 ---
 
@@ -412,10 +412,10 @@ newtype Distance = Meters
       (user_defined_type_name))))
 
 =========================================
-Generic newtype
+Generic type
 =========================================
 
-newtype Point<t> = (t, t)
+type Point<t> = (t, t)
 
 ---
 
@@ -434,11 +434,11 @@ newtype Point<t> = (t, t)
             (generic_type)))))))
 
 =========================================
-Generic newtype with several parameters and a constraint
+Generic type with several parameters and a constraint
 =========================================
 
-newtype Pair<a, b> = (a, b)
-newtype Bounded<t> = t where range(0..<10)
+type Pair<a, b> = (a, b)
+type Bounded<t> = t where range(0..<10)
 
 ---
 
@@ -478,7 +478,7 @@ newtype Bounded<t> = t where range(0..<10)
 Newtype over an allocation-qualified type
 =========================================
 
-newtype Shared = shared string
+type Shared = shared string
 
 ---
 

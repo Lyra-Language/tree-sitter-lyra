@@ -5691,7 +5691,7 @@
         },
         {
           "type": "STRING",
-          "value": "newtype"
+          "value": "type"
         },
         {
           "type": "FIELD",
@@ -7537,7 +7537,7 @@
         },
         {
           "type": "STRING",
-          "value": "type"
+          "value": "alias"
         },
         {
           "type": "FIELD",

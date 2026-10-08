@@ -46,7 +46,7 @@ export function statementList($) {
 }
 
 // The `..` range notation, shared by the three places it appears: an expression
-// (`0..<n`, `0..<=10:2`), a match pattern (`0..<=9`), and a `newtype` range
+// (`0..<n`, `0..<=10:2`), a match pattern (`0..<=9`), and a `type` range
 // constraint (`range(0..<=100)`).
 //
 // These were three separate rules that had drifted apart on four axes at once —

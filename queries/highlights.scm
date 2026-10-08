@@ -22,7 +22,8 @@
 "struct"  @keyword.type
 "union"   @keyword.type
 "data"    @keyword.type
-"newtype" @keyword.type
+"type"    @keyword.type
+"alias"   @keyword.type
 "tuple"   @keyword.type
 "trait"   @keyword.type
 "impl"    @keyword.type
