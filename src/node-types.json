@@ -304,6 +304,10 @@
         "named": true
       },
       {
+        "type": "inherent_implementation",
+        "named": true
+      },
+      {
         "type": "member_assignment",
         "named": true
       },
@@ -4914,6 +4918,57 @@
           }
         ]
       }
+    }
+  },
+  {
+    "type": "inherent_implementation",
+    "named": true,
+    "fields": {
+      "generic_parameter_constraints": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "generic_parameter_constraints",
+            "named": true
+          }
+        ]
+      },
+      "members": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "inherent_members",
+            "named": true
+          }
+        ]
+      },
+      "type": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "type",
+            "named": true
+          }
+        ]
+      }
+    }
+  },
+  {
+    "type": "inherent_members",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "declaration",
+          "named": true
+        }
+      ]
     }
   },
   {

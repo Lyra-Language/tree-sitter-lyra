@@ -30,6 +30,42 @@ module.exports = {
       ),
     ),
 
+  // `impl Person { let say_hi = (self) => … }` — methods grouped under the type they take.
+  //
+  // **Sugar, not a second kind of method.** Each member is an ordinary top-level `let`
+  // declaration, and the collector hoists it out with the target written into the `self`
+  // parameter; nothing after the collector knows a block was there. Members are therefore
+  // the `declaration` rule itself — `pub`, docs, attributes, a `<…>` list, `where`, every
+  // function modifier and the `let f(self) => …` sugar come with it — and the collector
+  // refuses what a method cannot be (`var`, a non-function, a destructuring).
+  //
+  // Braces are required, unlike `trait_implementation`'s: a bodiless `impl Person` would
+  // say nothing. The body may be empty. A `where` on the block (`impl t where t: Ord`)
+  // bounds the target's variables in every member; it is the declaration's
+  // `generic_parameter_constraints`, so a bound reads the same in both places.
+  inherent_implementation: ($) =>
+    seq(
+      "impl",
+      field("type", $.type),
+      optional(
+        seq(
+          "where",
+          field("generic_parameter_constraints", $.generic_parameter_constraints),
+        ),
+      ),
+      "{",
+      optional($._statement_separator),
+      optional(field("members", $.inherent_members)),
+      "}",
+    ),
+
+  inherent_members: ($) =>
+    seq(
+      $.declaration,
+      repeat(seq($._statement_separator, $.declaration)),
+      optional($._statement_separator),
+    ),
+
   impl_constraints: ($) =>
     seq($.impl_constraint, repeat(seq(",", $.impl_constraint)), optional(",")),
 

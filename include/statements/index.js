@@ -9,6 +9,7 @@ module.exports = {
       $.type_declaration,
       $.trait_declaration,
       $.trait_implementation,
+      $.inherent_implementation,
       $.extern_declaration,
       $.const_declaration,
       $.declaration,

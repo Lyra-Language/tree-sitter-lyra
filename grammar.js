@@ -224,6 +224,10 @@ module.exports = grammar({
     // for_loop/for_in_loop with and without a label over the same token sequence.
     [$.for_loop],
     [$.for_in_loop],
+    // `impl Name<a, b` is a trait with arguments (`impl From<E> for Error`) or a generic
+    // type taking inherent methods (`impl Box<t> { … }`); `for` or `{` after the `>`
+    // decides, so both readings stay alive across the argument list.
+    [$.parameterized_type, $.trait_implementation],
   ],
 
   reserved: {

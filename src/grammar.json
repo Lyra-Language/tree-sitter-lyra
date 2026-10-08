@@ -8392,6 +8392,121 @@
         ]
       }
     },
+    "inherent_implementation": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "impl"
+        },
+        {
+          "type": "FIELD",
+          "name": "type",
+          "content": {
+            "type": "SYMBOL",
+            "name": "type"
+          }
+        },
+        {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "SEQ",
+              "members": [
+                {
+                  "type": "STRING",
+                  "value": "where"
+                },
+                {
+                  "type": "FIELD",
+                  "name": "generic_parameter_constraints",
+                  "content": {
+                    "type": "SYMBOL",
+                    "name": "generic_parameter_constraints"
+                  }
+                }
+              ]
+            },
+            {
+              "type": "BLANK"
+            }
+          ]
+        },
+        {
+          "type": "STRING",
+          "value": "{"
+        },
+        {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "SYMBOL",
+              "name": "_statement_separator"
+            },
+            {
+              "type": "BLANK"
+            }
+          ]
+        },
+        {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "FIELD",
+              "name": "members",
+              "content": {
+                "type": "SYMBOL",
+                "name": "inherent_members"
+              }
+            },
+            {
+              "type": "BLANK"
+            }
+          ]
+        },
+        {
+          "type": "STRING",
+          "value": "}"
+        }
+      ]
+    },
+    "inherent_members": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "SYMBOL",
+          "name": "declaration"
+        },
+        {
+          "type": "REPEAT",
+          "content": {
+            "type": "SEQ",
+            "members": [
+              {
+                "type": "SYMBOL",
+                "name": "_statement_separator"
+              },
+              {
+                "type": "SYMBOL",
+                "name": "declaration"
+              }
+            ]
+          }
+        },
+        {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "SYMBOL",
+              "name": "_statement_separator"
+            },
+            {
+              "type": "BLANK"
+            }
+          ]
+        }
+      ]
+    },
     "impl_constraints": {
       "type": "SEQ",
       "members": [
@@ -8632,6 +8747,10 @@
         {
           "type": "SYMBOL",
           "name": "trait_implementation"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "inherent_implementation"
         },
         {
           "type": "SYMBOL",
@@ -11056,6 +11175,10 @@
     ],
     [
       "for_in_loop"
+    ],
+    [
+      "parameterized_type",
+      "trait_implementation"
     ]
   ],
   "precedences": [],

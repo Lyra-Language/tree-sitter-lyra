@@ -50,7 +50,7 @@ externals:  [$.comment, $._string_start, $._string_content,
 
 ## Parser Size
 
-`src/parser.c` is ~15 MB (~8,000 states). If it grows unexpectedly, run `--report-states-for-rule -` first.
+`src/parser.c` is ~15 MB (~8,500 states). If it grows unexpectedly, run `--report-states-for-rule -` first.
 
 - **Never stack independent `optional()` modifiers before a name or parameter list.** Seven stacked optionals in `lambda_expr` made 62,663 states / 116 MB (and broke `let x = 42`); `repeat1(choice(…))` (`fn_modifiers`) made it 6,475. Order and duplicates are the collector's to report (`lyra-E029`). The same applies to `extern`'s modifiers and to the `let` sugar.
 - `parser.c` is ordinary tracked text, not Git LFS. Do not re-add the LFS filter without re-measuring.
@@ -125,6 +125,7 @@ Listed in `grammar.js`'s `conflicts:` array:
 - `_primary_expr` vs `literal_pattern`, `_signed_number_literal`, `_negated_number_literal` — `('a', 'b')`, `(1, 2)`, `(-1, 2)` as lambda params vs tuple
 - `expression` / `_signed_number_literal` and `_math_operand` / `_negated_number_literal` — signed pattern literals
 - entries for `|` as struct-update separator (`Player { base | f: v }`) and both comprehension uses; only the token after `|` decides
+- `parameterized_type` / `trait_implementation` — `impl Name<a, b` is a trait's arguments (`impl From<E> for X`) or a generic target with inherent methods (`impl Box<t> { … }`); `for` or `{` decides
 - `struct_update` / `_math_operand` — an update's base is a `_postfix_expr` (09/19), so `{ a | …` is also a bitwise or inside a block; `x: 1` after the `|` completes only the update, an operand only the or. A base needing an operator is parenthesized: `expression` there would put both readings of `a | b` in the same place
 
 Entries generation calls "unnecessary" here are left in place deliberately.
@@ -274,6 +275,7 @@ unsafe extern printf: (^u8, ...) -> i32
 - **`union`** (`include/types/union_type.js`): body reuses `struct_member` (don't add a second member rule); `union_type_body` is its own rule since the collector reads bodies by node kind. `readonly`/defaults refused by collector (`lyra-E072`). Corpus: `types/union.txt` (empty body is `:error`).
 - **`unsafe { … }` is a `_comparison_operand`** (`unsafe { f() } != 0`).
 - **`const_identifier` is an `importable_name`** (`import lib.{ INIT_VIDEO }`). All-caps no-underscore names (`MAX`, `PI`, `HM`) tie with type names and are settled by token precedence, lexing as `const_identifier`.
+- **`inherent_implementation`** (`impl Person { let f = (self) => … }`, in `include/types/trait_implementation.js`): members are the `declaration` rule itself, so they take everything a top-level `let` takes; the collector erases the block and refuses what is not a method. Braces required, body may be empty; an optional `where` (`generic_parameter_constraints`, as a declaration's) bounds every member. Corpus: `types/inherent_impl.txt`.
 - **Trait body optional** (`trait Arithmetic: Add + Sub`). The method list is absent, never empty. `trait Marker` ⏎ `{ 1 }` is a trait plus block — pinned by `A brace on the next line is not a trait body`.
 - **Generic `newtype`**: `constrained_type` has the `generic_parameters` field. Beware a regenerated Go golden baking in an ERROR-truncated parse.
 - **`const` generic parameters**: `generic_parameter` has a second form, `const NAME: type` (fields `name`, a `const_identifier`, and `value_type`), for an array size (`let f<const N: i64> = (xs: ref [N]t)`). The size side needed nothing: `array_size` already took a `const_identifier`.

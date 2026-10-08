@@ -1,0 +1,235 @@
+==================
+Inherent impl - methods grouped under their type
+==================
+
+impl Person {
+  /// Greets.
+  pub let say_hi = (self) => println(self.name)
+  let birthday = (self: mut, new_age: u8) => { self.age = new_age }
+  let pure age_of(self) -> u8 => self.age
+}
+
+---
+
+(program
+  (inherent_implementation
+    (user_defined_type_name)
+    (doc_comment)
+    (inherent_members
+      (declaration
+        (visibility)
+        (identifier)
+        (lambda_expr
+          (parameter_list
+            (parameter
+              (identifier)))
+          (call_expr
+            (identifier)
+            (argument_list
+              (value
+                (member_expr
+                  (identifier)
+                  (identifier)))))))
+      (declaration
+        (identifier)
+        (lambda_expr
+          (parameter_list
+            (parameter
+              (identifier)
+              (type_modifier))
+            (parameter
+              (identifier)
+              (unsigned_integer_type)))
+          (block
+            (member_assignment
+              (member_expr
+                (identifier)
+                (identifier))
+              (identifier)))))
+      (declaration
+        (fn_modifiers
+          (pure_modifier))
+        (identifier)
+        (lambda_expr
+          (parameter_list
+            (parameter
+              (identifier)))
+          (return_type
+            (unsigned_integer_type))
+          (member_expr
+            (identifier)
+            (identifier)))))))
+
+==================
+Inherent impl - a generic target
+==================
+
+impl Box<t> {
+  let get = (self) -> t => self.value
+}
+
+---
+
+(program
+  (inherent_implementation
+    (parameterized_type
+      (user_defined_type_name)
+      (generic_type))
+    (inherent_members
+      (declaration
+        (identifier)
+        (lambda_expr
+          (parameter_list
+            (parameter
+              (identifier)))
+          (return_type
+            (generic_type))
+          (member_expr
+            (identifier)
+            (identifier)))))))
+
+==================
+Inherent impl - a trait with arguments is still a trait impl
+==================
+
+impl From<E> for Error {
+  from = (e) => Error {}
+}
+
+---
+
+(program
+  (trait_implementation
+    (trait_name)
+    (user_defined_type_name)
+    (user_defined_type_name)
+    (impl_methods
+      (trait_method_implementation
+        (method_name
+          (identifier))
+        (method_clause
+          (pattern_parameter_list
+            (identifier))
+          (named_struct_literal
+            (struct_name)
+            (struct_body)))))))
+
+==================
+Inherent impl - an empty body
+==================
+
+impl Empty {}
+
+---
+
+(program
+  (inherent_implementation
+    (user_defined_type_name)))
+
+==================
+Inherent impl - members separated by semicolons, brace on the next line
+==================
+
+impl Person
+{
+  let a = (self) => 1; let b = (self) => 2
+}
+
+---
+
+(program
+  (inherent_implementation
+    (user_defined_type_name)
+    (inherent_members
+      (declaration
+        (identifier)
+        (lambda_expr
+          (parameter_list
+            (parameter
+              (identifier)))
+          (integer_literal
+            (decimal_int))))
+      (declaration
+        (identifier)
+        (lambda_expr
+          (parameter_list
+            (parameter
+              (identifier)))
+          (integer_literal
+            (decimal_int)))))))
+
+==================
+Inherent impl - a member must be a declaration
+:error
+==================
+
+impl Person {
+  say_hi = (self) => 1
+}
+
+---
+
+
+
+==================
+Inherent impl - a where clause bounds the block
+==================
+
+impl t where t: Ord {
+  pub let min = pure (self, other: t) -> t => self
+}
+
+impl Pair<k, v>
+where k: Show + Eq, v: Show {
+  let f = (self) => 1
+}
+
+---
+
+(program
+  (inherent_implementation
+    (generic_type)
+    (generic_parameter_constraints
+      (generic_parameter_constraint
+        (generic_type)
+        (generic_bounds
+          (trait_name))))
+    (inherent_members
+      (declaration
+        (visibility)
+        (identifier)
+        (lambda_expr
+          (pure_modifier)
+          (parameter_list
+            (parameter
+              (identifier))
+            (parameter
+              (identifier)
+              (generic_type)))
+          (return_type
+            (generic_type))
+          (identifier)))))
+  (inherent_implementation
+    (parameterized_type
+      (user_defined_type_name)
+      (generic_type)
+      (generic_type))
+    (generic_parameter_constraints
+      (generic_parameter_constraint
+        (generic_type)
+        (generic_bounds
+          (trait_name)
+          (trait_name)))
+      (generic_parameter_constraint
+        (generic_type)
+        (generic_bounds
+          (trait_name))))
+    (inherent_members
+      (declaration
+        (identifier)
+        (lambda_expr
+          (parameter_list
+            (parameter
+              (identifier)))
+          (integer_literal
+            (decimal_int)))))))

@@ -37,6 +37,12 @@ impl Area for Shape {
   }
 }
 
+impl Node {
+  /// Inherent methods: `self` takes its type from the block.
+  pub let pure doubled(self) -> i64 => self.value * 2
+  let bump = (self: mut) => { self.value += 1 }
+}
+
 pub let pure add(a: i64, b: i64) -> i64 => a + b
 
 let main = () -> u8 => {
