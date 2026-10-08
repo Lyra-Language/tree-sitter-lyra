@@ -23,6 +23,7 @@ module.exports = {
       $.break_statement,
       $.continue_statement,
       $.destructuring_if_declaration,
+      $.while_let_loop,
       $.destructuring_else_declaration,
       $.with_statement,
       $.expression_statement,

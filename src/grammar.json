@@ -4941,6 +4941,66 @@
         }
       ]
     },
+    "while_let_loop": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "SEQ",
+              "members": [
+                {
+                  "type": "FIELD",
+                  "name": "label",
+                  "content": {
+                    "type": "ALIAS",
+                    "content": {
+                      "type": "SYMBOL",
+                      "name": "identifier"
+                    },
+                    "named": true,
+                    "value": "label"
+                  }
+                },
+                {
+                  "type": "STRING",
+                  "value": ":"
+                }
+              ]
+            },
+            {
+              "type": "BLANK"
+            }
+          ]
+        },
+        {
+          "type": "STRING",
+          "value": "while"
+        },
+        {
+          "type": "FIELD",
+          "name": "declaration",
+          "content": {
+            "type": "SYMBOL",
+            "name": "declaration"
+          }
+        },
+        {
+          "type": "FIELD",
+          "name": "while_body",
+          "content": {
+            "type": "ALIAS",
+            "content": {
+              "type": "SYMBOL",
+              "name": "block"
+            },
+            "named": true,
+            "value": "while_body"
+          }
+        }
+      ]
+    },
     "for_in_loop": {
       "type": "SEQ",
       "members": [
@@ -8778,6 +8838,10 @@
         {
           "type": "SYMBOL",
           "name": "destructuring_if_declaration"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "while_let_loop"
         },
         {
           "type": "SYMBOL",

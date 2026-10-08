@@ -162,3 +162,59 @@ A bare for is not a loop
 for {
   println("x")
 }
+
+==================================================
+While let
+==================================================
+
+while let Some(x) = it.next() {
+  use(x)
+}
+
+---
+
+(program
+  (while_let_loop
+    (declaration
+      (destructuring_only_pattern
+        (data_pattern
+          (data_type_name)
+          (tuple_pattern
+            (identifier))))
+      (call_expr
+        (member_expr
+          (identifier)
+          (identifier))
+        (argument_list)))
+    (while_body
+      (expression_statement
+        (call_expr
+          (identifier)
+          (argument_list
+            (value
+              (identifier))))))))
+
+==================================================
+A labeled while let
+==================================================
+
+outer: while let (a, b) = pair() {
+  break outer
+}
+
+---
+
+(program
+  (while_let_loop
+    (label)
+    (declaration
+      (destructuring_only_pattern
+        (tuple_pattern
+          (identifier)
+          (identifier)))
+      (call_expr
+        (identifier)
+        (argument_list)))
+    (while_body
+      (break_statement
+        (identifier)))))

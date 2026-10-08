@@ -344,6 +344,10 @@
         "named": true
       },
       {
+        "type": "while_let_loop",
+        "named": true
+      },
+      {
         "type": "with_statement",
         "named": true
       }
@@ -8659,6 +8663,42 @@
           "named": true
         }
       ]
+    }
+  },
+  {
+    "type": "while_let_loop",
+    "named": true,
+    "fields": {
+      "declaration": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "declaration",
+            "named": true
+          }
+        ]
+      },
+      "label": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "label",
+            "named": true
+          }
+        ]
+      },
+      "while_body": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "while_body",
+            "named": true
+          }
+        ]
+      }
     }
   },
   {

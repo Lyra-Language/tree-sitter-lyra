@@ -240,7 +240,7 @@ One shape for expression (`0..<n`, `0..<=10:2`), pattern (`0..<=9`) and `newtype
 
 ## Loops (`include/statements/control_flow/loop.js`, `for_in_loop.js`)
 
-Three keywords, three rules, each with an optional `label:`: `loop { … }` (`infinite_loop`), `while cond { … }` (`while_loop`), `for x in xs { … }` (`for_in_loop`). `for` begins only the last. **There is no C-style `init; cond; post` header**, and no condition on `loop`.
+Three keywords, four rules, each with an optional `label:`: `loop { … }` (`infinite_loop`), `while cond { … }` (`while_loop`), `while let p = v { … }` (`while_let_loop`), `for x in xs { … }` (`for_in_loop`). `for` begins only the last. `while_let_loop` is `while` + `declaration` + a block, the shape `destructuring_if_declaration` has, and a **statement** like it; the first three are expressions. **There is no C-style `init; cond; post` header**, and no condition on `loop`.
 
 The `while` condition is `$._bool_operand` (`boolean_expr`, literal, `_postfix_expr`). **`$.expression` does not generate**: a `block` is an expression, so the condition would contest the body. No condition alias — bool-ness is the typechecker's.
 
