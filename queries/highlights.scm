@@ -128,12 +128,14 @@
 (named_tuple_type name:   (tuple_type_name) @type.definition)
 (trait_declaration name:  (trait_name) @type.definition)
 (constrained_type name:   (constrained_type_name) @type.definition)
+(type_alias name:         (type_alias_name) @type.definition)
 
 ; Same aliased nodes in non-definition positions get plain @type
 (struct_name)           @type
 (union_name)            @type
 (tuple_type_name)       @type
 (constrained_type_name) @type
+(type_alias_name)       @type
 (trait_name)            @type
 (data_type_name)        @type
 
