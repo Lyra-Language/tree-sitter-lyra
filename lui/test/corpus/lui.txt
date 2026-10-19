@@ -1,0 +1,96 @@
+==================
+A component with an element, text and Lyra
+==================
+
+<component name="confirm" props="yes: e">
+  <Button class="danger" on_click={yes}>Reset {n} times</Button>
+</component>
+
+---
+
+(document
+  (element
+    (start_tag
+      (tag_name)
+      (attribute (attribute_name) (quoted_attribute_value (attribute_value)))
+      (attribute (attribute_name) (quoted_attribute_value (attribute_value))))
+    (element
+      (start_tag
+        (tag_name)
+        (attribute (attribute_name) (quoted_attribute_value (attribute_value)))
+        (attribute (attribute_name) (code (code_content))))
+      (text)
+      (code (code_content))
+      (text)
+      (end_tag (tag_name)))
+    (end_tag (tag_name))))
+
+==================
+Nested braces and a string with a brace in it stay one code node
+==================
+
+<Text>{f({a: 1}, "}")}</Text>
+
+---
+
+(document
+  (element
+    (start_tag (tag_name))
+    (code (code_content))
+    (end_tag (tag_name))))
+
+==================
+A script's body and a style's are raw text
+==================
+
+<script>
+  let lt = a < b && xs.len() > 0
+</script>
+<component name="a">
+  <style>
+    Button.danger { background: #aa2828 }
+  </style>
+</component>
+
+---
+
+(document
+  (script_element
+    (start_tag (tag_name))
+    (raw_text)
+    (end_tag (tag_name)))
+  (element
+    (start_tag (tag_name) (attribute (attribute_name) (quoted_attribute_value (attribute_value))))
+    (style_element
+      (start_tag (tag_name))
+      (raw_text)
+      (end_tag (tag_name)))
+    (end_tag (tag_name))))
+
+==================
+style is an attribute name too, and self-closing tags, comments and entities
+==================
+
+<!-- a note -->
+<Window style="width: 340" on_close={Quit}>
+  <Separator/>
+  <Text>a &lt; b</Text>
+</Window>
+
+---
+
+(document
+  (comment)
+  (element
+    (start_tag
+      (tag_name)
+      (attribute (attribute_name) (quoted_attribute_value (attribute_value)))
+      (attribute (attribute_name) (code (code_content))))
+    (element (self_closing_tag (tag_name)))
+    (element
+      (start_tag (tag_name))
+      (text)
+      (entity)
+      (text)
+      (end_tag (tag_name)))
+    (end_tag (tag_name))))

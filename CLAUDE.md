@@ -38,6 +38,7 @@ npx tree-sitter generate --report-states-for-rule -   # per-rule state attributi
 | `test/corpus/**/*.txt` | corpus tests |
 | `queries/highlights.scm` | highlight queries (nvim capture names; WIP) |
 | `queries/injections.scm` | `/* glsl */` raw string → GLSL |
+| `lui/` | **a second grammar**: `.lui` markup (`lyra/tools/lui`), for Zed's highlighting — its own `grammar.js`, `src/`, `test/corpus/`, `queries/` and `tree-sitter.json`. Run the CLI from inside it: `../node_modules/.bin/tree-sitter generate` / `test`. Structure only (lui checks the markup): tags and attributes, comments, entities, `{…}` code with balanced braces, and `<script>`/`<style>` bodies as `raw_text`, which ends at the first `</` — a Lyra script containing `</` misparses there. Not used by `lyra/`; the root's `generate` does not touch it |
 
 ```js
 supertypes: [$.expression, $.statement, $.pattern, $.type]
