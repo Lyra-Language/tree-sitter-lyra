@@ -3993,6 +3993,10 @@
             "named": true
           },
           {
+            "type": "const_identifier",
+            "named": true
+          },
+          {
             "type": "group",
             "named": true
           },

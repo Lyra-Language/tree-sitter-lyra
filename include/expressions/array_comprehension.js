@@ -62,6 +62,9 @@ module.exports = {
           $.array_literal,
           $.string_literal,
           $.identifier,
+          // A constant (10/19): `[p in PAIRS | p.1]` — an all-caps name lexes as a
+          // `const_identifier`, not an `identifier`, and was a syntax error at `in`.
+          $.const_identifier,
           $.call_expr,
           $.member_expr,
           $.index_expr,

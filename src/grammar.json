@@ -3581,6 +3581,10 @@
               },
               {
                 "type": "SYMBOL",
+                "name": "const_identifier"
+              },
+              {
+                "type": "SYMBOL",
                 "name": "call_expr"
               },
               {

@@ -416,3 +416,40 @@ let both = [x in (a ++ b) | x]
             (identifier))))
       (result_expr
         (identifier)))))
+
+================================================================================
+Array Comprehension - A Constant Source
+================================================================================
+
+let seconds = [p in PAIRS | p.1]
+let kept = [p in PAIRS | p.0 > 0 | p]
+
+--------------------------------------------------------------------------------
+
+(program
+  (declaration
+    (identifier)
+    (array_comp_expr
+      (generator
+        (identifier)
+        (const_identifier))
+      (result_expr
+        (tuple_index_expr
+          (identifier)
+          (decimal_int)))))
+  (declaration
+    (identifier)
+    (array_comp_expr
+      (generator
+        (identifier)
+        (const_identifier))
+      (comprehension_guard
+        (boolean_expr
+          (tuple_index_expr
+            (identifier)
+            (decimal_int))
+          (greater_than_operator)
+          (integer_literal
+            (decimal_int))))
+      (result_expr
+        (identifier)))))
