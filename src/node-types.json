@@ -3595,6 +3595,14 @@
           {
             "type": "block",
             "named": true
+          },
+          {
+            "type": "destructuring_if_declaration",
+            "named": true
+          },
+          {
+            "type": "if_block_expr",
+            "named": true
           }
         ]
       },
@@ -4265,6 +4273,10 @@
         "types": [
           {
             "type": "block",
+            "named": true
+          },
+          {
+            "type": "destructuring_if_declaration",
             "named": true
           },
           {

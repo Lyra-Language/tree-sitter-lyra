@@ -385,6 +385,120 @@ if let Some num = get_num() {
               (string_literal
                 (string_content)))))))))
 
+=====================================
+If Let Followed by Else If and Else
+=====================================
+
+if let Some(x) = m { r = x } else if b { r = 1 } else { r = 2 }
+
+---
+
+(program
+  (destructuring_if_declaration
+    declaration: (declaration
+      pattern: (destructuring_only_pattern
+        (data_pattern
+          name: (data_type_name)
+          pattern: (tuple_pattern
+            (identifier))))
+      value: (identifier))
+    then_block: (block
+      (var_reassignment
+        (identifier)
+        value: (identifier)))
+    else_block: (if_block_expr
+      condition: (identifier)
+      then_block: (block
+        (var_reassignment
+          (identifier)
+          value: (integer_literal
+            (decimal_int))))
+      else_branch: (block
+        (var_reassignment
+          (identifier)
+          value: (integer_literal
+            (decimal_int)))))))
+
+=======================================
+If Let Followed by Else If Let and Else
+=======================================
+
+if let Some(x) = m {
+  r = x
+} else if let Ok(y) = e {
+  r = y
+} else {
+  r = 2
+}
+
+---
+
+(program
+  (destructuring_if_declaration
+    (declaration
+      (destructuring_only_pattern
+        (data_pattern
+          (data_type_name)
+          (tuple_pattern
+            (identifier))))
+      (identifier))
+    (block
+      (var_reassignment
+        (identifier)
+        (identifier)))
+    (destructuring_if_declaration
+      (declaration
+        (destructuring_only_pattern
+          (data_pattern
+            (data_type_name)
+            (tuple_pattern
+              (identifier))))
+        (identifier))
+      (block
+        (var_reassignment
+          (identifier)
+          (identifier)))
+      (block
+        (var_reassignment
+          (identifier)
+          (integer_literal
+            (decimal_int)))))))
+
+==========================
+If Followed by Else If Let
+==========================
+
+if b { r = 1 } else if let Some(x) = m { r = x } else { r = 2 }
+
+---
+
+(program
+  (expression_statement
+    (if_block_expr
+      (identifier)
+      (block
+        (var_reassignment
+          (identifier)
+          (integer_literal
+            (decimal_int))))
+      (destructuring_if_declaration
+        (declaration
+          (destructuring_only_pattern
+            (data_pattern
+              (data_type_name)
+              (tuple_pattern
+                (identifier))))
+          (identifier))
+        (block
+          (var_reassignment
+            (identifier)
+            (identifier)))
+        (block
+          (var_reassignment
+            (identifier)
+            (integer_literal
+              (decimal_int))))))))
+
 =================================
 Let Else Destructuring Expression
 =================================

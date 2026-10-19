@@ -1851,6 +1851,10 @@
                         },
                         {
                           "type": "SYMBOL",
+                          "name": "destructuring_if_declaration"
+                        },
+                        {
+                          "type": "SYMBOL",
                           "name": "block"
                         }
                       ]
@@ -10042,8 +10046,21 @@
                     "type": "FIELD",
                     "name": "else_block",
                     "content": {
-                      "type": "SYMBOL",
-                      "name": "block"
+                      "type": "CHOICE",
+                      "members": [
+                        {
+                          "type": "SYMBOL",
+                          "name": "destructuring_if_declaration"
+                        },
+                        {
+                          "type": "SYMBOL",
+                          "name": "if_block_expr"
+                        },
+                        {
+                          "type": "SYMBOL",
+                          "name": "block"
+                        }
+                      ]
                     }
                   }
                 ]

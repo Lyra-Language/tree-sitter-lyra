@@ -47,6 +47,10 @@ module.exports = {
     ),
 
   // If declaration (for pattern-binding let/var used as a condition)
+  //
+  // The alternative chains as a plain `if`'s does: `else if c { … }` and
+  // `else if let p = v { … }` as well as `else { … }`. The field keeps its name,
+  // `else_block`, though it may now hold an `if`; the collector wraps one in a block.
   destructuring_if_declaration: ($) =>
     prec.right(
       PREC.DESTRUCTURING_IF,
@@ -54,7 +58,15 @@ module.exports = {
         "if",
         field("declaration", $.declaration),
         field("then_block", $.block),
-        optional(seq("else", field("else_block", $.block))),
+        optional(
+          seq(
+            "else",
+            field(
+              "else_block",
+              choice($.destructuring_if_declaration, $.if_block_expr, $.block),
+            ),
+          ),
+        ),
       ),
     ),
 };
