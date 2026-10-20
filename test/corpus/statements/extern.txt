@@ -219,3 +219,42 @@ let h: (n: i64) -> i64 = k
             type: (signed_integer_type)))
         return_type: (signed_integer_type)))
     value: (identifier)))
+
+===========================================
+An exported extern, for a binding module to offer
+===========================================
+
+@symbol("lyra_set")
+pub extern set: (frame: () -> void) -> void
+pub unsafe extern pure sqrt: (f64) -> f64
+
+---
+
+(program
+  (extern_declaration
+    attributes: (attribute_list
+      (attribute
+        name: (identifier)
+        args: (attribute_args
+          value: (string_literal
+            (string_content)))))
+    visibility: (visibility)
+    name: (identifier)
+    signature: (extern_signature
+      parameter_types: (parameter_type_list
+        (parameter_type
+          name: (parameter_type_name)
+          type: (lambda_type
+            return_type: (void_type))))
+      return_type: (void_type)))
+  (extern_declaration
+    visibility: (visibility)
+    is_unsafe: (unsafe_modifier)
+    modifiers: (fn_modifiers
+      (pure_modifier))
+    name: (identifier)
+    signature: (extern_signature
+      parameter_types: (parameter_type_list
+        (parameter_type
+          type: (float_type)))
+      return_type: (float_type))))

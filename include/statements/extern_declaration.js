@@ -37,9 +37,16 @@ module.exports = {
   // the same trade `let` already makes (`lyra-E029`), and for the same reason: a semantic
   // mistake deserves a message naming the fix, not a syntax error pointing at whichever
   // token failed to shift.
+  //
+  // **`pub` comes first, as on every declaration** — before `unsafe`, so the words read
+  // as "an exported, asserted extern". It is what lets a binding module offer an extern
+  // itself: a function taking a C callback, which no Lyra wrapper can pass a callback on
+  // to (a wrapper's parameter is not a top-level function). It cost 34 states (8,335 →
+  // 8,369).
   extern_declaration: ($) =>
     seq(
       optional(field("attributes", $.attribute_list)),
+      optional(field("visibility", $.visibility)),
       optional(field("is_unsafe", $.unsafe_modifier)),
       "extern",
       optional(field("modifiers", $.fn_modifiers)),
