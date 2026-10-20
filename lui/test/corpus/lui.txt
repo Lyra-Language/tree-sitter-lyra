@@ -105,7 +105,7 @@ A component's props are an object: types whole, defaults Lyra, a trailing comma
   pick: (i64) -> e,
   title: string = "Sure? }",
   size: Vec2 = Vec2 { x: 1.0, y: 2.0 },
-}} event="Ev">
+}} event={Ev}>
 </component>
 
 ---
@@ -123,5 +123,5 @@ A component's props are an object: types whole, defaults Lyra, a trailing comma
           (prop name: (prop_name) type: (prop_type))
           (prop name: (prop_name) type: (prop_type) default: (prop_default))
           (prop name: (prop_name) type: (prop_type) default: (prop_default))))
-      (attribute (attribute_name) (quoted_attribute_value (attribute_value))))
+      (attribute (attribute_name) (code (code_content))))
     (end_tag (tag_name))))
