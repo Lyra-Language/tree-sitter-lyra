@@ -1130,11 +1130,19 @@
             "named": true
           },
           {
+            "type": "if_block_expr",
+            "named": true
+          },
+          {
             "type": "index_expr",
             "named": true
           },
           {
             "type": "integer_literal",
+            "named": true
+          },
+          {
+            "type": "match_expr",
             "named": true
           },
           {
@@ -1314,11 +1322,19 @@
             "named": true
           },
           {
+            "type": "if_block_expr",
+            "named": true
+          },
+          {
             "type": "index_expr",
             "named": true
           },
           {
             "type": "integer_literal",
+            "named": true
+          },
+          {
+            "type": "match_expr",
             "named": true
           },
           {
@@ -1510,11 +1526,19 @@
             "named": true
           },
           {
+            "type": "if_block_expr",
+            "named": true
+          },
+          {
             "type": "index_expr",
             "named": true
           },
           {
             "type": "integer_literal",
+            "named": true
+          },
+          {
+            "type": "match_expr",
             "named": true
           },
           {
@@ -1814,11 +1838,19 @@
             "named": true
           },
           {
+            "type": "if_block_expr",
+            "named": true
+          },
+          {
             "type": "index_expr",
             "named": true
           },
           {
             "type": "integer_literal",
+            "named": true
+          },
+          {
+            "type": "match_expr",
             "named": true
           },
           {
@@ -2006,11 +2038,19 @@
             "named": true
           },
           {
+            "type": "if_block_expr",
+            "named": true
+          },
+          {
             "type": "index_expr",
             "named": true
           },
           {
             "type": "integer_literal",
+            "named": true
+          },
+          {
+            "type": "match_expr",
             "named": true
           },
           {
@@ -2353,11 +2393,19 @@
             "named": true
           },
           {
+            "type": "if_block_expr",
+            "named": true
+          },
+          {
             "type": "index_expr",
             "named": true
           },
           {
             "type": "integer_literal",
+            "named": true
+          },
+          {
+            "type": "match_expr",
             "named": true
           },
           {
@@ -5587,11 +5635,19 @@
             "named": true
           },
           {
+            "type": "if_block_expr",
+            "named": true
+          },
+          {
             "type": "index_expr",
             "named": true
           },
           {
             "type": "integer_literal",
+            "named": true
+          },
+          {
+            "type": "match_expr",
             "named": true
           },
           {
@@ -6831,11 +6887,19 @@
             "named": true
           },
           {
+            "type": "if_block_expr",
+            "named": true
+          },
+          {
             "type": "index_expr",
             "named": true
           },
           {
             "type": "integer_literal",
+            "named": true
+          },
+          {
+            "type": "match_expr",
             "named": true
           },
           {
@@ -6955,11 +7019,19 @@
             "named": true
           },
           {
+            "type": "if_block_expr",
+            "named": true
+          },
+          {
             "type": "index_expr",
             "named": true
           },
           {
             "type": "integer_literal",
+            "named": true
+          },
+          {
+            "type": "match_expr",
             "named": true
           },
           {
@@ -8778,11 +8850,19 @@
             "named": true
           },
           {
+            "type": "if_block_expr",
+            "named": true
+          },
+          {
             "type": "index_expr",
             "named": true
           },
           {
             "type": "integer_literal",
+            "named": true
+          },
+          {
+            "type": "match_expr",
             "named": true
           },
           {

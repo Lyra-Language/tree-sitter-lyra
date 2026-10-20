@@ -89,7 +89,13 @@ module.exports = {
   // them), and postfix expressions (identifiers, calls, member accesses, …)
   // that may resolve to bool at type-check time.
   _bool_operand: ($) =>
-    choice($.boolean_expr, $._literal, $._postfix_expr),
+    choice(
+      $.boolean_expr,
+      $._literal,
+      $._postfix_expr,
+      $.if_block_expr,
+      $.match_expr,
+    ),
 
   _comparison_operand: ($) =>
     choice(
@@ -98,6 +104,8 @@ module.exports = {
       $._math_expr,
       $.address_of_expr,
       $.unsafe_block,
+      $.if_block_expr,
+      $.match_expr,
     ),
 
   // Keep these for backwards compatibility if used elsewhere

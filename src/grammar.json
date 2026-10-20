@@ -2276,6 +2276,14 @@
         {
           "type": "SYMBOL",
           "name": "_postfix_expr"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "if_block_expr"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "match_expr"
         }
       ]
     },
@@ -2301,6 +2309,14 @@
         {
           "type": "SYMBOL",
           "name": "unsafe_block"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "if_block_expr"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "match_expr"
         }
       ]
     },
@@ -2785,19 +2801,7 @@
                 },
                 {
                   "type": "SYMBOL",
-                  "name": "if_block_expr"
-                },
-                {
-                  "type": "SYMBOL",
-                  "name": "match_expr"
-                },
-                {
-                  "type": "SYMBOL",
                   "name": "block"
-                },
-                {
-                  "type": "SYMBOL",
-                  "name": "unsafe_block"
                 }
               ]
             }
@@ -2852,6 +2856,14 @@
         {
           "type": "SYMBOL",
           "name": "string_concat_expr"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "if_block_expr"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "match_expr"
         }
       ]
     },
@@ -2982,6 +2994,14 @@
         {
           "type": "SYMBOL",
           "name": "unsafe_block"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "if_block_expr"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "match_expr"
         }
       ]
     },

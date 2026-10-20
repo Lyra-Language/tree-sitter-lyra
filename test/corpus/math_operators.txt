@@ -340,3 +340,159 @@ counts[i].n += if wide { 1 } else { 2 }
           (expression_statement
             (integer_literal
               (decimal_int))))))))
+
+==========================================
+An if or a match is an operand
+==========================================
+
+let a = 1 + if c { 2 } else { 3 } * 4
+let b = if c { 2 } else { 3 } * 4 + 1
+let s = "x" ++ if long { "a" } else { "b" }
+let held = flags | match name { "one" => 2, _ => 4 }
+let same = x == if c { 1 } else { 2 }
+let both = ok && match m { _ => true }
+
+---
+
+(program
+  (declaration
+    (identifier)
+    (binary_expr
+      (integer_literal
+        (decimal_int))
+      (add_operator)
+      (binary_expr
+        (if_block_expr
+          (identifier)
+          (block
+            (expression_statement
+              (integer_literal
+                (decimal_int))))
+          (block
+            (expression_statement
+              (integer_literal
+                (decimal_int)))))
+        (mul_operator)
+        (integer_literal
+          (decimal_int)))))
+  (declaration
+    (identifier)
+    (binary_expr
+      (binary_expr
+        (if_block_expr
+          (identifier)
+          (block
+            (expression_statement
+              (integer_literal
+                (decimal_int))))
+          (block
+            (expression_statement
+              (integer_literal
+                (decimal_int)))))
+        (mul_operator)
+        (integer_literal
+          (decimal_int)))
+      (add_operator)
+      (integer_literal
+        (decimal_int))))
+  (declaration
+    (identifier)
+    (string_concat_expr
+      (string_literal
+        (string_content))
+      (string_concat_operator)
+      (if_block_expr
+        (identifier)
+        (block
+          (expression_statement
+            (string_literal
+              (string_content))))
+        (block
+          (expression_statement
+            (string_literal
+              (string_content)))))))
+  (declaration
+    (identifier)
+    (binary_expr
+      (identifier)
+      (bitor_operator)
+      (match_expr
+        (identifier)
+        (match_arm
+          (literal_pattern
+            (string_literal
+              (string_content)))
+          (integer_literal
+            (decimal_int)))
+        (match_arm
+          (wildcard_pattern)
+          (integer_literal
+            (decimal_int))))))
+  (declaration
+    (identifier)
+    (boolean_expr
+      (identifier)
+      (equals_operator)
+      (if_block_expr
+        (identifier)
+        (block
+          (expression_statement
+            (integer_literal
+              (decimal_int))))
+        (block
+          (expression_statement
+            (integer_literal
+              (decimal_int)))))))
+  (declaration
+    (identifier)
+    (boolean_expr
+      (identifier)
+      (and)
+      (match_expr
+        (identifier)
+        (match_arm
+          (wildcard_pattern)
+          (boolean_literal))))))
+
+==========================================
+A statement-level if or match still ends at its line
+==========================================
+
+let f = () => {
+  if c { g() }
+  -1
+  match m { _ => 1 }
+  (2)
+}
+
+---
+
+(program
+  (declaration
+    (identifier)
+    (lambda_expr
+      (parameter_list)
+      (block
+        (expression_statement
+          (if_block_expr
+            (identifier)
+            (block
+              (expression_statement
+                (call_expr
+                  (identifier)
+                  (argument_list))))))
+        (expression_statement
+          (negation
+            (integer_literal
+              (decimal_int))))
+        (expression_statement
+          (match_expr
+            (identifier)
+            (match_arm
+              (wildcard_pattern)
+              (integer_literal
+                (decimal_int)))))
+        (expression_statement
+          (parenthesized_expr
+            (integer_literal
+              (decimal_int))))))))

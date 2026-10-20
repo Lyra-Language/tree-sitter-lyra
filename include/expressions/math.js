@@ -137,20 +137,14 @@ module.exports = {
         // `total += if wide { 2 } else { 1 }` was a syntax error while the long form
         // parsed. The *left* stays a `_math_operand`: it is a place, not a value.
         //
-        // Listed as the block-bodied forms rather than as `$.expression` because the
-        // operand tier is what keeps `x += 1 + 2` unambiguous — with the whole
-        // expression here, the `+ 2` could attach to either operator (grammar.js's
-        // `[expression, _math_operand]` conflict is that race, one level up). None of
-        // these can begin an arithmetic operand, so none of them races with it.
+        // An operand plus a bare block rather than `$.expression`, because the operand
+        // tier is what keeps `x += 1 + 2` unambiguous — with the whole expression here,
+        // the `+ 2` could attach to either operator (grammar.js's `[expression,
+        // _math_operand]` conflict is that race, one level up). An `if`, a `match` and
+        // an `unsafe` block arrive as operands (10/19); a bare block is not one.
         field(
           "right",
-          choice(
-            $._math_operand,
-            $.if_block_expr,
-            $.match_expr,
-            $.block,
-            $.unsafe_block,
-          ),
+          choice($._math_operand, $.block),
         ),
       ),
     ),
@@ -177,6 +171,8 @@ module.exports = {
     choice(
       $._postfix_expr,
       $.string_concat_expr,
+      $.if_block_expr,
+      $.match_expr,
     ),
 
   add_operator: ($) => "+",
@@ -244,8 +240,22 @@ module.exports = {
   // An `unsafe` block is an operand too (09/27): `unsafe { raw.wheel.x } * sign` reads as
   // arithmetic on the block's value, and was a syntax error — a comparison (`!= 0`) and a
   // `!` already took one, so a binding module had to bind every read before scaling it.
+  //
+  // **So are an `if` and a `match`** (10/19), on either side and in `++`, comparison and
+  // `&&`/`||` operands: `1 + if c { 2 } else { 3 }` and `held | match name { … }` were
+  // syntax errors whose recovery reported a `let … else` the line did not have. Each ends
+  // at its `}` and is an atom from there, so `1 + if c { 2 } else { 3 } * 4` multiplies the
+  // `if`, as it would a call. At the start of a statement the line still ends it: the
+  // scanner's terminator runs before a `-` or `(` on the next line could continue it.
   _math_operand: ($) =>
-    choice($._postfix_expr, $._math_expr, $.address_of_expr, $.unsafe_block),
+    choice(
+      $._postfix_expr,
+      $._math_expr,
+      $.address_of_expr,
+      $.unsafe_block,
+      $.if_block_expr,
+      $.match_expr,
+    ),
 
   // ---------------------------------------------------------------------
   // Constraint arithmetic — used inside type-level constraint expressions
