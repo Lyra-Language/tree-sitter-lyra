@@ -34,3 +34,18 @@
     "{"
     "}"
   ] @punctuation.special)
+
+; A component's props: each name a parameter, its type a type.
+(prop name: (prop_name) @variable.parameter)
+(prop type: (prop_type) @type)
+(props
+  [
+    "{{"
+    "}}"
+  ] @punctuation.special)
+(props
+  [
+    ","
+  ] @punctuation.delimiter)
+(prop
+  ":" @punctuation.delimiter)

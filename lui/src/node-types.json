@@ -16,6 +16,10 @@
           "named": true
         },
         {
+          "type": "props",
+          "named": true
+        },
+        {
           "type": "quoted_attribute_value",
           "named": true
         }
@@ -149,6 +153,67 @@
     }
   },
   {
+    "type": "prop",
+    "named": true,
+    "fields": {
+      "default": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "prop_default",
+            "named": true
+          }
+        ]
+      },
+      "name": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "prop_name",
+            "named": true
+          }
+        ]
+      },
+      "type": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "prop_type",
+            "named": true
+          }
+        ]
+      }
+    }
+  },
+  {
+    "type": "prop_default",
+    "named": true,
+    "fields": {}
+  },
+  {
+    "type": "prop_type",
+    "named": true,
+    "fields": {}
+  },
+  {
+    "type": "props",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "prop",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
     "type": "quoted_attribute_value",
     "named": true,
     "fields": {},
@@ -252,7 +317,27 @@
     "named": false
   },
   {
+    "type": "(",
+    "named": false
+  },
+  {
+    "type": ")",
+    "named": false
+  },
+  {
+    "type": ",",
+    "named": false
+  },
+  {
+    "type": "->",
+    "named": false
+  },
+  {
     "type": "/>",
+    "named": false
+  },
+  {
+    "type": ":",
     "named": false
   },
   {
@@ -272,6 +357,14 @@
     "named": false
   },
   {
+    "type": "[",
+    "named": false
+  },
+  {
+    "type": "]",
+    "named": false
+  },
+  {
     "type": "attribute_name",
     "named": true
   },
@@ -285,6 +378,10 @@
   },
   {
     "type": "entity",
+    "named": true
+  },
+  {
+    "type": "prop_name",
     "named": true
   },
   {
@@ -304,7 +401,15 @@
     "named": false
   },
   {
+    "type": "{{",
+    "named": false
+  },
+  {
     "type": "}",
+    "named": false
+  },
+  {
+    "type": "}}",
     "named": false
   }
 ]

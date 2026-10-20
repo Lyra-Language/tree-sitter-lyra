@@ -12,3 +12,8 @@
 (style_element
   (raw_text) @injection.content
   (#set! injection.language "css"))
+
+; A prop's default is Lyra.
+((prop_default) @injection.content
+  (#set! injection.language "lyra")
+  (#set! injection.include-children))

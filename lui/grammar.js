@@ -60,9 +60,40 @@ module.exports = grammar({
 
     tag_name: _ => /[A-Za-z_][A-Za-z0-9_-]*/,
 
-    attribute: $ => seq(
-      alias($.tag_name, $.attribute_name),
-      optional(seq('=', choice($.quoted_attribute_value, $.code))),
+    attribute: $ => choice(
+      // A component's props: an object of `name: Type = default` entries.
+      seq(alias('props', $.attribute_name), '=', $.props),
+      seq(
+        alias($.tag_name, $.attribute_name),
+        optional(seq('=', choice($.quoted_attribute_value, $.code))),
+      ),
+    ),
+
+    // `props={{ question: string, yes: e, no: e = Cancel, }}`: each prop's name, its type
+    // (a Lyra type, `<…>`, `(…)` and `[…]` kept whole so `HashMap<k, v>` is one) and an
+    // optional default (Lyra), a trailing comma allowed.
+    props: $ => seq('{{', optional(seq($.prop, repeat(seq(',', $.prop)), optional(','))), '}}'),
+    prop: $ => seq(
+      field('name', alias($.tag_name, $.prop_name)),
+      ':',
+      field('type', $.prop_type),
+      optional(seq('=', field('default', $.prop_default))),
+    ),
+    prop_type: $ => repeat1($._type_part),
+    _type_part: $ => choice(
+      /[^,=<>(){}\[\]\s-]+/,
+      '->',
+      seq('<', repeat(choice($._type_part, ',')), '>'),
+      seq('(', repeat(choice($._type_part, ',')), ')'),
+      seq('[', repeat(choice($._type_part, ',')), ']'),
+    ),
+    prop_default: $ => repeat1($._default_part),
+    _default_part: $ => choice(
+      /[^,{}()\[\]"\s]+/,
+      $._lyra_string,
+      seq('(', repeat(choice($._default_part, ',')), ')'),
+      seq('[', repeat(choice($._default_part, ',')), ']'),
+      seq('{', repeat(choice($._default_part, ',')), '}'),
     ),
     quoted_attribute_value: $ => seq('"', optional(alias(/[^"]+/, $.attribute_value)), '"'),
 

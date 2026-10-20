@@ -2,7 +2,7 @@
 A component with an element, text and Lyra
 ==================
 
-<component name="confirm" props="yes: e">
+<component name="confirm" props={{ yes: e }}>
   <Button class="danger" on_click={yes}>Reset {n} times</Button>
 </component>
 
@@ -13,7 +13,7 @@ A component with an element, text and Lyra
     (start_tag
       (tag_name)
       (attribute (attribute_name) (quoted_attribute_value (attribute_value)))
-      (attribute (attribute_name) (quoted_attribute_value (attribute_value))))
+      (attribute (attribute_name) (props (prop name: (prop_name) type: (prop_type)))))
     (element
       (start_tag
         (tag_name)
@@ -93,4 +93,35 @@ style is an attribute name too, and self-closing tags, comments and entities
       (entity)
       (text)
       (end_tag (tag_name)))
+    (end_tag (tag_name))))
+
+==================
+A component's props are an object: types whole, defaults Lyra, a trailing comma
+==================
+
+<component name="confirm" props={{
+  question: string,
+  table: HashMap<string, i64>,
+  pick: (i64) -> e,
+  title: string = "Sure? }",
+  size: Vec2 = Vec2 { x: 1.0, y: 2.0 },
+}} event="Ev">
+</component>
+
+---
+
+(document
+  (element
+    (start_tag
+      (tag_name)
+      (attribute (attribute_name) (quoted_attribute_value (attribute_value)))
+      (attribute
+        (attribute_name)
+        (props
+          (prop name: (prop_name) type: (prop_type))
+          (prop name: (prop_name) type: (prop_type))
+          (prop name: (prop_name) type: (prop_type))
+          (prop name: (prop_name) type: (prop_type) default: (prop_default))
+          (prop name: (prop_name) type: (prop_type) default: (prop_default))))
+      (attribute (attribute_name) (quoted_attribute_value (attribute_value))))
     (end_tag (tag_name))))
