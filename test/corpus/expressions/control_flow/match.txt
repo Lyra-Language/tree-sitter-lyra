@@ -916,3 +916,53 @@ match tool {
         (wildcard_pattern)
         (integer_literal
           (decimal_int))))))
+
+================================================================================
+An arm value that is a tuple of a struct literal and an empty array
+================================================================================
+
+match ev {
+  Chose(i) => (State { kind: i }, []),
+  Booked => (State { kind: i }, []) => 0,
+}
+
+--------------------------------------------------------------------------------
+
+(program
+  (expression_statement
+    (match_expr
+      (identifier)
+      (match_arm
+        (data_pattern
+          (data_type_name)
+          (tuple_pattern
+            (identifier)))
+        (tuple_literal
+          (tuple_value
+            (named_struct_literal
+              (struct_name)
+              (struct_body
+                (struct_fields
+                  (struct_field
+                    (field_name)
+                    (field_value
+                      (identifier)))))))
+          (tuple_value
+            (array_literal))))
+      (match_arm
+        (data_pattern
+          (data_type_name))
+        (lambda_expr
+          (parameter_list
+            (parameter
+              (data_pattern
+                (data_type_name)
+                (struct_pattern
+                  (struct_field_pattern
+                    (struct_field_rename
+                      (identifier)
+                      (new_name))))))
+            (parameter
+              (array_pattern)))
+          (integer_literal
+            (decimal_int)))))))

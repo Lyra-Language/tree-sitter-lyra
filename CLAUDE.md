@@ -123,6 +123,7 @@ Listed in `grammar.js`'s `conflicts:` array:
 - `infinite_loop` / `while_loop` / `for_in_loop` with and without a label
 - `pattern` / `_primary_expr` / `data_pattern` vs a name-leading `(…)`
 - `_primary_expr` / `rest_pattern` — `[...xs, 1]` spread vs rest pattern, decided after the list
+- `struct_field_rename` / `pattern` / `_primary_expr` — `kind: i` in `(State { kind: i }, [])` is a literal's field, a rename or a nested pattern until the `=>`; the rename's precedence is **dynamic** (a static one dropped the literal's reading and made the tuple a lambda parameter list)
 - `_primary_expr` vs `literal_pattern`, `_signed_number_literal`, `_negated_number_literal` — `('a', 'b')`, `(1, 2)`, `(-1, 2)` as lambda params vs tuple
 - `expression` / `_signed_number_literal` and `_math_operand` / `_negated_number_literal` — signed pattern literals
 - entries for `|` as struct-update separator (`Player { base | f: v }`) and both comprehension uses; only the token after `|` decides

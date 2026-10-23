@@ -41,9 +41,12 @@ module.exports = {
   // Struct patterns (shared)
   struct_pattern: ($) => seq("{", commaSep1($.struct_field_pattern), "}"),
 
-  // Rename form: { oldName: newName } — precedence > pattern (5) so identifier isn't reduced to pattern first
+  // Rename form: { oldName: newName }. Its precedence is *dynamic*: it outranks the
+  // nested-pattern reading of the same `name: ident` once both have parsed, but leaves the
+  // struct-literal field reading (`State { kind: i }` in a `(`-led tuple) alive until the
+  // `=>` decides — grammar.js declares the conflicts.
   struct_field_rename: ($) =>
-    prec(
+    prec.dynamic(
       PREC.STRUCT_FIELD_RENAME,
       seq(
         field("name", $.identifier),

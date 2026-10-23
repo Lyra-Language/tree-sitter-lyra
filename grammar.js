@@ -110,6 +110,16 @@ module.exports = grammar({
     // name-leading one (a bare `identifier` reduces to `pattern` for the lambda
     // param, or to `_primary_expr` for the tuple element).
     [$.pattern, $._primary_expr],
+    // The same race inside a struct body (10/22): in `(State { kind: i }, [])` the
+    // `kind: i` is a literal's field (`i` an expression), a struct pattern's rename (`i`
+    // the new name) or a nested pattern (`i` a binding), and only the `=>` after the `)`
+    // says which. struct_field_rename's precedence is dynamic for this reason: a static
+    // one settled it toward the pattern at generation time, so a tuple of a struct literal
+    // and `[]` (whose readings both survive to the `)`) failed as a lambda parameter
+    // list. Where a pattern is all that parses, the dynamic precedence picks the rename
+    // over the nested pattern, as the static one did.
+    [$.struct_field_rename, $.pattern, $._primary_expr],
+    [$.struct_field_rename, $.pattern],
     [$.pattern, $.infinite_loop, $.while_loop, $.for_in_loop],
     // A comprehension source that is an identifier or a call beginning with one: see
     // array_comprehension.js.

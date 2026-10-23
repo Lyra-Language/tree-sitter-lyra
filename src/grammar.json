@@ -10284,7 +10284,7 @@
       ]
     },
     "struct_field_rename": {
-      "type": "PREC",
+      "type": "PREC_DYNAMIC",
       "value": 10,
       "content": {
         "type": "SEQ",
@@ -11171,6 +11171,15 @@
     [
       "pattern",
       "_primary_expr"
+    ],
+    [
+      "struct_field_rename",
+      "pattern",
+      "_primary_expr"
+    ],
+    [
+      "struct_field_rename",
+      "pattern"
     ],
     [
       "pattern",
