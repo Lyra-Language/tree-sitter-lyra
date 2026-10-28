@@ -966,3 +966,85 @@ match ev {
               (array_pattern)))
           (integer_literal
             (decimal_int)))))))
+
+================================================================================
+Match - If Let As An Arm Body
+================================================================================
+
+let pick = (n: i64, m: Maybe<i64>) -> i64 => match n {
+  0 => 10,
+  1 => if let Some(v) = m { v } else if let None = m { 0 } else { 1 },
+  _ => if let Some(v) = m { v } else { 0 },
+}
+
+--------------------------------------------------------------------------------
+
+(program
+  (declaration
+    (identifier)
+    (lambda_expr
+      (parameter_list
+        (parameter
+          (identifier)
+          (signed_integer_type))
+        (parameter
+          (identifier)
+          (parameterized_type
+            (user_defined_type_name)
+            (signed_integer_type))))
+      (return_type
+        (signed_integer_type))
+      (match_expr
+        (identifier)
+        (match_arm
+          (literal_pattern
+            (integer_literal
+              (decimal_int)))
+          (integer_literal
+            (decimal_int)))
+        (match_arm
+          (literal_pattern
+            (integer_literal
+              (decimal_int)))
+          (destructuring_if_declaration
+            (declaration
+              (destructuring_only_pattern
+                (data_pattern
+                  (data_type_name)
+                  (tuple_pattern
+                    (identifier))))
+              (identifier))
+            (block
+              (expression_statement
+                (identifier)))
+            (destructuring_if_declaration
+              (declaration
+                (destructuring_only_pattern
+                  (data_pattern
+                    (data_type_name)))
+                (identifier))
+              (block
+                (expression_statement
+                  (integer_literal
+                    (decimal_int))))
+              (block
+                (expression_statement
+                  (integer_literal
+                    (decimal_int)))))))
+        (match_arm
+          (wildcard_pattern)
+          (destructuring_if_declaration
+            (declaration
+              (destructuring_only_pattern
+                (data_pattern
+                  (data_type_name)
+                  (tuple_pattern
+                    (identifier))))
+              (identifier))
+            (block
+              (expression_statement
+                (identifier)))
+            (block
+              (expression_statement
+                (integer_literal
+                  (decimal_int))))))))))

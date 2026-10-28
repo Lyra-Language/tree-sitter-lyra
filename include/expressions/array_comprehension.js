@@ -68,6 +68,8 @@ module.exports = {
           $.call_expr,
           $.member_expr,
           $.index_expr,
+          // A tuple's element (10/27): `[c in g.1 | c]`, beside the field and the element.
+          $.tuple_index_expr,
           // Anything else, parenthesized: `[x in (a ++ b) | x]`. A `group` is the
           // parenthesized arithmetic (`(a + b)`), a parenthesized_expr everything else.
           $.parenthesized_expr,

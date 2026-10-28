@@ -1974,6 +1974,10 @@
               },
               {
                 "type": "SYMBOL",
+                "name": "destructuring_if_declaration"
+              },
+              {
+                "type": "SYMBOL",
                 "name": "_arm_jump"
               }
             ]
@@ -3614,6 +3618,10 @@
               {
                 "type": "SYMBOL",
                 "name": "index_expr"
+              },
+              {
+                "type": "SYMBOL",
+                "name": "tuple_index_expr"
               },
               {
                 "type": "SYMBOL",

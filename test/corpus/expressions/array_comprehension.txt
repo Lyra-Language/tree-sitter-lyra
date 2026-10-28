@@ -453,3 +453,42 @@ let kept = [p in PAIRS | p.0 > 0 | p]
             (decimal_int))))
       (result_expr
         (identifier)))))
+
+================================================================================
+Array Comprehension - A Tuple Element Source
+================================================================================
+
+let colors = [c in g.1 | c]
+let firsts = [x in pair.0, y in pair.1 | x + y]
+
+--------------------------------------------------------------------------------
+
+(program
+  (declaration
+    (identifier)
+    (array_comp_expr
+      (generator
+        (identifier)
+        (tuple_index_expr
+          (identifier)
+          (decimal_int)))
+      (result_expr
+        (identifier))))
+  (declaration
+    (identifier)
+    (array_comp_expr
+      (generator
+        (identifier)
+        (tuple_index_expr
+          (identifier)
+          (decimal_int)))
+      (generator
+        (identifier)
+        (tuple_index_expr
+          (identifier)
+          (decimal_int)))
+      (result_expr
+        (binary_expr
+          (identifier)
+          (add_operator)
+          (identifier))))))

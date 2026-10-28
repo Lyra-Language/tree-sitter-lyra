@@ -4081,6 +4081,10 @@
           {
             "type": "string_literal",
             "named": true
+          },
+          {
+            "type": "tuple_index_expr",
+            "named": true
           }
         ]
       }
@@ -5137,6 +5141,10 @@
           },
           {
             "type": "continue_statement",
+            "named": true
+          },
+          {
+            "type": "destructuring_if_declaration",
             "named": true
           },
           {

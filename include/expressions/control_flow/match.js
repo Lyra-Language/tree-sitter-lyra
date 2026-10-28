@@ -19,6 +19,11 @@ module.exports = {
   // was missing; the collector rewrites a bare jump into exactly that block, so
   // nothing downstream learns this alternative exists.
   //
+  // An `if let` is an arm's body too (10/27): `_ => if let Some(v) = m { v } else { 0 }`.
+  // It is a statement in the grammar (`destructuring_if_declaration`), so it was a syntax
+  // error here while `_ => if c { … }` parsed; the collector reads it as the value it is
+  // where a block's last statement is one (LANGUAGE.md, `if let` as a value).
+  //
   // `_arm_jump` rather than the three rules inline: it keeps the choice named for the
   // corpus and makes the set easy to extend if another statement form ever belongs
   // here.
@@ -26,7 +31,7 @@ module.exports = {
     field('pattern', $.pattern),
     optional(field('guard', $.guard)),
     '=>',
-    field('body', choice($.expression, $._arm_jump))
+    field('body', choice($.expression, $.destructuring_if_declaration, $._arm_jump))
   ),
 
   _arm_jump: $ =>
