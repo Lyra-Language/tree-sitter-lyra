@@ -492,3 +492,87 @@ let firsts = [x in pair.0, y in pair.1 | x + y]
           (identifier)
           (add_operator)
           (identifier))))))
+
+================================================================================
+Array Comprehension - A Clause's Written Type
+================================================================================
+
+let bytes = [i: u8 in 0..<4 | i * 2]
+
+--------------------------------------------------------------------------------
+
+(program
+  (declaration
+    (identifier)
+    (array_comp_expr
+      (generator
+        (identifier)
+        (type_annotation
+          (unsigned_integer_type))
+        (range_expr
+          (range_start
+            (integer_literal
+              (decimal_int)))
+          (range_end_operator)
+          (range_end
+            (integer_literal
+              (decimal_int)))))
+      (result_expr
+        (binary_expr
+          (identifier)
+          (mul_operator)
+          (integer_literal
+            (decimal_int)))))))
+
+================================================================================
+Array Comprehension - A Field, An Element Or A Tuple Position As A Guard
+================================================================================
+
+let a = [p in pairs | p.1 | p.0]
+let b = [p in ps | p.ok | p.v]
+let c = [p in ps | flags[0] | p]
+
+--------------------------------------------------------------------------------
+
+(program
+  (declaration
+    (identifier)
+    (array_comp_expr
+      (generator
+        (identifier)
+        (identifier))
+      (comprehension_guard
+        (tuple_index_expr
+          (identifier)
+          (decimal_int)))
+      (result_expr
+        (tuple_index_expr
+          (identifier)
+          (decimal_int)))))
+  (declaration
+    (identifier)
+    (array_comp_expr
+      (generator
+        (identifier)
+        (identifier))
+      (comprehension_guard
+        (member_expr
+          (identifier)
+          (identifier)))
+      (result_expr
+        (member_expr
+          (identifier)
+          (identifier)))))
+  (declaration
+    (identifier)
+    (array_comp_expr
+      (generator
+        (identifier)
+        (identifier))
+      (comprehension_guard
+        (index_expr
+          (identifier)
+          (integer_literal
+            (decimal_int))))
+      (result_expr
+        (identifier)))))

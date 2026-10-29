@@ -391,3 +391,62 @@ for i: u16 in 0..<100 { }
             (integer_literal
               (decimal_int)))))
       (for_in_body))))
+
+================================================================================
+For In - A Struct Pattern
+================================================================================
+
+for { x, y } in points { x }
+for i, { x, y: w } in points { w }
+
+--------------------------------------------------------------------------------
+
+(program
+  (expression_statement
+    (for_in_loop
+      (for_in_condition
+        (struct_pattern
+          (struct_field_pattern
+            (identifier))
+          (struct_field_pattern
+            (identifier)))
+        (identifier))
+      (for_in_body
+        (expression_statement
+          (identifier)))))
+  (expression_statement
+    (for_in_loop
+      (for_in_condition
+        (for_variable_or_key)
+        (struct_pattern
+          (struct_field_pattern
+            (identifier))
+          (struct_field_pattern
+            (struct_field_rename
+              (identifier)
+              (new_name))))
+        (identifier))
+      (for_in_body
+        (expression_statement
+          (identifier))))))
+
+================================================================================
+For In - The Element's Type In The Two-Name Form
+================================================================================
+
+for i, b: u8 in bytes { b }
+
+--------------------------------------------------------------------------------
+
+(program
+  (expression_statement
+    (for_in_loop
+      (for_in_condition
+        (for_variable_or_key)
+        (for_index_or_value)
+        (type_annotation
+          (unsigned_integer_type))
+        (identifier))
+      (for_in_body
+        (expression_statement
+          (identifier))))))

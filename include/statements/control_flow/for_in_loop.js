@@ -44,17 +44,16 @@ module.exports = {
   // `data_pattern` (`for Some(x) in …` would have to silently skip or trap on a `None`)
   // and `array_pattern`, whose arity the element type does not guarantee.
   //
-  // **`struct_pattern` is irrefutable and still not here.** Until 10/08/26 it could not
-  // survive the struct-literal contest: `for Pt { x, y } in points` read as a conditional
-  // `for` whose condition was the *literal* `Pt { x, y }`. `for` now begins only this
-  // rule (the conditional loop is `while`), so that rival is gone; admitting the pattern
-  // is untried (lyra/todo.md), and a tuple already covers the spelling.
+  // **A struct pattern is irrefutable too** (10/29): `for { x, y } in points`, as `let { x,
+  // y } = p` takes a struct apart. Until 10/08/26 a struct-shaped condition lost to the
+  // conditional `for` reading it as a literal; `for` now begins only this rule (the
+  // conditional loop is `while`), so nothing contests it.
   //
-  // **A single loop variable may name its type** (09/29): `for i: u16 in 0..<100`. Without
-  // one, a variable over literal bounds is an `i64`, as `let n = 5` is; with one, the bounds
-  // are checked against it (`for b: u8 in 0..<300` is refused) and the loop runs at that
-  // width. Only the one-binding form takes it — in `for i, x in xs` the index is always an
-  // `i64` and the element's type is the collection's.
+  // **A loop variable may name its type** (09/29): `for i: u16 in 0..<100`. Without one, a
+  // variable over literal bounds is an `i64`, as `let n = 5` is; with one, the bounds are
+  // checked against it (`for b: u8 in 0..<300` is refused) and the loop runs at that width.
+  // In the two-binding form it is the element's (10/29), `for i, b: u8 in bytes`: the index
+  // is always an `i64`, so a type on the first of two is the collector's to refuse.
   for_in_condition: $ => prec.left(PREC.FOR_IN_CONDITION, seq(
     choice(
       seq(
@@ -62,6 +61,7 @@ module.exports = {
         optional(field('type_annotation', $.type_annotation)),
       ),
       $.tuple_pattern,
+      $.struct_pattern,
     ),
     // …and in the **second** slot too, which is where it belongs when an index is also
     // bound: the two-binding form is `for <index>, <element> in …` (`for i, c in s`), so
@@ -70,8 +70,12 @@ module.exports = {
     // it and the collector reports it, the same admit-then-report trade `extern`'s
     // modifiers make.
     optional(seq(',', choice(
-      alias(choice($.identifier, '_'), $.for_index_or_value),
+      seq(
+        alias(choice($.identifier, '_'), $.for_index_or_value),
+        optional(field('type_annotation', $.type_annotation)),
+      ),
       $.tuple_pattern,
+      $.struct_pattern,
     ))),
     'in',
     $.expression,

@@ -29,7 +29,11 @@ module.exports = {
   // bodies stay separate rules despite having the same shape: a *declaration*'s body
   // and an anonymous struct *type* appear in different positions, and collapsing them
   // would give the CST one node kind where the collector reads two.
-  struct_type_body: ($) => seq("{", memberList($, $.struct_member), "}"),
+  //
+  // **A declaration's body may be empty** (10/29): `struct Marker {}`, a type with no fields
+  // — a marker implementing a trait — which had to be `data Marker = Marker`. The anonymous
+  // type keeps at least one member: `{}` there would be the empty block's rival.
+  struct_type_body: ($) => seq("{", optional(memberList($, $.struct_member)), "}"),
 
   anonymous_struct_type: ($) => seq("{", memberList($, $.struct_member), "}"),
 };

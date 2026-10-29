@@ -43,6 +43,8 @@ module.exports = {
   generator: ($) =>
     seq(
       field("identifier", $.identifier),
+      // A written type (10/29), `[i: u8 in 0..<10 | i]`, as a loop variable takes one.
+      optional(field("type_annotation", $.type_annotation)),
       "in",
       // A call is a source too — `[p in naturals().take(10) | p]`, and before that
       // `[y in xs.map(f) | y]`, which was a *syntax error* for as long as this list was
@@ -79,7 +81,18 @@ module.exports = {
     ),
 
   _guards: ($) => field("guards", commaSep1($.comprehension_guard)),
-  comprehension_guard: ($) => choice($.boolean_expr, $.call_expr, $.identifier),
+  // A `bool` field, element or tuple position guards too (10/29): `[p in pairs | p.1 | p.0]`
+  // was the single result `p.1 | p.0`, a bitwise-or refused as one, while `p.1 == true`
+  // worked. The two readings are the `prec.dynamic` contest above, which the guard wins.
+  comprehension_guard: ($) =>
+    choice(
+      $.boolean_expr,
+      $.call_expr,
+      $.identifier,
+      $.member_expr,
+      $.index_expr,
+      $.tuple_index_expr,
+    ),
 
   // **Any expression.** This was a hand-maintained `choice` of `_math_operand`, the tuple
   // and struct literals, and an array literal — which is a list of "expression forms

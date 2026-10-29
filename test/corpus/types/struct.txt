@@ -164,17 +164,25 @@ struct Point { x: f64 y: f64 }
           (identifier))))))
 
 ===================
-Empty Struct Errors
-:error
+An Empty Struct
 ===================
 
-struct Point {}
+struct Marker {}
+pub struct Unit {
+}
 
 ----------------------------------
 
 (program
-  (ERROR
-    (user_defined_type_name)))
+  (type_declaration
+    (struct_type
+      struct_name: (struct_name)
+      (struct_type_body)))
+  (type_declaration
+    (struct_type
+      visibility: (visibility)
+      struct_name: (struct_name)
+      (struct_type_body))))
 
 ====================
 Packed struct attribute

@@ -2687,6 +2687,18 @@
         {
           "type": "identifier",
           "named": true
+        },
+        {
+          "type": "index_expr",
+          "named": true
+        },
+        {
+          "type": "member_expr",
+          "named": true
+        },
+        {
+          "type": "tuple_index_expr",
+          "named": true
         }
       ]
     }
@@ -3968,7 +3980,7 @@
     "named": true,
     "fields": {
       "type_annotation": {
-        "multiple": false,
+        "multiple": true,
         "required": false,
         "types": [
           {
@@ -3992,6 +4004,10 @@
         },
         {
           "type": "for_variable_or_key",
+          "named": true
+        },
+        {
+          "type": "struct_pattern",
           "named": true
         },
         {
@@ -4034,6 +4050,16 @@
         "types": [
           {
             "type": "identifier",
+            "named": true
+          }
+        ]
+      },
+      "type_annotation": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "type_annotation",
             "named": true
           }
         ]
@@ -7469,7 +7495,7 @@
     "fields": {},
     "children": {
       "multiple": true,
-      "required": true,
+      "required": false,
       "types": [
         {
           "type": "struct_member",
