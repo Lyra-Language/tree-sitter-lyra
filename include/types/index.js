@@ -37,6 +37,7 @@ module.exports = {
         $.self_type,
         $.void_type,
         $.user_defined_type_name,
+        alias($.qualified_type_name, $.user_defined_type_name),
         $.array_type,
         $.generic_type,
         $.lambda_type,
@@ -53,6 +54,21 @@ module.exports = {
 
   user_defined_type_name: ($) => /[A-Z][a-zA-Z0-9]*/,
 
+  // **A name reached through a namespace import** (10/29): `shapes.Circle(2)`, `shapes.Pt {
+  // x: 1 }`, `p: shapes.Pt`, `shapes.Dot =>`. One token, so it never contests member access:
+  // a field is lowercase, and the lexer takes the longest match where both are legal.
+  //
+  // **The name's second letter is lowercase** (or a digit), because an all-caps one is a
+  // constant: `vdp.SCREEN_WIDTH` must stay a namespace's member, and a token reaching
+  // `[A-Z][a-zA-Z0-9]*` would lex `vdp.SCREEN` and strand `_WIDTH`. So `lib.A` and
+  // `lib.RGB` cannot be qualified — rename the type, or import it by name.
+  //
+  // Aliased in each position to the node kind the unqualified name has there
+  // (`user_defined_type_name`, `tuple_name`, `struct_name`, `data_type_name`), so a reader
+  // of that node sees the dotted text and nothing else changes shape.
+  qualified_type_name: ($) =>
+    token(seq(/[a-z][a-zA-Z0-9_]*/, ".", /[A-Z][a-z0-9][a-zA-Z0-9]*/)),
+
   self_type: ($) =>
     seq("Self", optional(field("generic_parameters", $.generic_parameters))),
 
@@ -63,7 +79,11 @@ module.exports = {
   // occupies (the collector refuses a hole anywhere else).
   parameterized_type: ($) =>
     seq(
-      field("name", choice("Self", $.user_defined_type_name)),
+      field("name", choice(
+        "Self",
+        $.user_defined_type_name,
+        alias($.qualified_type_name, $.user_defined_type_name),
+      )),
       "<",
       field("type_arguments", commaSep1(choice($.type, $.hole_type))),
       ">",

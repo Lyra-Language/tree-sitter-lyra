@@ -100,7 +100,7 @@ module.exports = {
   // disagreed about the language's own constructor syntax.
   data_constructor_expr: ($) =>
     seq(
-      field("constructor", alias($.user_defined_type_name, $.data_type_name)),
+      field("constructor", alias(choice($.user_defined_type_name, $.qualified_type_name), $.data_type_name)),
       field("value", $._constructor_value),
     ),
 
@@ -138,6 +138,7 @@ module.exports = {
       $.identifier,
       $.const_identifier,
       $.user_defined_type_name,
+      alias($.qualified_type_name, $.user_defined_type_name),
       $.negation,
       $.address_of_expr,
       $.sizeof_expr,

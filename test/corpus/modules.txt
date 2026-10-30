@@ -321,7 +321,6 @@ module bindings.sdl3
       (module_name)
       (module_name))))
 
-
 ==========================
 An attribute takes a named argument
 ==========================
@@ -369,3 +368,124 @@ module m
               (string_content))))))
     (module_path
       (module_name))))
+
+================================================================================
+A Constructor, A Literal And A Type Through A Namespace
+================================================================================
+
+let a = shapes.Circle(2)
+let b = shapes.Dot
+let c = shapes.Pt { x: 1 }
+let d = shapes.Circle 2
+let e: []shapes.Shape = [shapes.Dot]
+let f: shapes.Box<i64> = shapes.Wrap::<i64>(1)
+
+--------------------------------------------------------------------------------
+
+(program
+  (declaration
+    (identifier)
+    (tuple_literal
+      (tuple_name)
+      (tuple_value
+        (integer_literal
+          (decimal_int)))))
+  (declaration
+    (identifier)
+    (user_defined_type_name))
+  (declaration
+    (identifier)
+    (named_struct_literal
+      (struct_name)
+      (struct_body
+        (struct_fields
+          (struct_field
+            (field_name)
+            (field_value
+              (integer_literal
+                (decimal_int))))))))
+  (declaration
+    (identifier)
+    (data_constructor_expr
+      (data_type_name)
+      (integer_literal
+        (decimal_int))))
+  (declaration
+    (identifier)
+    (type_annotation
+      (array_type
+        (user_defined_type_name)))
+    (array_literal
+      (user_defined_type_name)))
+  (declaration
+    (identifier)
+    (type_annotation
+      (parameterized_type
+        (user_defined_type_name)
+        (signed_integer_type)))
+    (tuple_literal
+      (tuple_name)
+      (generic_arguments
+        (signed_integer_type))
+      (tuple_value
+        (integer_literal
+          (decimal_int))))))
+
+================================================================================
+A Qualified Pattern
+================================================================================
+
+let r = match s { shapes.Circle(r) => r, shapes.Dot => 0 }
+
+--------------------------------------------------------------------------------
+
+(program
+  (declaration
+    (identifier)
+    (match_expr
+      (identifier)
+      (match_arm
+        (data_pattern
+          (data_type_name)
+          (tuple_pattern
+            (identifier)))
+        (identifier))
+      (match_arm
+        (data_pattern
+          (data_type_name))
+        (integer_literal
+          (decimal_int))))))
+
+================================================================================
+A Namespace's Constant And Fields Stay Member Accesses
+================================================================================
+
+let w = vdp.SCREEN_WIDTH + p.x + lib.A + Pt.origin().y
+
+--------------------------------------------------------------------------------
+
+(program
+  (declaration
+    (identifier)
+    (binary_expr
+      (binary_expr
+        (binary_expr
+          (member_expr
+            (identifier)
+            (const_identifier))
+          (add_operator)
+          (member_expr
+            (identifier)
+            (identifier)))
+        (add_operator)
+        (member_expr
+          (identifier)
+          (const_identifier)))
+      (add_operator)
+      (member_expr
+        (call_expr
+          (member_expr
+            (user_defined_type_name)
+            (identifier))
+          (argument_list))
+        (identifier)))))

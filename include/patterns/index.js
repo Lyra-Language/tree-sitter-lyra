@@ -123,11 +123,11 @@ module.exports = {
       // treatment the bare identifier gets in `pattern`, so a constructor-leading
       // tuple `(None, 7)` parses. A payload-bearing pattern keeps PREC.DATA_PATTERN
       // (it must still beat the constructor-*call* expression reading of `Some(x)`).
-      field("name", alias($.user_defined_type_name, $.data_type_name)),
+      field("name", alias(choice($.user_defined_type_name, $.qualified_type_name), $.data_type_name)),
       prec.left(
         PREC.DATA_PATTERN,
         seq(
-          field("name", alias($.user_defined_type_name, $.data_type_name)),
+          field("name", alias(choice($.user_defined_type_name, $.qualified_type_name), $.data_type_name)),
           field("pattern", $.pattern),
         ),
       ),
@@ -261,7 +261,7 @@ module.exports = {
 
   _nullary_constructor: ($) =>
     choice(
-      field("name", alias($.user_defined_type_name, $.data_type_name)),
+      field("name", alias(choice($.user_defined_type_name, $.qualified_type_name), $.data_type_name)),
       field("name", alias($.const_identifier, $.data_type_name)),
     ),
 

@@ -571,6 +571,10 @@
                       {
                         "type": "SYMBOL",
                         "name": "const_identifier"
+                      },
+                      {
+                        "type": "SYMBOL",
+                        "name": "qualified_type_name"
                       }
                     ]
                   },
@@ -618,6 +622,10 @@
                       {
                         "type": "SYMBOL",
                         "name": "const_identifier"
+                      },
+                      {
+                        "type": "SYMBOL",
+                        "name": "qualified_type_name"
                       }
                     ]
                   },
@@ -1097,6 +1105,10 @@
               {
                 "type": "SYMBOL",
                 "name": "const_identifier"
+              },
+              {
+                "type": "SYMBOL",
+                "name": "qualified_type_name"
               }
             ]
           },
@@ -1613,8 +1625,17 @@
           "content": {
             "type": "ALIAS",
             "content": {
-              "type": "SYMBOL",
-              "name": "user_defined_type_name"
+              "type": "CHOICE",
+              "members": [
+                {
+                  "type": "SYMBOL",
+                  "name": "user_defined_type_name"
+                },
+                {
+                  "type": "SYMBOL",
+                  "name": "qualified_type_name"
+                }
+              ]
             },
             "named": true,
             "value": "data_type_name"
@@ -1656,6 +1677,15 @@
         {
           "type": "SYMBOL",
           "name": "user_defined_type_name"
+        },
+        {
+          "type": "ALIAS",
+          "content": {
+            "type": "SYMBOL",
+            "name": "qualified_type_name"
+          },
+          "named": true,
+          "value": "user_defined_type_name"
         },
         {
           "type": "SYMBOL",
@@ -3816,6 +3846,15 @@
           "name": "user_defined_type_name"
         },
         {
+          "type": "ALIAS",
+          "content": {
+            "type": "SYMBOL",
+            "name": "qualified_type_name"
+          },
+          "named": true,
+          "value": "user_defined_type_name"
+        },
+        {
           "type": "SYMBOL",
           "name": "parenthesized_expr"
         },
@@ -5341,6 +5380,15 @@
             "name": "user_defined_type_name"
           },
           {
+            "type": "ALIAS",
+            "content": {
+              "type": "SYMBOL",
+              "name": "qualified_type_name"
+            },
+            "named": true,
+            "value": "user_defined_type_name"
+          },
+          {
             "type": "SYMBOL",
             "name": "array_type"
           },
@@ -5412,6 +5460,26 @@
       "type": "PATTERN",
       "value": "[A-Z][a-zA-Z0-9]*"
     },
+    "qualified_type_name": {
+      "type": "TOKEN",
+      "content": {
+        "type": "SEQ",
+        "members": [
+          {
+            "type": "PATTERN",
+            "value": "[a-z][a-zA-Z0-9_]*"
+          },
+          {
+            "type": "STRING",
+            "value": "."
+          },
+          {
+            "type": "PATTERN",
+            "value": "[A-Z][a-z0-9][a-zA-Z0-9]*"
+          }
+        ]
+      }
+    },
     "self_type": {
       "type": "SEQ",
       "members": [
@@ -5457,6 +5525,15 @@
               {
                 "type": "SYMBOL",
                 "name": "user_defined_type_name"
+              },
+              {
+                "type": "ALIAS",
+                "content": {
+                  "type": "SYMBOL",
+                  "name": "qualified_type_name"
+                },
+                "named": true,
+                "value": "user_defined_type_name"
               }
             ]
           }
@@ -5711,6 +5788,15 @@
         {
           "type": "SYMBOL",
           "name": "user_defined_type_name"
+        },
+        {
+          "type": "ALIAS",
+          "content": {
+            "type": "SYMBOL",
+            "name": "qualified_type_name"
+          },
+          "named": true,
+          "value": "user_defined_type_name"
         },
         {
           "type": "SYMBOL",
@@ -10571,8 +10657,17 @@
           "content": {
             "type": "ALIAS",
             "content": {
-              "type": "SYMBOL",
-              "name": "user_defined_type_name"
+              "type": "CHOICE",
+              "members": [
+                {
+                  "type": "SYMBOL",
+                  "name": "user_defined_type_name"
+                },
+                {
+                  "type": "SYMBOL",
+                  "name": "qualified_type_name"
+                }
+              ]
             },
             "named": true,
             "value": "data_type_name"
@@ -10590,8 +10685,17 @@
                 "content": {
                   "type": "ALIAS",
                   "content": {
-                    "type": "SYMBOL",
-                    "name": "user_defined_type_name"
+                    "type": "CHOICE",
+                    "members": [
+                      {
+                        "type": "SYMBOL",
+                        "name": "user_defined_type_name"
+                      },
+                      {
+                        "type": "SYMBOL",
+                        "name": "qualified_type_name"
+                      }
+                    ]
                   },
                   "named": true,
                   "value": "data_type_name"
@@ -10925,8 +11029,17 @@
           "content": {
             "type": "ALIAS",
             "content": {
-              "type": "SYMBOL",
-              "name": "user_defined_type_name"
+              "type": "CHOICE",
+              "members": [
+                {
+                  "type": "SYMBOL",
+                  "name": "user_defined_type_name"
+                },
+                {
+                  "type": "SYMBOL",
+                  "name": "qualified_type_name"
+                }
+              ]
             },
             "named": true,
             "value": "data_type_name"

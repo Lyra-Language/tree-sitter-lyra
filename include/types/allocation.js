@@ -80,6 +80,8 @@ module.exports = {
     $.parameterized_type,
     $.self_type,
     $.user_defined_type_name,
+    // `[]shapes.Shape`, `shared shapes.Pt`, `weak shapes.Node` (types/index.js).
+    alias($.qualified_type_name, $.user_defined_type_name),
     $.array_type,
     $.generic_type,
     $.lambda_type,
