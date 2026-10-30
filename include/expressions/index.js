@@ -137,6 +137,7 @@ module.exports = {
       $.data_constructor_expr,
       $.identifier,
       $.const_identifier,
+      $.qualified_const_name,
       $.user_defined_type_name,
       alias($.qualified_type_name, $.user_defined_type_name),
       $.negation,

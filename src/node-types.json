@@ -148,6 +148,10 @@
         "named": true
       },
       {
+        "type": "qualified_const_name",
+        "named": true
+      },
+      {
         "type": "range_expr",
         "named": true
       },
@@ -1174,6 +1178,10 @@
             "named": true
           },
           {
+            "type": "qualified_const_name",
+            "named": true
+          },
+          {
             "type": "raw_string_literal",
             "named": true
           },
@@ -1363,6 +1371,10 @@
           },
           {
             "type": "parenthesized_expr",
+            "named": true
+          },
+          {
+            "type": "qualified_const_name",
             "named": true
           },
           {
@@ -1570,6 +1582,10 @@
             "named": true
           },
           {
+            "type": "qualified_const_name",
+            "named": true
+          },
+          {
             "type": "raw_string_literal",
             "named": true
           },
@@ -1728,6 +1744,10 @@
             "named": true
           },
           {
+            "type": "qualified_const_name",
+            "named": true
+          },
+          {
             "type": "raw_string_literal",
             "named": true
           },
@@ -1879,6 +1899,10 @@
           },
           {
             "type": "parenthesized_expr",
+            "named": true
+          },
+          {
+            "type": "qualified_const_name",
             "named": true
           },
           {
@@ -2082,6 +2106,10 @@
             "named": true
           },
           {
+            "type": "qualified_const_name",
+            "named": true
+          },
+          {
             "type": "raw_string_literal",
             "named": true
           },
@@ -2244,6 +2272,10 @@
           },
           {
             "type": "parenthesized_expr",
+            "named": true
+          },
+          {
+            "type": "qualified_const_name",
             "named": true
           },
           {
@@ -2434,6 +2466,10 @@
           },
           {
             "type": "parenthesized_expr",
+            "named": true
+          },
+          {
+            "type": "qualified_const_name",
             "named": true
           },
           {
@@ -2630,6 +2666,10 @@
           },
           {
             "type": "parenthesized_expr",
+            "named": true
+          },
+          {
+            "type": "qualified_const_name",
             "named": true
           },
           {
@@ -3119,6 +3159,10 @@
             "named": true
           },
           {
+            "type": "qualified_const_name",
+            "named": true
+          },
+          {
             "type": "raw_string_literal",
             "named": true
           },
@@ -3574,6 +3618,10 @@
           },
           {
             "type": "parenthesized_expr",
+            "named": true
+          },
+          {
+            "type": "qualified_const_name",
             "named": true
           },
           {
@@ -4682,6 +4730,10 @@
             "named": true
           },
           {
+            "type": "qualified_const_name",
+            "named": true
+          },
+          {
             "type": "raw_string_literal",
             "named": true
           },
@@ -5342,6 +5394,10 @@
             "named": true
           },
           {
+            "type": "qualified_const_name",
+            "named": true
+          },
+          {
             "type": "raw_string_literal",
             "named": true
           },
@@ -5723,6 +5779,10 @@
             "named": true
           },
           {
+            "type": "qualified_const_name",
+            "named": true
+          },
+          {
             "type": "raw_string_literal",
             "named": true
           },
@@ -5914,6 +5974,10 @@
             "named": true
           },
           {
+            "type": "qualified_const_name",
+            "named": true
+          },
+          {
             "type": "raw_string_literal",
             "named": true
           },
@@ -6027,6 +6091,10 @@
           },
           {
             "type": "parenthesized_expr",
+            "named": true
+          },
+          {
+            "type": "qualified_const_name",
             "named": true
           },
           {
@@ -6831,6 +6899,10 @@
             "named": true
           },
           {
+            "type": "qualified_const_name",
+            "named": true
+          },
+          {
             "type": "raw_string_literal",
             "named": true
           },
@@ -6971,6 +7043,10 @@
             "named": true
           },
           {
+            "type": "qualified_const_name",
+            "named": true
+          },
+          {
             "type": "raw_string_literal",
             "named": true
           },
@@ -7100,6 +7176,10 @@
           },
           {
             "type": "parenthesized_expr",
+            "named": true
+          },
+          {
+            "type": "qualified_const_name",
             "named": true
           },
           {
@@ -7586,6 +7666,10 @@
           },
           {
             "type": "parenthesized_expr",
+            "named": true
+          },
+          {
+            "type": "qualified_const_name",
             "named": true
           },
           {
@@ -8130,6 +8214,10 @@
             "named": true
           },
           {
+            "type": "qualified_const_name",
+            "named": true
+          },
+          {
             "type": "raw_string_literal",
             "named": true
           },
@@ -8305,6 +8393,10 @@
           },
           {
             "type": "parenthesized_expr",
+            "named": true
+          },
+          {
+            "type": "qualified_const_name",
             "named": true
           },
           {
@@ -8934,6 +9026,10 @@
             "named": true
           },
           {
+            "type": "qualified_const_name",
+            "named": true
+          },
+          {
             "type": "raw_string_literal",
             "named": true
           },
@@ -9519,6 +9615,10 @@
   },
   {
     "type": "pure_modifier",
+    "named": true
+  },
+  {
+    "type": "qualified_const_name",
     "named": true
   },
   {

@@ -137,5 +137,5 @@ export function parameterList(parameterRule) {
 // CLAUDE.md, which names this property as what the feature rests on. The cost is that
 // `CD 5` stays a parse error for an all-caps constructor while `CD(5)` works.
 export function typeNameInExpr($) {
-  return choice($.user_defined_type_name, $.const_identifier, $.qualified_type_name);
+  return choice($.user_defined_type_name, $.const_identifier, $.qualified_type_name, $.qualified_const_name);
 }

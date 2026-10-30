@@ -457,7 +457,7 @@ let r = match s { shapes.Circle(r) => r, shapes.Dot => 0 }
           (decimal_int))))))
 
 ================================================================================
-A Namespace's Constant And Fields Stay Member Accesses
+A Namespace's Constant Is One Token, And A Field A Member Access
 ================================================================================
 
 let w = vdp.SCREEN_WIDTH + p.x + lib.A + Pt.origin().y
@@ -470,17 +470,13 @@ let w = vdp.SCREEN_WIDTH + p.x + lib.A + Pt.origin().y
     (binary_expr
       (binary_expr
         (binary_expr
-          (member_expr
-            (identifier)
-            (const_identifier))
+          (qualified_const_name)
           (add_operator)
           (member_expr
             (identifier)
             (identifier)))
         (add_operator)
-        (member_expr
-          (identifier)
-          (const_identifier)))
+        (qualified_const_name))
       (add_operator)
       (member_expr
         (call_expr
@@ -489,3 +485,105 @@ let w = vdp.SCREEN_WIDTH + p.x + lib.A + Pt.origin().y
             (identifier))
           (argument_list))
         (identifier)))))
+
+================================================================================
+An All-Caps Type And Constructor Through A Namespace
+================================================================================
+
+let a = lib.A(1)
+let c = lib.RGB { r: 1 }
+let e: []lib.RGB = []
+let d = match x { lib.A(v) => v, lib.LOUD => 0 }
+
+--------------------------------------------------------------------------------
+
+(program
+  (declaration
+    (identifier)
+    (tuple_literal
+      (tuple_name)
+      (tuple_value
+        (integer_literal
+          (decimal_int)))))
+  (declaration
+    (identifier)
+    (named_struct_literal
+      (struct_name)
+      (struct_body
+        (struct_fields
+          (struct_field
+            (field_name)
+            (field_value
+              (integer_literal
+                (decimal_int))))))))
+  (declaration
+    (identifier)
+    (type_annotation
+      (array_type
+        (user_defined_type_name)))
+    (array_literal))
+  (declaration
+    (identifier)
+    (match_expr
+      (identifier)
+      (match_arm
+        (data_pattern
+          (data_type_name)
+          (tuple_pattern
+            (identifier)))
+        (identifier))
+      (match_arm
+        (data_pattern
+          (data_type_name))
+        (integer_literal
+          (decimal_int))))))
+
+================================================================================
+A Namespace's Constant Before A Block Is Still A Constant
+================================================================================
+
+for row in 0..<vdp.PLANE_HEIGHT { f(row) }
+let g = if n == vdp.MAX { 1 } else { vdp.MAX.min(3) }
+
+--------------------------------------------------------------------------------
+
+(program
+  (expression_statement
+    (for_in_loop
+      (for_in_condition
+        (for_variable_or_key)
+        (range_expr
+          (range_start
+            (integer_literal
+              (decimal_int)))
+          (range_end_operator)
+          (range_end
+            (qualified_const_name))))
+      (for_in_body
+        (expression_statement
+          (call_expr
+            (identifier)
+            (argument_list
+              (value
+                (identifier))))))))
+  (declaration
+    (identifier)
+    (if_block_expr
+      (boolean_expr
+        (identifier)
+        (equals_operator)
+        (qualified_const_name))
+      (block
+        (expression_statement
+          (integer_literal
+            (decimal_int))))
+      (block
+        (expression_statement
+          (call_expr
+            (member_expr
+              (qualified_const_name)
+              (identifier))
+            (argument_list
+              (value
+                (integer_literal
+                  (decimal_int))))))))))

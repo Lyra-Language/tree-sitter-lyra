@@ -54,6 +54,8 @@ module.exports = {
     $.user_defined_type_name,  // For static method calls like Arena.new()
     // A nullary constructor through a namespace, `shapes.Dot` (types/index.js).
     alias($.qualified_type_name, $.user_defined_type_name),
+    // `vdp.SCREEN_WIDTH`, read as the member access it is (types/index.js).
+    $.qualified_const_name,
     $.parenthesized_expr,
     // `group` is `( <arithmetic> )`, and this is its **only** derivation as of 08/07 —
     // it left `_math_expr` in the same change. Without it `(a + b).x` was a syntax

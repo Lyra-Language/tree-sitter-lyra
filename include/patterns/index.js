@@ -137,11 +137,11 @@ module.exports = {
       // unsupported, as `CD 5` already is in expression position (helpers.js,
       // typeNameInExpr), and that is what keeps `LOW ..<5` from reading as the constructor
       // LOW applied to an open range — a `(` is the only way a payload may begin.
-      field("name", alias($.const_identifier, $.data_type_name)),
+      field("name", alias(choice($.const_identifier, $.qualified_const_name), $.data_type_name)),
       prec.left(
         PREC.DATA_PATTERN,
         seq(
-          field("name", alias($.const_identifier, $.data_type_name)),
+          field("name", alias(choice($.const_identifier, $.qualified_const_name), $.data_type_name)),
           field("pattern", $.tuple_pattern),
         ),
       ),
@@ -262,7 +262,7 @@ module.exports = {
   _nullary_constructor: ($) =>
     choice(
       field("name", alias(choice($.user_defined_type_name, $.qualified_type_name), $.data_type_name)),
-      field("name", alias($.const_identifier, $.data_type_name)),
+      field("name", alias(choice($.const_identifier, $.qualified_const_name), $.data_type_name)),
     ),
 
   // Wildcard pattern
