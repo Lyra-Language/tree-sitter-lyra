@@ -3205,7 +3205,43 @@
         "required": false,
         "types": [
           {
-            "type": "pattern",
+            "type": "array_pattern",
+            "named": true
+          },
+          {
+            "type": "binding_pattern",
+            "named": true
+          },
+          {
+            "type": "data_pattern",
+            "named": true
+          },
+          {
+            "type": "identifier",
+            "named": true
+          },
+          {
+            "type": "literal_pattern",
+            "named": true
+          },
+          {
+            "type": "range_pattern",
+            "named": true
+          },
+          {
+            "type": "regex_pattern",
+            "named": true
+          },
+          {
+            "type": "struct_pattern",
+            "named": true
+          },
+          {
+            "type": "tuple_pattern",
+            "named": true
+          },
+          {
+            "type": "wildcard_pattern",
             "named": true
           }
         ]
@@ -3744,6 +3780,10 @@
         },
         {
           "type": "data_pattern",
+          "named": true
+        },
+        {
+          "type": "or_pattern",
           "named": true
         },
         {
@@ -6157,6 +6197,10 @@
         "required": true,
         "types": [
           {
+            "type": "array_pattern",
+            "named": true
+          },
+          {
             "type": "data_pattern",
             "named": true
           },
@@ -6166,6 +6210,14 @@
           },
           {
             "type": "range_pattern",
+            "named": true
+          },
+          {
+            "type": "struct_pattern",
+            "named": true
+          },
+          {
+            "type": "tuple_pattern",
             "named": true
           }
         ]

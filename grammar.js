@@ -65,9 +65,12 @@ module.exports = grammar({
     // sub-pattern are the same tokens in the same place (lambda parameter list
     // vs anonymous tuple). GLR keeps both until the `=>` decides, exactly as it
     // already does for a bare parenthesized name.
-    [$._constructor_value, $.pattern],
+    [$._constructor_value, $._juxtaposed_payload],
     // The nullary-operand form of the same race: `(Some None, …)`.
     [$._constructor_value, $.data_pattern],
+    // `Some x @ LOUD | …`: the name after `@` is a whole pattern or the first of an
+    // alternation until the token after it says which.
+    [$.data_pattern, $._constructor_alternative],
     // Nested juxtaposition: in `Some None`, is `None` the finished operand or the
     // head of a further application? One operand, never curried, so it is the
     // finished operand — but the decision needs the next token, which is what
@@ -80,7 +83,10 @@ module.exports = grammar({
     // grammar.js's own conflict notes call finely balanced — the "unnecessary
     // conflict" warning is unreliable here, so verify against the corpus rather
     // than the warning.
-    [$._tuple_name, $._primary_expr, $.data_pattern],
+    // The set grew by a member when a constructor became an or-pattern alternative with a
+    // payload, and the conflict is the same one: `(Foo(1)` is all of them until what
+    // follows the `)` decides.
+    [$._tuple_name, $._primary_expr, $.data_pattern, $._constructor_alternative],
     // `[...xs, 1]` — is the `xs` a spread *expression*'s operand or a rest *pattern*'s
     // name? Both are `'...' identifier` over the same tokens, and only what follows the
     // list decides (an array destructuring's `=`, against an array literal's use as a
@@ -129,10 +135,9 @@ module.exports = grammar({
     [$.generator, $._postfix_expr],
     [$._primary_expr, $.infinite_loop, $.while_loop, $.for_in_loop],
     [$._primary_expr, $.data_pattern],
-    // The same race for a nullary constructor as an or-pattern alternative (09/29):
-    // `(LOUD | QUIET) => …` is a lambda's parameter pattern or a parenthesized bitwise
-    // or, decided by what follows.
-    [$._primary_expr, $._nullary_constructor],
+    // The same race for a constructor as an or-pattern alternative: `(LOUD | QUIET) => …`
+    // is a lambda's parameter pattern or a parenthesized bitwise or, decided by what follows.
+    [$._primary_expr, $._constructor_alternative],
     // The literal analogue of the two entries above, and new on 08/06 with
     // literals becoming postfix heads (`"abc".len()`). `('a', 'b')` is a lambda
     // parameter list of `literal_pattern`s or an anonymous tuple of

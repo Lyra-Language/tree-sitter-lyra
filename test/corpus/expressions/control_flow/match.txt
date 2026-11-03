@@ -1048,3 +1048,135 @@ let pick = (n: i64, m: Maybe<i64>) -> i64 => match n {
               (expression_statement
                 (integer_literal
                   (decimal_int))))))))))
+
+================================================================================
+Or-pattern alternatives that test a payload
+================================================================================
+
+match m {
+  Some(_) | None => 1,
+  Some 1 | None => 2,
+  Some(1 | 2) => 3,
+  (0, _) | (_, 0) => 4,
+}
+
+--------------------------------------------------------------------------------
+
+(program
+  (expression_statement
+    (match_expr
+      (identifier)
+      (match_arm
+        (or_pattern
+          (data_pattern
+            (data_type_name)
+            (tuple_pattern
+              (wildcard_pattern)))
+          (data_pattern
+            (data_type_name)))
+        (integer_literal
+          (decimal_int)))
+      (match_arm
+        (or_pattern
+          (data_pattern
+            (data_type_name)
+            (literal_pattern
+              (integer_literal
+                (decimal_int))))
+          (data_pattern
+            (data_type_name)))
+        (integer_literal
+          (decimal_int)))
+      (match_arm
+        (data_pattern
+          (data_type_name)
+          (tuple_pattern
+            (or_pattern
+              (literal_pattern
+                (integer_literal
+                  (decimal_int)))
+              (literal_pattern
+                (integer_literal
+                  (decimal_int))))))
+        (integer_literal
+          (decimal_int)))
+      (match_arm
+        (or_pattern
+          (tuple_pattern
+            (literal_pattern
+              (integer_literal
+                (decimal_int)))
+            (wildcard_pattern))
+          (tuple_pattern
+            (wildcard_pattern)
+            (literal_pattern
+              (integer_literal
+                (decimal_int)))))
+        (integer_literal
+          (decimal_int))))))
+
+================================================================================
+A constructor before a bar is a bitwise or until a fat arrow follows
+================================================================================
+
+let a = (Foo(1) | Foo(2))
+let b = (Foo(1) | Bar) => 3
+
+--------------------------------------------------------------------------------
+
+(program
+  (declaration
+    (identifier)
+    (group
+      (binary_expr
+        (tuple_literal
+          (tuple_name)
+          (tuple_value
+            (integer_literal
+              (decimal_int))))
+        (bitor_operator)
+        (tuple_literal
+          (tuple_name)
+          (tuple_value
+            (integer_literal
+              (decimal_int)))))))
+  (declaration
+    (identifier)
+    (lambda_expr
+      (parameter_list
+        (parameter
+          (or_pattern
+            (data_pattern
+              (data_type_name)
+              (tuple_pattern
+                (literal_pattern
+                  (integer_literal
+                    (decimal_int)))))
+            (data_pattern
+              (data_type_name)))))
+      (integer_literal
+        (decimal_int)))))
+
+================================================================================
+An alternation in an if let
+================================================================================
+
+if let Some(0) | None = m { }
+
+--------------------------------------------------------------------------------
+
+(program
+  (destructuring_if_declaration
+    (declaration
+      (destructuring_only_pattern
+        (or_pattern
+          (data_pattern
+            (data_type_name)
+            (tuple_pattern
+              (literal_pattern
+                (integer_literal
+                  (decimal_int)))))
+          (data_pattern
+            (data_type_name))))
+      (identifier))
+    (block)))

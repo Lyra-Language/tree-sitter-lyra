@@ -10243,6 +10243,10 @@
           },
           {
             "type": "SYMBOL",
+            "name": "or_pattern"
+          },
+          {
+            "type": "SYMBOL",
             "name": "wildcard_pattern"
           }
         ]
@@ -10778,7 +10782,7 @@
                 "name": "pattern",
                 "content": {
                   "type": "SYMBOL",
-                  "name": "pattern"
+                  "name": "_juxtaposed_payload"
                 }
               }
             ]
@@ -10841,6 +10845,60 @@
                   "type": "SYMBOL",
                   "name": "tuple_pattern"
                 }
+              }
+            ]
+          }
+        }
+      ]
+    },
+    "_juxtaposed_payload": {
+      "type": "CHOICE",
+      "members": [
+        {
+          "type": "SYMBOL",
+          "name": "identifier"
+        },
+        {
+          "type": "PREC_LEFT",
+          "value": 5,
+          "content": {
+            "type": "CHOICE",
+            "members": [
+              {
+                "type": "SYMBOL",
+                "name": "binding_pattern"
+              },
+              {
+                "type": "SYMBOL",
+                "name": "literal_pattern"
+              },
+              {
+                "type": "SYMBOL",
+                "name": "regex_pattern"
+              },
+              {
+                "type": "SYMBOL",
+                "name": "range_pattern"
+              },
+              {
+                "type": "SYMBOL",
+                "name": "array_pattern"
+              },
+              {
+                "type": "SYMBOL",
+                "name": "struct_pattern"
+              },
+              {
+                "type": "SYMBOL",
+                "name": "tuple_pattern"
+              },
+              {
+                "type": "SYMBOL",
+                "name": "data_pattern"
+              },
+              {
+                "type": "SYMBOL",
+                "name": "wildcard_pattern"
               }
             ]
           }
@@ -11103,14 +11161,26 @@
           "type": "ALIAS",
           "content": {
             "type": "SYMBOL",
-            "name": "_nullary_constructor"
+            "name": "_constructor_alternative"
           },
           "named": true,
           "value": "data_pattern"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "tuple_pattern"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "struct_pattern"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "array_pattern"
         }
       ]
     },
-    "_nullary_constructor": {
+    "_constructor_alternative": {
       "type": "CHOICE",
       "members": [
         {
@@ -11136,6 +11206,45 @@
           }
         },
         {
+          "type": "PREC_LEFT",
+          "value": 10,
+          "content": {
+            "type": "SEQ",
+            "members": [
+              {
+                "type": "FIELD",
+                "name": "name",
+                "content": {
+                  "type": "ALIAS",
+                  "content": {
+                    "type": "CHOICE",
+                    "members": [
+                      {
+                        "type": "SYMBOL",
+                        "name": "user_defined_type_name"
+                      },
+                      {
+                        "type": "SYMBOL",
+                        "name": "qualified_type_name"
+                      }
+                    ]
+                  },
+                  "named": true,
+                  "value": "data_type_name"
+                }
+              },
+              {
+                "type": "FIELD",
+                "name": "pattern",
+                "content": {
+                  "type": "SYMBOL",
+                  "name": "_juxtaposed_payload"
+                }
+              }
+            ]
+          }
+        },
+        {
           "type": "FIELD",
           "name": "name",
           "content": {
@@ -11155,6 +11264,45 @@
             },
             "named": true,
             "value": "data_type_name"
+          }
+        },
+        {
+          "type": "PREC_LEFT",
+          "value": 10,
+          "content": {
+            "type": "SEQ",
+            "members": [
+              {
+                "type": "FIELD",
+                "name": "name",
+                "content": {
+                  "type": "ALIAS",
+                  "content": {
+                    "type": "CHOICE",
+                    "members": [
+                      {
+                        "type": "SYMBOL",
+                        "name": "const_identifier"
+                      },
+                      {
+                        "type": "SYMBOL",
+                        "name": "qualified_const_name"
+                      }
+                    ]
+                  },
+                  "named": true,
+                  "value": "data_type_name"
+                }
+              },
+              {
+                "type": "FIELD",
+                "name": "pattern",
+                "content": {
+                  "type": "SYMBOL",
+                  "name": "tuple_pattern"
+                }
+              }
+            ]
           }
         }
       ]
@@ -11413,11 +11561,15 @@
     ],
     [
       "_constructor_value",
-      "pattern"
+      "_juxtaposed_payload"
     ],
     [
       "_constructor_value",
       "data_pattern"
+    ],
+    [
+      "data_pattern",
+      "_constructor_alternative"
     ],
     [
       "_constructor_value",
@@ -11426,7 +11578,8 @@
     [
       "_tuple_name",
       "_primary_expr",
-      "data_pattern"
+      "data_pattern",
+      "_constructor_alternative"
     ],
     [
       "_primary_expr",
@@ -11488,7 +11641,7 @@
     ],
     [
       "_primary_expr",
-      "_nullary_constructor"
+      "_constructor_alternative"
     ],
     [
       "_primary_expr",

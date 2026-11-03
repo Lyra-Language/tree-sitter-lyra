@@ -128,7 +128,7 @@ module.exports = {
         PREC.DATA_PATTERN,
         seq(
           field("name", alias(choice($.user_defined_type_name, $.qualified_type_name), $.data_type_name)),
-          field("pattern", $.pattern),
+          field("pattern", $._juxtaposed_payload),
         ),
       ),
       // **An all-caps constructor** (`LOUD`, `CD(x)`), which lexes as a `const_identifier`
@@ -143,6 +143,29 @@ module.exports = {
         seq(
           field("name", alias(choice($.const_identifier, $.qualified_const_name), $.data_type_name)),
           field("pattern", $.tuple_pattern),
+        ),
+      ),
+    ),
+
+  // A payload written without parentheses ends at a `|`: `Some 1 | None` is two alternatives,
+  // and `Some(_) | None` could not otherwise be told from `Some` holding `(_) | None`, since a
+  // tuple pattern is an alternative too. `Some(1 | 2)` is how a payload holds an alternation.
+  // So this is `pattern` less `or_pattern`, and must stay in step with it.
+  _juxtaposed_payload: ($) =>
+    choice(
+      $.identifier,
+      prec.left(
+        PREC.PATTERN,
+        choice(
+          $.binding_pattern,
+          $.literal_pattern,
+          $.regex_pattern,
+          $.range_pattern,
+          $.array_pattern,
+          $.struct_pattern,
+          $.tuple_pattern,
+          $.data_pattern,
+          $.wildcard_pattern,
         ),
       ),
     ),
@@ -230,14 +253,15 @@ module.exports = {
   // the context decides.
   _constant_bound: ($) => $.const_identifier,
 
-  // One of several alternatives: `'a' | 'e' | 'i'`, `1 | 2 | 3`, `"get" | "post"`.
+  // One of several alternatives: `'a' | 'e' | 'i'`, `Some(_) | None`, `(0, _) | (_, 0)`.
   //
-  // **Literals and ranges only**, which is a language decision rather than a limit of the
-  // grammar. An alternative that *binds* raises a question every language with or-patterns
-  // has to answer — Rust requires every alternative to bind the same names at the same
-  // types — and nothing here needs it yet: what the collector wanted was a set of node
-  // kinds sharing one arm. Admitting `Some(x) | None` without the binding rule would be
-  // admitting a shape whose meaning is undecided.
+  // **An alternative tests; it does not bind**, which is a language decision rather than a
+  // limit of the grammar. An alternative that binds raises a question every language with
+  // or-patterns has to answer — Rust requires every alternative to bind the same names at
+  // the same types — and nothing here needs it yet. A name inside a payload cannot be kept
+  // out by a rule without giving up the payload, so the collector refuses it by name
+  // (lyra-E090: `Some(x) | None`). A bare name or `_` is not an alternative at all: `x | 1`
+  // would be the bitwise expression's spelling in every `(`-led position, and `_ | 1` is `_`.
   //
   // `|` is also `bitor_operator`, so `1 | 2` is a pattern here and an expression in the
   // scrutinee two lines up. PREC.OR_PATTERN outranks PREC.BITWISE_OR, which is what picks
@@ -251,18 +275,32 @@ module.exports = {
       ),
     ),
 
-  // A **nullary constructor** is an alternative too (09/29): `Pencil | Eraser`, `None |
-  // Empty`. It binds nothing, so the binding question above does not arise; a constructor
-  // with a payload stays out, bindings or not, until that question is answered. Aliased to
-  // `data_pattern` so the collector reads it as the nullary constructor it is everywhere
-  // else.
   _or_alternative: ($) =>
-    choice($.literal_pattern, $.range_pattern, alias($._nullary_constructor, $.data_pattern)),
+    choice(
+      $.literal_pattern,
+      $.range_pattern,
+      alias($._constructor_alternative, $.data_pattern),
+      $.tuple_pattern,
+      $.struct_pattern,
+      $.array_pattern,
+    ),
 
-  _nullary_constructor: ($) =>
+  // data_pattern's forms, as a rule of its own so a `|` can follow them without also following
+  // every data_pattern: `(Foo(1) | Foo(2))` is a bitwise or over a nominal type until a `=>`
+  // says it was a lambda's parameter, and that fork has to survive the `|`. Aliased so the
+  // collector reads the one node it knows.
+  _constructor_alternative: ($) =>
     choice(
       field("name", alias(choice($.user_defined_type_name, $.qualified_type_name), $.data_type_name)),
+      prec.left(PREC.DATA_PATTERN, seq(
+        field("name", alias(choice($.user_defined_type_name, $.qualified_type_name), $.data_type_name)),
+        field("pattern", $._juxtaposed_payload),
+      )),
       field("name", alias(choice($.const_identifier, $.qualified_const_name), $.data_type_name)),
+      prec.left(PREC.DATA_PATTERN, seq(
+        field("name", alias(choice($.const_identifier, $.qualified_const_name), $.data_type_name)),
+        field("pattern", $.tuple_pattern),
+      )),
     ),
 
   // Wildcard pattern

@@ -23,6 +23,8 @@ module.exports = {
   // `lyrac` reporting "cannot destructure integer literal with a data pattern". The
   // named form `let _ignored = …` worked, taking the identifier branch, which is why the
   // gap survived: the workaround looks like a style choice rather than a necessity.
+  //
+  // `or_pattern` is for `if let Some(0) | None = m`. A plain `let` refuses it (lyra-E077).
   destructuring_only_pattern: ($) =>
     prec.right(
       choice(
@@ -31,6 +33,7 @@ module.exports = {
         $.struct_pattern,
         $.tuple_pattern,
         $.data_pattern,
+        $.or_pattern,
         $.wildcard_pattern,
       ),
     ),
