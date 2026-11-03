@@ -6443,7 +6443,12 @@
             ]
           },
           {
-            "type": "STRING",
+            "type": "ALIAS",
+            "content": {
+              "type": "SYMBOL",
+              "name": "_data_keyword"
+            },
+            "named": false,
             "value": "data"
           },
           {
@@ -11612,6 +11617,10 @@
     {
       "type": "SYMBOL",
       "name": "_newline"
+    },
+    {
+      "type": "SYMBOL",
+      "name": "_data_keyword"
     }
   ],
   "inline": [

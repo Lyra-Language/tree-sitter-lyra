@@ -43,6 +43,9 @@ module.exports = grammar({
     // break that ends a statement — see scan_newline in src/scanner.c for why
     // the parser, not a token table, decides where that is.
     $._newline,
+    // `data` where it declares a type, and only there: see scan_data_keyword in
+    // src/scanner.c for why it is not the string it reads as.
+    $._data_keyword,
   ],
 
   inline: ($) => [$._comma],

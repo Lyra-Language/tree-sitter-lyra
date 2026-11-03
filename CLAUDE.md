@@ -34,7 +34,7 @@ npx tree-sitter generate --report-states-for-rule -   # per-rule state attributi
 | `include/helpers.js` | `commaSep1`, `commaSep`, `memberList`, `statementList`, `parameterList`, `rangeBounds` |
 | `include/prec.js` | all `PREC.*` constants |
 | `src/parser.c` | generated — never edit by hand |
-| `src/scanner.c` | external scanner: string interpolation, raw strings, comments (`//` and `/* */`), statement terminator |
+| `src/scanner.c` | external scanner: string interpolation, raw strings, comments (`//` and `/* */`), statement terminator, `data`'s keyword |
 | `test/corpus/**/*.txt` | corpus tests |
 | `queries/highlights.scm` | highlight queries (nvim capture names; WIP) |
 | `queries/injections.scm` | `/* glsl */` raw string → GLSL |
@@ -46,7 +46,7 @@ extras:     [/\s/, $.doc_comment, $.inner_doc_comment, $.comment]
 externals:  [$.comment, $._string_start, $._string_content,
              $._interpolation_start, $._interpolation_end,
              $._string_end, $._raw_string_start, $._raw_string_content,
-             $._raw_string_end, $._newline]
+             $._raw_string_end, $._newline, $._data_keyword]
 ```
 
 ## Parser Size
@@ -110,6 +110,7 @@ fixed  unsafe  mut  ref  own  void
 
 - **The `reserved` block enforces nothing**: `let with = 5` and `let yield = 5` parse. (`let unsafe = 5` is refused by `declaration`'s modifier-led arm; `let rec = 5` because `rec` is in `fn_modifiers`.) Adding a word to the list does nothing on its own.
 - `type`, `alias`, `extern` and `nullptr` are keywords only in their positions; `let type = 5` / `let alias = 5` / `let extern = 5` parse and must keep parsing (`alias` is a parameter name in `bindings/raylib`; pinned in `types/type_alias.txt`). `let nullptr = 5` parses too and is refused by the collector (`lyra-E070`).
+- **`data` is lexed by the scanner** (`scan_data_keyword`): the keyword only when spaces or tabs and a capital follow on its line, and otherwise an `identifier`, so `data(1)` and `data = 4` begin a statement. `type`, `alias`, `extern`, `struct`, `union`, `trait`, `impl` and `tuple` are still strings, and as strings beat `identifier` where a declaration can start: `type(1)` does not parse.
 - `pure`/`det`/`noalloc` are accepted on `lambda_expr`, `trait_method_implementation`, leading a `trait_method` name, and on `lambda_type`; `pure`+`det` exclusion is a checker rule (`lyra-E015`).
 
 ## Known GLR Conflicts

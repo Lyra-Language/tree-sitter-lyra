@@ -4,7 +4,7 @@ module.exports = {
   data_type: $ => prec.right(PREC.DATA_TYPE, seq(
     optional(field("attributes", $.attribute_list)),
     optional(field("visibility", $.visibility)),
-    'data',
+    alias($._data_keyword, 'data'),
     alias($.user_defined_type_name, $.data_type_name),
     optional($.generic_parameters),
     '=',

@@ -203,3 +203,78 @@ data foo = Bar | Baz
   (identifier)
   (ERROR
     (user_defined_type_name)))
+
+=========================================
+data is a keyword only where a declaration starts
+=========================================
+
+data Port = Control
+pub data  Pair<t> = Both t
+let data = 5
+data(1)
+data.f()
+data = 2
+data += 1
+data[0] = 3
+data
+///data Foo is a doc comment
+let x = data
+
+---
+
+(program
+  (type_declaration
+    (data_type
+      (data_type_name)
+      (data_type_constructor
+        (data_type_constructor_name))))
+  (type_declaration
+    (data_type
+      (visibility)
+      (data_type_name)
+      (generic_parameters
+        (generic_parameter
+          (generic_type)))
+      (data_type_constructor
+        (data_type_constructor_name)
+        (generic_type))))
+  (declaration
+    (identifier)
+    (integer_literal
+      (decimal_int)))
+  (expression_statement
+    (call_expr
+      (identifier)
+      (argument_list
+        (value
+          (integer_literal
+            (decimal_int))))))
+  (expression_statement
+    (call_expr
+      (member_expr
+        (identifier)
+        (identifier))
+      (argument_list)))
+  (var_reassignment
+    (identifier)
+    (integer_literal
+      (decimal_int)))
+  (expression_statement
+    (compound_assignment
+      (identifier)
+      (add_assign_operator)
+      (integer_literal
+        (decimal_int))))
+  (index_assignment
+    (index_expr
+      (identifier)
+      (integer_literal
+        (decimal_int)))
+    (integer_literal
+      (decimal_int)))
+  (expression_statement
+    (identifier))
+  (doc_comment)
+  (declaration
+    (identifier)
+    (identifier)))

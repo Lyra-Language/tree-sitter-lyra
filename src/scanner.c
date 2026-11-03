@@ -13,6 +13,7 @@ enum TokenType {
   RAW_STRING_CONTENT,
   RAW_STRING_END,
   NEWLINE,
+  DATA_KEYWORD,
 };
 
 
@@ -404,6 +405,40 @@ static bool scan_newline(TSLexer *lexer) {
   return true;
 }
 
+// Scan `data` where it declares a type: the word, spaces or tabs, and a capital.
+//
+// **Why the scanner decides.** A statement can begin with a declaration or with an
+// expression, and as the string `'data'` the word beat `identifier` in every state where
+// both were valid, whatever followed: `data(1)`, `data.f()` and `data = 4` failed to parse
+// at the start of a statement while `let x = data()` was fine, because a lexer picks one
+// token and the parser never saw the other. Only the word after it tells them apart, and a
+// grammar's token cannot look past its own end. Here, the keyword's end is marked before
+// looking, so the name is left for the parser. Every other `data` falls to the internal
+// lexer, which knows the word only as an `identifier`.
+//
+// Called with the lookahead on the `d`, and the caller returns what this answers: a lexer
+// cannot rewind, so nothing else in the scanner may run after it has read past that.
+static bool scan_data_keyword(TSLexer *lexer) {
+  for (const char *p = "data"; *p; p++) {
+    if (lexer->lookahead != (int32_t)*p) {
+      return false;
+    }
+    lexer->advance(lexer, false);
+  }
+  lexer->mark_end(lexer);
+  if (lexer->lookahead != ' ' && lexer->lookahead != '\t') {
+    return false;
+  }
+  while (lexer->lookahead == ' ' || lexer->lookahead == '\t') {
+    lexer->advance(lexer, false);
+  }
+  if (lexer->lookahead < 'A' || lexer->lookahead > 'Z') {
+    return false;
+  }
+  lexer->result_symbol = DATA_KEYWORD;
+  return true;
+}
+
 // External scanner API
 void *tree_sitter_lyra_external_scanner_create(void) {
   Scanner *scanner = calloc(1, sizeof(Scanner));
@@ -482,6 +517,18 @@ bool tree_sitter_lyra_external_scanner_scan(void *payload, TSLexer *lexer, const
   if (valid_symbols[NEWLINE] && !in_string(scanner) && !in_interpolation(scanner)) {
     if (scan_newline(lexer)) {
       return true;
+    }
+  }
+
+  // Before the comment scan, which reads the `///` of a doc comment and then returns false:
+  // `///data Foo` would otherwise be taken for a declaration from its fourth byte on.
+  if (valid_symbols[DATA_KEYWORD] && !in_string(scanner)) {
+    while (lexer->lookahead == ' ' || lexer->lookahead == '\t' ||
+           lexer->lookahead == '\r' || lexer->lookahead == '\n') {
+      lexer->advance(lexer, true);
+    }
+    if (lexer->lookahead == 'd') {
+      return scan_data_keyword(lexer);
     }
   }
 
