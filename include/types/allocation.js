@@ -39,8 +39,42 @@ module.exports = {
     field('element_type', $._element_type)
   )),
 
-  // Array size - compile-time constant expression
-  array_size: $ => choice($._number_literal, $.const_identifier),
+  // Array size - compile-time constant expression: a number, a `const` or a `const` generic
+  // parameter's name, or arithmetic on them (`[N + 1]t`, `[2 * N]t`). The compiler keeps it as
+  // text and reads the text (types.ParseSize), so the arithmetic has no node of its own to name.
+  array_size: $ => choice($._number_literal, $.const_identifier, $._size_arithmetic),
+
+  _size_arithmetic: $ => choice(
+    prec.left(1, seq($._size_operand, choice('+', '-'), $._size_operand)),
+    prec.left(2, seq($._size_operand, '*', $._size_operand)),
+  ),
+
+  _size_operand: $ => choice(
+    $._number_literal,
+    $.const_identifier,
+    $._size_arithmetic,
+    seq('(', $._size_operand, ')'),
+  ),
+
+  // A size as a type's argument, for its `const` parameter: `Ring<i64, 8>`, `Ring<t, N + 1>`.
+  // A bare `Ring<t, N>` isn't one: there `N` reads as a type's name, the lexer can't tell them
+  // apart, and the compiler settles it from what the parameter in that position is.
+  size_argument: $ => choice(
+    $._number_literal,
+    $._size_argument_arithmetic,
+  ),
+
+  _size_argument_arithmetic: $ => choice(
+    prec.left(1, seq($._size_argument_operand, choice('+', '-'), $._size_argument_operand)),
+    prec.left(2, seq($._size_argument_operand, '*', $._size_argument_operand)),
+  ),
+
+  _size_argument_operand: $ => choice(
+    $._number_literal,
+    alias($.user_defined_type_name, $.const_identifier),
+    $._size_argument_arithmetic,
+    seq('(', $._size_argument_operand, ')'),
+  ),
 
   // An array *element* may carry ONE allocation or `weak` modifier —
   // `[]shared Node`, `[3]weak Observer`, `[16]stack Vec3`. The element is the one

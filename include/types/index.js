@@ -98,7 +98,7 @@ module.exports = {
         alias($.qualified_const_name, $.user_defined_type_name),
       )),
       "<",
-      field("type_arguments", commaSep1(choice($.type, $.hole_type))),
+      field("type_arguments", commaSep1(choice($.type, $.hole_type, $.size_argument))),
       ">",
     ),
 

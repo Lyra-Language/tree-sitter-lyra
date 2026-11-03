@@ -286,6 +286,7 @@ unsafe extern printf: (^u8, ...) -> i32
 - **Trait body optional** (`trait Arithmetic: Add + Sub`). The method list is absent, never empty. `trait Marker` ⏎ `{ 1 }` is a trait plus block — pinned by `A brace on the next line is not a trait body`.
 - **Generic `type`**: `constrained_type` has the `generic_parameters` field. Beware a regenerated Go golden baking in an ERROR-truncated parse.
 - **`const` generic parameters**: `generic_parameter` has a second form, `const NAME: type` (fields `name`, a `const_identifier`, and `value_type`), for an array size (`let f<const N: i64> = (xs: ref [N]t)`). The size side needed nothing: `array_size` already took a `const_identifier`.
+- **Sizes**: `array_size` takes arithmetic (`[N + 1]t`) and has no node for it, since the compiler reads the node's text (`types.ParseSize`). A type's argument may be a `size_argument` (`Ring<i64, 8>`, `Ring<t, N + 1>`), but a bare `Ring<t, N>` is a `user_defined_type_name`: the lexer can't tell `N` from `ID`, and the driver settles it from the type's declaration.
 - **`let _ = expr`**: `wildcard_pattern` is in `destructuring_only_pattern`. `_` is not an expression.
 - **`for _ in …` / `for _, v in …`**: `_` is admitted inside the existing alias `alias(choice($.identifier, '_'), $.for_variable_or_key)`, keeping the CST shape.
 - **Bare jump in a match arm**: `match_arm` body is `choice($.expression, $._arm_jump)`; the collector erases it into a one-statement block — keep it confined to those two places.

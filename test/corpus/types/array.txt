@@ -290,3 +290,81 @@ let [head, ...tail] = xs
         (rest_pattern
           (identifier))))
     (identifier)))
+
+================================================================================
+Array size arithmetic, and a size as a type's argument
+================================================================================
+
+let a: [N + 1]t = x
+let b: [2 * N - 1]t = x
+let c: [(N + 1) * 2]t = x
+let d: Ring<i64, 8> = x
+let e: Ring<t, N + 1> = x
+let f: Ring<t, N> = x
+
+--------------------------------------------------------------------------------
+
+(program
+  (declaration
+    name: (identifier)
+    type_annotation: (type_annotation
+      type: (array_type
+        size: (array_size
+          (const_identifier)
+          (integer_literal
+            (decimal_int)))
+        element_type: (generic_type)))
+    value: (identifier))
+  (declaration
+    name: (identifier)
+    type_annotation: (type_annotation
+      type: (array_type
+        size: (array_size
+          (integer_literal
+            (decimal_int))
+          (const_identifier)
+          (integer_literal
+            (decimal_int)))
+        element_type: (generic_type)))
+    value: (identifier))
+  (declaration
+    name: (identifier)
+    type_annotation: (type_annotation
+      type: (array_type
+        size: (array_size
+          (const_identifier)
+          (integer_literal
+            (decimal_int))
+          (integer_literal
+            (decimal_int)))
+        element_type: (generic_type)))
+    value: (identifier))
+  (declaration
+    name: (identifier)
+    type_annotation: (type_annotation
+      type: (parameterized_type
+        name: (user_defined_type_name)
+        type_arguments: (signed_integer_type)
+        type_arguments: (size_argument
+          (integer_literal
+            (decimal_int)))))
+    value: (identifier))
+  (declaration
+    name: (identifier)
+    type_annotation: (type_annotation
+      type: (parameterized_type
+        name: (user_defined_type_name)
+        type_arguments: (generic_type)
+        type_arguments: (size_argument
+          (const_identifier)
+          (integer_literal
+            (decimal_int)))))
+    value: (identifier))
+  (declaration
+    name: (identifier)
+    type_annotation: (type_annotation
+      type: (parameterized_type
+        name: (user_defined_type_name)
+        type_arguments: (generic_type)
+        type_arguments: (user_defined_type_name)))
+    value: (identifier)))
