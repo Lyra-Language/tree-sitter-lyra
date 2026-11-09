@@ -1,0 +1,78 @@
+================================================================================
+A fixed-point conversion
+================================================================================
+
+let a = fixed<8, 8>(1.5)
+
+--------------------------------------------------------------------------------
+
+(program
+  (declaration
+    name: (identifier)
+    value: (call_expr
+      function: (fixed_point_type
+        integer_bits: (integer_literal
+          (decimal_int))
+        fractional_bits: (integer_literal
+          (decimal_int)))
+      arguments: (argument_list
+        value: (value
+          (float_literal))))))
+
+================================================================================
+A fixed-point value from its bits
+================================================================================
+
+let a = fixed<8, 8>.from_bits(384)
+
+--------------------------------------------------------------------------------
+
+(program
+  (declaration
+    name: (identifier)
+    value: (call_expr
+      function: (member_expr
+        object: (fixed_point_type
+          integer_bits: (integer_literal
+            (decimal_int))
+          fractional_bits: (integer_literal
+            (decimal_int)))
+        property: (identifier))
+      arguments: (argument_list
+        value: (value
+          (integer_literal
+            (decimal_int)))))))
+
+================================================================================
+`fixed` is still a name in an expression
+================================================================================
+
+let a = fixed.len()
+
+--------------------------------------------------------------------------------
+
+(program
+  (declaration
+    name: (identifier)
+    value: (call_expr
+      function: (member_expr
+        object: (identifier)
+        property: (identifier))
+      arguments: (argument_list))))
+
+================================================================================
+A name compared with a space stays a comparison
+================================================================================
+
+let a = fixed < 8
+
+--------------------------------------------------------------------------------
+
+(program
+  (declaration
+    name: (identifier)
+    value: (boolean_expr
+      left: (identifier)
+      operator: (less_than_operator)
+      right: (integer_literal
+        (decimal_int)))))

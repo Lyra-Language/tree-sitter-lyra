@@ -3817,6 +3817,42 @@
         }
       ]
     },
+    "_fixed_point_head": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "TOKEN",
+          "content": {
+            "type": "STRING",
+            "value": "fixed<"
+          }
+        },
+        {
+          "type": "FIELD",
+          "name": "integer_bits",
+          "content": {
+            "type": "SYMBOL",
+            "name": "integer_literal"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": ","
+        },
+        {
+          "type": "FIELD",
+          "name": "fractional_bits",
+          "content": {
+            "type": "SYMBOL",
+            "name": "integer_literal"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": ">"
+        }
+      ]
+    },
     "trait_method_path": {
       "type": "PREC_LEFT",
       "value": 300,
@@ -3860,6 +3896,15 @@
         {
           "type": "SYMBOL",
           "name": "user_defined_type_name"
+        },
+        {
+          "type": "ALIAS",
+          "content": {
+            "type": "SYMBOL",
+            "name": "_fixed_point_head"
+          },
+          "named": true,
+          "value": "fixed_point_type"
         },
         {
           "type": "ALIAS",

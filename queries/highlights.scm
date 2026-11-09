@@ -96,6 +96,7 @@
 (signed_integer_type)   @type.builtin
 (unsigned_integer_type) @type.builtin
 (float_type)            @type.builtin
+(fixed_point_type)      @type.builtin
 (string_type)           @type.builtin
 (boolean_type)          @type.builtin
 ; `rune` is a primitive like the rest. It was missing here while the sibling

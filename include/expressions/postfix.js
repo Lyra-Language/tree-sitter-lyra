@@ -15,6 +15,17 @@ module.exports = {
     $._primary_expr,
   ),
 
+  // **One token, `fixed<`,** because `fixed` is an ordinary name in an expression: a program
+  // may have a variable called that, and a bare keyword here would take the name away from it
+  // in every expression. Written with a space, `fixed < 8`, it stays a comparison.
+  _fixed_point_head: $ => seq(
+    token('fixed<'),
+    field('integer_bits', $.integer_literal),
+    ',',
+    field('fractional_bits', $.integer_literal),
+    '>',
+  ),
+
   // Fully-qualified trait method path: `TraitName::method`. Disambiguates
   // which trait's implementation to call when a plain `obj.method(args)`
   // would be ambiguous (two traits implementing a same-named method for the
@@ -52,6 +63,9 @@ module.exports = {
     $.identifier,
     $.const_identifier,
     $.user_defined_type_name,  // For static method calls like Arena.new()
+    // `fixed<8, 8>(x)` and `fixed<8, 8>.from_bits(n)`: a conversion names its target the
+    // way `u8(x)` does.
+    alias($._fixed_point_head, $.fixed_point_type),
     // A nullary constructor through a namespace, `shapes.Dot` (types/index.js).
     alias($.qualified_type_name, $.user_defined_type_name),
     // `vdp.SCREEN_WIDTH`, read as the member access it is (types/index.js).

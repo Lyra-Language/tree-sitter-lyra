@@ -76,6 +76,10 @@
         "named": true
       },
       {
+        "type": "fixed_point_type",
+        "named": true
+      },
+      {
         "type": "float_literal",
         "named": true
       },
@@ -1122,6 +1126,10 @@
             "named": true
           },
           {
+            "type": "fixed_point_type",
+            "named": true
+          },
+          {
             "type": "float_literal",
             "named": true
           },
@@ -1315,6 +1323,10 @@
           },
           {
             "type": "deref_expr",
+            "named": true
+          },
+          {
+            "type": "fixed_point_type",
             "named": true
           },
           {
@@ -1526,6 +1538,10 @@
             "named": true
           },
           {
+            "type": "fixed_point_type",
+            "named": true
+          },
+          {
             "type": "float_literal",
             "named": true
           },
@@ -1700,6 +1716,10 @@
             "named": true
           },
           {
+            "type": "fixed_point_type",
+            "named": true
+          },
+          {
             "type": "float_literal",
             "named": true
           },
@@ -1843,6 +1863,10 @@
           },
           {
             "type": "deref_expr",
+            "named": true
+          },
+          {
+            "type": "fixed_point_type",
             "named": true
           },
           {
@@ -2050,6 +2074,10 @@
             "named": true
           },
           {
+            "type": "fixed_point_type",
+            "named": true
+          },
+          {
             "type": "float_literal",
             "named": true
           },
@@ -2228,6 +2256,10 @@
           },
           {
             "type": "deref_expr",
+            "named": true
+          },
+          {
+            "type": "fixed_point_type",
             "named": true
           },
           {
@@ -2410,6 +2442,10 @@
           },
           {
             "type": "deref_expr",
+            "named": true
+          },
+          {
+            "type": "fixed_point_type",
             "named": true
           },
           {
@@ -2610,6 +2646,10 @@
           },
           {
             "type": "deref_expr",
+            "named": true
+          },
+          {
+            "type": "fixed_point_type",
             "named": true
           },
           {
@@ -3615,6 +3655,10 @@
           },
           {
             "type": "deref_expr",
+            "named": true
+          },
+          {
+            "type": "fixed_point_type",
             "named": true
           },
           {
@@ -4731,6 +4775,10 @@
             "named": true
           },
           {
+            "type": "fixed_point_type",
+            "named": true
+          },
+          {
             "type": "float_literal",
             "named": true
           },
@@ -5395,6 +5443,10 @@
             "named": true
           },
           {
+            "type": "fixed_point_type",
+            "named": true
+          },
+          {
             "type": "float_literal",
             "named": true
           },
@@ -5768,6 +5820,10 @@
             "named": true
           },
           {
+            "type": "fixed_point_type",
+            "named": true
+          },
+          {
             "type": "float_literal",
             "named": true
           },
@@ -5975,6 +6031,10 @@
             "named": true
           },
           {
+            "type": "fixed_point_type",
+            "named": true
+          },
+          {
             "type": "float_literal",
             "named": true
           },
@@ -6092,6 +6152,10 @@
           },
           {
             "type": "deref_expr",
+            "named": true
+          },
+          {
+            "type": "fixed_point_type",
             "named": true
           },
           {
@@ -6939,6 +7003,10 @@
             "named": true
           },
           {
+            "type": "fixed_point_type",
+            "named": true
+          },
+          {
             "type": "float_literal",
             "named": true
           },
@@ -7075,6 +7143,10 @@
             "named": true
           },
           {
+            "type": "fixed_point_type",
+            "named": true
+          },
+          {
             "type": "float_literal",
             "named": true
           },
@@ -7208,6 +7280,10 @@
           },
           {
             "type": "deref_expr",
+            "named": true
+          },
+          {
+            "type": "fixed_point_type",
             "named": true
           },
           {
@@ -7706,6 +7782,10 @@
           },
           {
             "type": "deref_expr",
+            "named": true
+          },
+          {
+            "type": "fixed_point_type",
             "named": true
           },
           {
@@ -8254,6 +8334,10 @@
             "named": true
           },
           {
+            "type": "fixed_point_type",
+            "named": true
+          },
+          {
             "type": "float_literal",
             "named": true
           },
@@ -8433,6 +8517,10 @@
           },
           {
             "type": "deref_expr",
+            "named": true
+          },
+          {
+            "type": "fixed_point_type",
             "named": true
           },
           {
@@ -9058,6 +9146,10 @@
             "named": true
           },
           {
+            "type": "fixed_point_type",
+            "named": true
+          },
+          {
             "type": "float_literal",
             "named": true
           },
@@ -9558,6 +9650,10 @@
   },
   {
     "type": "fixed",
+    "named": false
+  },
+  {
+    "type": "fixed<",
     "named": false
   },
   {
