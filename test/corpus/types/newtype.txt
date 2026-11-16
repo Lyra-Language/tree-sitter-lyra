@@ -489,3 +489,23 @@ type Shared = shared string
       (allocated_type
         (allocation_modifier)
         (string_type)))))
+
+=========================================
+Newtype with an attribute
+=========================================
+
+@must_release(close_fd) pub type Fd = i32
+
+---
+
+(program
+  (type_declaration
+    (constrained_type
+      (attribute_list
+        (attribute
+          (identifier)
+          (attribute_args
+            (identifier))))
+      (visibility)
+      (constrained_type_name)
+      (signed_integer_type))))

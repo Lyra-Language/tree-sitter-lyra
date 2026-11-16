@@ -4,8 +4,12 @@ module.exports = {
   // `type Meters = f64`: a nominal type over a structural base, optionally constrained
   // (`type Percent = u8 where range(0..<=100)`). The keyword was `newtype` until 10/08;
   // the node keeps the name `constrained_type` (see type_alias.js for why).
+  //
+  // It takes an attribute list as struct and data do: `@must_release(close_fd) type Fd =
+  // i32` makes a handle that is no struct carry a release obligation.
   constrained_type: ($) =>
     seq(
+      optional(field("attributes", $.attribute_list)),
       optional(field("visibility", $.visibility)),
       "type",
       field("name", alias($.user_defined_type_name, $.constrained_type_name)),

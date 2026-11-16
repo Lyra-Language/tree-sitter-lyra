@@ -273,6 +273,7 @@ unsafe extern printf: (^u8, ...) -> i32
 `attribute_args` = `_number_literal | user_defined_type_name | string_literal | identifier`.
 - `string_literal` is plain (no interpolation) — for foreign text taken verbatim (`@link`, `@symbol`).
 - `identifier` is for names in Lyra's namespace (`@must_release(unload_sound)`); free because it is lexically disjoint from type names.
+- **`constrained_type`** (`type Fd = i32`) takes an `attributes` field like `struct`/`data`; the collector reads `@must_release` and refuses any other.
 - A **`module` declaration** takes attributes (`@link("SDL3")` above `module`); the grammar admits any, the collector refuses all but `@link`.
 
 ## Other Forms and Their Pins

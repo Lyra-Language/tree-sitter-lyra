@@ -2862,6 +2862,16 @@
     "type": "constrained_type",
     "named": true,
     "fields": {
+      "attributes": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "attribute_list",
+            "named": true
+          }
+        ]
+      },
       "constraints": {
         "multiple": false,
         "required": false,
